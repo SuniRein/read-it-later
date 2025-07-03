@@ -1,5 +1,14 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, h } from 'vue';
+
+import { Flex, Button, Input } from 'ant-design-vue';
+import {
+    SettingOutlined,
+    SyncOutlined,
+    StarOutlined,
+    ThunderboltOutlined,
+    PlusCircleOutlined,
+} from '@ant-design/icons-vue';
 
 import { sendMessage } from '@/utils/message';
 
@@ -15,11 +24,18 @@ async function getInfo() {
 </script>
 
 <template>
-    <div class="top-operation">
-        <button @click="getInfo">Get Info</button>
-    </div>
+    <Flex class="top-operation-header" justify="space-between">
+        <Button type="ghost" ghost :icon="h(SettingOutlined)" />
+        <Button type="ghost" ghost :icon="h(SyncOutlined)" />
 
-    <div class="page-info" v-if="title">
+        <Input allowClear placeholder="Find..." />
+
+        <Button type="ghost" ghost :icon="h(StarOutlined)" />
+        <Button type="ghost" ghost :icon="h(ThunderboltOutlined)" />
+        <Button type="ghost" ghost :icon="h(PlusCircleOutlined)" @click="getInfo" />
+    </Flex>
+
+    <div class="page-info">
         <p>Title: {{ title }}</p>
         <p>URL: {{ url }}</p>
     </div>
