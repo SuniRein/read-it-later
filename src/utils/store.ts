@@ -1,33 +1,54 @@
 import { storage } from '#imports';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 
 import type { PageItem } from '@/utils/types';
+
+function deepEqual(a: any, b: any): boolean {
+    if (a === b) return true;
+    if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) return false;
+
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+
+    if (keysA.length !== keysB.length) return false;
+
+    for (const key of keysA) {
+        if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+    }
+
+    return true;
+}
 
 export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>, defaultValue: NonNullable<T>) {
     const state = ref<NonNullable<T>>(defaultValue);
 
-    const unwatch = store.watch(async (newValue) => {
-        state.value = newValue ?? defaultValue;
-    });
+    let unwatchStore: null | (() => void) = null;
+    let unwatchRef: null | (() => void) = null;
 
     onMounted(async () => {
         const initialValue = await store.getValue();
         state.value = initialValue ?? defaultValue;
+
+        unwatchStore = store.watch(async (newValue) => {
+            if (deepEqual(newValue, state.value)) return;
+            state.value = newValue ?? defaultValue;
+        });
+
+        unwatchRef = watch(
+            state,
+            (newValue) => {
+                void store.setValue(newValue);
+            },
+            { deep: true },
+        );
     });
 
     onUnmounted(() => {
-        unwatch();
+        unwatchStore?.();
+        unwatchRef?.();
     });
 
-    return computed({
-        get() {
-            return state.value;
-        },
-        set(newValue) {
-            void store.setValue(newValue);
-            state.value = newValue;
-        },
-    });
+    return state;
 }
 
 export const pageList = storage.defineItem<PageItem[]>('local:pageList');
