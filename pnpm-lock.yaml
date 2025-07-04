@@ -24,6 +24,9 @@ importers:
       '@wxt-dev/module-vue':
         specifier: ^1.0.2
         version: 1.0.2(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2))(vue@3.5.17(typescript@5.6.3))(wxt@0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1))
+      flush-promises:
+        specifier: ^1.0.2
+        version: 1.0.2
       prettier:
         specifier: 3.6.2
         version: 3.6.2
@@ -1047,6 +1050,9 @@ packages:
     resolution: {integrity: sha512-aGApEu5bfCNbA4PGUZiRJAIU6jKmghV2UVdklXAofnNtiDjqYw0czLS46W7IfFqVKgKhFB8Ao2YoNGHY4BoIMQ==}
     engines: {node: '>=18'}
     hasBin: true
+
+  flush-promises@1.0.2:
+    resolution: {integrity: sha512-G0sYfLQERwKz4+4iOZYQEZVpOt9zQrlItIxQAAYAWpfby3gbHrx0osCHz5RLl/XoXevXk0xoN4hDFky/VV9TrA==}
 
   formdata-node@6.0.3:
     resolution: {integrity: sha512-8e1++BCiTzUno9v5IZ2J6bv4RU+3UKDmqWUQD0MIMVCd9AdhWkO1gw57oo1mNEX1dMq2EGI+FbWz4B92pscSQg==}
@@ -3199,6 +3205,8 @@ snapshots:
       ini: 4.1.3
       minimist: 1.2.8
       xml2js: 0.6.2
+
+  flush-promises@1.0.2: {}
 
   formdata-node@6.0.3: {}
 
