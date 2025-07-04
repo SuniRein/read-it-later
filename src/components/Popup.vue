@@ -16,12 +16,14 @@ import { sendMessage } from '@/utils/message';
 
 const title = ref<string>('');
 const url = ref<string>('');
+const faviconUrl = ref<string | undefined>();
 
 async function getInfo() {
     const tab = await sendMessage('getActiveTab');
     const pageInfo = await sendMessage('getPageInfo', { tab });
     title.value = pageInfo.title;
     url.value = pageInfo.url;
+    faviconUrl.value = pageInfo.faviconUrl;
 }
 </script>
 
@@ -40,5 +42,6 @@ async function getInfo() {
     <div class="page-info">
         <p>Title: {{ title }}</p>
         <p>URL: {{ url }}</p>
+        <p v-if="faviconUrl">Favicon: <img :src="faviconUrl" alt="Favicon" /></p>
     </div>
 </template>

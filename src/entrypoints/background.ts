@@ -11,6 +11,7 @@ export default defineBackground(() => {
     onMessage('getPageInfo', async ({ data: { tab } }) => {
         const title = tab.title ?? 'Title Not Available';
         const url = tab.url ?? 'URL Not Available';
-        return { title, url };
+        const faviconUrl = tab.favIconUrl;
+        return { title, url, faviconUrl };
     });
 });
