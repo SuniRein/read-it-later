@@ -1,5 +1,5 @@
 import { storage } from '#imports';
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch, toRaw, onMounted, onUnmounted } from 'vue';
 
 import type { PageItem } from '@/utils/types';
 
@@ -37,7 +37,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
         unwatchRef = watch(
             state,
             (newValue) => {
-                void store.setValue(newValue);
+                void store.setValue(toRaw(newValue));
             },
             { deep: true },
         );
