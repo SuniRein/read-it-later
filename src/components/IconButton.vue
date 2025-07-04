@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Button, type ButtonProps } from 'ant-design-vue';
+import { Button, type ButtonProps, Tooltip } from 'ant-design-vue';
 
 defineProps<{
     icon: ButtonProps['icon'];
+    tip: string;
 }>();
 
 const emit = defineEmits<{
@@ -15,5 +16,7 @@ function onClick(event: MouseEvent) {
 </script>
 
 <template>
-    <Button type="ghost" ghost :icon @click="onClick" />
+    <Tooltip :title="tip" placement="bottomRight">
+        <Button type="ghost" ghost :icon @click="onClick" />
+    </Tooltip>
 </template>

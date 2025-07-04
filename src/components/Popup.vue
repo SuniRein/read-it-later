@@ -27,14 +27,14 @@ async function getInfo() {
 
 <template>
     <Flex class="top-operation-header" justify="space-between">
-        <IconButton :icon="h(SettingOutlined)" />
-        <IconButton :icon="h(SyncOutlined)" />
+        <IconButton :icon="h(SettingOutlined)" tip="Open setting page" />
+        <IconButton :icon="h(SyncOutlined)" tip="Sync" />
 
         <Input allowClear placeholder="Find..." />
 
-        <IconButton :icon="h(StarOutlined)" />
-        <IconButton :icon="h(ThunderboltOutlined)" />
-        <IconButton :icon="h(PlusCircleOutlined)" @click="getInfo" />
+        <IconButton :icon="h(StarOutlined)" tip="Filter by 'favorite' status" />
+        <IconButton :icon="h(ThunderboltOutlined)" tip="Open a random page" />
+        <IconButton :icon="h(PlusCircleOutlined)" tip="Add current page to list" @click="getInfo" />
     </Flex>
 
     <div class="page-info">
