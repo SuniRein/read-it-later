@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, h } from 'vue';
+import { h } from 'vue';
 
 import { Flex, Input } from 'ant-design-vue';
 import {
@@ -13,17 +13,15 @@ import {
 import IconButton from './IconButton.vue';
 
 import { sendMessage } from '@/utils/message';
+import { usePageList } from '@/utils/store';
 
-const title = ref<string>('');
-const url = ref<string>('');
-const faviconUrl = ref<string | undefined>();
+const pageListRef = usePageList();
 
 async function getInfo() {
     const tab = await sendMessage('getActiveTab');
-    const pageInfo = await sendMessage('getPageInfo', { tab });
-    title.value = pageInfo.title;
-    url.value = pageInfo.url;
-    faviconUrl.value = pageInfo.faviconUrl;
+    const info = await sendMessage('getPageInfo', { tab });
+    const page = { info, tags: [], favorited: false };
+    pageListRef.value.push(page);
 }
 </script>
 
@@ -39,9 +37,14 @@ async function getInfo() {
         <IconButton :icon="h(PlusCircleOutlined)" tip="Add current page to list" @click="getInfo" />
     </Flex>
 
-    <div class="page-info">
-        <p>Title: {{ title }}</p>
-        <p>URL: {{ url }}</p>
-        <p v-if="faviconUrl">Favicon: <img :src="faviconUrl" alt="Favicon" /></p>
+    <div v-if="pageListRef.length === 0">
+        <p>No Page Available</p>
+    </div>
+    <div v-else class="page-info">
+        <div v-for="{ info } in pageListRef">
+            <p>Title: {{ info.title }}</p>
+            <p>URL: {{ info.url }}</p>
+            <p v-if="info.faviconUrl">Favicon: <img :src="info.faviconUrl" alt="Favicon" /></p>
+        </div>
     </div>
 </template>

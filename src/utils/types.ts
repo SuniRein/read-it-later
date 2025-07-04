@@ -7,3 +7,9 @@ export interface PageInfo {
     url: string;
     faviconUrl?: string;
 }
+
+export interface PageItem {
+    info: PageInfo;
+    tags: string[];
+    favorited: boolean;
+}

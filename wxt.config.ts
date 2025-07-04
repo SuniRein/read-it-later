@@ -4,4 +4,7 @@ export default defineConfig({
     srcDir: 'src',
     imports: false,
     modules: ['@wxt-dev/module-vue'],
+    manifest: {
+        permissions: ['storage'],
+    },
 });
