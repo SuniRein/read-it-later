@@ -15,6 +15,7 @@ import PageList from './PageList.vue';
 
 import { sendMessage } from '@/utils/message';
 import { usePageList } from '@/utils/store';
+import { newPageItem } from '@/utils/page-item';
 
 const current = ref(1);
 const pageSize = ref(5);
@@ -33,8 +34,8 @@ async function getInfo() {
         url: tab.url ?? 'Url Not Available',
         faviconUrl: tab.favIconUrl,
     };
-    const page = { info, tags: [], favorited: false };
-    pageListRef.value.push(page);
+    const item = newPageItem(info);
+    pageListRef.value.push(item);
 }
 </script>
 

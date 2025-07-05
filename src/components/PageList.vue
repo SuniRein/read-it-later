@@ -11,7 +11,7 @@ defineProps<{
 <template>
     <List :dataSource="pageList" size="small">
         <template #renderItem="{ item }: { item: PageItem }">
-            <ListItem :key="item.info.url">
+            <ListItem :key="item.id">
                 <ListItemMeta :title="item.info.title" :description="item.info.url">
                     <template #avatar>
                         <Avatar :src="item.info.faviconUrl" />

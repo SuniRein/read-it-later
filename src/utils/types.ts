@@ -9,7 +9,10 @@ export interface PageInfo {
 }
 
 export interface PageItem {
+    id: string;
     info: PageInfo;
     tags: string[];
     favorited: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
