@@ -5,23 +5,35 @@ import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'a
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
+import type { PageItem } from '@/utils/types';
 import { usePageList } from '@/composables/page-list';
+import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 
 const current = ref(1);
 const pageSize = ref(5);
 
+const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
+
+function favoritedFilter(item: PageItem): boolean {
+    if (favoritedFilterOption.value === 'all') return true;
+    return favoritedFilterOption.value === 'favorited' ? item.favorited : !item.favorited;
+}
+
 const { pageList, add, remove, update, toggleFavorite } = usePageList();
+const pageListFiltered = computed(() => {
+    return pageList.value.filter(favoritedFilter);
+});
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
-    return pageList.value.slice(start, end);
+    return pageListFiltered.value.slice(start, end);
 });
 </script>
 
 <template>
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation @add-page="add" />
+            <TopOperation @add-page="add" @change-favorited-view="changeFavoritedView" />
         </LayoutHeader>
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
@@ -35,7 +47,7 @@ const pageListDisplayed = computed(() => {
         </LayoutContent>
 
         <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
-            <Pagination :total="pageList.length" v-model:current="current" v-model:pageSize="pageSize" />
+            <Pagination :total="pageListFiltered.length" v-model:current="current" v-model:pageSize="pageSize" />
         </LayoutFooter>
     </Layout>
 </template>

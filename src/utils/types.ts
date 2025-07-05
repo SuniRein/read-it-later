@@ -16,3 +16,5 @@ export interface PageItem {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';

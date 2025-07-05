@@ -15,6 +15,7 @@ import { sendMessage } from '@/utils/message';
 
 const emit = defineEmits<{
     (e: 'add-page', info: PageInfo): void;
+    (e: 'change-favorited-view'): void;
 }>();
 
 async function addNewPage() {
@@ -35,7 +36,7 @@ async function addNewPage() {
 
         <Input allowClear placeholder="Find..." />
 
-        <IconButton :icon="StarOutlined" tip="Filter by 'favorite' status" />
+        <IconButton :icon="StarOutlined" tip="Filter by 'favorited' status" @click="emit('change-favorited-view')" />
         <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
         <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="addNewPage" />
     </div>
