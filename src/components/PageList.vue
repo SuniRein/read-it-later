@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import { List, ListItem, Avatar } from 'ant-design-vue';
+import { CheckOutlined, EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons-vue';
+
+import IconButton from './IconButton.vue';
 
 import { type PageItem } from '@/utils/types';
 
 defineProps<{
     pageList: PageItem[];
 }>();
+
+const actionAttr = {
+    color: '#555',
+    size: 'large',
+} as const;
 </script>
 
 <template>
     <List :dataSource="pageList" size="small">
         <template #renderItem="{ item }: { item: PageItem }">
-            <ListItem>
+            <ListItem :key="item.id">
                 <div class="page-list-item">
                     <div class="favicon-and-title">
                         <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
@@ -19,6 +27,13 @@ defineProps<{
                     </div>
 
                     <span class="url">{{ item.info.url }}</span>
+
+                    <div class="actions">
+                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" />
+                        <IconButton v-bind="actionAttr" :icon="EditFilled" />
+                        <IconButton v-bind="actionAttr" :icon="StarFilled" />
+                        <IconButton v-bind="actionAttr" :icon="DeleteFilled" />
+                    </div>
                 </div>
             </ListItem>
         </template>
@@ -33,6 +48,8 @@ defineProps<{
 .page-list-item {
     margin: 0;
     padding: 0 0.5rem;
+    position: relative;
+    width: 100%;
 }
 
 .favicon-and-title {
@@ -76,5 +93,26 @@ defineProps<{
     color: gray;
 
     cursor: pointer;
+}
+
+.actions {
+    z-index: 3;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    opacity: 0;
+    transition:
+        height 200ms ease-out,
+        opacity 200ms ease-out;
+}
+
+.page-list-item:hover .actions {
+    background-color: rgba(196, 196, 196, 0.4);
+    opacity: 1;
 }
 </style>

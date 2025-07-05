@@ -5,7 +5,9 @@ import { Button, Tooltip } from 'ant-design-vue';
 
 defineProps<{
     icon: Component;
-    tip: string;
+    tip?: string;
+    color?: string;
+    size?: 'small' | 'middle' | 'large';
 }>();
 
 const emit = defineEmits<{
@@ -15,14 +17,22 @@ const emit = defineEmits<{
 function onClick(event: MouseEvent) {
     emit('click', event);
 }
-
-const iconStyle = {
-    color: '#CCC',
-};
 </script>
 
 <template>
     <Tooltip :title="tip" placement="bottomRight">
-        <Button type="ghost" ghost :icon="h(icon, { style: iconStyle })" @click="onClick" />
+        <Button
+            type="ghost"
+            ghost
+            :size
+            :icon="
+                h(icon, {
+                    style: {
+                        color: color ?? '#CCC',
+                    },
+                })
+            "
+            @click="onClick"
+        />
     </Tooltip>
 </template>
