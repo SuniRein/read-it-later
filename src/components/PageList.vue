@@ -31,7 +31,7 @@ function toggleEditMode(id: string) {
     <List :dataSource="pageList" size="small">
         <template #renderItem="{ item }: { item: PageItem }">
             <ListItem :key="item.id">
-                <div class="page-list-item">
+                <div class="page-list-item" :class="{ favorited: item.favorited }">
                     <div class="favicon-and-title">
                         <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
                         <span class="title">{{ item.info.title }}</span>
@@ -61,6 +61,10 @@ function toggleEditMode(id: string) {
     padding: 0 0.5rem;
     position: relative;
     width: 100%;
+}
+
+.page-list-item.favorited {
+    background-color: rgba(249, 232, 144, 0.8);
 }
 
 .favicon-and-title {
