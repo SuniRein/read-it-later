@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { Flex, Input, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
+import { ref, computed } from 'vue';
+
+import { Flex, Input, Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
 import {
     SettingOutlined,
     SyncOutlined,
@@ -9,11 +11,20 @@ import {
 } from '@ant-design/icons-vue';
 
 import IconButton from './IconButton.vue';
+import PageList from './PageList.vue';
 
 import { sendMessage } from '@/utils/message';
 import { usePageList } from '@/utils/store';
 
+const current = ref(1);
+const pageSize = ref(5);
+
 const pageListRef = usePageList();
+const pageListDisplayed = computed(() => {
+    const start = (current.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    return pageListRef.value.slice(start, end);
+});
 
 async function getInfo() {
     const tab = await sendMessage('getActiveTab');
@@ -38,21 +49,12 @@ async function getInfo() {
             </Flex>
         </LayoutHeader>
 
-        <LayoutContent style="height: 420px">
-            <div v-if="pageListRef.length === 0">
-                <p>No Page Available</p>
-            </div>
-            <div v-else class="page-info">
-                <div v-for="{ info } in pageListRef">
-                    <p>Title: {{ info.title }}</p>
-                    <p>URL: {{ info.url }}</p>
-                    <p v-if="info.faviconUrl">Favicon: <img :src="info.faviconUrl" alt="Favicon" /></p>
-                </div>
-            </div>
+        <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
+            <PageList :pageList="pageListDisplayed" />
         </LayoutContent>
 
-        <LayoutFooter style="height: 40px; padding: 0 10px">
-            <p>Footer</p>
+        <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
+            <Pagination :total="pageListRef.length" v-model:current="current" v-model:pageSize="pageSize" />
         </LayoutFooter>
     </Layout>
 </template>
