@@ -27,8 +27,8 @@ body {
     margin: 0;
     display: flex;
     place-items: center;
-    min-width: 320px;
-    min-height: 100px;
+    width: 400px;
+    height: 500px;
 }
 
 h1 {
