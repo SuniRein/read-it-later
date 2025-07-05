@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { h } from 'vue';
 
-import { Flex, Input } from 'ant-design-vue';
+import { Flex, Input, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
 import {
     SettingOutlined,
     SyncOutlined,
@@ -26,25 +26,35 @@ async function getInfo() {
 </script>
 
 <template>
-    <Flex class="top-operation-header" justify="space-between">
-        <IconButton :icon="h(SettingOutlined)" tip="Open setting page" />
-        <IconButton :icon="h(SyncOutlined)" tip="Sync" />
+    <Layout>
+        <LayoutHeader style="height: 40px">
+            <Flex class="top-operation-header" justify="space-between">
+                <IconButton :icon="h(SettingOutlined)" tip="Open setting page" />
+                <IconButton :icon="h(SyncOutlined)" tip="Sync" />
 
-        <Input allowClear placeholder="Find..." />
+                <Input allowClear placeholder="Find..." />
 
-        <IconButton :icon="h(StarOutlined)" tip="Filter by 'favorite' status" />
-        <IconButton :icon="h(ThunderboltOutlined)" tip="Open a random page" />
-        <IconButton :icon="h(PlusCircleOutlined)" tip="Add current page to list" @click="getInfo" />
-    </Flex>
+                <IconButton :icon="h(StarOutlined)" tip="Filter by 'favorite' status" />
+                <IconButton :icon="h(ThunderboltOutlined)" tip="Open a random page" />
+                <IconButton :icon="h(PlusCircleOutlined)" tip="Add current page to list" @click="getInfo" />
+            </Flex>
+        </LayoutHeader>
 
-    <div v-if="pageListRef.length === 0">
-        <p>No Page Available</p>
-    </div>
-    <div v-else class="page-info">
-        <div v-for="{ info } in pageListRef">
-            <p>Title: {{ info.title }}</p>
-            <p>URL: {{ info.url }}</p>
-            <p v-if="info.faviconUrl">Favicon: <img :src="info.faviconUrl" alt="Favicon" /></p>
-        </div>
-    </div>
+        <LayoutContent style="height: 420px">
+            <div v-if="pageListRef.length === 0">
+                <p>No Page Available</p>
+            </div>
+            <div v-else class="page-info">
+                <div v-for="{ info } in pageListRef">
+                    <p>Title: {{ info.title }}</p>
+                    <p>URL: {{ info.url }}</p>
+                    <p v-if="info.faviconUrl">Favicon: <img :src="info.faviconUrl" alt="Favicon" /></p>
+                </div>
+            </div>
+        </LayoutContent>
+
+        <LayoutFooter style="height: 40px; padding: 0 10px">
+            <p>Footer</p>
+        </LayoutFooter>
+    </Layout>
 </template>
