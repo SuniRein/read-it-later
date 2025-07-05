@@ -17,6 +17,19 @@ function deepEqual(a: any, b: any): boolean {
     return true;
 }
 
+function deepToRaw<T>(value: T): T {
+    if (Array.isArray(value)) {
+        return value.map(deepToRaw) as unknown as T;
+    } else if (value && typeof value === 'object') {
+        const rawObject: Record<string, any> = {};
+        for (const key in value) {
+            rawObject[key] = deepToRaw(value[key]);
+        }
+        return rawObject as T;
+    }
+    return toRaw(value);
+}
+
 export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>, defaultValue: NonNullable<T>) {
     const state = ref<NonNullable<T>>(defaultValue);
 
@@ -35,7 +48,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
         unwatchRef = watch(
             state,
             (newValue) => {
-                void store.setValue(toRaw(newValue));
+                void store.setValue(deepToRaw(newValue));
             },
             { deep: true },
         );
