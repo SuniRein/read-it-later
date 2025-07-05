@@ -10,7 +10,7 @@ import { usePageList } from '@/composables/page-list';
 const current = ref(1);
 const pageSize = ref(5);
 
-const { pageList, add } = usePageList();
+const { pageList, add, remove, update, toggleFavorite } = usePageList();
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
@@ -21,11 +21,17 @@ const pageListDisplayed = computed(() => {
 <template>
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation @add-page="(info) => add(info)" />
+            <TopOperation @add-page="add" />
         </LayoutHeader>
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
-            <PageList :pageList="pageListDisplayed" />
+            <PageList
+                :pageList="pageListDisplayed"
+                @mark-read="remove"
+                @edit="update"
+                @toggle-star="toggleFavorite"
+                @delete="remove"
+            />
         </LayoutContent>
 
         <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">

@@ -19,8 +19,32 @@ export function usePageList() {
         pageList.value.push(pageItem);
     }
 
+    function remove(id: string) {
+        pageList.value = pageList.value.filter((item) => item.id !== id);
+    }
+
+    function update(id: string, newTitle: string, newTags: string[]) {
+        const item = pageList.value.find((item) => item.id === id);
+        if (item) {
+            item.info.title = newTitle;
+            item.tags = newTags;
+            item.updatedAt = new Date();
+        }
+    }
+
+    function toggleFavorite(id: string) {
+        const item = pageList.value.find((item) => item.id === id);
+        if (item) {
+            item.favorited = !item.favorited;
+            item.updatedAt = new Date();
+        }
+    }
+
     return {
         pageList,
         add,
+        remove,
+        update,
+        toggleFavorite,
     };
 }
