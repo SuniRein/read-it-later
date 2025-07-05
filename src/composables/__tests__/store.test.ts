@@ -58,6 +58,13 @@ describe('useStoredValue', () => {
         expect(await testStorage.getValue()).toHaveProperty('a', 3);
     });
 
+    it('update sotre value when set with new object', async () => {
+        const test = await getTestValue();
+        test.value = updatedValue;
+        await flushPromises();
+        expect(await testStorage.getValue()).toEqual(updatedValue);
+    });
+
     it('update local state when store value changes', async () => {
         const test = await getTestValue();
         await testStorage.setValue(updatedValue);
