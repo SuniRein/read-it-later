@@ -28,6 +28,9 @@ describe('useStoredValue', () => {
                 },
             };
         },
+        render() {
+            return null;
+        },
     });
 
     async function getTestValue() {
