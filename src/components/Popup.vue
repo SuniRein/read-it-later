@@ -20,7 +20,7 @@ const pageListDisplayed = computed(() => {
 
 <template>
     <Layout>
-        <LayoutHeader style="height: 40px">
+        <LayoutHeader style="height: 40px; padding: 0">
             <TopOperation v-model:pageList="pageListRef" />
         </LayoutHeader>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Flex, Input } from 'ant-design-vue';
+import { Input } from 'ant-design-vue';
 import {
     SettingOutlined,
     SyncOutlined,
@@ -29,7 +29,7 @@ async function getInfo() {
 </script>
 
 <template>
-    <Flex class="top-operation" justify="space-between">
+    <div class="top-operation">
         <IconButton :icon="SettingOutlined" tip="Open setting page" />
         <IconButton :icon="SyncOutlined" tip="Sync" />
 
@@ -38,5 +38,17 @@ async function getInfo() {
         <IconButton :icon="StarOutlined" tip="Filter by 'favorite' status" />
         <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
         <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="getInfo" />
-    </Flex>
+    </div>
 </template>
+
+<style scoped>
+.top-operation {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    height: 100%;
+    padding: 0 0.5rem;
+    margin: 0;
+}
+</style>
