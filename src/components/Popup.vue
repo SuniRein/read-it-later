@@ -28,7 +28,11 @@ const pageListDisplayed = computed(() => {
 
 async function getInfo() {
     const tab = await sendMessage('getActiveTab');
-    const info = await sendMessage('getPageInfo', { tab });
+    const info = {
+        title: tab.title ?? 'Title Not Available',
+        url: tab.url ?? 'Url Not Available',
+        faviconUrl: tab.favIconUrl,
+    };
     const page = { info, tags: [], favorited: false };
     pageListRef.value.push(page);
 }
