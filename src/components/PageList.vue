@@ -10,10 +10,21 @@ defineProps<{
     pageList: PageItem[];
 }>();
 
+const emit = defineEmits<{
+    (e: 'mark-read', id: string): void;
+    (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
+    (e: 'toggle-star', id: string): void;
+    (e: 'delete', id: string): void;
+}>();
+
 const actionAttr = {
     color: '#555',
     size: 'large',
 } as const;
+
+function toggleEditMode(id: string) {
+    // TODO: Implement edit mode
+}
 </script>
 
 <template>
@@ -29,10 +40,10 @@ const actionAttr = {
                     <span class="url">{{ item.info.url }}</span>
 
                     <div class="actions">
-                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" />
+                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="$emit('mark-read', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" />
-                        <IconButton v-bind="actionAttr" :icon="StarFilled" />
-                        <IconButton v-bind="actionAttr" :icon="DeleteFilled" />
+                        <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggle-star', item.id)" />
+                        <IconButton v-bind="actionAttr" :icon="DeleteFilled" @click="emit('delete', item.id)" />
                     </div>
                 </div>
             </ListItem>
