@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { Input } from 'ant-design-vue';
+import { Input, Badge } from 'ant-design-vue';
 import {
     SettingOutlined,
     SyncOutlined,
     StarOutlined,
     ThunderboltOutlined,
     PlusCircleOutlined,
+    CheckCircleFilled,
+    CloseCircleFilled,
 } from '@ant-design/icons-vue';
 
 import IconButton from './IconButton.vue';
 
-import type { PageInfo } from '@/utils/types';
+import type { PageInfo, FavoritedFilterOption } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
+
+const { favoritedFilterOption } = defineProps<{
+    favoritedFilterOption: FavoritedFilterOption;
+}>();
 
 const emit = defineEmits<{
     (e: 'add-page', info: PageInfo): void;
@@ -36,7 +42,18 @@ async function addNewPage() {
 
         <Input allowClear placeholder="Find..." />
 
-        <IconButton :icon="StarOutlined" tip="Filter by 'favorited' status" @click="emit('change-favorited-view')" />
+        <Badge :offset="[-8, 22]">
+            <template #count>
+                <CheckCircleFilled style="color: green" v-if="favoritedFilterOption === 'favorited'" />
+                <CloseCircleFilled style="color: red" v-else-if="favoritedFilterOption === 'unfavorited'" />
+                <div v-else><!-- Empty badge for 'all' option --></div>
+            </template>
+            <IconButton
+                :icon="StarOutlined"
+                tip="Filter by 'favorited' status"
+                @click="emit('change-favorited-view')"
+            />
+        </Badge>
         <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
         <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="addNewPage" />
     </div>

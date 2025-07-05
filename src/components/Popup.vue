@@ -33,7 +33,7 @@ const pageListDisplayed = computed(() => {
 <template>
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation @add-page="add" @change-favorited-view="changeFavoritedView" />
+            <TopOperation :favoritedFilterOption @add-page="add" @change-favorited-view="changeFavoritedView" />
         </LayoutHeader>
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
