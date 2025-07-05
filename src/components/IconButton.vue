@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { Button, type ButtonProps, Tooltip } from 'ant-design-vue';
+import { h, type Component } from 'vue';
+
+import { Button, Tooltip } from 'ant-design-vue';
 
 defineProps<{
-    icon: ButtonProps['icon'];
+    icon: Component;
     tip: string;
 }>();
 
@@ -13,10 +15,14 @@ const emit = defineEmits<{
 function onClick(event: MouseEvent) {
     emit('click', event);
 }
+
+const iconStyle = {
+    color: '#CCC',
+};
 </script>
 
 <template>
     <Tooltip :title="tip" placement="bottomRight">
-        <Button type="ghost" ghost :icon @click="onClick" />
+        <Button type="ghost" ghost :icon="h(icon, { style: iconStyle })" @click="onClick" />
     </Tooltip>
 </template>

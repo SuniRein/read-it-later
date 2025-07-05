@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { h } from 'vue';
-
 import { Flex, Input, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
 import {
     SettingOutlined,
@@ -29,14 +27,14 @@ async function getInfo() {
     <Layout>
         <LayoutHeader style="height: 40px">
             <Flex class="top-operation-header" justify="space-between">
-                <IconButton :icon="h(SettingOutlined)" tip="Open setting page" />
-                <IconButton :icon="h(SyncOutlined)" tip="Sync" />
+                <IconButton :icon="SettingOutlined" tip="Open setting page" />
+                <IconButton :icon="SyncOutlined" tip="Sync" />
 
                 <Input allowClear placeholder="Find..." />
 
-                <IconButton :icon="h(StarOutlined)" tip="Filter by 'favorite' status" />
-                <IconButton :icon="h(ThunderboltOutlined)" tip="Open a random page" />
-                <IconButton :icon="h(PlusCircleOutlined)" tip="Add current page to list" @click="getInfo" />
+                <IconButton :icon="StarOutlined" tip="Filter by 'favorite' status" />
+                <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
+                <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="getInfo" />
             </Flex>
         </LayoutHeader>
 
