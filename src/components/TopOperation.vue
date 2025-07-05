@@ -10,21 +10,21 @@ import {
 
 import IconButton from './IconButton.vue';
 
-import type { PageItem } from '@/utils/types';
+import type { PageInfo } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
-import { newPageItem } from '@/utils/page-item';
 
-const pageList = defineModel<PageItem[]>('pageList', { required: true });
+const emit = defineEmits<{
+    (e: 'add-page', info: PageInfo): void;
+}>();
 
-async function getInfo() {
+async function addNewPage() {
     const tab = await sendMessage('getActiveTab');
     const info = {
         title: tab.title ?? 'Title Not Available',
         url: tab.url ?? 'Url Not Available',
         faviconUrl: tab.favIconUrl,
     };
-    const item = newPageItem(info);
-    pageList.value.push(item);
+    emit('add-page', info);
 }
 </script>
 
@@ -37,7 +37,7 @@ async function getInfo() {
 
         <IconButton :icon="StarOutlined" tip="Filter by 'favorite' status" />
         <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
-        <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="getInfo" />
+        <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="addNewPage" />
     </div>
 </template>
 

@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils';
 import { describe, it, expect, beforeEach } from 'vitest';
 import flushPromises from 'flush-promises';
 
-import { useStoredValue } from '@/utils/store';
+import { useStoredValue } from '../store';
 
 describe('useStoredValue', () => {
     beforeEach(() => {

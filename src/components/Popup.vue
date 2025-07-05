@@ -5,23 +5,23 @@ import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'a
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
-import { usePageList } from '@/utils/store';
+import { usePageList } from '@/composables/page-list';
 
 const current = ref(1);
 const pageSize = ref(5);
 
-const pageListRef = usePageList();
+const { pageList, add } = usePageList();
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
-    return pageListRef.value.slice(start, end);
+    return pageList.value.slice(start, end);
 });
 </script>
 
 <template>
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation v-model:pageList="pageListRef" />
+            <TopOperation @add-page="(info) => add(info)" />
         </LayoutHeader>
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
@@ -29,7 +29,7 @@ const pageListDisplayed = computed(() => {
         </LayoutContent>
 
         <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
-            <Pagination :total="pageListRef.length" v-model:current="current" v-model:pageSize="pageSize" />
+            <Pagination :total="pageList.length" v-model:current="current" v-model:pageSize="pageSize" />
         </LayoutFooter>
     </Layout>
 </template>
