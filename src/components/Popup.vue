@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { browser } from '#imports';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter, message } from 'ant-design-vue';
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
-import type { PageItem, PageInfo, Tab } from '@/utils/types';
-import { onMessage } from '@/utils/message';
+import type { PageItem, PageInfo } from '@/utils/types';
 import { usePageList } from '@/composables/page-list';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
+import { useCurrentTab } from '@/composables/current-tab';
 
 const current = ref(1);
 const pageSize = ref(5);
@@ -20,6 +20,8 @@ function favoritedFilter(item: PageItem): boolean {
     if (favoritedFilterOption.value === 'all') return true;
     return favoritedFilterOption.value === 'favorited' ? item.favorited : !item.favorited;
 }
+
+const { currentTab } = useCurrentTab();
 
 const { pageList, add, remove, update, toggleFavorite } = usePageList();
 const pageListFiltered = computed(() => {
@@ -37,15 +39,6 @@ const pageListDisplayed = computed(() => {
         return [currentPage, ...paginated.filter((item) => item.info.url !== currentUrl)];
     }
     return paginated;
-});
-
-const currentTab = ref<Tab | null>(null);
-onMounted(async () => {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    currentTab.value = tabs[0] ?? null;
-});
-onMessage('currentTabChanged', ({ data: { tab } }) => {
-    currentTab.value = tab;
 });
 
 function addPage(item: PageInfo) {
