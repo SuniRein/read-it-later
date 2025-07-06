@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ConfigProvider, theme as antTheme } from 'ant-design-vue';
 
+import SettingPage from '@/components/options/SettingPage.vue';
+
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
 };
@@ -8,6 +10,6 @@ const theme = {
 
 <template>
     <ConfigProvider :theme>
-        <h1>Welcome to Setting Page</h1>
+        <SettingPage />
     </ConfigProvider>
 </template>
