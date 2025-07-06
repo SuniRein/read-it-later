@@ -12,10 +12,10 @@ import {
 
 import IconButton from './IconButton.vue';
 
-import type { PageInfo, PageItem, FavoritedFilterOption } from '@/utils/types';
-import { sendMessage } from '@/utils/message';
+import type { PageInfo, PageItem, FavoritedFilterOption, Tab } from '@/utils/types';
 
-const { pageList, favoritedFilterOption } = defineProps<{
+const { currentTab, pageList, favoritedFilterOption } = defineProps<{
+    currentTab: Tab | null;
     pageList: PageItem[];
     favoritedFilterOption: FavoritedFilterOption;
 }>();
@@ -27,13 +27,14 @@ const emit = defineEmits<{
 }>();
 
 async function addNewPage() {
-    const tab = await sendMessage('getActiveTab');
-    const info = {
-        title: tab.title ?? 'Title Not Available',
-        url: tab.url ?? 'Url Not Available',
-        faviconUrl: tab.favIconUrl,
-    };
-    emit('add-page', info);
+    if (currentTab) {
+        const info = {
+            title: currentTab.title ?? 'Title Not Available',
+            url: currentTab.url ?? 'Url Not Available',
+            faviconUrl: currentTab.favIconUrl,
+        };
+        emit('add-page', info);
+    }
 }
 
 function openRandomPage() {

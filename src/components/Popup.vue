@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { browser } from '#imports';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
-import type { PageItem } from '@/utils/types';
+import type { PageItem, Tab } from '@/utils/types';
+import { onMessage } from '@/utils/message';
 import { usePageList } from '@/composables/page-list';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 
@@ -30,7 +31,16 @@ const pageListDisplayed = computed(() => {
     return pageListFiltered.value.slice(start, end);
 });
 
-function openUrl(url: string) {
+const currentTab = ref<Tab | null>(null);
+onMounted(async () => {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    currentTab.value = tabs[0] ?? null;
+});
+onMessage('currentTabChanged', ({ data: { tab } }) => {
+    currentTab.value = tab;
+});
+
+async function openUrl(url: string) {
     browser.tabs.create({ url });
 }
 </script>
@@ -39,6 +49,7 @@ function openUrl(url: string) {
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
             <TopOperation
+                :currentTab
                 :pageList="pageListFiltered"
                 :favoritedFilterOption
                 @add-page="add"
