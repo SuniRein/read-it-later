@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import type { PageInfo } from '@/utils/types';
+import type { PageInfo, PageItem } from '@/utils/types';
 import store from '@/utils/store';
 import { useStoredValue } from '@/composables/store';
 
@@ -44,6 +44,14 @@ export function usePageList() {
             item.favorited = !item.favorited;
             item.updatedAt = new Date().toISOString();
         }
+    }
+
+    function load(data: PageItem[]) {
+        const existingIds = new Set(pageList.value.map((item) => item.id));
+        const existingUrls = new Set(pageList.value.map((item) => item.info.url));
+
+        const newItems = data.filter((item) => !existingIds.has(item.id) && !existingUrls.has(item.info.url));
+        pageList.value.push(...newItems);
     }
 
     return {

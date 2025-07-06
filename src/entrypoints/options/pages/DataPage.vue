@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { browser } from '#imports';
 
-import { Form, FormItem, Button, Space } from 'ant-design-vue';
+import { Form, FormItem, Button, Space, Upload, type UploadProps } from 'ant-design-vue';
 
+import { serializePageList, deserializePageList } from '@/utils/page-list-serializatoin';
 import { usePageList } from '@/composables/page-list';
 
 const { labelSpan, wrapperSpan } = defineProps<{
@@ -13,10 +14,10 @@ const { labelSpan, wrapperSpan } = defineProps<{
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
 
-const { pageList } = usePageList();
+const { pageList, load } = usePageList();
 
 function saveToLocalStorage() {
-    const data = JSON.stringify(pageList.value);
+    const data = serializePageList(pageList.value);
 
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -33,6 +34,29 @@ function saveToLocalStorage() {
             URL.revokeObjectURL(url);
         });
 }
+
+const uploadHandler: UploadProps['customRequest'] = (options) => {
+    if (options.file instanceof File) {
+        loadFromFile(options.file);
+    } else {
+        console.error('No file provided for upload');
+    }
+};
+
+function loadFromFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        if (event.target?.result) {
+            try {
+                const data = deserializePageList(event.target.result as string);
+                load(data);
+            } catch (error) {
+                console.error('Failed to parse page list:', error);
+            }
+        }
+    };
+    reader.readAsText(file);
+}
 </script>
 
 <template>
@@ -40,7 +64,9 @@ function saveToLocalStorage() {
         <FormItem label="Local Storage">
             <Space>
                 <Button shape="round" @click="saveToLocalStorage">Save</Button>
-                <Button shape="round">Load</Button>
+                <Upload accept=".json" :fileList="[]" :customRequest="uploadHandler">
+                    <Button shape="round">Load</Button>
+                </Upload>
             </Space>
         </FormItem>
     </Form>
