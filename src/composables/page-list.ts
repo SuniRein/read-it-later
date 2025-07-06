@@ -7,7 +7,11 @@ import { useStoredValue } from '@/composables/store';
 export function usePageList() {
     const pageList = useStoredValue(store.pageList, []);
 
-    function add(info: PageInfo) {
+    function add(info: PageInfo): boolean {
+        if (pageList.value.some((item) => item.info.url === info.url)) {
+            return false; // Prevent adding duplicate pages
+        }
+
         const pageItem = {
             id: nanoid(),
             info,
@@ -17,6 +21,7 @@ export function usePageList() {
             updatedAt: new Date(),
         };
         pageList.value.push(pageItem);
+        return true;
     }
 
     function remove(id: string) {

@@ -2,11 +2,11 @@
 import { browser } from '#imports';
 import { ref, computed, onMounted } from 'vue';
 
-import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
+import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter, message } from 'ant-design-vue';
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
-import type { PageItem, Tab } from '@/utils/types';
+import type { PageItem, PageInfo, Tab } from '@/utils/types';
 import { onMessage } from '@/utils/message';
 import { usePageList } from '@/composables/page-list';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
@@ -48,6 +48,15 @@ onMessage('currentTabChanged', ({ data: { tab } }) => {
     currentTab.value = tab;
 });
 
+function addPage(item: PageInfo) {
+    if (!add(item)) {
+        message.error({
+            content: 'Page has already been in the page list.',
+            duration: 1,
+        });
+    }
+}
+
 async function openUrl(url: string) {
     browser.tabs.create({ url });
 }
@@ -60,7 +69,7 @@ async function openUrl(url: string) {
                 :currentTab
                 :pageList="pageListFiltered"
                 :favoritedFilterOption
-                @add-page="add"
+                @add-page="addPage"
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
             />
