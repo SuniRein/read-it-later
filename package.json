@@ -20,6 +20,7 @@
         "@ant-design/icons-vue": "^7.0.1",
         "@webext-core/messaging": "^2.3.0",
         "ant-design-vue": "~4.2.6",
+        "arktype": "^2.1.20",
         "happy-dom": "^18.0.1",
         "nanoid": "^5.1.5",
         "vue": "^3.5.13",
