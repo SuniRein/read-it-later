@@ -2,7 +2,7 @@ import store from '@/utils/store';
 import { useStoredValue } from '@/composables/store';
 
 export function useFavoritedFilterOption() {
-    const favoritedFilterOption = useStoredValue(store.forvoritedFilterOption, 'all');
+    const favoritedFilterOption = useStoredValue(store.forvoritedFilterOption);
 
     function change() {
         switch (favoritedFilterOption.value) {

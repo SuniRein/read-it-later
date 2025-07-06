@@ -5,7 +5,7 @@ import store from '@/utils/store';
 import { useStoredValue } from '@/composables/store';
 
 export function usePageList() {
-    const pageList = useStoredValue(store.pageList, []);
+    const pageList = useStoredValue(store.pageList);
 
     function add(info: PageInfo): boolean {
         if (pageList.value.some((item) => item.info.url === info.url)) {

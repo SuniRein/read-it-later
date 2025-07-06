@@ -11,12 +11,12 @@ describe('useStoredValue', () => {
         fakeBrowser.reset();
     });
 
-    type TestType = { a: number; b: string };
-    const testStorage = storage.defineItem<TestType>('local:test');
-
     const defaultValue = { a: 1, b: 'Default value' };
     const initValue = { a: 2, b: 'Init value' };
     const updatedValue = { a: 3, b: 'Init value' };
+
+    type TestType = { a: number; b: string };
+    const testStorage = storage.defineItem<TestType>('local:test', { fallback: defaultValue });
 
     const testComponent = defineComponent({
         props: {},
@@ -24,7 +24,7 @@ describe('useStoredValue', () => {
             return {
                 // avoid auto unwrapping of refs
                 api: {
-                    testValue: useStoredValue(testStorage, defaultValue),
+                    testValue: useStoredValue(testStorage),
                 },
             };
         },

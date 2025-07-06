@@ -7,7 +7,9 @@ const defaultSetting: Setting = {
 } as const;
 
 export default {
-    pageList: storage.defineItem<PageItem[]>('local:pageList'),
-    forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('local:favoritedFilterOption'),
+    pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
+    forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('local:favoritedFilterOption', {
+        fallback: 'all',
+    }),
     setting: storage.defineItem<Setting>('local:setting', { fallback: defaultSetting }),
 };

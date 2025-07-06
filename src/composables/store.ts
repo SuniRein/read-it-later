@@ -30,19 +30,18 @@ function deepToRaw<T>(value: T): T {
     return toRaw(value);
 }
 
-export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>, defaultValue: NonNullable<T>) {
-    const state = ref<NonNullable<T>>(defaultValue);
+export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>) {
+    const state = ref<T>(store.fallback);
 
     let unwatchStore: null | (() => void) = null;
     let unwatchRef: null | (() => void) = null;
 
     onMounted(async () => {
-        const initialValue = await store.getValue();
-        state.value = initialValue ?? defaultValue;
+        state.value = structuredClone(await store.getValue());
 
         unwatchStore = store.watch(async (newValue) => {
             if (deepEqual(newValue, state.value)) return;
-            state.value = newValue ?? defaultValue;
+            state.value = structuredClone(newValue);
         });
 
         unwatchRef = watch(
