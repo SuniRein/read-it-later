@@ -5,8 +5,13 @@ import { useSetting } from '@/composables/setting';
 
 const { setting, save, reset } = useSetting();
 
-const labelCol = { span: 6 };
-const wrapperCol = { span: 10 };
+const { labelSpan, wrapperSpan } = defineProps<{
+    labelSpan: number;
+    wrapperSpan: number;
+}>();
+
+const labelCol = { span: labelSpan };
+const wrapperCol = { span: wrapperSpan };
 </script>
 
 <template>

@@ -11,7 +11,7 @@ import {
     type MenuProps,
     theme as antTheme,
 } from 'ant-design-vue';
-import { SettingOutlined } from '@ant-design/icons-vue';
+import { SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
@@ -27,6 +27,11 @@ const items: MenuProps['items'] = [
         key: 'setting',
         label: 'Setting',
         icon: h(SettingOutlined),
+    },
+    {
+        key: 'data',
+        label: 'Data',
+        icon: h(SaveOutlined),
     },
 ];
 
@@ -46,7 +51,7 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
             <LayoutContent class="content">
                 <RouterView v-slot="{ Component }">
                     <KeepAlive>
-                        <component :is="Component" />
+                        <component :is="Component" :labelSpan="6" :wrapperSpan="14" />
                     </KeepAlive>
                 </RouterView>
             </LayoutContent>
