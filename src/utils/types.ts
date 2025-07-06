@@ -18,3 +18,7 @@ export interface PageItem {
 }
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
+
+export interface Setting {
+    pagination: number;
+}

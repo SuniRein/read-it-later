@@ -10,9 +10,12 @@ import type { PageItem, PageInfo } from '@/utils/types';
 import { usePageList } from '@/composables/page-list';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { useCurrentTab } from '@/composables/current-tab';
+import { useSetting } from '@/composables/setting';
+
+const { setting } = useSetting();
 
 const current = ref(1);
-const pageSize = ref(5);
+const pageSize = computed(() => setting.value.pagination);
 
 const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
 
