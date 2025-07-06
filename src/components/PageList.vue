@@ -15,6 +15,7 @@ const emit = defineEmits<{
     (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
     (e: 'toggle-star', id: string): void;
     (e: 'delete', id: string): void;
+    (e: 'open-url', url: string): void;
 }>();
 
 const actionAttr = {
@@ -32,12 +33,14 @@ function toggleEditMode(id: string) {
         <template #renderItem="{ item }: { item: PageItem }">
             <ListItem :key="item.id">
                 <div class="page-list-item" :class="{ favorited: item.favorited }">
-                    <div class="favicon-and-title">
-                        <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
-                        <span class="title">{{ item.info.title }}</span>
-                    </div>
+                    <div class="item-content" @click="$emit('open-url', item.info.url)">
+                        <div class="favicon-and-title">
+                            <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
+                            <span class="title">{{ item.info.title }}</span>
+                        </div>
 
-                    <span class="url">{{ item.info.url }}</span>
+                        <span class="url">{{ item.info.url }}</span>
+                    </div>
 
                     <div class="actions">
                         <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="$emit('mark-read', item.id)" />

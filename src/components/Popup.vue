@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { browser } from '#imports';
 import { ref, computed } from 'vue';
 
 import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter } from 'ant-design-vue';
@@ -28,6 +29,10 @@ const pageListDisplayed = computed(() => {
     const end = start + pageSize.value;
     return pageListFiltered.value.slice(start, end);
 });
+
+function openUrl(url: string) {
+    browser.tabs.create({ url });
+}
 </script>
 
 <template>
@@ -43,6 +48,7 @@ const pageListDisplayed = computed(() => {
                 @edit="update"
                 @toggle-star="toggleFavorite"
                 @delete="remove"
+                @open-url="openUrl"
             />
         </LayoutContent>
 
