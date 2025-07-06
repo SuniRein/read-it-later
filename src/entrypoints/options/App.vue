@@ -1,15 +1,76 @@
 <script lang="ts" setup>
-import { ConfigProvider, theme as antTheme } from 'ant-design-vue';
+import { computed, h } from 'vue';
+import { RouterView, useRoute, useRouter } from 'vue-router';
 
-import SettingPage from './pages/SettingPage.vue';
+import {
+    ConfigProvider,
+    Menu,
+    Layout,
+    LayoutSider,
+    LayoutContent,
+    type MenuProps,
+    theme as antTheme,
+} from 'ant-design-vue';
+import { SettingOutlined } from '@ant-design/icons-vue';
 
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
+};
+
+const route = useRoute();
+const router = useRouter();
+
+const selectedKeys = computed(() => [route.name as string]);
+
+const items: MenuProps['items'] = [
+    {
+        key: 'setting',
+        label: 'Setting',
+        icon: h(SettingOutlined),
+    },
+];
+
+const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
+    router.push({ name: key as string });
 };
 </script>
 
 <template>
     <ConfigProvider :theme>
-        <SettingPage />
+        <Layout style="min-height: 100vh">
+            <LayoutSider class="sider">
+                <h2>Read It Later</h2>
+                <Menu mode="inline" v-model:selectedKeys="selectedKeys" :items @click="clickMenuItem" class="menu" />
+            </LayoutSider>
+
+            <LayoutContent class="content">
+                <RouterView v-slot="{ Component }">
+                    <KeepAlive>
+                        <component :is="Component" />
+                    </KeepAlive>
+                </RouterView>
+            </LayoutContent>
+        </Layout>
     </ConfigProvider>
 </template>
+
+<style scoped>
+.sider {
+    background-color: #fff;
+}
+
+.sider h2 {
+    padding: 16px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu {
+    border-right: none !important;
+}
+
+.content {
+    padding: 16px;
+}
+</style>
