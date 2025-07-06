@@ -28,7 +28,15 @@ const pageListFiltered = computed(() => {
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
-    return pageListFiltered.value.slice(start, end);
+    const paginated = pageListFiltered.value.slice(start, end);
+
+    // make current page at the top if it exists
+    const currentUrl = currentTab.value?.url;
+    const currentPage = pageList.value.find((item) => item.info.url === currentUrl);
+    if (currentPage) {
+        return [currentPage, ...paginated.filter((item) => item.info.url !== currentUrl)];
+    }
+    return paginated;
 });
 
 const currentTab = ref<Tab | null>(null);
@@ -60,6 +68,7 @@ async function openUrl(url: string) {
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
             <PageList
+                :currentUrl="currentTab?.url ?? null"
                 :pageList="pageListDisplayed"
                 @mark-read="remove"
                 @edit="update"

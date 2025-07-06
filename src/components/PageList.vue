@@ -4,9 +4,10 @@ import { CheckOutlined, EditFilled, StarFilled, DeleteFilled } from '@ant-design
 
 import IconButton from './IconButton.vue';
 
-import { type PageItem } from '@/utils/types';
+import type { PageItem } from '@/utils/types';
 
-defineProps<{
+const { currentUrl, pageList } = defineProps<{
+    currentUrl: string | null;
     pageList: PageItem[];
 }>();
 
@@ -32,7 +33,13 @@ function toggleEditMode(id: string) {
     <List :dataSource="pageList" size="small">
         <template #renderItem="{ item }: { item: PageItem }">
             <ListItem :key="item.id">
-                <div class="page-list-item" :class="{ favorited: item.favorited }">
+                <div
+                    class="page-list-item"
+                    :class="{
+                        favorited: item.favorited,
+                        current: item.info.url === currentUrl,
+                    }"
+                >
                     <div class="item-content" @click="$emit('open-url', item.info.url)">
                         <div class="favicon-and-title">
                             <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
@@ -60,14 +67,46 @@ function toggleEditMode(id: string) {
 }
 
 .page-list-item {
+    --favorited-bg-rgb: 249, 232, 144;
+    --favorited-bg: #f9e890;
+
+    --current-page-background-color: hsl(0, 0, 90%);
+    --current-page-border-color: hsl(0, 0, 30%);
+    --current-page-accent-color: #409eff;
+
     margin: 0;
     padding: 0 0.5rem;
     position: relative;
     width: 100%;
+
+    box-sizing: border-box;
 }
 
 .page-list-item.favorited {
-    background-color: rgba(249, 232, 144, 0.8);
+    background-color: rgba(var(--favorited-bg-rgb), 0.8);
+}
+
+.page-list-item.current {
+    background-color: var(--current-page-background-color);
+    &.favorited {
+        background-color: var(--favorited-bg);
+    }
+
+    padding: 0.2rem 0.5rem;
+    font-weight: bold;
+
+    /* left highlight bar */
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.2rem;
+        bottom: 0.2rem;
+        width: 4px;
+        background-color: var(--current-page-accent-color);
+        border-radius: 2px;
+        transition: background-color 0.2s ease;
+    }
 }
 
 .favicon-and-title {
