@@ -17,6 +17,8 @@ const { setting } = useSetting();
 const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
 
+const { currentTab } = useCurrentTab();
+
 const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
 
 function favoritedFilter(item: PageItem): boolean {
@@ -24,11 +26,20 @@ function favoritedFilter(item: PageItem): boolean {
     return favoritedFilterOption.value === 'favorited' ? item.favorited : !item.favorited;
 }
 
-const { currentTab } = useCurrentTab();
+const searchText = ref('');
+
+function searchFilter(item: PageItem): boolean {
+    if (searchText.value.length === 0) return true;
+    return searchText.value.split(' ').every((text) => {
+        if (text.length === 0) return true;
+        const lowerText = text.toLowerCase();
+        return item.info.title.toLowerCase().includes(lowerText) || item.info.url.toLowerCase().includes(lowerText);
+    });
+}
 
 const { pageList, add, remove, update, toggleFavorite } = usePageList();
 const pageListFiltered = computed(() => {
-    return pageList.value.filter(favoritedFilter);
+    return pageList.value.filter(favoritedFilter).filter(searchFilter);
 });
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
@@ -69,6 +80,7 @@ async function openUrl(url: string) {
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
                 @open-setting="browser.runtime.openOptionsPage"
+                v-model:searchText.trim="searchText"
             />
         </LayoutHeader>
 
