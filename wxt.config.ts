@@ -5,6 +5,6 @@ export default defineConfig({
     imports: false,
     modules: ['@wxt-dev/module-vue'],
     manifest: {
-        permissions: ['tab', 'storage'],
+        permissions: ['tab', 'storage', 'downloads'],
     },
 });
