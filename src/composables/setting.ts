@@ -2,6 +2,7 @@ import { ref, onMounted } from 'vue';
 
 import store from '@/utils/store';
 import type { Setting } from '@/utils/types';
+import { deepToRaw } from '@/utils/object';
 
 export function useSetting() {
     const setting = ref<Setting>(store.setting.fallback);
@@ -13,7 +14,7 @@ export function useSetting() {
     }
 
     async function save() {
-        await store.setting.setValue(setting.value);
+        await store.setting.setValue(deepToRaw(setting.value));
     }
 
     return {
