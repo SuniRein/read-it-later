@@ -12,13 +12,14 @@ export function usePageList() {
             return false; // Prevent adding duplicate pages
         }
 
+        const now = new Date().toISOString();
         const pageItem = {
             id: nanoid(),
             info,
             tags: [],
             favorited: false,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: now,
+            updatedAt: now,
         };
         pageList.value.push(pageItem);
         return true;
@@ -33,7 +34,7 @@ export function usePageList() {
         if (item) {
             item.info.title = newTitle;
             item.tags = newTags;
-            item.updatedAt = new Date();
+            item.updatedAt = new Date().toISOString();
         }
     }
 
@@ -41,7 +42,7 @@ export function usePageList() {
         const item = pageList.value.find((item) => item.id === id);
         if (item) {
             item.favorited = !item.favorited;
-            item.updatedAt = new Date();
+            item.updatedAt = new Date().toISOString();
         }
     }
 
@@ -51,5 +52,6 @@ export function usePageList() {
         remove,
         update,
         toggleFavorite,
+        load,
     };
 }

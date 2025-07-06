@@ -13,8 +13,8 @@ export interface PageItem {
     info: PageInfo;
     tags: string[];
     favorited: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
