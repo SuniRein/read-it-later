@@ -38,7 +38,13 @@ function openUrl(url: string) {
 <template>
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation :favoritedFilterOption @add-page="add" @change-favorited-view="changeFavoritedView" />
+            <TopOperation
+                :pageList="pageListFiltered"
+                :favoritedFilterOption
+                @add-page="add"
+                @change-favorited-view="changeFavoritedView"
+                @open-url="openUrl"
+            />
         </LayoutHeader>
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">

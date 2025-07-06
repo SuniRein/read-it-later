@@ -12,16 +12,18 @@ import {
 
 import IconButton from './IconButton.vue';
 
-import type { PageInfo, FavoritedFilterOption } from '@/utils/types';
+import type { PageInfo, PageItem, FavoritedFilterOption } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
 
-const { favoritedFilterOption } = defineProps<{
+const { pageList, favoritedFilterOption } = defineProps<{
+    pageList: PageItem[];
     favoritedFilterOption: FavoritedFilterOption;
 }>();
 
 const emit = defineEmits<{
     (e: 'add-page', info: PageInfo): void;
     (e: 'change-favorited-view'): void;
+    (e: 'open-url', url: string): void;
 }>();
 
 async function addNewPage() {
@@ -32,6 +34,13 @@ async function addNewPage() {
         faviconUrl: tab.favIconUrl,
     };
     emit('add-page', info);
+}
+
+function openRandomPage() {
+    const randomPage = pageList[Math.floor(Math.random() * pageList.length)];
+    if (randomPage) {
+        emit('open-url', randomPage.info.url);
+    }
 }
 </script>
 
@@ -54,7 +63,7 @@ async function addNewPage() {
                 @click="emit('change-favorited-view')"
             />
         </Badge>
-        <IconButton :icon="ThunderboltOutlined" tip="Open a random page" />
+        <IconButton :icon="ThunderboltOutlined" tip="Open a random page" @click="openRandomPage" />
         <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="addNewPage" />
     </div>
 </template>
