@@ -65,6 +65,7 @@ async function openUrl(url: string) {
                 @add-page="addPage"
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
+                @open-setting="browser.runtime.openOptionsPage"
             />
         </LayoutHeader>
 

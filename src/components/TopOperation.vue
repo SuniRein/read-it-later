@@ -21,6 +21,7 @@ const { currentTab, pageList, favoritedFilterOption } = defineProps<{
 }>();
 
 const emit = defineEmits<{
+    (e: 'open-setting'): void;
     (e: 'add-page', info: PageInfo): void;
     (e: 'change-favorited-view'): void;
     (e: 'open-url', url: string): void;
@@ -47,7 +48,7 @@ function openRandomPage() {
 
 <template>
     <div class="top-operation">
-        <IconButton :icon="SettingOutlined" tip="Open setting page" />
+        <IconButton :icon="SettingOutlined" tip="Open setting page" @click="emit('open-setting')" />
         <IconButton :icon="SyncOutlined" tip="Sync" />
 
         <Input allowClear placeholder="Find..." />
