@@ -2,7 +2,7 @@
     "name": "read-it-later",
     "description": "Save articles to read later",
     "private": true,
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": "module",
     "scripts": {
         "dev": "wxt",

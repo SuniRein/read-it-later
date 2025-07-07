@@ -1,5 +1,14 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [0.1.1](https://github.com/SuniRein/read-it-later/compare/v0.1.0...v0.1.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* **permission:** fix manifest permission name to "tabs" ([b4ca215](https://github.com/SuniRein/read-it-later/commit/b4ca2150c7287c5623b3e2b8a069ca111de4c51c))
+
 ## 0.1.0 (2025-07-07)
 
 Initial release.
