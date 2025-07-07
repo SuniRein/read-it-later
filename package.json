@@ -28,6 +28,8 @@
         "vue-router": "^4.5.1"
     },
     "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
         "@vue/test-utils": "^2.4.6",
         "@wxt-dev/module-vue": "^1.0.2",
         "flush-promises": "^1.0.2",
