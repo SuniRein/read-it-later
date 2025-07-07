@@ -15,7 +15,8 @@
         "postinstall": "wxt prepare",
         "test": "vitest",
         "format": "prettier --write .",
-        "prepare": "husky"
+        "prepare": "husky",
+        "release": "commit-and-tag-version"
     },
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
