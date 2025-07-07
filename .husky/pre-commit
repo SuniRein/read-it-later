@@ -1,1 +1,3 @@
-pnpm test
+pnpm exec prettier --check .
+pnpm exec vue-tsc --noEmit
+pnpm exec vitest run --changed
