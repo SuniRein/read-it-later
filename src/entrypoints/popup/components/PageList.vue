@@ -56,7 +56,7 @@ function savePageEdit(title: string, tags: string[]) {
                         current: item.info.url === currentUrl,
                     }"
                 >
-                    <div class="item-content" @click="$emit('open-url', item.info.url)">
+                    <div class="item-content" @click="emit('open-url', item.info.url)">
                         <div class="favicon-and-title">
                             <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
                             <span class="title">{{ item.info.title }}</span>
@@ -66,7 +66,7 @@ function savePageEdit(title: string, tags: string[]) {
                     </div>
 
                     <div class="actions">
-                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="$emit('mark-read', item.id)" />
+                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('mark-read', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
                         <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggle-star', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="DeleteFilled" @click="emit('delete', item.id)" />
