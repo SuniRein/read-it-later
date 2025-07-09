@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import { List, ListItem, Avatar } from 'ant-design-vue';
 import { CheckOutlined, EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons-vue';
 
 import IconButton from './IconButton.vue';
+import PageEditing from './PageEditing.vue';
 
 import type { PageItem } from '@/utils/types';
 
@@ -24,8 +27,20 @@ const actionAttr = {
     size: 'large',
 } as const;
 
-function toggleEditMode(id: string) {
-    // TODO: Implement edit mode
+const editedId = ref<string | null>(null);
+const editedTitle = ref<string>('');
+const editedTags = ref<string[]>([]);
+
+function editPage(item: PageItem) {
+    editedId.value = item.id;
+    editedTitle.value = item.info.title;
+    editedTags.value = item.tags;
+}
+
+function savePageEdit(title: string, tags: string[]) {
+    if (!editedId.value) return;
+    emit('edit', editedId.value, title, tags);
+    editedId.value = null;
 }
 </script>
 
@@ -34,6 +49,7 @@ function toggleEditMode(id: string) {
         <template #renderItem="{ item }: { item: PageItem }">
             <ListItem :key="item.id">
                 <div
+                    v-if="editedId !== item.id"
                     class="page-list-item"
                     :class="{
                         favorited: item.favorited,
@@ -51,11 +67,19 @@ function toggleEditMode(id: string) {
 
                     <div class="actions">
                         <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="$emit('mark-read', item.id)" />
-                        <IconButton v-bind="actionAttr" :icon="EditFilled" />
+                        <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
                         <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggle-star', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="DeleteFilled" @click="emit('delete', item.id)" />
                     </div>
                 </div>
+
+                <PageEditing
+                    v-else
+                    :initTitle="editedTitle"
+                    :initTags="editedTags"
+                    @cancel="editedId = null"
+                    @save="savePageEdit"
+                />
             </ListItem>
         </template>
     </List>
