@@ -6,6 +6,7 @@ import { CheckOutlined, EditFilled, StarFilled, DeleteFilled } from '@ant-design
 
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
+import ColorTag from './ColorTag.vue';
 
 import type { PageItem } from '@/utils/types';
 
@@ -62,7 +63,13 @@ function savePageEdit(title: string, tags: string[]) {
                             <span class="title">{{ item.info.title }}</span>
                         </div>
 
-                        <span class="url">{{ item.info.url }}</span>
+                        <div class="url-and-tags">
+                            <span class="url">{{ item.info.url }}</span>
+
+                            <div class="tags">
+                                <ColorTag v-for="tag in item.tags" :tag />
+                            </div>
+                        </div>
                     </div>
 
                     <div class="actions">
@@ -160,6 +167,13 @@ function savePageEdit(title: string, tags: string[]) {
     cursor: pointer;
 }
 
+.url-and-tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .url {
     display: inline-block;
     font-size: 0.875rem;
@@ -174,6 +188,17 @@ function savePageEdit(title: string, tags: string[]) {
     color: gray;
 
     cursor: pointer;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.tags {
+    font-size: 0.75rem;
+
+    & > *:last-child {
+        margin-right: 0;
+    }
 }
 
 .actions {
