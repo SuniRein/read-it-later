@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.0](https://github.com/SuniRein/read-it-later/compare/v0.1.1...v0.2.0) (2025-07-10)
+
+
+### Features
+
+* support editing page item ([e545629](https://github.com/SuniRein/read-it-later/commit/e545629b29ce882f765f61feff2f104e71fa8270), [8ef36a5](https://github.com/SuniRein/read-it-later/commit/8ef36a5c689a7a66e95d15ac185b9bd6cc22face))
+* **filter:** support filtered by tags ([fad4c3f](https://github.com/SuniRein/read-it-later/commit/fad4c3fca5851e9135f27d730a093b349f224f00))
+* **ui:** show colorful tags ([b712482](https://github.com/SuniRein/read-it-later/commit/b712482d5836bed2ccd92e1d27c8554d7f0f26cd))
+
+
 ## [0.1.1](https://github.com/SuniRein/read-it-later/compare/v0.1.0...v0.1.1) (2025-07-07)
 
 
