@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Input, Button } from 'ant-design-vue';
+import { Input, Button, message } from 'ant-design-vue';
 
 const { initTitle, initTags } = defineProps<{
     initTitle: string;
@@ -29,6 +29,12 @@ function parseTags(raw: string) {
 
 function save() {
     const tags = parseTags(tagsRaw.value);
+    if (tags.some((tag) => !/^[\w-]+$/.test(tag))) {
+        return message.error({
+            content: 'Tags can only contain letters, numbers, underscores, and hyphens.',
+            duration: 2,
+        });
+    }
     emit('save', title.value, tags);
 }
 </script>
