@@ -30,10 +30,16 @@ const searchText = ref('');
 
 function searchFilter(item: PageItem): boolean {
     if (searchText.value.length === 0) return true;
-    return searchText.value.split(' ').every((text) => {
-        if (text.length === 0) return true;
-        const lowerText = text.toLowerCase();
-        return item.info.title.toLowerCase().includes(lowerText) || item.info.url.toLowerCase().includes(lowerText);
+    return searchText.value.split(/\s+/).every((token) => {
+        if (token.length === 0) return true;
+
+        if (token.startsWith('#')) {
+            const tag = token.slice(1).toLowerCase();
+            return item.tags.some((t) => t.toLowerCase() === tag);
+        }
+
+        const kw = token.toLowerCase();
+        return item.info.title.toLowerCase().includes(kw) || item.info.url.toLowerCase().includes(kw);
     });
 }
 
