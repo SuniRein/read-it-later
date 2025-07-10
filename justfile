@@ -13,3 +13,6 @@ package: build
     ouch compress .output/firefox-mv2/* ($packageDir | path join $"read-it-later_($version)_unlisted.firefox.zip")
 
     git archive --format tar.gz --output ($packageDir | path join $"read-it-later_($version).tar.gz") $"v($version)"
+
+release version:
+    pnpm run release --release-as {{version}}
