@@ -1,4 +1,4 @@
-# Read It Later 浏览器扩展
+# 稍后读·简
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -18,6 +18,10 @@
 - **极简轻量**：不保存网页内容，仅存储基础元数据
 - **一键收藏**：快速添加当前网页至阅读列表
 - **高效管理**：直观的用户界面，轻松管理阅读清单
+
+## 插件安装
+
+- [Firefox Addons](https://addons.mozilla.org/zh-CN/firefox/addon/read-it-later-simply/)
 
 ## 开发指南
 

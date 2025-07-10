@@ -1,4 +1,4 @@
-# Read It Later Browser Extension
+# Read It Later Simply
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
@@ -20,7 +20,11 @@ Since my needs are simple and I don’t require full-page content storage, I dec
 - **Quick Save**: Instantly add the current tab to your reading list with a single click.
 - **User-Friendly UI**: Manage your list effortlessly with an intuitive interface.
 
-## Installation & Development
+## Installation
+
+- [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/read-it-later-simply/)
+
+## Development
 
 This extension is built with the [WXT framework](https://wxt.dev/).
 
