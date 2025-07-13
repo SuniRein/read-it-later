@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { browser } from '#imports';
-import { ref, computed } from 'vue';
+import { ref, computed, h } from 'vue';
 
-import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter, message } from 'ant-design-vue';
+import { Pagination, Layout, LayoutHeader, LayoutContent, LayoutFooter, Badge, message } from 'ant-design-vue';
 import TopOperation from './TopOperation.vue';
 import PageList from './PageList.vue';
 
@@ -103,7 +103,22 @@ async function openUrl(url: string) {
         </LayoutContent>
 
         <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
-            <Pagination :total="pageListFiltered.length" v-model:current="current" v-model:pageSize="pageSize" />
+            <Pagination
+                :total="pageListFiltered.length"
+                v-model:current="current"
+                v-model:pageSize="pageSize"
+                :show-total="
+                    (total) =>
+                        h(Badge, {
+                            count: total,
+                            numberStyle: {
+                                backgroundColor: '#52c41a',
+                                boxShadow: '0 0 0 1px #d9d9d9 inset',
+                            },
+                            showZero: true,
+                        })
+                "
+            />
         </LayoutFooter>
     </Layout>
 </template>
