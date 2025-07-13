@@ -21,7 +21,7 @@ export function usePageList() {
             createdAt: now,
             updatedAt: now,
         };
-        pageList.value.push(pageItem);
+        pageList.value.unshift(pageItem);
         return true;
     }
 
@@ -51,7 +51,7 @@ export function usePageList() {
         const existingUrls = new Set(pageList.value.map((item) => item.info.url));
 
         const newItems = data.filter((item) => !existingIds.has(item.id) && !existingUrls.has(item.info.url));
-        pageList.value.push(...newItems);
+        pageList.value.unshift(...newItems);
     }
 
     return {
