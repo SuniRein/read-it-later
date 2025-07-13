@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.1](https://github.com/SuniRein/read-it-later/compare/v0.3.0...v0.3.1) (2025-07-13)
+
+
+### Bug Fixes
+
+* background main must be synchronous ([9be90b4](https://github.com/SuniRein/read-it-later/commit/9be90b439f5ecc22ca2b9ea7b4e6c9a89fdb1ff5))
+* only broadcast current tab when popup connect ([d60b057](https://github.com/SuniRein/read-it-later/commit/d60b057c21b148a9160086378ec3fb0ec4f9a045))
+
 ## [0.3.0](https://github.com/SuniRein/read-it-later/compare/v0.2.0...v0.3.0) (2025-07-13)
 
 
