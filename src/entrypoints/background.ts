@@ -5,7 +5,7 @@ import store from '@/utils/store';
 
 const action = browser.action ?? browser.browserAction;
 
-export default defineBackground(async () => {
+export default defineBackground(() => {
     browser.tabs.onActivated.addListener(async (activeInfo) => {
         const tab = await browser.tabs.get(activeInfo.tabId);
         sendMessage('currentTabChanged', { tab });
