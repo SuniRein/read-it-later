@@ -5,6 +5,7 @@ export default defineConfig({
     imports: false,
     modules: ['@wxt-dev/module-vue'],
     manifest: {
+        name: 'Read It Later Simply',
         permissions: ['tabs', 'storage', 'downloads'],
     },
 });
