@@ -1,8 +1,9 @@
 import { defineBackground, browser } from '#imports';
 
-import { sendMessage } from '@/utils/message';
+import { sendMessage, onMessage } from '@/utils/message';
+import store from '@/utils/store';
 
-export default defineBackground(() => {
+export default defineBackground(async () => {
     browser.tabs.onActivated.addListener(async (activeInfo) => {
         const tab = await browser.tabs.get(activeInfo.tabId);
         sendMessage('currentTabChanged', { tab });
@@ -12,5 +13,13 @@ export default defineBackground(() => {
         if (tab.active) {
             sendMessage('currentTabChanged', { tab });
         }
+    });
+
+    const action = browser.action ?? browser.browserAction;
+    action.setBadgeText({ text: (await store.pageList.getValue()).length.toString() });
+    action.setBadgeBackgroundColor({ color: '#444' });
+
+    onMessage('badgeUpdated', async ({ data: { count } }) => {
+        action.setBadgeText({ text: count.toString() });
     });
 });
