@@ -1,7 +1,9 @@
 import { defineBackground, browser } from '#imports';
 
-import { sendMessage, onMessage } from '@/utils/message';
+import { sendMessage } from '@/utils/message';
 import store from '@/utils/store';
+
+const action = browser.action ?? browser.browserAction;
 
 export default defineBackground(async () => {
     browser.tabs.onActivated.addListener(async (activeInfo) => {
@@ -15,11 +17,18 @@ export default defineBackground(async () => {
         }
     });
 
-    const action = browser.action ?? browser.browserAction;
-    action.setBadgeText({ text: (await store.pageList.getValue()).length.toString() });
     action.setBadgeBackgroundColor({ color: '#444' });
+    updateBadgeText();
 
-    onMessage('badgeUpdated', async ({ data: { count } }) => {
-        action.setBadgeText({ text: count.toString() });
-    });
+    store.setting.watch(updateBadgeText);
+    store.pageList.watch(updateBadgeText);
 });
+
+async function updateBadgeText() {
+    if ((await store.setting.getValue()).showPageCount) {
+        const count = (await store.pageList.getValue()).length;
+        action.setBadgeText({ text: count.toString() });
+    } else {
+        action.setBadgeText({ text: '' });
+    }
+}

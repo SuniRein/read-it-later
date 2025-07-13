@@ -4,6 +4,7 @@ import type { PageItem, FavoritedFilterOption, Setting } from '@/utils/types';
 
 const defaultSetting: Setting = {
     pagination: 20,
+    showPageCount: false,
 } as const;
 
 export default {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, FormItem, Select, SelectOption, Button, Space } from 'ant-design-vue';
+import { Form, FormItem, Select, SelectOption, Button, Checkbox, Space } from 'ant-design-vue';
 
 import { useSetting } from '@/composables/setting';
 
@@ -22,6 +22,10 @@ const wrapperCol = { span: wrapperSpan };
                 <SelectOption :value="20">20 items per page</SelectOption>
                 <SelectOption :value="50">50 items per page</SelectOption>
             </Select>
+        </FormItem>
+
+        <FormItem label="Show page count">
+            <Checkbox v-model:checked="setting.showPageCount" />
         </FormItem>
 
         <FormItem :wrapper-col="{ span: 14, offset: 6 }">
