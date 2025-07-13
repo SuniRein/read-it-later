@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.3.0](https://github.com/SuniRein/read-it-later/compare/v0.2.0...v0.3.0) (2025-07-13)
+
+
+### Features
+
+* make newly added page item at front ([078ca88](https://github.com/SuniRein/read-it-later/commit/078ca886ae46d34c16c047bb6409d59d8f2492b3))
+* **meta:** add icons ([dcfd46d](https://github.com/SuniRein/read-it-later/commit/dcfd46db093b9a1eb0abbe77b530b5d5039ed506))
+* **meta:** rename browser extension ([a69afe8](https://github.com/SuniRein/read-it-later/commit/a69afe847784cda5f64b26d943ba41b72878cf0b))
+* **meta:** set popup title ([733f9e5](https://github.com/SuniRein/read-it-later/commit/733f9e5666b6f3af8b156f9f300aeb5f6fe24301))
+* **setting:** option for showing page number ([2fe7c2c](https://github.com/SuniRein/read-it-later/commit/2fe7c2ce11ab53f60540dd72a558dd64bcbb2038))
+* **ui:** show page number in popup ([4a86fad](https://github.com/SuniRein/read-it-later/commit/4a86fad8db6141e88da98db9456be0aefd019e29))
+* **ui:** show page number on badge ([8115d0c](https://github.com/SuniRein/read-it-later/commit/8115d0c0ff1b7a582c3748af9d8ec80d93f126ea))
+
 ## [0.2.0](https://github.com/SuniRein/read-it-later/compare/v0.1.1...v0.2.0) (2025-07-10)
 
 
