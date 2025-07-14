@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.0](https://github.com/SuniRein/read-it-later/compare/v0.3.1...v0.4.0) (2025-07-14)
+
+
+### Features
+
+* **data:** remove undeclared keys when loading ([add0282](https://github.com/SuniRein/read-it-later/commit/add028252617f91db2e8e801b160707fcd175eb3))
+* **favicon:** add duckduckgo source ([913da23](https://github.com/SuniRein/read-it-later/commit/913da23c8285b17304c7a5dad12f285793c3fd6a))
+* **favicon:** add google source ([f432e21](https://github.com/SuniRein/read-it-later/commit/f432e2187dd7a882bf5f7b14d8265521987ef3c0))
+* **favicon:** get favicon URL from favicon.im ([c3aeea7](https://github.com/SuniRein/read-it-later/commit/c3aeea714af1e203dd09b834e52f8a00d0e104bf))
+* **setting:** option for choosing favicon source ([710d626](https://github.com/SuniRein/read-it-later/commit/710d626facf1c3e33dd6d71487160376ebd92f89))
+
+
+### Bug Fixes
+
+* **favicon:** avoid favicon squeezed when title too long ([723dce3](https://github.com/SuniRein/read-it-later/commit/723dce3fc7661591493e7a7affb930232b0a1c77))
+
 ## [0.3.1](https://github.com/SuniRein/read-it-later/compare/v0.3.0...v0.3.1) (2025-07-13)
 
 
