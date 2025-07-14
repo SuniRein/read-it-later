@@ -7,11 +7,13 @@ const SerializedPageItem = type({
     info: {
         title: 'string',
         url: 'string',
+        '+': 'delete',
     },
     tags: 'string[]',
     favorited: 'boolean',
     createdAt: 'string.date.iso',
     updatedAt: 'string.date.iso',
+    '+': 'delete',
 });
 
 export function serializePageList(pageList: PageItem[]): string {
