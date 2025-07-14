@@ -9,7 +9,7 @@ import PageEditing from './PageEditing.vue';
 import ColorTag from './ColorTag.vue';
 
 import type { PageItem } from '@/utils/types';
-import { getFaviconUrl } from '../utils/favicon';
+import { useFavicon } from '@/composables/favicon';
 
 const { currentUrl, pageList } = defineProps<{
     currentUrl: string | null;
@@ -23,6 +23,8 @@ const emit = defineEmits<{
     (e: 'delete', id: string): void;
     (e: 'open-url', url: string): void;
 }>();
+
+const { getFaviconUrl } = useFavicon();
 
 const actionAttr = {
     color: '#555',

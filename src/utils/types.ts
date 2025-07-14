@@ -21,4 +21,7 @@ export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 export interface Setting {
     pagination: number;
     showPageCount: boolean;
+    faviconSource: FaviconSource;
 }
+
+export type FaviconSource = 'favicon.im';

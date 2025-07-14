@@ -2,6 +2,7 @@
 import { Form, FormItem, Select, SelectOption, Button, Checkbox, Space } from 'ant-design-vue';
 
 import { useSetting } from '@/composables/setting';
+import type { FaviconSource } from '@/utils/types';
 
 const { setting, save, reset } = useSetting();
 
@@ -26,6 +27,12 @@ const wrapperCol = { span: wrapperSpan };
 
         <FormItem label="Show page count">
             <Checkbox v-model:checked="setting.showPageCount" />
+        </FormItem>
+
+        <FormItem label="Favicon source">
+            <Select v-model:value="setting.faviconSource">
+                <SelectOption :value="'favicon.im' satisfies FaviconSource">Favicon.im</SelectOption>
+            </Select>
         </FormItem>
 
         <FormItem :wrapper-col="{ span: 14, offset: 6 }">

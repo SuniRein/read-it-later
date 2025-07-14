@@ -5,6 +5,7 @@ import type { PageItem, FavoritedFilterOption, Setting } from '@/utils/types';
 const defaultSetting: Setting = {
     pagination: 20,
     showPageCount: false,
+    faviconSource: 'favicon.im',
 } as const;
 
 export default {
