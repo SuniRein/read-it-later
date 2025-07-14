@@ -31,10 +31,9 @@ const searchText = defineModel<string>('searchText');
 
 async function addNewPage() {
     if (currentTab) {
-        const info = {
+        const info: PageInfo = {
             title: currentTab.title ?? 'Title Not Available',
             url: currentTab.url ?? 'Url Not Available',
-            faviconUrl: currentTab.favIconUrl,
         };
         emit('add-page', info);
     }

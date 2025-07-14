@@ -7,7 +7,6 @@ const SerializedPageItem = type({
     info: {
         title: 'string',
         url: 'string',
-        faviconUrl: 'string?',
     },
     tags: 'string[]',
     favorited: 'boolean',

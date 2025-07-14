@@ -9,6 +9,7 @@ import PageEditing from './PageEditing.vue';
 import ColorTag from './ColorTag.vue';
 
 import type { PageItem } from '@/utils/types';
+import { getFaviconUrl } from '../utils/favicon';
 
 const { currentUrl, pageList } = defineProps<{
     currentUrl: string | null;
@@ -59,7 +60,7 @@ function savePageEdit(title: string, tags: string[]) {
                 >
                     <div class="item-content" @click="emit('open-url', item.info.url)">
                         <div class="favicon-and-title">
-                            <Avatar class="favicon" :src="item.info.faviconUrl" size="small" />
+                            <Avatar class="favicon" :src="getFaviconUrl(item.info.url)" size="small" />
                             <span class="title">{{ item.info.title }}</span>
                         </div>
 
