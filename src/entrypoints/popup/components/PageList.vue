@@ -148,6 +148,8 @@ function savePageEdit(title: string, tags: string[]) {
 .favicon {
     height: 16px;
     width: 16px;
+    min-height: 16px;
+    min-width: 16px;
     margin-right: 0.5rem;
     vertical-align: middle;
     position: relative;
