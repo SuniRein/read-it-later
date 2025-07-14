@@ -33,6 +33,7 @@ const wrapperCol = { span: wrapperSpan };
             <Select v-model:value="setting.faviconSource">
                 <SelectOption :value="'favicon.im' satisfies FaviconSource">Favicon.im</SelectOption>
                 <SelectOption :value="'google' satisfies FaviconSource">Google</SelectOption>
+                <SelectOption :value="'duckduckgo' satisfies FaviconSource">DuckDuckGo</SelectOption>
             </Select>
         </FormItem>
 

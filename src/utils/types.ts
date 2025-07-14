@@ -24,4 +24,4 @@ export interface Setting {
     faviconSource: FaviconSource;
 }
 
-export type FaviconSource = 'favicon.im' | 'google';
+export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';
