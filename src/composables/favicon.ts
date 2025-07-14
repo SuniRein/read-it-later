@@ -16,6 +16,8 @@ export function useFavicon() {
         switch (faviconSource.value) {
             case 'favicon.im':
                 return `https://favicon.im/${parsedUrl.hostname}?larger=true`;
+            case 'google':
+                return `https://www.google.com/s2/favicons?domain=${parsedUrl.hostname}&sz=128`;
             default:
                 return undefined;
         }
