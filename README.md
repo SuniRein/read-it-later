@@ -47,4 +47,3 @@ This extension is built with the [WXT framework](https://wxt.dev/).
 
 This project is licensed under the [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html).
 See the [LICENSE](./LICENSE) file for details.
-

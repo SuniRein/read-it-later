@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import type { PageItem } from '@/utils/types';
+
+import { CheckOutlined, DeleteFilled, EditFilled, StarFilled } from '@ant-design/icons-vue';
+import { Avatar, List, ListItem } from 'ant-design-vue';
 import { ref } from 'vue';
 
-import { List, ListItem, Avatar } from 'ant-design-vue';
-import { CheckOutlined, EditFilled, StarFilled, DeleteFilled } from '@ant-design/icons-vue';
+import { useFavicon } from '@/composables/favicon';
 
+import ColorTag from './ColorTag.vue';
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
-import ColorTag from './ColorTag.vue';
-
-import type { PageItem } from '@/utils/types';
-import { useFavicon } from '@/composables/favicon';
 
 const { currentUrl, pageList } = defineProps<{
     currentUrl: string | null;
@@ -17,11 +17,11 @@ const { currentUrl, pageList } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: 'mark-read', id: string): void;
+    (e: 'markRead', id: string): void;
     (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
-    (e: 'toggle-star', id: string): void;
+    (e: 'toggleStar', id: string): void;
     (e: 'delete', id: string): void;
-    (e: 'open-url', url: string): void;
+    (e: 'openUrl', url: string): void;
 }>();
 
 const { getFaviconUrl } = useFavicon();
@@ -42,25 +42,24 @@ function editPage(item: PageItem) {
 }
 
 function savePageEdit(title: string, tags: string[]) {
-    if (!editedId.value) return;
+    if (!editedId.value)
+        return;
     emit('edit', editedId.value, title, tags);
     editedId.value = null;
 }
 </script>
 
 <template>
-    <List :dataSource="pageList" size="small">
+    <List :data-source="pageList" size="small">
         <template #renderItem="{ item }: { item: PageItem }">
             <ListItem :key="item.id">
                 <div
-                    v-if="editedId !== item.id"
-                    class="page-list-item"
-                    :class="{
+                    v-if="editedId !== item.id" class="page-list-item" :class="{
                         favorited: item.favorited,
                         current: item.info.url === currentUrl,
                     }"
                 >
-                    <div class="item-content" @click="emit('open-url', item.info.url)">
+                    <div class="item-content" @click="emit('openUrl', item.info.url)">
                         <div class="favicon-and-title">
                             <Avatar class="favicon" :src="getFaviconUrl(item.info.url)" size="small" />
                             <span class="title">{{ item.info.title }}</span>
@@ -70,24 +69,21 @@ function savePageEdit(title: string, tags: string[]) {
                             <span class="url">{{ item.info.url }}</span>
 
                             <div class="tags">
-                                <ColorTag v-for="tag in item.tags" :tag />
+                                <ColorTag v-for="tag in item.tags" :key="tag" :tag />
                             </div>
                         </div>
                     </div>
 
                     <div class="actions">
-                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('mark-read', item.id)" />
+                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
-                        <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggle-star', item.id)" />
+                        <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggleStar', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="DeleteFilled" @click="emit('delete', item.id)" />
                     </div>
                 </div>
 
                 <PageEditing
-                    v-else
-                    :initTitle="editedTitle"
-                    :initTags="editedTags"
-                    @cancel="editedId = null"
+                    v-else :init-title="editedTitle" :init-tags="editedTags" @cancel="editedId = null"
                     @save="savePageEdit"
                 />
             </ListItem>
@@ -122,6 +118,7 @@ function savePageEdit(title: string, tags: string[]) {
 
 .page-list-item.current {
     background-color: var(--current-page-background-color);
+
     &.favorited {
         background-color: var(--favorited-bg);
     }

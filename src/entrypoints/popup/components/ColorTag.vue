@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
 import { Tag } from 'ant-design-vue';
+import { computed } from 'vue';
 
 const { tag } = defineProps<{
     tag: string;
@@ -32,5 +31,7 @@ const tagColor = computed(() => {
 </script>
 
 <template>
-    <Tag :color="tagColor">{{ tag }}</Tag>
+    <Tag :color="tagColor">
+        {{ tag }}
+    </Tag>
 </template>

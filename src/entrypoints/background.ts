@@ -1,4 +1,5 @@
-import { defineBackground, browser, type Browser } from '#imports';
+import type { Browser } from '#imports';
+import { browser, defineBackground } from '#imports';
 
 import { sendMessage } from '@/utils/message';
 import store from '@/utils/store';
@@ -18,7 +19,8 @@ export default defineBackground(() => {
     });
 
     async function broadcastCurrentTab(tab: Browser.tabs.Tab) {
-        if (!popupPort) return;
+        if (!popupPort)
+            return;
         await sendMessage('currentTabChanged', { tab });
     }
 
@@ -44,7 +46,8 @@ async function updateBadgeText() {
     if ((await store.setting.getValue()).showPageCount) {
         const count = (await store.pageList.getValue()).length;
         action.setBadgeText({ text: count.toString() });
-    } else {
+    }
+    else {
         action.setBadgeText({ text: '' });
     }
 }

@@ -1,35 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Button, Input, message } from 'ant-design-vue';
 
-import { Input, Button, message } from 'ant-design-vue';
+import { ref } from 'vue';
 
 const { initTitle, initTags } = defineProps<{
     initTitle: string;
     initTags: string[];
 }>();
 
-const title = ref<string>(initTitle);
-const tagsRaw = ref<string>(initTags.join(', '));
-
 const emit = defineEmits<{
     (e: 'cancel'): void;
     (e: 'save', title: string, tags: string[]): void;
 }>();
+const title = ref<string>(initTitle);
+const tagsRaw = ref<string>(initTags.join(', '));
 
 function parseTags(raw: string) {
     return Array.from(
         new Set(
             raw
                 .split(',')
-                .map((tag) => tag.trim())
-                .filter((tag) => tag),
+                .map(tag => tag.trim())
+                .filter(tag => tag),
         ),
     );
 }
 
 function save() {
     const tags = parseTags(tagsRaw.value);
-    if (tags.some((tag) => !/^[\w-]+$/.test(tag))) {
+    if (tags.some(tag => !/^[\w-]+$/.test(tag))) {
         return message.error({
             content: 'Tags can only contain letters, numbers, underscores, and hyphens.',
             duration: 2,
@@ -41,11 +40,15 @@ function save() {
 
 <template>
     <div class="page-list-editing">
-        <Input size="small" addonBefore="Title" v-model:value="title" />
+        <Input v-model:value="title" size="small" addon-before="Title" />
         <div class="control">
-            <Input size="small" addonBefore="Tags" v-model:value="tagsRaw" placeholder="tag1, tag2, ..." />
-            <Button size="small" @click="emit('cancel')">Cancel</Button>
-            <Button size="small" @click="save" type="primary">Save</Button>
+            <Input v-model:value="tagsRaw" size="small" addon-before="Tags" placeholder="tag1, tag2, ..." />
+            <Button size="small" @click="emit('cancel')">
+                Cancel
+            </Button>
+            <Button size="small" type="primary" @click="save">
+                Save
+            </Button>
         </div>
     </div>
 </template>

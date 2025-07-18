@@ -1,4 +1,4 @@
-import { type Browser } from '#imports';
+import type { Browser } from '#imports';
 
 export type Tab = Browser.tabs.Tab;
 

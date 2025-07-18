@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import SettingPage from './pages/SettingPage.vue';
 import DataPage from './pages/DataPage.vue';
+import SettingPage from './pages/SettingPage.vue';
 
 const router = createRouter({
     history: createWebHashHistory(),

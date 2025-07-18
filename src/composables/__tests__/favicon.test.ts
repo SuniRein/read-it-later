@@ -1,11 +1,11 @@
 import { fakeBrowser } from '#imports';
-import { defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, beforeEach } from 'vitest';
 import flushPromises from 'flush-promises';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { defineComponent } from 'vue';
 
-import { useFavicon } from '../favicon';
 import store from '@/utils/store';
+import { useFavicon } from '../favicon';
 
 describe('useFavicon', () => {
     beforeEach(() => {

@@ -1,9 +1,9 @@
 {
     "name": "read-it-later",
-    "description": "Save articles to read later",
-    "private": true,
-    "version": "0.4.0",
     "type": "module",
+    "version": "0.4.0",
+    "private": true,
+    "description": "Save articles to read later",
     "scripts": {
         "dev": "wxt",
         "dev:firefox": "wxt -b firefox",

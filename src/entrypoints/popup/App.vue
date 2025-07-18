@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ConfigProvider, theme as antTheme } from 'ant-design-vue';
+import { theme as antTheme, ConfigProvider } from 'ant-design-vue';
 
 import Popup from './components/Popup.vue';
 

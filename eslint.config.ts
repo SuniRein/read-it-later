@@ -7,8 +7,16 @@ export default antfu({
         quotes: 'single',
     },
     formatters: {
-        css: "prettier",
-        html: "prettier",
-        markdown: "prettier",
-    }
+        css: 'prettier',
+        html: 'prettier',
+        markdown: 'prettier',
+    },
+    yaml: {
+        overrides: {
+            'yaml/indent': 2,
+        },
+    },
+    rules: {
+        'style/quote-props': ['error', 'as-needed'],
+    },
 });

@@ -1,8 +1,9 @@
-import { ref, onMounted } from 'vue';
-
-import store from '@/utils/store';
 import type { Setting } from '@/utils/types';
+
+import { onMounted, ref } from 'vue';
+
 import { deepToRaw } from '@/utils/object';
+import store from '@/utils/store';
 
 export function useSetting() {
     const setting = ref<Setting>(store.setting.fallback);

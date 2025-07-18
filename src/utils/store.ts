@@ -1,6 +1,6 @@
-import { storage } from '#imports';
+import type { FavoritedFilterOption, PageItem, Setting } from '@/utils/types';
 
-import type { PageItem, FavoritedFilterOption, Setting } from '@/utils/types';
+import { storage } from '#imports';
 
 const defaultSetting: Setting = {
     pagination: 20,

@@ -1,17 +1,17 @@
 <script lang="ts" setup>
+import type { MenuProps } from 'ant-design-vue';
+import { SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import {
+    theme as antTheme,
+    ConfigProvider,
+    Layout,
+    LayoutContent,
+    LayoutSider,
+    Menu,
+} from 'ant-design-vue';
+
 import { computed, h } from 'vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
-
-import {
-    ConfigProvider,
-    Menu,
-    Layout,
-    LayoutSider,
-    LayoutContent,
-    type MenuProps,
-    theme as antTheme,
-} from 'ant-design-vue';
-import { SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
@@ -45,13 +45,13 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
         <Layout style="min-height: 100vh">
             <LayoutSider class="sider">
                 <h2>Read It Later</h2>
-                <Menu mode="inline" v-model:selectedKeys="selectedKeys" :items @click="clickMenuItem" class="menu" />
+                <Menu v-model:selected-keys="selectedKeys" mode="inline" :items class="menu" @click="clickMenuItem" />
             </LayoutSider>
 
             <LayoutContent class="content">
                 <RouterView v-slot="{ Component }">
                     <KeepAlive>
-                        <component :is="Component" :labelSpan="6" :wrapperSpan="14" />
+                        <component :is="Component" :label-span="6" :wrapper-span="14" />
                     </KeepAlive>
                 </RouterView>
             </LayoutContent>

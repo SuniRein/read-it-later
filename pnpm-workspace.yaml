@@ -1,6 +1,6 @@
 ignoredBuiltDependencies:
-    - core-js
+  - core-js
 
 onlyBuiltDependencies:
-    - esbuild
-    - spawn-sync
+  - esbuild
+  - spawn-sync

@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { UploadProps } from 'ant-design-vue';
+
 import { browser } from '#imports';
+import { Button, Form, FormItem, Space, Upload } from 'ant-design-vue';
 
-import { Form, FormItem, Button, Space, Upload, type UploadProps } from 'ant-design-vue';
-
-import { serializePageList, deserializePageList } from '@/utils/page-list-serializatoin';
 import { usePageList } from '@/composables/page-list';
+import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
@@ -38,7 +39,8 @@ function saveToLocalStorage() {
 const uploadHandler: UploadProps['customRequest'] = (options) => {
     if (options.file instanceof File) {
         loadFromFile(options.file);
-    } else {
+    }
+    else {
         console.error('No file provided for upload');
     }
 };
@@ -50,7 +52,8 @@ function loadFromFile(file: File) {
             try {
                 const data = deserializePageList(event.target.result as string);
                 load(data);
-            } catch (error) {
+            }
+            catch (error) {
                 console.error('Failed to parse page list:', error);
             }
         }
@@ -60,12 +63,16 @@ function loadFromFile(file: File) {
 </script>
 
 <template>
-    <Form :labelCol :wrapperCol>
+    <Form :label-col :wrapper-col>
         <FormItem label="Local Storage">
             <Space>
-                <Button shape="round" @click="saveToLocalStorage">Save</Button>
-                <Upload accept=".json" :fileList="[]" :customRequest="uploadHandler">
-                    <Button shape="round">Load</Button>
+                <Button shape="round" @click="saveToLocalStorage">
+                    Save
+                </Button>
+                <Upload accept=".json" :file-list="[]" :custom-request="uploadHandler">
+                    <Button shape="round">
+                        Load
+                    </Button>
                 </Upload>
             </Space>
         </FormItem>

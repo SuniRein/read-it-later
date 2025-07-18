@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { h, type Component } from 'vue';
+import type { Component } from 'vue';
 
 import { Button, Tooltip } from 'ant-design-vue';
+import { h } from 'vue';
 
 defineProps<{
     icon: Component;
@@ -22,17 +23,11 @@ function onClick(event: MouseEvent) {
 <template>
     <Tooltip :title="tip" placement="bottomRight">
         <Button
-            type="ghost"
-            ghost
-            :size
-            :icon="
-                h(icon, {
-                    style: {
-                        color: color ?? '#CCC',
-                    },
-                })
-            "
-            @click="onClick"
+            type="ghost" ghost :size :icon="h(icon, {
+                style: {
+                    color: color ?? '#CCC',
+                },
+            })" @click="onClick"
         />
     </Tooltip>
 </template>

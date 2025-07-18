@@ -1,8 +1,8 @@
 import { fakeBrowser, storage } from '#imports';
-import { defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, beforeEach } from 'vitest';
 import flushPromises from 'flush-promises';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { defineComponent } from 'vue';
 
 import { useStoredValue } from '../store';
 
@@ -15,7 +15,7 @@ describe('useStoredValue', () => {
     const initValue = { a: 2, b: 'Init value' };
     const updatedValue = { a: 3, b: 'Init value' };
 
-    type TestType = { a: number; b: string };
+    interface TestType { a: number; b: string }
     const testStorage = storage.defineItem<TestType>('local:test', { fallback: defaultValue });
 
     const testComponent = defineComponent({
