@@ -101,7 +101,6 @@ async function openUrl(url: string) {
                 @mark-read="remove"
                 @edit="update"
                 @toggle-star="toggleFavorite"
-                @delete="remove"
                 @open-url="openUrl"
             />
         </LayoutContent>

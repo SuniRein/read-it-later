@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PageItem } from '@/utils/types';
 
-import { CheckOutlined, DeleteFilled, EditFilled, StarFilled } from '@ant-design/icons-vue';
+import { CheckOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
 import { Avatar, List, ListItem } from 'ant-design-vue';
 import { ref } from 'vue';
 
@@ -20,7 +20,6 @@ const emit = defineEmits<{
     (e: 'markRead', id: string): void;
     (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
     (e: 'toggleStar', id: string): void;
-    (e: 'delete', id: string): void;
     (e: 'openUrl', url: string): void;
 }>();
 
@@ -78,7 +77,6 @@ function savePageEdit(title: string, tags: string[]) {
                         <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
                         <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggleStar', item.id)" />
-                        <IconButton v-bind="actionAttr" :icon="DeleteFilled" @click="emit('delete', item.id)" />
                     </div>
                 </div>
 
