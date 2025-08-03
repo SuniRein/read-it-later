@@ -83,7 +83,7 @@ async function openUrl(url: string) {
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
             <TopOperation
-                v-model:search-text.trim="searchText"
+                v-model:search-text="searchText"
                 :current-tab
                 :page-list="pageListFiltered"
                 :favorited-filter-option

@@ -10,9 +10,10 @@ import {
     SyncOutlined,
     ThunderboltOutlined,
 } from '@ant-design/icons-vue';
-import { Badge, Input } from 'ant-design-vue';
+import { Badge } from 'ant-design-vue';
 
 import IconButton from './IconButton.vue';
+import SearchBox from './SearchBox.vue';
 
 const { currentTab, pageList, favoritedFilterOption } = defineProps<{
     currentTab: Tab | null;
@@ -52,7 +53,7 @@ function openRandomPage() {
         <IconButton :icon="SettingOutlined" tip="Open setting page" @click="emit('openSetting')" />
         <IconButton :icon="SyncOutlined" tip="Sync" />
 
-        <Input v-model:value="searchText" allow-clear placeholder="Find..." />
+        <SearchBox v-model:value="searchText" />
 
         <Badge :offset="[-8, 22]">
             <template #count>
