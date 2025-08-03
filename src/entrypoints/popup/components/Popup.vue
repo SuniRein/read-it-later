@@ -83,7 +83,6 @@ async function openUrl(url: string) {
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
             <TopOperation
-                v-model:search-text="searchText"
                 :current-tab
                 :page-list="pageListFiltered"
                 :favorited-filter-option
@@ -91,6 +90,7 @@ async function openUrl(url: string) {
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
                 @open-setting="browser.runtime.openOptionsPage"
+                @search="(text) => searchText = text"
             />
         </LayoutHeader>
 
