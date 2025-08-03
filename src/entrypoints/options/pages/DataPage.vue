@@ -64,7 +64,7 @@ function loadFromFile(file: File) {
 
 <template>
     <Form :label-col :wrapper-col>
-        <FormItem label="Local Storage">
+        <FormItem label="Local storage">
             <Space>
                 <Button shape="round" @click="saveToLocalStorage">
                     Save
