@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.5.0](https://github.com/SuniRein/read-it-later/compare/v0.4.0...v0.5.0) (2025-08-03)
+
+
+### Features
+
+* remove redundant delete operator ([981f48a](https://github.com/SuniRein/read-it-later/commit/981f48ab8456b9cc1778c85adb4013a4f8398002))
+* **search:** improve search box interaction with debounced search event, closes [#1](https://github.com/SuniRein/read-it-later/issues/1) ([a5f3f79](https://github.com/SuniRein/read-it-later/commit/a5f3f7922f135e720ebcb4ef829ba02f4e33cefd))
+
+
+### Bug Fixes
+
+* **description:** unify label capitalization to sentence case in DataPage ([5eabaaf](https://github.com/SuniRein/read-it-later/commit/5eabaafab1ab5f446b1fa6a1a9c3bb6c729cd570))
+
 ## [0.4.0](https://github.com/SuniRein/read-it-later/compare/v0.3.1...v0.4.0) (2025-07-14)
 
 
