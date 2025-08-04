@@ -118,6 +118,7 @@ async function openUrl(url: string) {
                             boxShadow: '0 0 0 1px #d9d9d9 inset',
                         },
                         showZero: true,
+                        overflowCount: 999,
                     })
                 "
             />
