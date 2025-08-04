@@ -36,14 +36,22 @@ function save() {
     }
     emit('save', title.value, tags);
 }
+
+function cancel() {
+    emit('cancel');
+}
 </script>
 
 <template>
-    <div class="page-list-editing">
+    <div
+        class="page-list-editing"
+        @keydown.enter="save"
+        @keydown.ctrl.e="cancel"
+    >
         <Input v-model:value="title" size="small" addon-before="Title" />
         <div class="control">
             <Input v-model:value="tagsRaw" size="small" addon-before="Tags" placeholder="tag1, tag2, ..." />
-            <Button size="small" @click="emit('cancel')">
+            <Button size="small" @click="cancel">
                 Cancel
             </Button>
             <Button size="small" type="primary" @click="save">

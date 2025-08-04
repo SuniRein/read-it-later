@@ -81,7 +81,10 @@ function savePageEdit(title: string, tags: string[]) {
                 </div>
 
                 <PageEditing
-                    v-else :init-title="editedTitle" :init-tags="editedTags" @cancel="editedId = null"
+                    v-else
+                    :init-title="editedTitle"
+                    :init-tags="editedTags"
+                    @cancel="editedId = null"
                     @save="savePageEdit"
                 />
             </ListItem>
