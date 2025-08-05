@@ -71,12 +71,13 @@ function openRandomPage() {
 
 <style scoped>
 .top-operation {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) 10fr repeat(3, 1fr);
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.2rem;
 
     height: 100%;
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
     margin: 0;
 }
 </style>
