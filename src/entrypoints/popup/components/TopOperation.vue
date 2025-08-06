@@ -30,7 +30,7 @@ const emit = defineEmits<{
 
 const searchText = defineModel<string>('searchText', { default: '' });
 
-async function addNewPage() {
+function addNewPage() {
     if (currentTab) {
         const info: PageInfo = {
             title: currentTab.title ?? 'Title Not Available',
