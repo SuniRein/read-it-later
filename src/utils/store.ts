@@ -13,5 +13,6 @@ export default {
     forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('local:favoritedFilterOption', {
         fallback: 'all',
     }),
+    searchText: storage.defineItem<string>('session:searchText', { fallback: '' }),
     setting: storage.defineItem<Setting>('local:setting', { fallback: defaultSetting }),
 };

@@ -8,6 +8,7 @@ import { computed, h, ref } from 'vue';
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
+import { useSearchText } from '@/composables/search-text';
 import { useSetting } from '@/composables/setting';
 
 import PageList from './PageList.vue';
@@ -28,7 +29,7 @@ function favoritedFilter(item: PageItem): boolean {
     return favoritedFilterOption.value === 'favorited' ? item.favorited : !item.favorited;
 }
 
-const searchText = ref('');
+const { searchText } = useSearchText();
 
 function searchFilter(item: PageItem): boolean {
     if (searchText.value.length === 0)
@@ -83,6 +84,7 @@ async function openUrl(url: string) {
     <Layout>
         <LayoutHeader style="height: 40px; padding: 0">
             <TopOperation
+                v-model:search-text="searchText"
                 :current-tab
                 :page-list="pageListFiltered"
                 :favorited-filter-option
@@ -90,7 +92,6 @@ async function openUrl(url: string) {
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
                 @open-setting="browser.runtime.openOptionsPage"
-                @search="(text) => searchText = text"
             />
         </LayoutHeader>
 

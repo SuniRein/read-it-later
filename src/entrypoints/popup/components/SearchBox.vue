@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { watchDebounced } from '@vueuse/core';
+import { useDebounceFn } from '@vueuse/core';
 import { Input } from 'ant-design-vue';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
-const emit = defineEmits<{ (e: 'search', text: string): void }>();
+const props = defineProps<{ value: string }>();
+const emit = defineEmits<{ (e: 'update:value', value: string): void }>();
 
-const rawText = ref<string>('');
+const emitDebounced = useDebounceFn((value: string) => {
+    emit('update:value', value);
+}, 300);
 
-watchDebounced(rawText, value => emit('search', value), { debounce: 300 });
+const rawText = computed<string>({
+    get: () => props.value,
+    set: emitDebounced,
+});
 </script>
 
 <template>

@@ -26,8 +26,9 @@ const emit = defineEmits<{
     (e: 'addPage', info: PageInfo): void;
     (e: 'changeFavoritedView'): void;
     (e: 'openUrl', url: string): void;
-    (e: 'search', text: string): void;
 }>();
+
+const searchText = defineModel<string>('searchText', { default: '' });
 
 async function addNewPage() {
     if (currentTab) {
@@ -52,7 +53,7 @@ function openRandomPage() {
         <IconButton :icon="SettingOutlined" tip="Open setting page" @click="emit('openSetting')" />
         <IconButton :icon="SyncOutlined" tip="Sync" />
 
-        <SearchBox @search="(text) => emit('search', text)" />
+        <SearchBox v-model:value="searchText" />
 
         <Badge :offset="[-8, 22]">
             <template #count>
