@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.6.0](https://github.com/SuniRein/read-it-later/compare/v0.5.0...v0.6.0) (2025-08-06)
+
+
+### Features
+
+* **popup:** add keyboard shortcuts for save (Enter) and cancel (Ctrl+E) in page editing, closes [#3](https://github.com/SuniRein/read-it-later/issues/3) ([f4a6c38](https://github.com/SuniRein/read-it-later/commit/f4a6c38d4aaff87964888cbe858d54c0a5c4fd43))
+* **popup:** set displayed tab count upper limit to 999, closes [#5](https://github.com/SuniRein/read-it-later/issues/5) ([ba13a53](https://github.com/SuniRein/read-it-later/commit/ba13a53422380e12fde5d7f0db976489a78717bb))
+* **popup:** support restoring removed page items, which only stored in session, closes [#9](https://github.com/SuniRein/read-it-later/issues/9) ([9bea841](https://github.com/SuniRein/read-it-later/commit/9bea84105bd479efe5eb3fefaa331dd93deb62f9))
+* **search:** save search text in sessions, closes [#6](https://github.com/SuniRein/read-it-later/issues/6) ([c37c273](https://github.com/SuniRein/read-it-later/commit/c37c273e5260568213abfd95f56ac55554834145))
+
+
+### Bug Fixes
+
+* favorited filter option now is only saved in session ([34300c4](https://github.com/SuniRein/read-it-later/commit/34300c487fdb131b704b1aca0ed78033248308be))
+* **ui:** make 5 icons in the top operation area the same size, fixed [#11](https://github.com/SuniRein/read-it-later/issues/11) ([2197560](https://github.com/SuniRein/read-it-later/commit/2197560619cd8ef7cc984a7787e8bb418940f649))
+
 ## [0.5.0](https://github.com/SuniRein/read-it-later/compare/v0.4.0...v0.5.0) (2025-08-03)
 
 
