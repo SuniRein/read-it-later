@@ -10,7 +10,7 @@ const defaultSetting: Setting = {
 
 export default {
     pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
-    forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('local:favoritedFilterOption', {
+    forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('session:favoritedFilterOption', {
         fallback: 'all',
     }),
     searchText: storage.defineItem<string>('session:searchText', { fallback: '' }),
