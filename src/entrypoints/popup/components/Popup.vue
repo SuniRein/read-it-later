@@ -48,7 +48,7 @@ function searchFilter(item: PageItem): boolean {
     });
 }
 
-const { pageList, add, remove, update, toggleFavorite } = usePageList();
+const { pageList, add, remove, update, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
 const pageListFiltered = computed(() => {
     return pageList.value.filter(favoritedFilter).filter(searchFilter);
 });
@@ -88,10 +88,12 @@ async function openUrl(url: string) {
                 :current-tab
                 :page-list="pageListFiltered"
                 :favorited-filter-option
+                :restorable-item-count
                 @add-page="addPage"
                 @change-favorited-view="changeFavoritedView"
                 @open-url="openUrl"
                 @open-setting="browser.runtime.openOptionsPage"
+                @restore-removed-page="restoreRemoved"
             />
         </LayoutHeader>
 

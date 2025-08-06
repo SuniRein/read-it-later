@@ -9,6 +9,7 @@ defineProps<{
     tip?: string;
     color?: string;
     size?: 'small' | 'middle' | 'large';
+    disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -23,9 +24,9 @@ function onClick(event: MouseEvent) {
 <template>
     <Tooltip :title="tip" placement="bottomRight">
         <Button
-            type="ghost" ghost :size :icon="h(icon, {
+            type="ghost" ghost :size :disabled :icon="h(icon, {
                 style: {
-                    color: color ?? '#CCC',
+                    color: disabled ? '#666' : color ?? '#CCC',
                 },
             })" @click="onClick"
         />

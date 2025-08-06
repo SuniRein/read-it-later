@@ -1,17 +1,22 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
 import { nanoid } from 'nanoid';
+import { computed } from 'vue';
 
 import { useStoredValue } from '@/composables/store';
 import store from '@/utils/store';
 
 export function usePageList() {
     const pageList = useStoredValue(store.pageList);
+    const removedPageList = useStoredValue(store.removedPageList);
 
     function add(info: PageInfo): boolean {
         if (pageList.value.some(item => item.info.url === info.url)) {
             return false; // Prevent adding duplicate pages
         }
+
+        // Remove from removedPageList if it exists
+        removedPageList.value = removedPageList.value.filter(item => item.info.url !== info.url);
 
         const now = new Date().toISOString();
         const pageItem = {
@@ -27,6 +32,10 @@ export function usePageList() {
     }
 
     function remove(id: string) {
+        const item = pageList.value.find(item => item.id === id);
+        if (item)
+            removedPageList.value.push(item);
+
         pageList.value = pageList.value.filter(item => item.id !== id);
     }
 
@@ -55,6 +64,15 @@ export function usePageList() {
         pageList.value.unshift(...newItems);
     }
 
+    const restorableItemCount = computed(() => removedPageList.value.length);
+
+    function restoreRemoved() {
+        const restoredItem = removedPageList.value.pop();
+        if (restoredItem) {
+            pageList.value.unshift(restoredItem);
+        }
+    }
+
     return {
         pageList,
         add,
@@ -62,5 +80,8 @@ export function usePageList() {
         update,
         toggleFavorite,
         load,
+
+        restorableItemCount,
+        restoreRemoved,
     };
 }
