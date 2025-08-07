@@ -32,11 +32,11 @@ export function usePageList() {
     }
 
     function remove(id: string) {
-        const item = pageList.value.find(item => item.id === id);
-        if (item)
-            removedPageList.value.push(item);
-
-        pageList.value = pageList.value.filter(item => item.id !== id);
+        const idx = pageList.value.findIndex(item => item.id === id);
+        if (idx !== -1) {
+            const [removedItem] = pageList.value.splice(idx, 1);
+            removedPageList.value.push(removedItem);
+        }
     }
 
     function update(id: string, newTitle: string, newTags: string[]) {
