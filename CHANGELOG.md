@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.6.1](https://github.com/SuniRein/read-it-later/compare/v0.6.0...v0.6.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* add `lastModified` to sync storage data, fixed [#14](https://github.com/SuniRein/read-it-later/issues/14) ([36a46b2](https://github.com/SuniRein/read-it-later/commit/36a46b25a39f96d0e1a1768ff398bf0f3f20d718))
+* page is added to removed page list but not removed from page list ([8a9906a](https://github.com/SuniRein/read-it-later/commit/8a9906a274367aa6708777daf8a7ce7b4af4ff87))
+
 ## [0.6.0](https://github.com/SuniRein/read-it-later/compare/v0.5.0...v0.6.0) (2025-08-06)
 
 
