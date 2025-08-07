@@ -1,27 +1,42 @@
 import type { storage } from '#imports';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 
-import { deepEqual, deepToRaw } from '@/utils/object';
+import { deepToRaw } from '@/utils/object';
+
+interface StorageMeta {
+    lastModified?: number;
+}
+
+async function getMeta(store: ReturnType<typeof storage.defineItem<any>>) {
+    return (await store.getMeta()) as StorageMeta;
+}
 
 export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>) {
     const state = ref<T>(store.fallback);
+
+    let lastModified: number | undefined;
 
     let unwatchStore: null | (() => void) = null;
     let unwatchRef: null | (() => void) = null;
 
     onMounted(async () => {
         state.value = structuredClone(await store.getValue());
+        lastModified = (await getMeta(store)).lastModified;
 
         unwatchStore = store.watch(async (newValue) => {
-            if (deepEqual(newValue, state.value))
-                return;
-            state.value = structuredClone(newValue);
+            const remoteLastModified = (await getMeta(store)).lastModified;
+            if (!lastModified || (remoteLastModified && remoteLastModified > lastModified)) {
+                lastModified = remoteLastModified;
+                state.value = structuredClone(newValue);
+            }
         });
 
         unwatchRef = watch(
             state,
-            (newValue) => {
-                void store.setValue(deepToRaw(newValue));
+            async (newValue) => {
+                lastModified = Date.now();
+                await store.setMeta({ lastModified });
+                await store.setValue(deepToRaw(newValue));
             },
             { deep: true },
         );
