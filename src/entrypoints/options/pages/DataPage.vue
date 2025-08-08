@@ -4,6 +4,7 @@ import type { UploadProps } from 'ant-design-vue';
 import { browser } from '#imports';
 import { Button, Form, FormItem, Space, Upload } from 'ant-design-vue';
 
+import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
 
@@ -14,6 +15,8 @@ const { labelSpan, wrapperSpan } = defineProps<{
 
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
+
+const { t } = useI18n();
 
 const { pageList, load } = usePageList();
 
@@ -64,14 +67,14 @@ function loadFromFile(file: File) {
 
 <template>
     <Form :label-col :wrapper-col>
-        <FormItem label="Local storage">
+        <FormItem :label="t('option.data.localStorage')">
             <Space>
                 <Button shape="round" @click="saveToLocalStorage">
-                    Save
+                    {{ t('option.data.save') }}
                 </Button>
                 <Upload accept=".json" :file-list="[]" :custom-request="uploadHandler">
                     <Button shape="round">
-                        Load
+                        {{ t('option.data.load') }}
                     </Button>
                 </Upload>
             </Space>

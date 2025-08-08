@@ -2,12 +2,16 @@
 import type { FaviconSource } from '@/utils/types';
 
 import { Button, Checkbox, Form, FormItem, Select, SelectOption, Space } from 'ant-design-vue';
+
+import useI18n from '@/composables/i18n';
 import { useSetting } from '@/composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
     wrapperSpan: number;
 }>();
+
+const { t } = useI18n();
 
 const { setting, save, reset } = useSetting();
 
@@ -17,25 +21,25 @@ const wrapperCol = { span: wrapperSpan };
 
 <template>
     <Form :model="setting" :label-col :wrapper-col>
-        <FormItem label="Pagination">
+        <FormItem :label="t('option.setting.panination')">
             <Select v-model:value="setting.pagination">
                 <SelectOption :value="10">
-                    10 items per page
+                    {{ t('option.setting.paninationOption', { count: 10 }) }}
                 </SelectOption>
                 <SelectOption :value="20">
-                    20 items per page
+                    {{ t('option.setting.paninationOption', { count: 20 }) }}
                 </SelectOption>
                 <SelectOption :value="50">
-                    50 items per page
+                    {{ t('option.setting.paninationOption', { count: 50 }) }}
                 </SelectOption>
             </Select>
         </FormItem>
 
-        <FormItem label="Show page count">
+        <FormItem :label="t('option.setting.showPageCount')">
             <Checkbox v-model:checked="setting.showPageCount" />
         </FormItem>
 
-        <FormItem label="Favicon source">
+        <FormItem :label="t('option.setting.faviconSource')">
             <Select v-model:value="setting.faviconSource">
                 <SelectOption :value="'favicon.im' satisfies FaviconSource">
                     Favicon.im
@@ -52,10 +56,10 @@ const wrapperCol = { span: wrapperSpan };
         <FormItem :wrapper-col="{ span: 14, offset: 6 }">
             <Space>
                 <Button shape="round" @click="reset">
-                    Reset
+                    {{ t('option.setting.reset') }}
                 </Button>
                 <Button shape="round" type="primary" @click="save">
-                    Save
+                    {{ t('option.setting.save') }}
                 </Button>
             </Space>
         </FormItem>
