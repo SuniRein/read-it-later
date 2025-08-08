@@ -1,0 +1,42 @@
+{
+    "topTip": {
+        "setting": "打开设置界面",
+        "sync": "同步",
+        "toggleFavorite": "按收藏状态筛选",
+        "random": "打开随机页面",
+        "restore": "恢复被删除的页面",
+        "add": "添加当前页面到列表"
+    },
+    "search": "搜索...",
+    "edit": {
+        "title": "标题",
+        "tags": "标签",
+        "save": "保存",
+        "cancel": "取消",
+        "tagsPlaceholder": "标签1, 标签2, ..."
+    },
+    "errorMsg": {
+        "invalidTags": "标签只能包含字母、数字、下划线和连字符。",
+        "pageAlreadyExists": "页面已存在于列表中。"
+    },
+    "option": {
+        "title": "稍后读·简",
+        "nav": {
+            "setting": "设置",
+            "data": "数据"
+        },
+        "setting": {
+            "panination": "分页",
+            "paninationOption": "每页 {count} 个标签页",
+            "showPageCount": "显示页面数量",
+            "faviconSource": "图标源",
+            "reset": "重置",
+            "save": "保存"
+        },
+        "data": {
+            "localStorage": "本地存储",
+            "save": "保存",
+            "load": "加载"
+        }
+    }
+}
