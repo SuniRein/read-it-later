@@ -1,9 +1,13 @@
 import { browser } from '#imports';
-
 import { createApp } from 'vue';
+
+import i18n from '@/utils/i18n';
+
 import App from './App.vue';
 import './style.css';
 
-createApp(App).mount('#app');
+createApp(App)
+    .use(i18n)
+    .mount('#app');
 
 browser.runtime.connect({ name: 'popup-communication' });

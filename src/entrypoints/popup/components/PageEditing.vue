@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Button, Input, message } from 'ant-design-vue';
-
 import { ref } from 'vue';
+
+import useI18n from '@/composables/i18n';
 
 const { initTitle, initTags } = defineProps<{
     initTitle: string;
@@ -12,6 +13,9 @@ const emit = defineEmits<{
     (e: 'cancel'): void;
     (e: 'save', title: string, tags: string[]): void;
 }>();
+
+const { t } = useI18n();
+
 const title = ref<string>(initTitle);
 const tagsRaw = ref<string>(initTags.join(', '));
 
@@ -30,7 +34,7 @@ function save() {
     const tags = parseTags(tagsRaw.value);
     if (tags.some(tag => !/^[\w-]+$/.test(tag))) {
         return message.error({
-            content: 'Tags can only contain letters, numbers, underscores, and hyphens.',
+            content: t('errorMsg.invalidTags'),
             duration: 2,
         });
     }
@@ -48,14 +52,14 @@ function cancel() {
         @keydown.enter="save"
         @keydown.ctrl.e="cancel"
     >
-        <Input v-model:value="title" size="small" addon-before="Title" />
+        <Input v-model:value="title" size="small" :addon-before="t('edit.title')" />
         <div class="control">
-            <Input v-model:value="tagsRaw" size="small" addon-before="Tags" placeholder="tag1, tag2, ..." />
+            <Input v-model:value="tagsRaw" size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" />
             <Button size="small" @click="cancel">
-                Cancel
+                {{ t('edit.cancel') }}
             </Button>
             <Button size="small" type="primary" @click="save">
-                Save
+                {{ t('edit.save') }}
             </Button>
         </div>
     </div>

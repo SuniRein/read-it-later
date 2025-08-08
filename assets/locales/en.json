@@ -1,0 +1,22 @@
+{
+    "topTip": {
+        "setting": "Open setting page",
+        "sync": "Sync",
+        "toggleFavorite": "Filter by 'favorited' status",
+        "random": "Open a random page",
+        "restore": "Restore removed items",
+        "add": "Add current page to list"
+    },
+    "search": "Find...",
+    "edit": {
+        "title": "Title",
+        "tags": "Tags",
+        "save": "Save",
+        "cancel": "Cancel",
+        "tagsPlaceholder": "tag1, tag2, ..."
+    },
+    "errorMsg": {
+        "invalidTags": "Tags can only contain letters, numbers, underscores, and hyphens.",
+        "pageAlreadyExists": "Page has already been in the page list."
+    }
+}

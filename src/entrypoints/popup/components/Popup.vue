@@ -7,12 +7,15 @@ import { computed, h, ref } from 'vue';
 
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
+import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import { useSearchText } from '@/composables/search-text';
 import { useSetting } from '@/composables/setting';
 
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
+
+const { t } = useI18n();
 
 const { setting } = useSetting();
 
@@ -69,7 +72,7 @@ const pageListDisplayed = computed(() => {
 function addPage(item: PageInfo) {
     if (!add(item)) {
         message.error({
-            content: 'Page has already been in the page list.',
+            content: t('errorMsg.pageAlreadyExists'),
             duration: 1,
         });
     }

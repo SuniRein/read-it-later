@@ -13,6 +13,8 @@ import {
 } from '@ant-design/icons-vue';
 import { Badge } from 'ant-design-vue';
 
+import useI18n from '@/composables/i18n';
+
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
@@ -32,6 +34,8 @@ const emit = defineEmits<{
 }>();
 
 const searchText = defineModel<string>('searchText', { default: '' });
+
+const { t } = useI18n();
 
 function addNewPage() {
     if (currentTab) {
@@ -53,9 +57,9 @@ function openRandomPage() {
 
 <template>
     <div class="top-operation">
-        <IconButton :icon="SettingOutlined" tip="Open setting page" @click="emit('openSetting')" />
+        <IconButton :icon="SettingOutlined" :tip="t('topTip.setting')" @click="emit('openSetting')" />
 
-        <IconButton :icon="SyncOutlined" tip="Sync" />
+        <IconButton :icon="SyncOutlined" :tip="t('topTip.sync')" />
 
         <SearchBox v-model:value="searchText" />
 
@@ -67,20 +71,20 @@ function openRandomPage() {
                     <!-- Empty badge for 'all' option -->
                 </div>
             </template>
-            <IconButton :icon="StarOutlined" tip="Filter by 'favorited' status" @click="emit('changeFavoritedView')" />
+            <IconButton :icon="StarOutlined" :tip="t('topTip.toggleFavorite')" @click="emit('changeFavoritedView')" />
         </Badge>
 
-        <IconButton :icon="ThunderboltOutlined" tip="Open a random page" @click="openRandomPage" />
+        <IconButton :icon="ThunderboltOutlined" :tip="t('topTip.random')" @click="openRandomPage" />
 
         <Badge :offset="[-8, 22]">
             <template #count>
                 <span v-if="restorableItemCount !== 0" style="color: darksalmon">{{ restorableItemCount }}</span>
                 <div v-else />
             </template>
-            <IconButton :icon="UndoOutlined" tip="Restore removed items" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
+            <IconButton :icon="UndoOutlined" :tip="t('topTip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
         </Badge>
 
-        <IconButton :icon="PlusCircleOutlined" tip="Add current page to list" @click="addNewPage" />
+        <IconButton :icon="PlusCircleOutlined" :tip="t('topTip.add')" @click="addNewPage" />
     </div>
 </template>
 
