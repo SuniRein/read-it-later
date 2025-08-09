@@ -30,6 +30,7 @@
             "paninationOption": "{count} items per page",
             "showPageCount": "Show page count",
             "faviconSource": "Favicon source",
+            "locale": "Language",
             "reset": "Reset",
             "save": "Save"
         },

@@ -6,6 +6,7 @@ const defaultSetting: Setting = {
     pagination: 20,
     showPageCount: false,
     faviconSource: 'favicon.im',
+    locale: 'en',
 } as const;
 
 export default {

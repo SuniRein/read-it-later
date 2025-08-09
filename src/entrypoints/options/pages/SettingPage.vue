@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { I18nLocales } from '@/utils/i18n';
 import type { FaviconSource } from '@/utils/types';
 
-import { Button, Checkbox, Form, FormItem, Select, SelectOption, Space } from 'ant-design-vue';
-
+import { Button, Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption, Space } from 'ant-design-vue';
 import useI18n from '@/composables/i18n';
 import { useSetting } from '@/composables/setting';
 
@@ -51,6 +51,17 @@ const wrapperCol = { span: wrapperSpan };
                     DuckDuckGo
                 </SelectOption>
             </Select>
+        </FormItem>
+
+        <FormItem :label="t('option.setting.locale')">
+            <RadioGroup v-model:value="setting.locale">
+                <RadioButton :value="'en' satisfies I18nLocales">
+                    English
+                </RadioButton>
+                <RadioButton :value="'zh_CN' satisfies I18nLocales">
+                    简体中文
+                </RadioButton>
+            </Radiogroup>
         </FormItem>
 
         <FormItem :wrapper-col="{ span: 14, offset: 6 }">
