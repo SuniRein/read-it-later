@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.7.0](https://github.com/SuniRein/read-it-later/compare/v0.6.1...v0.7.0) (2025-08-09)
+
+
+### Features
+
+* auto focus on the tag input when in editing mode, closed [#17](https://github.com/SuniRein/read-it-later/issues/17) ([1b434f9](https://github.com/SuniRein/read-it-later/commit/1b434f99d57732e0e44149c97dfe181cb846627f))
+* **i18n:** add i18n for extension name and description ([2039d8c](https://github.com/SuniRein/read-it-later/commit/2039d8c9d3e516104515c4eaa123ef946d823ee8))
+* **i18n:** add zh_CN locales for popup and option page ([b2dd83b](https://github.com/SuniRein/read-it-later/commit/b2dd83be199a968a38b622c53f7bbcd35149024b))
+* **i18n:** set default locale according to user's languages preference ([9c3f36b](https://github.com/SuniRein/read-it-later/commit/9c3f36b0a2714be6c53b864d2685d772f352d395))
+* **i18n:** set locale for AntDesign components ([d1d70b9](https://github.com/SuniRein/read-it-later/commit/d1d70b9139f6aff7b15ee58edde15af6ffa8bde3))
+* **setting:** support update locales in setting page ([756aaac](https://github.com/SuniRein/read-it-later/commit/756aaac9a5200966c1c3ee25f1e2d862f0665efc))
+
+
+### Bug Fixes
+
+* make clear button in search box more smooth, fixed [#16](https://github.com/SuniRein/read-it-later/issues/16) ([416c39a](https://github.com/SuniRein/read-it-later/commit/416c39a9cb88ee220941ba856dd3c5cf00aaef80))
+
 ## [0.6.1](https://github.com/SuniRein/read-it-later/compare/v0.6.0...v0.6.1) (2025-08-07)
 
 
