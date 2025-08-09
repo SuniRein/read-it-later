@@ -54,7 +54,7 @@ function cancel() {
     >
         <Input v-model:value="title" size="small" :addon-before="t('edit.title')" />
         <div class="control">
-            <Input v-model:value="tagsRaw" size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" />
+            <Input v-model:value="tagsRaw" size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" autofocus />
             <Button size="small" @click="cancel">
                 {{ t('edit.cancel') }}
             </Button>
