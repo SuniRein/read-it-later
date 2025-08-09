@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { useDebounceFn } from '@vueuse/core';
 import { Input } from 'ant-design-vue';
 import { computed } from 'vue';
@@ -21,5 +22,9 @@ const { t } = useI18n();
 </script>
 
 <template>
-    <Input v-model:value.trim="rawText" allow-clear :placeholder="t('search')" />
+    <Input v-model:value.trim="rawText" allow-clear :placeholder="t('search')">
+        <template #clearIcon>
+            <CloseCircleFilled @click.capture="emit('update:value', '')" />
+        </template>
+    </Input>
 </template>
