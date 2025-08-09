@@ -13,7 +13,7 @@ import {
 import { computed, h } from 'vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
 
-import useI18n from '@/composables/i18n';
+import useI18n, { useAntLocale } from '@/composables/i18n';
 
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
@@ -22,7 +22,8 @@ const theme = {
 const route = useRoute();
 const router = useRouter();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const antLocale = useAntLocale(locale);
 
 const selectedKeys = computed(() => [route.name as string]);
 
@@ -45,7 +46,7 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
 </script>
 
 <template>
-    <ConfigProvider :theme>
+    <ConfigProvider :theme :locale="antLocale">
         <Layout style="min-height: 100vh">
             <LayoutSider class="sider">
                 <h2>{{ t('option.title') }}</h2>
