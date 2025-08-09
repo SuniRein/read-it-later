@@ -1,11 +1,21 @@
+import type { I18nLocales } from '@/utils/i18n';
 import type { FavoritedFilterOption, PageItem, Setting } from '@/utils/types';
 
 import { storage } from '#imports';
+
+function defaultLocale(): I18nLocales {
+    const language = navigator.languages?.[0] ?? navigator.language ?? 'en';
+    if (language.startsWith('zh')) {
+        return 'zh_CN';
+    }
+    return 'en';
+}
 
 const defaultSetting: Setting = {
     pagination: 20,
     showPageCount: false,
     faviconSource: 'favicon.im',
+    locale: defaultLocale(),
 } as const;
 
 export default {

@@ -1,4 +1,5 @@
 import type { Browser } from '#imports';
+import type { I18nLocales } from '@/utils/i18n';
 
 export type Tab = Browser.tabs.Tab;
 
@@ -22,6 +23,7 @@ export interface Setting {
     pagination: number;
     showPageCount: boolean;
     faviconSource: FaviconSource;
+    locale: I18nLocales;
 }
 
 export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';

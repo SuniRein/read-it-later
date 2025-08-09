@@ -1,0 +1,43 @@
+{
+    "topTip": {
+        "setting": "Open setting page",
+        "sync": "Sync",
+        "toggleFavorite": "Filter by 'favorited' status",
+        "random": "Open a random page",
+        "restore": "Restore removed items",
+        "add": "Add current page to list"
+    },
+    "search": "Find...",
+    "edit": {
+        "title": "Title",
+        "tags": "Tags",
+        "save": "Save",
+        "cancel": "Cancel",
+        "tagsPlaceholder": "tag1, tag2, ..."
+    },
+    "errorMsg": {
+        "invalidTags": "Tags can only contain letters, numbers, underscores, and hyphens.",
+        "pageAlreadyExists": "Page has already been in the page list."
+    },
+    "option": {
+        "title": "Read It Later ",
+        "nav": {
+            "setting": "Setting",
+            "data": "Data"
+        },
+        "setting": {
+            "panination": "Pagination",
+            "paninationOption": "{count} items per page",
+            "showPageCount": "Show page count",
+            "faviconSource": "Favicon source",
+            "locale": "Language",
+            "reset": "Reset",
+            "save": "Save"
+        },
+        "data": {
+            "localStorage": "Local Storage",
+            "save": "Save",
+            "load": "Load"
+        }
+    }
+}

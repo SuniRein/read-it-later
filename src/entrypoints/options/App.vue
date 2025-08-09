@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { MenuProps } from 'ant-design-vue';
+
 import { SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import {
     theme as antTheme,
@@ -9,9 +10,10 @@ import {
     LayoutSider,
     Menu,
 } from 'ant-design-vue';
-
 import { computed, h } from 'vue';
 import { RouterView, useRoute, useRouter } from 'vue-router';
+
+import useI18n, { useAntLocale } from '@/composables/i18n';
 
 const theme = {
     algorithm: antTheme.defaultAlgorithm,
@@ -20,17 +22,20 @@ const theme = {
 const route = useRoute();
 const router = useRouter();
 
+const { t, locale } = useI18n();
+const antLocale = useAntLocale(locale);
+
 const selectedKeys = computed(() => [route.name as string]);
 
 const items: MenuProps['items'] = [
     {
         key: 'setting',
-        label: 'Setting',
+        label: t('option.nav.setting'),
         icon: h(SettingOutlined),
     },
     {
         key: 'data',
-        label: 'Data',
+        label: t('option.nav.data'),
         icon: h(SaveOutlined),
     },
 ];
@@ -41,10 +46,10 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
 </script>
 
 <template>
-    <ConfigProvider :theme>
+    <ConfigProvider :theme :locale="antLocale">
         <Layout style="min-height: 100vh">
             <LayoutSider class="sider">
-                <h2>Read It Later</h2>
+                <h2>{{ t('option.title') }}</h2>
                 <Menu v-model:selected-keys="selectedKeys" mode="inline" :items class="menu" @click="clickMenuItem" />
             </LayoutSider>
 
