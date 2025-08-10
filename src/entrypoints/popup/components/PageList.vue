@@ -74,9 +74,9 @@ function savePageEdit(title: string, tags: string[]) {
                     </div>
 
                     <div class="actions">
-                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
                         <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggleStar', item.id)" />
+                        <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
                     </div>
                 </div>
 
