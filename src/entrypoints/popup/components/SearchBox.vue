@@ -6,7 +6,10 @@ import { computed } from 'vue';
 
 import useI18n from '@/composables/i18n';
 
-const props = defineProps<{ value: string }>();
+const props = defineProps<{
+    value: string;
+    autofocus?: boolean;
+}>();
 const emit = defineEmits<{ (e: 'update:value', value: string): void }>();
 
 const emitDebounced = useDebounceFn((value: string) => {
@@ -22,7 +25,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-    <Input v-model:value.trim="rawText" allow-clear :placeholder="t('search')">
+    <Input v-model:value.trim="rawText" allow-clear :placeholder="t('search')" :autofocus>
         <template #clearIcon>
             <CloseCircleFilled @click.capture="emit('update:value', '')" />
         </template>

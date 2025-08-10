@@ -61,7 +61,7 @@ function openRandomPage() {
 
         <IconButton :icon="SyncOutlined" :tip="t('topTip.sync')" />
 
-        <SearchBox v-model:value="searchText" />
+        <SearchBox v-model:value="searchText" autofocus />
 
         <Badge :offset="[-8, 22]">
             <template #count>
