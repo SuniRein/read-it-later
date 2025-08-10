@@ -21,7 +21,7 @@ export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
 export interface Setting {
     pagination: number;
-    showPageCount: boolean;
+    showBadge: boolean;
     faviconSource: FaviconSource;
     locale: I18nLocales;
 }

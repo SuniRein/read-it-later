@@ -46,8 +46,8 @@ export default defineBackground(() => {
 
     // show badge with page count
     const showBadge = shallowRef(false);
-    store.setting.getValue().then(setting => showBadge.value = setting.showPageCount);
-    store.setting.watch(setting => showBadge.value = setting.showPageCount);
+    store.setting.getValue().then(setting => showBadge.value = setting.showBadge);
+    store.setting.watch(setting => showBadge.value = setting.showBadge);
 
     const pageUrls = shallowRef<string[]>([]);
     store.pageList.getValue().then(pageList => pageUrls.value = pageList.map(item => item.info.url));

@@ -33,7 +33,7 @@
         "setting": {
             "panination": "分页",
             "paninationOption": "每页 {count} 个标签页",
-            "showPageCount": "显示页面数量",
+            "showBadge": "显示徽章",
             "faviconSource": "图标源",
             "locale": "语言",
             "reset": "重置",

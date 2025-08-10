@@ -35,8 +35,8 @@ const wrapperCol = { span: wrapperSpan };
             </Select>
         </FormItem>
 
-        <FormItem :label="t('option.setting.showPageCount')">
-            <Checkbox v-model:checked="setting.showPageCount" />
+        <FormItem :label="t('option.setting.showBadge')">
+            <Checkbox v-model:checked="setting.showBadge" />
         </FormItem>
 
         <FormItem :label="t('option.setting.faviconSource')">
