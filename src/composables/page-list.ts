@@ -62,6 +62,7 @@ export function usePageList() {
 
         const newItems = data.filter(item => !existingIds.has(item.id) && !existingUrls.has(item.info.url));
         pageList.value.unshift(...newItems);
+        return newItems.length;
     }
 
     const restorableItemCount = computed(() => removedPageList.value.length);

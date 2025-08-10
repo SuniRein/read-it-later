@@ -15,6 +15,9 @@
         "cancel": "取消",
         "tagsPlaceholder": "标签1, 标签2, ..."
     },
+    "successMsg": {
+        "loadData": "成功加载 {count} 条数据。"
+    },
     "errorMsg": {
         "invalidTags": "标签只能包含字母、数字、下划线和连字符。",
         "pageAlreadyExists": "页面已存在于列表中。"
