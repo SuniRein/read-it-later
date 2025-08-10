@@ -45,7 +45,7 @@ const uploadHandler: UploadProps['customRequest'] = (options) => {
         loadFromFile(options.file);
     }
     else {
-        console.error('No file provided for upload');
+        notify.error(t('errorMsg.noUploadFile'));
     }
 };
 
@@ -61,7 +61,7 @@ function loadFromFile(file: File) {
                 );
             }
             catch (error) {
-                console.error('Failed to parse page list:', error);
+                notify.error(t('errorMsg.parseError', { error }));
             }
         }
     };

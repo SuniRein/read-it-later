@@ -20,7 +20,9 @@
     },
     "errorMsg": {
         "invalidTags": "标签只能包含字母、数字、下划线和连字符。",
-        "pageAlreadyExists": "页面已存在于列表中。"
+        "pageAlreadyExists": "页面已存在于列表中。",
+        "noUploadFile": "未提供上传文件。",
+        "parseError": "无法解析页面列表：{error}"
     },
     "option": {
         "title": "稍后读·简",

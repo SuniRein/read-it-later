@@ -20,7 +20,9 @@
     },
     "errorMsg": {
         "invalidTags": "Tags can only contain letters, numbers, underscores, and hyphens.",
-        "pageAlreadyExists": "Page has already been in the page list."
+        "pageAlreadyExists": "Page has already been in the page list.",
+        "noUploadFile": "No file provided for upload.",
+        "parseError": "Failed to parse page list: {error}"
     },
     "option": {
         "title": "Read It Later ",
