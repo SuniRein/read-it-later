@@ -2,7 +2,7 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, message, Pagination } from 'ant-design-vue';
+import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } from 'ant-design-vue';
 import { computed, h, ref } from 'vue';
 
 import { useCurrentTab } from '@/composables/current-tab';
@@ -11,6 +11,7 @@ import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import { useSearchText } from '@/composables/search-text';
 import { useSetting } from '@/composables/setting';
+import notify from '@/utils/notify';
 
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
@@ -71,10 +72,7 @@ const pageListDisplayed = computed(() => {
 
 function addPage(item: PageInfo) {
     if (!add(item)) {
-        message.error({
-            content: t('errorMsg.pageAlreadyExists'),
-            duration: 1,
-        });
+        notify.error(t('errorMsg.pageAlreadyExists'));
     }
 }
 

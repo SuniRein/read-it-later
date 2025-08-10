@@ -2,10 +2,11 @@
 import type { UploadProps } from 'ant-design-vue';
 
 import { browser } from '#imports';
-import { Button, Form, FormItem, message, Space, Upload } from 'ant-design-vue';
+import { Button, Form, FormItem, Space, Upload } from 'ant-design-vue';
 
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
+import notify from '@/utils/notify';
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
 
 const { labelSpan, wrapperSpan } = defineProps<{
@@ -55,10 +56,9 @@ function loadFromFile(file: File) {
             try {
                 const data = deserializePageList(event.target.result as string);
                 const numLoad = load(data);
-                message.success({
-                    content: t('successMsg.loadData', { count: numLoad }),
-                    duration: 1,
-                });
+                notify.success(
+                    t('successMsg.loadData', { count: numLoad }),
+                );
             }
             catch (error) {
                 console.error('Failed to parse page list:', error);
