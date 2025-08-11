@@ -32,11 +32,12 @@ function parseTags(raw: string) {
 
 function save() {
     const tags = parseTags(tagsRaw.value);
-    if (tags.some(tag => !/^[\w-]+$/.test(tag))) {
-        return message.error({
+    if (tags.some(tag => !/^[\w\-\p{Script=Han}]+$/u.test(tag))) {
+        message.error({
             content: t('errorMsg.invalidTags'),
             duration: 2,
         });
+        return;
     }
     emit('save', title.value, tags);
 }

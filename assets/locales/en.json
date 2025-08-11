@@ -19,7 +19,7 @@
         "loadData": "Successfully loaded {count} items."
     },
     "errorMsg": {
-        "invalidTags": "Tags can only contain letters, numbers, underscores, and hyphens.",
+        "invalidTags": "Tags can only contain letters, numbers, underscores, hyphens and Chinese characters.",
         "pageAlreadyExists": "Page has already been in the page list.",
         "noUploadFile": "No file provided for upload.",
         "parseError": "Failed to parse page list: {error}"

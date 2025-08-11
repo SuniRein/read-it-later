@@ -19,7 +19,7 @@
         "loadData": "成功加载 {count} 条数据。"
     },
     "errorMsg": {
-        "invalidTags": "标签只能包含字母、数字、下划线和连字符。",
+        "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
         "pageAlreadyExists": "页面已存在于列表中。",
         "noUploadFile": "未提供上传文件。",
         "parseError": "无法解析页面列表：{error}"
