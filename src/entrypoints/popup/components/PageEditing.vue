@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { Button, Input, message } from 'ant-design-vue';
-import { ref } from 'vue';
+import { AutoComplete, Button, Input, message } from 'ant-design-vue';
+import { computed, ref } from 'vue';
 
 import useI18n from '@/composables/i18n';
 
-const { initTitle, initTags } = defineProps<{
+const { initTitle, initTags, pageTags } = defineProps<{
     initTitle: string;
     initTags: string[];
+    pageTags?: string[];
 }>();
 
 const emit = defineEmits<{
@@ -18,6 +19,21 @@ const { t } = useI18n();
 
 const title = ref<string>(initTitle);
 const tagsRaw = ref<string>(initTags.join(', '));
+
+const lastToken = computed(() => {
+    return tagsRaw.value.slice(tagsRaw.value.lastIndexOf(',') + 1).trimStart();
+});
+
+const textBeforeLastToken = computed(() => {
+    return tagsRaw.value.slice(0, tagsRaw.value.length - lastToken.value.length);
+});
+
+const options = computed(() => {
+    return pageTags?.filter(t => t.startsWith(lastToken.value)).map(t => ({
+        value: `${textBeforeLastToken.value}${t}`,
+        label: t,
+    }));
+});
 
 function parseTags(raw: string) {
     return Array.from(
@@ -55,7 +71,9 @@ function cancel() {
     >
         <Input v-model:value="title" size="small" :addon-before="t('edit.title')" />
         <div class="control">
-            <Input v-model:value="tagsRaw" size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" autofocus />
+            <AutoComplete v-model:value="tagsRaw" :options style="width: 100%">
+                <Input size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" autofocus />
+            </AutoComplete>
             <Button size="small" @click="cancel">
                 {{ t('edit.cancel') }}
             </Button>

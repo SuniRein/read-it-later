@@ -94,7 +94,7 @@ async function openUrl(url: string) {
                 v-model:search-text="searchText"
                 :current-tab
                 :page-list="pageListFiltered"
-                :page-tags="pageTags"
+                :page-tags
                 :favorited-filter-option
                 :restorable-item-count
                 @add-page="addPage"
@@ -109,6 +109,7 @@ async function openUrl(url: string) {
             <PageList
                 :current-url="currentTab?.url ?? null"
                 :page-list="pageListDisplayed"
+                :page-tags
                 @mark-read="remove"
                 @edit="update"
                 @toggle-star="toggleFavorite"

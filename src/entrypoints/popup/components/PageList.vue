@@ -14,6 +14,7 @@ import PageEditing from './PageEditing.vue';
 const { currentUrl, pageList } = defineProps<{
     currentUrl: string | null;
     pageList: PageItem[];
+    pageTags: string[];
 }>();
 
 const emit = defineEmits<{
@@ -84,6 +85,7 @@ function savePageEdit(title: string, tags: string[]) {
                     v-else
                     :init-title="editedTitle"
                     :init-tags="editedTags"
+                    :page-tags
                     @cancel="editedId = null"
                     @save="savePageEdit"
                 />
