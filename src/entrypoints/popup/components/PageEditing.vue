@@ -66,7 +66,7 @@ function cancel() {
 <template>
     <div
         class="page-list-editing"
-        @keydown.enter="save"
+        @keydown.ctrl.enter="save"
         @keydown.ctrl.e="cancel"
     >
         <Input v-model:value="title" size="small" :addon-before="t('edit.title')" />
