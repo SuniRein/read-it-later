@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.8.0](https://github.com/SuniRein/read-it-later/compare/v0.7.0...v0.8.0) (2025-08-11)
+
+
+### Features
+
+* adjust the order of operator buttons to (edit, star, checkout) ([3fc557c](https://github.com/SuniRein/read-it-later/commit/3fc557c907f78852a59ca149fac909a6b05b2344))
+* auto focus on the search box when popup opened ([84649c0](https://github.com/SuniRein/read-it-later/commit/84649c00032b11d122aeb1621c52ee1587813565))
+* **badge:** change badge color when current tab is in the page list, closed [#20](https://github.com/SuniRein/read-it-later/issues/20) ([7102cc6](https://github.com/SuniRein/read-it-later/commit/7102cc6727548a7f2063028947826ad189d3ccdf))
+* **badge:** update setting option `Show page count` to `Show badge` ([e297e35](https://github.com/SuniRein/read-it-later/commit/e297e35f0813cc462ad4bd2c71d018fef02ea87f))
+* **data:** notify if error happened when loaded, closed [#22](https://github.com/SuniRein/read-it-later/issues/22) ([2c03c86](https://github.com/SuniRein/read-it-later/commit/2c03c869f9c1ab52806cd49a83b3f75fc3f17b65))
+* **data:** notify when successfully loaded, closed [#21](https://github.com/SuniRein/read-it-later/issues/21) ([f76bb72](https://github.com/SuniRein/read-it-later/commit/f76bb7207ee4345889291c091b556c1e4302b92f))
+* **edit:** support autocompletion for tag input, closed [#24](https://github.com/SuniRein/read-it-later/issues/24) ([d92c871](https://github.com/SuniRein/read-it-later/commit/d92c871e5d66c98378ab00b15b28010f37793d7a))
+* **search:** support autocompletion for tags in search box, closed [#25](https://github.com/SuniRein/read-it-later/issues/25) ([92675ed](https://github.com/SuniRein/read-it-later/commit/92675ed45711db73804e2d76b642053700b3b9c7))
+* support Chinese characters in tags, closed [#23](https://github.com/SuniRein/read-it-later/issues/23) ([d7ea4e8](https://github.com/SuniRein/read-it-later/commit/d7ea4e845cffad4c0c1483998108b60659f075a7))
+
+
+### Bug Fixes
+
+* **edit:** use <Ctrl-Enter> instead of <Enter> to save for conflict with autocomplete ([d518e76](https://github.com/SuniRein/read-it-later/commit/d518e76d7d4fe7528fe50a61fc145623fdc341ec))
+
 ## [0.7.0](https://github.com/SuniRein/read-it-later/compare/v0.6.1...v0.7.0) (2025-08-09)
 
 
