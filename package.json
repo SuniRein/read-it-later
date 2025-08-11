@@ -37,6 +37,7 @@
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",
         "@intlify/unplugin-vue-i18n": "^6.0.8",
+        "@vitejs/plugin-vue": "^6.0.1",
         "@vue/test-utils": "^2.4.6",
         "@wxt-dev/module-vue": "^1.0.2",
         "commit-and-tag-version": "^12.5.1",
