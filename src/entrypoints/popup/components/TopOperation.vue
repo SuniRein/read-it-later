@@ -21,6 +21,7 @@ import SearchBox from './SearchBox.vue';
 const { currentTab, pageList, favoritedFilterOption, restorableItemCount } = defineProps<{
     currentTab: Tab | null;
     pageList: PageItem[];
+    pageTags: string[];
     favoritedFilterOption: FavoritedFilterOption;
     restorableItemCount: number;
 }>();
@@ -61,7 +62,7 @@ function openRandomPage() {
 
         <IconButton :icon="SyncOutlined" :tip="t('topTip.sync')" />
 
-        <SearchBox v-model:value="searchText" autofocus />
+        <SearchBox v-model:value="searchText" autofocus :tags="pageTags" />
 
         <Badge :offset="[-8, 22]">
             <template #count>

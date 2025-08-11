@@ -70,6 +70,12 @@ const pageListDisplayed = computed(() => {
     return paginated;
 });
 
+const pageTags = computed(() => {
+    return Array.from(
+        new Set(pageList.value.flatMap(item => item.tags)),
+    );
+});
+
 function addPage(item: PageInfo) {
     if (!add(item)) {
         notify.error(t('errorMsg.pageAlreadyExists'));
@@ -88,6 +94,7 @@ async function openUrl(url: string) {
                 v-model:search-text="searchText"
                 :current-tab
                 :page-list="pageListFiltered"
+                :page-tags="pageTags"
                 :favorited-filter-option
                 :restorable-item-count
                 @add-page="addPage"
