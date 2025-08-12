@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FavoritedFilterOption, PageInfo, PageItem, Tab } from '@/utils/types';
+import type { FavoritedFilterOption, PageInfo, Tab } from '@/utils/types';
 
 import {
     CheckCircleFilled,
@@ -18,9 +18,8 @@ import useI18n from '@/composables/i18n';
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
-const { currentTab, pageList, favoritedFilterOption, restorableItemCount } = defineProps<{
+const { currentTab, favoritedFilterOption, restorableItemCount } = defineProps<{
     currentTab: Tab | null;
-    pageList: PageItem[];
     pageTags: string[];
     favoritedFilterOption: FavoritedFilterOption;
     restorableItemCount: number;
@@ -30,7 +29,7 @@ const emit = defineEmits<{
     (e: 'openSetting'): void;
     (e: 'addPage', info: PageInfo): void;
     (e: 'changeFavoritedView'): void;
-    (e: 'openUrl', url: string): void;
+    (e: 'openRandomPage'): void;
     (e: 'restoreRemovedPage'): void;
 }>();
 
@@ -45,13 +44,6 @@ function addNewPage() {
             url: currentTab.url ?? 'Url Not Available',
         };
         emit('addPage', info);
-    }
-}
-
-function openRandomPage() {
-    const randomPage = pageList[Math.floor(Math.random() * pageList.length)];
-    if (randomPage) {
-        emit('openUrl', randomPage.info.url);
     }
 }
 </script>
@@ -75,7 +67,7 @@ function openRandomPage() {
             <IconButton :icon="StarOutlined" :tip="t('topTip.toggleFavorite')" @click="emit('changeFavoritedView')" />
         </Badge>
 
-        <IconButton :icon="ThunderboltOutlined" :tip="t('topTip.random')" @click="openRandomPage" />
+        <IconButton :icon="ThunderboltOutlined" :tip="t('topTip.random')" @click="emit('openRandomPage')" />
 
         <Badge :offset="[-8, 22]">
             <template #count>

@@ -12,6 +12,7 @@ import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 import { useSetting } from '@/composables/setting';
+import { sendMessage } from '@/utils/message';
 
 import notify from '@/utils/notify';
 import PageList from './PageList.vue';
@@ -69,13 +70,12 @@ async function openUrl(url: string) {
             <TopOperation
                 v-model:search-text="searchText"
                 :current-tab
-                :page-list="pageListFiltered"
                 :page-tags
                 :favorited-filter-option
                 :restorable-item-count
                 @add-page="addPage"
                 @change-favorited-view="changeFavoritedView"
-                @open-url="openUrl"
+                @open-random-page="sendMessage('openRandomPage')"
                 @open-setting="browser.runtime.openOptionsPage"
                 @restore-removed-page="restoreRemoved"
             />

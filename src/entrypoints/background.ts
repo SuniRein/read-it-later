@@ -1,9 +1,15 @@
 import type { Browser } from '#imports';
-import type { Command } from '@/utils/types';
+import type { Command, PageItem } from '@/utils/types';
 
 import { browser, defineBackground } from '#imports';
 import { computed, shallowRef, watch } from 'vue';
-import { sendMessage } from '@/utils/message';
+
+import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
+import { usePageList } from '@/composables/page-list';
+import { usePageListFiltered } from '@/composables/page-list-filtered';
+import { useSearchText } from '@/composables/search-text';
+
+import { onMessage, sendMessage } from '@/utils/message';
 import store from '@/utils/store';
 
 const action = browser.action ?? browser.browserAction;
@@ -12,6 +18,11 @@ const commonBadgeColor = '#444';
 const activeBadgeColor = '#16a34a';
 
 export default defineBackground(() => {
+    const { pageList } = usePageList();
+    const { searchText } = useSearchText();
+    const { favoritedFilterOption } = useFavoritedFilterOption();
+    const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchText);
+
     // connection with popup
     let popupPort: Browser.runtime.Port | null = null;
 
@@ -49,9 +60,7 @@ export default defineBackground(() => {
     store.setting.getValue().then(setting => showBadge.value = setting.showBadge);
     store.setting.watch(setting => showBadge.value = setting.showBadge);
 
-    const pageUrls = shallowRef<string[]>([]);
-    store.pageList.getValue().then(pageList => pageUrls.value = pageList.map(item => item.info.url));
-    store.pageList.watch(pageList => pageUrls.value = pageList.map(item => item.info.url));
+    const pageUrls = computed(() => pageList.value.map(page => page.info.url));
 
     const currentTabActive = computed(() => pageUrls.value.includes(currentTabUrl.value));
 
@@ -72,6 +81,20 @@ export default defineBackground(() => {
     updateBadge();
 
     watch([showBadge, pageUrls, currentTabActive], updateBadge);
+
+    // open random page
+    async function openRandomPage(pageList: PageItem[]) {
+        if (pageList.length === 0) {
+            console.warn('No pages available to open.');
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * pageList.length);
+        const randomPage = pageList[randomIndex];
+        await browser.tabs.create({ url: randomPage.info.url });
+    }
+
+    onMessage('openRandomPage', () => openRandomPage(pageListFiltered.value));
 
     // listen for commands
     browser.commands.onCommand.addListener((command: string) => {
