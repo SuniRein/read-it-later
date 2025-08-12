@@ -50,7 +50,7 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
         <Layout style="min-height: 100vh">
             <LayoutSider class="sider">
                 <h2>{{ t('option.title') }}</h2>
-                <Menu v-model:selected-keys="selectedKeys" mode="inline" :items class="menu" @click="clickMenuItem" />
+                <Menu :selected-keys="selectedKeys" mode="inline" :items class="menu" @click="clickMenuItem" />
             </LayoutSider>
 
             <LayoutContent class="content">
