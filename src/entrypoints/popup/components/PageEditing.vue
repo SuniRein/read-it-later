@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AutoComplete, Button, Input, message } from 'ant-design-vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
 
@@ -61,6 +61,12 @@ function save() {
 function cancel() {
     emit('cancel');
 }
+
+const input = useTemplateRef('tags-input');
+
+onMounted(() => {
+    input.value!.$el.querySelector('input')?.focus();
+});
 </script>
 
 <template>
@@ -72,7 +78,7 @@ function cancel() {
         <Input v-model:value="title" size="small" :addon-before="t('edit.title')" />
         <div class="control">
             <AutoComplete v-model:value="tagsRaw" :options style="width: 100%">
-                <Input size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" autofocus />
+                <Input ref="tags-input" size="small" :addon-before="t('edit.tags')" :placeholder="t('edit.tagsPlaceholder')" />
             </AutoComplete>
             <Button size="small" @click="cancel">
                 {{ t('edit.cancel') }}
