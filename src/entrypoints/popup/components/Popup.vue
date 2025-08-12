@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PageInfo, PageItem } from '@/utils/types';
+import type { PageInfo } from '@/utils/types';
 
 import { browser } from '#imports';
 import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } from 'ant-design-vue';
@@ -9,10 +9,11 @@ import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
+import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 import { useSetting } from '@/composables/setting';
-import notify from '@/utils/notify';
 
+import notify from '@/utils/notify';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
@@ -27,35 +28,10 @@ const { currentTab } = useCurrentTab();
 
 const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
 
-function favoritedFilter(item: PageItem): boolean {
-    if (favoritedFilterOption.value === 'all')
-        return true;
-    return favoritedFilterOption.value === 'favorited' ? item.favorited : !item.favorited;
-}
-
 const { searchText } = useSearchText();
 
-function searchFilter(item: PageItem): boolean {
-    if (searchText.value.length === 0)
-        return true;
-    return searchText.value.split(/\s+/).every((token) => {
-        if (token.length === 0)
-            return true;
-
-        if (token.startsWith('#')) {
-            const tag = token.slice(1).toLowerCase();
-            return item.tags.some(t => t.toLowerCase() === tag);
-        }
-
-        const kw = token.toLowerCase();
-        return item.info.title.toLowerCase().includes(kw) || item.info.url.toLowerCase().includes(kw);
-    });
-}
-
 const { pageList, add, remove, update, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
-const pageListFiltered = computed(() => {
-    return pageList.value.filter(favoritedFilter).filter(searchFilter);
-});
+const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchText);
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
