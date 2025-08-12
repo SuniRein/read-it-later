@@ -1,7 +1,7 @@
 import type { Browser } from '#imports';
+import type { Command } from '@/utils/types';
 
 import { browser, defineBackground } from '#imports';
-
 import { computed, shallowRef, watch } from 'vue';
 import { sendMessage } from '@/utils/message';
 import store from '@/utils/store';
@@ -72,4 +72,16 @@ export default defineBackground(() => {
     updateBadge();
 
     watch([showBadge, pageUrls, currentTabActive], updateBadge);
+
+    // listen for commands
+    browser.commands.onCommand.addListener((command: string) => {
+        switch (command as Command) {
+            case 'open-popup':
+                action.openPopup();
+                break;
+
+            default:
+                console.warn(`Unknown command: ${command}`);
+        }
+    });
 });

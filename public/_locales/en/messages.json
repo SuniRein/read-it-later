@@ -4,5 +4,8 @@
     },
     "extDescription": {
         "message": "Save article links to read later."
+    },
+    "commandOpenPopup": {
+        "message": "Open popup"
     }
 }

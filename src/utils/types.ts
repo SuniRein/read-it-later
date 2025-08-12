@@ -3,6 +3,8 @@ import type { I18nLocales } from '@/utils/i18n';
 
 export type Tab = Browser.tabs.Tab;
 
+export type Command = 'open-popup';
+
 export interface PageInfo {
     title: string;
     url: string;

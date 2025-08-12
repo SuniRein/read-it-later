@@ -17,5 +17,13 @@ export default defineConfig({
         description: '__MSG_extDescription__',
         default_locale: 'en',
         permissions: ['tabs', 'storage', 'downloads'],
+        commands: {
+            'open-popup': {
+                suggested_key: {
+                    default: 'Alt+R',
+                },
+                description: '__MSG_commandOpenPopup__',
+            },
+        },
     },
 });

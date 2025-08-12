@@ -4,5 +4,8 @@
     },
     "extDescription": {
         "message": "保存文章链接以便稍后阅读。"
+    },
+    "commandOpenPopup": {
+        "message": "打开弹出窗口"
     }
 }
