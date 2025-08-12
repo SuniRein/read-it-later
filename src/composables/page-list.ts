@@ -1,7 +1,7 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
 import { nanoid } from 'nanoid';
-import { computed } from 'vue';
+import { computed, triggerRef } from 'vue';
 
 import { useStoredValue } from '@/composables/store';
 import store from '@/utils/store';
@@ -27,7 +27,7 @@ export function usePageList() {
             createdAt: now,
             updatedAt: now,
         };
-        pageList.value.unshift(pageItem);
+        pageList.value = [pageItem, ...pageList.value];
         return true;
     }
 
@@ -35,7 +35,8 @@ export function usePageList() {
         const idx = pageList.value.findIndex(item => item.id === id);
         if (idx !== -1) {
             const [removedItem] = pageList.value.splice(idx, 1);
-            removedPageList.value.push(removedItem);
+            removedPageList.value = [...removedPageList.value, removedItem];
+            triggerRef(pageList);
         }
     }
 
@@ -45,6 +46,7 @@ export function usePageList() {
             item.info.title = newTitle;
             item.tags = newTags;
             item.updatedAt = new Date().toISOString();
+            triggerRef(pageList);
         }
     }
 
@@ -54,6 +56,7 @@ export function usePageList() {
             item.favorited = !item.favorited;
             item.updatedAt = new Date().toISOString();
         }
+        triggerRef(pageList);
     }
 
     function load(data: PageItem[]) {
@@ -61,7 +64,7 @@ export function usePageList() {
         const existingUrls = new Set(pageList.value.map(item => item.info.url));
 
         const newItems = data.filter(item => !existingIds.has(item.id) && !existingUrls.has(item.info.url));
-        pageList.value.unshift(...newItems);
+        pageList.value = [...newItems, ...pageList.value];
         return newItems.length;
     }
 
@@ -70,7 +73,8 @@ export function usePageList() {
     function restoreRemoved() {
         const restoredItem = removedPageList.value.pop();
         if (restoredItem) {
-            pageList.value.unshift(restoredItem);
+            pageList.value = [restoredItem, ...pageList.value];
+            triggerRef(removedPageList);
         }
     }
 

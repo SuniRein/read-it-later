@@ -36,7 +36,10 @@ describe('useStoredValue', () => {
 
     it('update store value when set', async () => {
         const test = await getTestValue();
-        test.value.a = 3;
+        test.value = {
+            ...test.value,
+            a: 3,
+        };
         await flushPromises();
         expect(await testStorage.getValue()).toHaveProperty('a', 3);
     });

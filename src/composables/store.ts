@@ -1,6 +1,6 @@
 import type { storage } from '#imports';
 import { tryOnMounted, tryOnUnmounted } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { shallowRef, watch } from 'vue';
 
 import { deepToRaw } from '@/utils/object';
 
@@ -13,7 +13,7 @@ async function getMeta(store: ReturnType<typeof storage.defineItem<any>>) {
 }
 
 export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>) {
-    const state = ref<T>(store.fallback);
+    const state = shallowRef<T>(store.fallback);
 
     let lastModified: number | undefined;
 
@@ -39,7 +39,6 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
                 await store.setMeta({ lastModified });
                 await store.setValue(deepToRaw(newValue));
             },
-            { deep: true },
         );
     });
 
