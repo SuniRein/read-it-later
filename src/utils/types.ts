@@ -3,7 +3,11 @@ import type { I18nLocales } from '@/utils/i18n';
 
 export type Tab = Browser.tabs.Tab;
 
-export type Command = 'open-popup';
+/* eslint-disable style/operator-linebreak */
+export type Command =
+    | 'open-popup'
+    | 'open-random-page';
+/* eslint-enable style/operator-linebreak */
 
 export interface PageInfo {
     title: string;

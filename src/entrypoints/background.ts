@@ -103,6 +103,10 @@ export default defineBackground(() => {
                 action.openPopup();
                 break;
 
+            case 'open-random-page':
+                openRandomPage(pageListFiltered.value);
+                break;
+
             default:
                 console.warn(`Unknown command: ${command}`);
         }

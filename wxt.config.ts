@@ -24,6 +24,12 @@ export default defineConfig({
                 },
                 description: '__MSG_commandOpenPopup__',
             },
+            'open-random-page': {
+                suggested_key: {
+                    default: 'Alt+Shift+R',
+                },
+                description: '__MSG_commandOpenRandomPage__',
+            },
         },
     },
 });

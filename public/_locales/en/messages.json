@@ -7,5 +7,8 @@
     },
     "commandOpenPopup": {
         "message": "Open popup"
+    },
+    "commandOpenRandomPage": {
+        "message": "Open random page"
     }
 }
