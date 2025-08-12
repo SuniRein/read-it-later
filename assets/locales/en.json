@@ -36,7 +36,7 @@
             "showBadge": "Show badge",
             "faviconSource": "Favicon source",
             "locale": "Language",
-            "reset": "Reset",
+            "cancel": "Cancel",
             "save": "Save"
         },
         "data": {

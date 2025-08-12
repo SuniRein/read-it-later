@@ -67,7 +67,7 @@ const wrapperCol = { span: wrapperSpan };
         <FormItem :wrapper-col="{ span: 14, offset: 6 }">
             <Space>
                 <Button shape="round" @click="reset">
-                    {{ t('option.setting.reset') }}
+                    {{ t('option.setting.cancel') }}
                 </Button>
                 <Button shape="round" type="primary" @click="save">
                     {{ t('option.setting.save') }}
