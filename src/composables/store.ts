@@ -1,5 +1,6 @@
 import type { storage } from '#imports';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { tryOnMounted, tryOnUnmounted } from '@vueuse/core';
+import { ref, watch } from 'vue';
 
 import { deepToRaw } from '@/utils/object';
 
@@ -19,7 +20,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
     let unwatchStore: null | (() => void) = null;
     let unwatchRef: null | (() => void) = null;
 
-    onMounted(async () => {
+    tryOnMounted(async () => {
         state.value = structuredClone(await store.getValue());
         lastModified = (await getMeta(store)).lastModified;
 
@@ -42,7 +43,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
         );
     });
 
-    onUnmounted(() => {
+    tryOnUnmounted(() => {
         unwatchStore?.();
         unwatchRef?.();
     });

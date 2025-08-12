@@ -1,8 +1,6 @@
 import { fakeBrowser, storage } from '#imports';
-import { mount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { defineComponent } from 'vue';
 
 import { useStoredValue } from '../store';
 
@@ -18,25 +16,10 @@ describe('useStoredValue', () => {
     interface TestType { a: number; b: string }
     const testStorage = storage.defineItem<TestType>('local:test', { fallback: defaultValue });
 
-    const testComponent = defineComponent({
-        props: {},
-        setup() {
-            return {
-                // avoid auto unwrapping of refs
-                api: {
-                    testValue: useStoredValue(testStorage),
-                },
-            };
-        },
-        render() {
-            return null;
-        },
-    });
-
     async function getTestValue() {
-        const wrapper = mount(testComponent);
+        const value = useStoredValue(testStorage);
         await flushPromises();
-        return wrapper.vm.api.testValue;
+        return value;
     }
 
     it('initialize with default value when not available', async () => {
