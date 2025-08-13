@@ -4,18 +4,18 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { useStoredValue } from '../store';
 
+beforeEach(() => {
+    fakeBrowser.reset();
+});
+
+const defaultValue = { a: 1, b: 'Default value' };
+const initValue = { a: 2, b: 'Init value' };
+const updatedValue = { a: 3, b: 'Updated value' };
+
+interface TestType { a: number; b: string }
+const testStorage = storage.defineItem<TestType>('local:test', { fallback: defaultValue });
+
 describe('useStoredValue', () => {
-    beforeEach(() => {
-        fakeBrowser.reset();
-    });
-
-    const defaultValue = { a: 1, b: 'Default value' };
-    const initValue = { a: 2, b: 'Init value' };
-    const updatedValue = { a: 3, b: 'Init value' };
-
-    interface TestType { a: number; b: string }
-    const testStorage = storage.defineItem<TestType>('local:test', { fallback: defaultValue });
-
     async function getTestValue() {
         const value = useStoredValue(testStorage);
         await flushPromises();
@@ -44,7 +44,7 @@ describe('useStoredValue', () => {
         expect(await testStorage.getValue()).toHaveProperty('a', 3);
     });
 
-    it('update sotre value when set with new object', async () => {
+    it('update store value when set with new object', async () => {
         const test = await getTestValue();
         test.value = updatedValue;
         await flushPromises();

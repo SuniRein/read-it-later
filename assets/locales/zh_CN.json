@@ -35,9 +35,7 @@
             "paninationOption": "每页 {count} 个标签页",
             "showBadge": "显示徽章",
             "faviconSource": "图标源",
-            "locale": "语言",
-            "cancel": "取消",
-            "save": "保存"
+            "locale": "语言"
         },
         "data": {
             "localStorage": "本地存储",

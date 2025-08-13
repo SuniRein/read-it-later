@@ -2,9 +2,13 @@
 import type { I18nLocales } from '@/utils/i18n';
 import type { FaviconSource } from '@/utils/types';
 
-import { Button, Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption, Space } from 'ant-design-vue';
+import { watchDeep } from '@vueuse/core';
+import { Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption } from 'ant-design-vue';
+import { ref } from 'vue';
+
 import useI18n from '@/composables/i18n';
-import { useSetting } from '@/composables/setting';
+import { deepToRaw } from '@/utils/object';
+import store from '@/utils/store';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
@@ -13,7 +17,8 @@ const { labelSpan, wrapperSpan } = defineProps<{
 
 const { t } = useI18n();
 
-const { setting, save, reset } = useSetting();
+const setting = ref(await store.setting.getValue());
+watchDeep(setting, newValue => store.setting.setValue(deepToRaw(newValue)));
 
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
@@ -62,17 +67,6 @@ const wrapperCol = { span: wrapperSpan };
                     简体中文
                 </RadioButton>
             </Radiogroup>
-        </FormItem>
-
-        <FormItem :wrapper-col="{ span: 14, offset: 6 }">
-            <Space>
-                <Button shape="round" @click="reset">
-                    {{ t('option.setting.cancel') }}
-                </Button>
-                <Button shape="round" type="primary" @click="save">
-                    {{ t('option.setting.save') }}
-                </Button>
-            </Space>
         </FormItem>
     </Form>
 </template>

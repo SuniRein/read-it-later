@@ -54,11 +54,11 @@ const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
             </LayoutSider>
 
             <LayoutContent class="content">
-                <RouterView v-slot="{ Component }">
-                    <KeepAlive>
+                <Suspense>
+                    <RouterView v-slot="{ Component }">
                         <component :is="Component" :label-span="6" :wrapper-span="14" />
-                    </KeepAlive>
-                </RouterView>
+                    </RouterView>
+                </Suspense>
             </LayoutContent>
         </Layout>
     </ConfigProvider>

@@ -35,9 +35,7 @@
             "paninationOption": "{count} items per page",
             "showBadge": "Show badge",
             "faviconSource": "Favicon source",
-            "locale": "Language",
-            "cancel": "Cancel",
-            "save": "Save"
+            "locale": "Language"
         },
         "data": {
             "localStorage": "Local Storage",
