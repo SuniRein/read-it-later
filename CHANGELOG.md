@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.9.0](https://github.com/SuniRein/read-it-later/compare/v0.8.0...v0.9.0) (2025-08-13)
+
+
+### Features
+
+* **command:** add a shortcut for open a random page, closed [#27](https://github.com/SuniRein/read-it-later/issues/27) ([d7224b6](https://github.com/SuniRein/read-it-later/commit/d7224b6233cb2dc05a45a33ab5562b073ac1d0b3))
+* **command:** add a shortcut for open popup, closed [#26](https://github.com/SuniRein/read-it-later/issues/26) ([3ad3036](https://github.com/SuniRein/read-it-later/commit/3ad3036284cb99e5464eb440e7ba4aa4324d2c9f))
+* new button to copy item's url, closed [#28](https://github.com/SuniRein/read-it-later/issues/28) ([f075e49](https://github.com/SuniRein/read-it-later/commit/f075e49df3518d1b43f79cebf7c4f35807744650))
+* **setting:** dynamid update settings, no need to save manually, closed [#34](https://github.com/SuniRein/read-it-later/issues/34) ([2569b76](https://github.com/SuniRein/read-it-later/commit/2569b76bac40f2f144382f8703b202785a09b8ea))
+
+
+### Bug Fixes
+
+* **edit:** auto completion triggered when saving by <Ctrl-Enter> ([e4edc48](https://github.com/SuniRein/read-it-later/commit/e4edc48f8066ec6777da6c43b2b809361dcb15a6))
+* **edit:** autofocus invalid due to autofocus of search box ([69c8f49](https://github.com/SuniRein/read-it-later/commit/69c8f4985160f53a487d703785cc02b333905208))
+* **i18n:** update nav text in option page when changed locale ([21f7de2](https://github.com/SuniRein/read-it-later/commit/21f7de21e9142f8495d76a1ac8d711c2bf44ba8c))
+* replace `reset` in setting page with more precise `cancel`, fixed [#33](https://github.com/SuniRein/read-it-later/issues/33) ([bea4e57](https://github.com/SuniRein/read-it-later/commit/bea4e579f3741684a545c7da429225d0886b623f))
+
 ## [0.8.0](https://github.com/SuniRein/read-it-later/compare/v0.7.0...v0.8.0) (2025-08-11)
 
 
