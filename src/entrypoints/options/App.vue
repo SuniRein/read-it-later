@@ -27,7 +27,7 @@ const antLocale = useAntLocale(locale);
 
 const selectedKeys = computed(() => [route.name as string]);
 
-const items: MenuProps['items'] = [
+const items = computed<MenuProps['items']>(() => [
     {
         key: 'setting',
         label: t('option.nav.setting'),
@@ -38,7 +38,7 @@ const items: MenuProps['items'] = [
         label: t('option.nav.data'),
         icon: h(SaveOutlined),
     },
-];
+]);
 
 const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
     router.push({ name: key as string });
