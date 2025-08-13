@@ -59,8 +59,12 @@ function addPage(item: PageInfo) {
     }
 }
 
-async function openUrl(url: string) {
+function openUrl(url: string) {
     browser.tabs.create({ url });
+}
+
+function copyUrl(url: string) {
+    navigator.clipboard.writeText(url);
 }
 </script>
 
@@ -90,6 +94,7 @@ async function openUrl(url: string) {
                 @edit="update"
                 @toggle-star="toggleFavorite"
                 @open-url="openUrl"
+                @copy-url="copyUrl"
             />
         </LayoutContent>
 

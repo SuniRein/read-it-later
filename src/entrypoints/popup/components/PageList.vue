@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PageItem } from '@/utils/types';
 
-import { CheckOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
+import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
 import { Avatar, List, ListItem } from 'ant-design-vue';
 import { ref } from 'vue';
 
@@ -22,6 +22,7 @@ const emit = defineEmits<{
     (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
     (e: 'toggleStar', id: string): void;
     (e: 'openUrl', url: string): void;
+    (e: 'copyUrl', url: string): void;
 }>();
 
 const { getFaviconUrl } = useFavicon();
@@ -75,6 +76,7 @@ function savePageEdit(title: string, tags: string[]) {
                     </div>
 
                     <div class="actions">
+                        <IconButton v-bind="actionAttr" :icon="CopyOutlined" @click="emit('copyUrl', item.info.url)" />
                         <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
                         <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggleStar', item.id)" />
                         <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
