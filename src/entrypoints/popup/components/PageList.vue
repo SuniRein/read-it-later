@@ -6,6 +6,7 @@ import { Avatar, List, ListItem } from 'ant-design-vue';
 import { ref } from 'vue';
 
 import { useFavicon } from '@/composables/favicon';
+import { isFirefox, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
 import IconButton from './IconButton.vue';
@@ -48,6 +49,13 @@ function savePageEdit(title: string, tags: string[]) {
     emit('edit', editedId.value, title, tags);
     editedId.value = null;
 }
+
+function urlClickable(url: string): boolean {
+    if (isFirefox() && urlRestricted(url)) {
+        return false;
+    }
+    return true;
+}
 </script>
 
 <template>
@@ -60,7 +68,11 @@ function savePageEdit(title: string, tags: string[]) {
                         current: item.info.url === currentUrl,
                     }"
                 >
-                    <div class="item-content" @click="emit('openUrl', item.info.url)">
+                    <div
+                        class="item-content"
+                        :class="{ clickable: urlClickable(item.info.url) }"
+                        v-on="{ click: urlClickable(item.info.url) ? () => emit('openUrl', item.info.url) : undefined }"
+                    >
                         <div class="favicon-and-title">
                             <Avatar class="favicon" :src="getFaviconUrl(item.info.url)" size="small" />
                             <span class="title">{{ item.info.title }}</span>
@@ -145,6 +157,16 @@ function savePageEdit(title: string, tags: string[]) {
     }
 }
 
+.item-content {
+    &.clickable {
+        cursor: pointer;
+    }
+
+    &:not(.clickable) {
+        cursor: not-allowed;
+    }
+}
+
 .favicon-and-title {
     display: flex;
     align-items: center;
@@ -170,8 +192,6 @@ function savePageEdit(title: string, tags: string[]) {
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
-
-    cursor: pointer;
 }
 
 .url-and-tags {
@@ -193,8 +213,6 @@ function savePageEdit(title: string, tags: string[]) {
     text-overflow: ellipsis;
 
     color: gray;
-
-    cursor: pointer;
 
     flex: 1;
     min-width: 0;

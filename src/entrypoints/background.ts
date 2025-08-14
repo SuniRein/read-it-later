@@ -9,6 +9,7 @@ import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 
+import { isFirefox, urlRestricted } from '@/utils/firefox';
 import { onMessage, sendMessage } from '@/utils/message';
 import store from '@/utils/store';
 
@@ -21,7 +22,11 @@ export default defineBackground(() => {
     const { pageList } = usePageList();
     const { searchText } = useSearchText();
     const { favoritedFilterOption } = useFavoritedFilterOption();
-    const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchText);
+
+    const clikablePageList = computed(() =>
+        isFirefox() ? pageList.value.filter(item => !urlRestricted(item.info.url)) : pageList.value,
+    );
+    const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchText);
 
     // connection with popup
     let popupPort: Browser.runtime.Port | null = null;
