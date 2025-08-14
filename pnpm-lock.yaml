@@ -59,7 +59,7 @@ importers:
         version: 2.4.6
       '@wxt-dev/module-vue':
         specifier: ^1.0.2
-        version: 1.0.2(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.6.3))(wxt@0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0))
+        version: 1.0.2(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.6.3))(wxt@0.20.8(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0))
       commit-and-tag-version:
         specifier: ^12.5.1
         version: 12.5.1
@@ -91,8 +91,8 @@ importers:
         specifier: ^2.2.10
         version: 2.2.12(typescript@5.6.3)
       wxt:
-        specifier: ^0.20.6
-        version: 0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0)
+        specifier: ^0.20.8
+        version: 0.20.8(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0)
 
 packages:
 
@@ -1080,8 +1080,8 @@ packages:
   '@webext-core/messaging@2.3.0':
     resolution: {integrity: sha512-gChSVKdRs7JEq5hFH0jVROSvTq+sKq9afXTA/gBswep3RWNLhXyDsXFlvPMkYbmML1XZ8QKKC9ou2MlCKRZwSQ==}
 
-  '@wxt-dev/browser@0.0.326':
-    resolution: {integrity: sha512-4Pb4ES7jMsxYFHEEhK005bOL2BnDEXO3jjZTOvF0gWdota8Ytpg81VtKVSC1ohj17C6tE6oNI3FdcVRfKUBl3Q==}
+  '@wxt-dev/browser@0.1.3':
+    resolution: {integrity: sha512-IKoRi+YqAZ135XIzmNsER8tOudd4e3C46CjqPC4Ao0YufxGlUO1PbRVRf2g94uMRCQpe6DaYQhBLOjwGua6S4g==}
 
   '@wxt-dev/module-vue@1.0.2':
     resolution: {integrity: sha512-eRRpPgrakgQSfzR8AnmT3+Dd/ltgghOzgfy1MrHl0zZ2Pc2rcuwcoeFt9rrpjH3KuvZfYD2JIAg3gY9OlTPkmQ==}
@@ -4357,8 +4357,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  wxt@0.20.7:
-    resolution: {integrity: sha512-KABq5i3CnXMUaJTcORGDLCi04K/IceUVAx5rler2QbZpLvS13OUOO0k+4s/7LI3+N8zXLh/GlQArMyJfk3M2yQ==}
+  wxt@0.20.8:
+    resolution: {integrity: sha512-aP6SY7oUK1+uqG5fVdFaBeFTXJ+Av/CRTYM47ljZnSSd18zJhevwU+JU7wFKAJwYomEK1eHE+F9YVAKmA82EbA==}
     hasBin: true
 
   xdg-basedir@5.1.0:
@@ -5445,15 +5445,15 @@ snapshots:
       uid: 2.0.2
       webextension-polyfill: 0.10.0
 
-  '@wxt-dev/browser@0.0.326':
+  '@wxt-dev/browser@0.1.3':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
 
-  '@wxt-dev/module-vue@1.0.2(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.6.3))(wxt@0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0))':
+  '@wxt-dev/module-vue@1.0.2(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.6.3))(wxt@0.20.8(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0))':
     dependencies:
       '@vitejs/plugin-vue': 5.2.4(vite@6.3.5(@types/node@24.0.10)(jiti@2.4.2)(yaml@2.8.0))(vue@3.5.17(typescript@5.6.3))
-      wxt: 0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0)
+      wxt: 0.20.8(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0)
     transitivePeerDependencies:
       - vite
       - vue
@@ -8701,7 +8701,7 @@ snapshots:
       magic-string: 0.30.17
       mlly: 1.7.4
       pathe: 2.0.3
-      picomatch: 4.0.2
+      picomatch: 4.0.3
       pkg-types: 2.2.0
       scule: 1.3.0
       strip-literal: 3.0.0
@@ -8733,7 +8733,7 @@ snapshots:
   unplugin-utils@0.2.4:
     dependencies:
       pathe: 2.0.3
-      picomatch: 4.0.2
+      picomatch: 4.0.3
 
   unplugin@1.16.1:
     dependencies:
@@ -8743,7 +8743,7 @@ snapshots:
   unplugin@2.3.5:
     dependencies:
       acorn: 8.15.0
-      picomatch: 4.0.2
+      picomatch: 4.0.3
       webpack-virtual-modules: 0.6.2
 
   untildify@4.0.0: {}
@@ -9022,14 +9022,14 @@ snapshots:
 
   ws@8.18.1: {}
 
-  wxt@0.20.7(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0):
+  wxt@0.20.8(@types/node@24.0.10)(jiti@2.4.2)(rollup@4.44.1)(yaml@2.8.0):
     dependencies:
       '@1natsu/wait-element': 4.1.2
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.44.1)
       '@webext-core/fake-browser': 1.3.2
       '@webext-core/isolated-element': 1.1.2
       '@webext-core/match-patterns': 1.0.3
-      '@wxt-dev/browser': 0.0.326
+      '@wxt-dev/browser': 0.1.3
       '@wxt-dev/storage': 1.1.1
       async-mutex: 0.5.0
       c12: 3.0.4(magicast@0.3.5)
