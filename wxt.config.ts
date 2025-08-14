@@ -12,11 +12,13 @@ export default defineConfig({
             }),
         ],
     }),
-    manifest: {
+    manifest: ({ manifestVersion }) => ({
         name: '__MSG_extName__',
         description: '__MSG_extDescription__',
         default_locale: 'en',
         permissions: ['tabs', 'storage', 'downloads'],
+        optional_permissions: manifestVersion === 2 ? ['<all_urls>'] : undefined,
+        optional_host_permissions: manifestVersion === 3 ? ['<all_urls>'] : undefined,
         commands: {
             'open-popup': {
                 suggested_key: {
@@ -31,5 +33,5 @@ export default defineConfig({
                 description: '__MSG_commandOpenRandomPage__',
             },
         },
-    },
+    }),
 });
