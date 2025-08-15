@@ -39,6 +39,19 @@
         },
         "data": {
             "localStorage": "本地存储",
+            "cloudStorage": {
+                "label": "云端存储",
+                "type": {
+                    "none": "无",
+                    "webdav": "WebDAV"
+                },
+                "webdav": {
+                    "url": "URL",
+                    "username": "用户名",
+                    "password": "密码",
+                    "validate": "验证"
+                }
+            },
             "save": "保存",
             "load": "加载"
         }

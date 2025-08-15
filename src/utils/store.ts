@@ -16,6 +16,8 @@ const defaultSetting: Setting = {
     showBadge: false,
     faviconSource: 'favicon.im',
     locale: defaultLocale(),
+    cloudStorage: null,
+    webDavConfig: {},
 } as const;
 
 export default {

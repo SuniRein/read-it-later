@@ -39,6 +39,19 @@
         },
         "data": {
             "localStorage": "Local Storage",
+            "cloudStorage": {
+                "label": "Cloud Storage",
+                "type": {
+                    "none": "None",
+                    "webdav": "WebDAV"
+                },
+                "webdav": {
+                    "url": "URL",
+                    "username": "Username",
+                    "password": "Password",
+                    "validate": "Validate"
+                }
+            },
             "save": "Save",
             "load": "Load"
         }

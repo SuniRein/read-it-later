@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import type { UploadProps } from 'ant-design-vue';
+import type { CloudStorageType } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, Form, FormItem, Space, Upload } from 'ant-design-vue';
 
+import { Button, Divider, Form, FormItem, Input, InputPassword, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
+
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
+import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
@@ -17,7 +20,11 @@ const { labelSpan, wrapperSpan } = defineProps<{
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
 
+const buttonWrapperCol = { offset: labelSpan };
+
 const { t } = useI18n();
+
+const { setting } = await useSetting();
 
 const { pageList, load } = usePageList();
 
@@ -83,5 +90,63 @@ function loadFromFile(file: File) {
                 </Upload>
             </Space>
         </FormItem>
+
+        <Divider />
+
+        <FormItem :label="t('option.data.cloudStorage.label')">
+            <RadioGroup v-model:value="setting.cloudStorage">
+                <RadioButton :value="null satisfies CloudStorageType">
+                    {{ t('option.data.cloudStorage.type.none') }}
+                </RadioButton>
+                <RadioButton :value="'webdav' satisfies CloudStorageType">
+                    {{ t('option.data.cloudStorage.type.webdav') }}
+                </RadioButton>
+            </RadioGroup>
+        </FormItem>
+
+        <div v-if="setting.cloudStorage === 'webdav'" class="webdav-config">
+            <FormItem :label="t('option.data.cloudStorage.webdav.url')">
+                <Input v-model:value="setting.webDavConfig.url" />
+            </FormItem>
+
+            <FormItem :label="t('option.data.cloudStorage.webdav.username')">
+                <Input v-model:value="setting.webDavConfig.username" />
+            </FormItem>
+
+            <FormItem :label="t('option.data.cloudStorage.webdav.password')">
+                <InputPassword v-model:value="setting.webDavConfig.password" />
+            </FormItem>
+
+            <FormItem :wrapper-col="buttonWrapperCol">
+                <Button type="primary">
+                    {{ t('option.data.cloudStorage.webdav.validate') }}
+                </Button>
+            </FormItem>
+        </div>
+
+        <FormItem :wrapper-col="buttonWrapperCol">
+            <Space>
+                <Button shape="round" :disabled="setting.cloudStorage === null">
+                    {{ t('option.data.save') }}
+                </Button>
+
+                <Upload accept=".json">
+                    <Button shape="round" :disabled="setting.cloudStorage === null">
+                        {{ t('option.data.load') }}
+                    </Button>
+                </Upload>
+            </Space>
+        </FormItem>
     </Form>
 </template>
+
+<style scoped>
+.webdav-config {
+    margin: 16px auto;
+    padding: 16px;
+    width: fit-content;
+    min-width: 60%;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+</style>
