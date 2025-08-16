@@ -3,13 +3,15 @@ import type { UploadProps } from 'ant-design-vue';
 import type { CloudStorageType } from '@/utils/types';
 
 import { browser } from '#imports';
+import { Button, Divider, Form, FormItem, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
+import { useTemplateRef } from 'vue';
 
-import { Button, Divider, Form, FormItem, Input, InputPassword, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
-
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
+
+import WebDavConnect from '../components/WebDavConnect.vue';
 import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
@@ -74,6 +76,8 @@ function loadFromFile(file: File) {
     };
     reader.readAsText(file);
 }
+
+const cloudStorage = useTemplateRef('cloudStorage');
 </script>
 
 <template>
@@ -104,37 +108,17 @@ function loadFromFile(file: File) {
             </RadioGroup>
         </FormItem>
 
-        <div v-if="setting.cloudStorage === 'webdav'" class="webdav-config">
-            <FormItem :label="t('option.data.cloudStorage.webdav.url')">
-                <Input v-model:value="setting.webDavConfig.url" />
-            </FormItem>
-
-            <FormItem :label="t('option.data.cloudStorage.webdav.username')">
-                <Input v-model:value="setting.webDavConfig.username" />
-            </FormItem>
-
-            <FormItem :label="t('option.data.cloudStorage.webdav.password')">
-                <InputPassword v-model:value="setting.webDavConfig.password" />
-            </FormItem>
-
-            <FormItem :wrapper-col="buttonWrapperCol">
-                <Button type="primary">
-                    {{ t('option.data.cloudStorage.webdav.validate') }}
-                </Button>
-            </FormItem>
-        </div>
+        <WebDavConnect v-if="setting.cloudStorage === 'webdav'" ref="cloudStorage" v-model="setting.webDavConfig" :button-wrapper-col />
 
         <FormItem :wrapper-col="buttonWrapperCol">
             <Space>
-                <Button shape="round" :disabled="setting.cloudStorage === null">
+                <Button shape="round" :disabled="cloudStorage === null" @click="cloudStorage?.save()">
                     {{ t('option.data.save') }}
                 </Button>
 
-                <Upload accept=".json">
-                    <Button shape="round" :disabled="setting.cloudStorage === null">
-                        {{ t('option.data.load') }}
-                    </Button>
-                </Upload>
+                <Button shape="round" :disabled="setting.cloudStorage === null" @click="cloudStorage?.load()">
+                    {{ t('option.data.load') }}
+                </Button>
             </Space>
         </FormItem>
     </Form>
