@@ -49,7 +49,12 @@
                     "url": "URL",
                     "username": "用户名",
                     "password": "密码",
-                    "validate": "验证"
+                    "validate": "验证",
+                    "message": {
+                        "permissionDenied": "没有权限访问云端存储，请授予权限。",
+                        "urlRequired": "请填写 URL。",
+                        "validateSuccess": "WebDAV 连接成功。"
+                    }
                 }
             },
             "save": "保存",
