@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import type { UploadProps } from 'ant-design-vue';
+import type { CloudStorageType } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, Form, FormItem, Space, Upload } from 'ant-design-vue';
+import { Button, Divider, Form, FormItem, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
+import { useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
+
+import WebDavConnect from '../components/WebDavConnect.vue';
+import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
@@ -17,27 +22,32 @@ const { labelSpan, wrapperSpan } = defineProps<{
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
 
+const buttonWrapperCol = { offset: labelSpan };
+
 const { t } = useI18n();
+
+const { setting } = await useSetting();
 
 const { pageList, load } = usePageList();
 
-function saveToLocalStorage() {
+function getData() {
     const data = serializePageList(pageList.value);
-
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const filename = `read-it-later-${timestamp}.json`;
+    return { data, filename };
+}
 
-    browser.downloads
-        .download({
-            url,
-            filename,
-            saveAs: true,
-        })
-        .then(() => {
-            URL.revokeObjectURL(url);
-        });
+async function saveLocally(data: string, filename: string) {
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    await browser.downloads.download({ url, filename, saveAs: true });
+    URL.revokeObjectURL(url);
+}
+
+async function saveToLocalStorage() {
+    const { data, filename } = getData();
+    await saveLocally(data, filename);
 }
 
 const uploadHandler: UploadProps['customRequest'] = (options) => {
@@ -53,19 +63,27 @@ function loadFromFile(file: File) {
     const reader = new FileReader();
     reader.onload = (event) => {
         if (event.target?.result) {
-            try {
-                const data = deserializePageList(event.target.result as string);
-                const numLoad = load(data);
-                notify.success(
-                    t('successMsg.loadData', { count: numLoad }),
-                );
-            }
-            catch (error) {
-                notify.error(t('errorMsg.parseError', { error }));
-            }
+            loadItems(event.target.result as string);
         }
     };
     reader.readAsText(file);
+}
+
+function loadItems(rawItems: string) {
+    try {
+        const items = deserializePageList(rawItems);
+        const numLoad = load(items);
+        notify.success(t('successMsg.loadData', { count: numLoad }));
+    }
+    catch (error) {
+        notify.error(t('errorMsg.parseError', { error }));
+    }
+}
+
+const cloudStorage = useTemplateRef('cloudStorage');
+
+async function saveToCloudStorage() {
+    await cloudStorage.value?.save(getData());
 }
 </script>
 
@@ -81,6 +99,40 @@ function loadFromFile(file: File) {
                         {{ t('option.data.load') }}
                     </Button>
                 </Upload>
+            </Space>
+        </FormItem>
+
+        <Divider />
+
+        <FormItem :label="t('option.data.cloudStorage.label')">
+            <RadioGroup v-model:value="setting.cloudStorage">
+                <RadioButton :value="null satisfies CloudStorageType">
+                    {{ t('option.data.cloudStorage.type.none') }}
+                </RadioButton>
+                <RadioButton :value="'webdav' satisfies CloudStorageType">
+                    {{ t('option.data.cloudStorage.type.webdav') }}
+                </RadioButton>
+            </RadioGroup>
+        </FormItem>
+
+        <WebDavConnect
+            v-if="setting.cloudStorage === 'webdav'"
+            ref="cloudStorage"
+            v-model="setting.webDavConfig"
+            :button-wrapper-col
+            @load-data="loadItems"
+            @save-locally="saveLocally"
+        />
+
+        <FormItem :wrapper-col="buttonWrapperCol">
+            <Space>
+                <Button shape="round" :disabled="cloudStorage === null" @click="saveToCloudStorage">
+                    {{ t('option.data.save') }}
+                </Button>
+
+                <Button shape="round" :disabled="setting.cloudStorage === null" @click="cloudStorage?.load()">
+                    {{ t('option.data.load') }}
+                </Button>
             </Space>
         </FormItem>
     </Form>

@@ -39,8 +39,31 @@
         },
         "data": {
             "localStorage": "Local Storage",
+            "cloudStorage": {
+                "label": "Cloud Storage",
+                "type": {
+                    "none": "None",
+                    "webdav": "WebDAV"
+                },
+                "webdav": {
+                    "url": "URL",
+                    "username": "Username",
+                    "password": "Password",
+                    "validate": "Validate",
+                    "message": {
+                        "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
+                        "urlRequired": "Please fill in the URL.",
+                        "urlInvalid": "Invalid URL format.",
+                        "validateSuccess": "WebDAV connection successful.",
+                        "saveSuccess": "WebDAV saved successfully.",
+                        "confirmDelete": "Sure to delete this entry?"
+                    }
+                }
+            },
             "save": "Save",
-            "load": "Load"
+            "load": "Load",
+            "delete": "Delete",
+            "saveLocally": "Save to Local"
         }
     }
 }

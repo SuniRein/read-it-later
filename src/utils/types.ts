@@ -2,7 +2,6 @@ import type { Browser } from '#imports';
 import type { I18nLocales } from '@/utils/i18n';
 
 export type Tab = Browser.tabs.Tab;
-
 /* eslint-disable style/operator-linebreak */
 export type Command =
     | 'open-popup'
@@ -25,11 +24,21 @@ export interface PageItem {
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
+export type CloudStorageType = 'webdav' | null;
+
 export interface Setting {
     pagination: number;
     showBadge: boolean;
     faviconSource: FaviconSource;
     locale: I18nLocales;
+    cloudStorage: CloudStorageType;
+    webDavConfig: WebDavConfig;
 }
 
 export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';
+
+export interface WebDavConfig {
+    url?: string;
+    username?: string;
+    password?: string;
+}

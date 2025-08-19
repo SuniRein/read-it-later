@@ -2,13 +2,10 @@
 import type { I18nLocales } from '@/utils/i18n';
 import type { FaviconSource } from '@/utils/types';
 
-import { watchDeep } from '@vueuse/core';
 import { Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption } from 'ant-design-vue';
-import { ref } from 'vue';
 
 import useI18n from '@/composables/i18n';
-import { deepToRaw } from '@/utils/object';
-import store from '@/utils/store';
+import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
     labelSpan: number;
@@ -17,8 +14,7 @@ const { labelSpan, wrapperSpan } = defineProps<{
 
 const { t } = useI18n();
 
-const setting = ref(await store.setting.getValue());
-watchDeep(setting, newValue => store.setting.setValue(deepToRaw(newValue)));
+const { setting } = await useSetting();
 
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
