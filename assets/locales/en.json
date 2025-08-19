@@ -60,10 +60,18 @@
                     }
                 }
             },
+            "browserData": "Browser Data",
             "save": "Save",
             "load": "Load",
             "delete": "Delete",
-            "saveLocally": "Save to Local"
+            "saveLocally": "Save to Local",
+            "clear": "Clear",
+            "message": {
+                "confirmClear": {
+                    "title": "Confirm clear data?",
+                    "content": "This action cannot be undone, please proceed with caution. \n\nNote: This does not include data exported to local storage and cloud storage."
+                }
+            }
         }
     }
 }

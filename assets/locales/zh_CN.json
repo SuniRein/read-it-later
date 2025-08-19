@@ -60,10 +60,18 @@
                     }
                 }
             },
+            "browserData": "浏览器数据",
             "save": "保存",
             "load": "加载",
             "delete": "删除",
-            "saveLocally": "保存到本地"
+            "saveLocally": "保存到本地",
+            "clear": "清除",
+            "message": {
+                "confirmClear": {
+                    "title": "确认清除数据？",
+                    "content": "清除后将无法恢复，请谨慎操作。\n\n注意：这不包括导出至本地存储与云端存储的数据。"
+                }
+            }
         }
     }
 }

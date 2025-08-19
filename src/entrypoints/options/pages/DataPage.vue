@@ -3,7 +3,7 @@ import type { UploadProps } from 'ant-design-vue';
 import type { CloudStorageType } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, Divider, Form, FormItem, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
+import { Button, Divider, Form, FormItem, Popconfirm, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
 import { useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
@@ -28,7 +28,7 @@ const { t } = useI18n();
 
 const { setting } = await useSetting();
 
-const { pageList, load } = usePageList();
+const { pageList, load, clear } = usePageList();
 
 function getData() {
     const data = serializePageList(pageList.value);
@@ -85,6 +85,10 @@ const cloudStorage = useTemplateRef('cloudStorage');
 async function saveToCloudStorage() {
     await cloudStorage.value?.save(getData());
 }
+
+function clearBrowserData() {
+    clear();
+}
 </script>
 
 <template>
@@ -134,6 +138,26 @@ async function saveToCloudStorage() {
                     {{ t('option.data.load') }}
                 </Button>
             </Space>
+        </FormItem>
+
+        <Divider />
+
+        <FormItem :label="t('option.data.browserData')">
+            <Popconfirm
+                :title="t('option.data.message.confirmClear.title')"
+                :ok-button-props="{ danger: true }"
+                @confirm="clearBrowserData"
+            >
+                <Button shape="round" danger>
+                    {{ t('option.data.clear') }}
+                </Button>
+
+                <template #description>
+                    <span style="white-space: pre-line;">
+                        {{ t('option.data.message.confirmClear.content') }}
+                    </span>
+                </template>
+            </Popconfirm>
         </FormItem>
     </Form>
 </template>

@@ -68,6 +68,11 @@ export function usePageList() {
         return newItems.length;
     }
 
+    function clear() {
+        pageList.value = [];
+        removedPageList.value = [];
+    }
+
     const restorableItemCount = computed(() => removedPageList.value.length);
 
     function restoreRemoved() {
@@ -85,6 +90,7 @@ export function usePageList() {
         update,
         toggleFavorite,
         load,
+        clear,
 
         restorableItemCount,
         restoreRemoved,
