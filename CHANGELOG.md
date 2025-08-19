@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.10.0](https://github.com/SuniRein/read-it-later/compare/v0.9.0...v0.10.0) (2025-08-19)
+
+
+### Features
+
+* **data:** allow clear browser data, closed [#39](https://github.com/SuniRein/read-it-later/issues/39) ([f430228](https://github.com/SuniRein/read-it-later/commit/f430228ca6791443be6af35ce156e06fcb2701c0))
+* filter unclickable urls in firefox when opening random pages ([e90b7c9](https://github.com/SuniRein/read-it-later/commit/e90b7c9a1e72f7b469b4476edee8e7d67ff4319b))
+* set restricted urls unclickable in firefox ([340d29b](https://github.com/SuniRein/read-it-later/commit/340d29b2a72e9f524d30bb815658f25756ef6a0b))
+* **webdav**: config panel for webdav cloud storage in data page ([5081ed0](https://github.com/SuniRein/read-it-later/commit/5081ed07ec6cbf0258b9841bce0aa37dcd8555ce))
+* **webdav:** delete remote files in webdav ([7e59a38](https://github.com/SuniRein/read-it-later/commit/7e59a380ab84a8914274744592ca4cd2b7d02dd1))
+* **webdav:** load remote data from webdav ([c486807](https://github.com/SuniRein/read-it-later/commit/c486807cc20d5176bec4c2277e1df5c4e4832761))
+* **webdav:** save remote file to local ([cb57aca](https://github.com/SuniRein/read-it-later/commit/cb57aca2dc1eec76e011dbc4ac80d0d47c72ac57))
+* **webdav:** upload local data to WebDav backup directory ([04e2146](https://github.com/SuniRein/read-it-later/commit/04e21468373df4c287058d9b23d0b9ebe7070340))
+* **webdav:** validate url before connection ([c1b4059](https://github.com/SuniRein/read-it-later/commit/c1b4059e3f9c974d81ce3690dd9d3bd110d76a56))
+* **webdav:** validate webdav connection ([ab51979](https://github.com/SuniRein/read-it-later/commit/ab51979a4679d01c39800ef5eec870828a6cfdad))
+
+
+### Bug Fixes
+
+* disable spellcheck globally ([189d8c4](https://github.com/SuniRein/read-it-later/commit/189d8c4002656491baac780e51cae1853dbde756))
+
 ## [0.9.0](https://github.com/SuniRein/read-it-later/compare/v0.8.0...v0.9.0) (2025-08-13)
 
 
