@@ -3,9 +3,9 @@ import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
+import { Button, Form, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
 
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';
@@ -29,7 +29,16 @@ const webdavConfig = computed(() => {
 
 const { t } = useI18n();
 
+const formRef = useTemplateRef('form');
+
 async function checkPermission(url?: string) {
+    try {
+        await (formRef.value as any).validate();
+    }
+    catch {
+        return;
+    }
+
     if (!url) {
         notify.error(t('option.data.cloudStorage.webdav.message.urlRequired'));
         return false;
@@ -128,17 +137,26 @@ defineExpose({ save, load });
 </script>
 
 <template>
-    <div class="webdav-config">
-        <FormItem :label="t('option.data.cloudStorage.webdav.url')">
-            <!-- TODO: URL validate -->
+    <Form ref="form" :model="config" class="webdav-config" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }">
+        <FormItem
+            :label="t('option.data.cloudStorage.webdav.url')"
+            name="url"
+            :rules="{
+                pattern: /^http[s]:\/\/.+$/,
+                whitespace: false,
+                required: true,
+                message: t('option.data.cloudStorage.webdav.message.urlInvalid'),
+            }"
+            has-feedback
+        >
             <Input v-model:value="config.url" :addon-after="AFTER_URL" />
         </FormItem>
 
-        <FormItem :label="t('option.data.cloudStorage.webdav.username')">
+        <FormItem name="username" :label="t('option.data.cloudStorage.webdav.username')">
             <Input v-model:value="config.username" />
         </FormItem>
 
-        <FormItem :label="t('option.data.cloudStorage.webdav.password')">
+        <FormItem name="password" :label="t('option.data.cloudStorage.webdav.password')">
             <InputPassword v-model:value="config.password" />
         </FormItem>
 
@@ -147,7 +165,7 @@ defineExpose({ save, load });
                 {{ t('option.data.cloudStorage.webdav.validate') }}
             </Button>
         </FormItem>
-    </div>
+    </Form>
 
     <Modal v-model:open="loadDataModel" centered :footer="null">
         <div v-if="remoteFiles === null" style="text-align: center;">
@@ -190,9 +208,9 @@ defineExpose({ save, load });
 <style scoped>
 .webdav-config {
     margin: 16px auto;
-    padding: 16px;
+    padding-top: 32px;
     width: fit-content;
-    min-width: 65%;
+    min-width: 60%;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
 }
