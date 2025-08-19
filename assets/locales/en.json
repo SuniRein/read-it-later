@@ -59,7 +59,9 @@
                 }
             },
             "save": "Save",
-            "load": "Load"
+            "load": "Load",
+            "delete": "Delete",
+            "saveLocally": "Save to Local"
         }
     }
 }

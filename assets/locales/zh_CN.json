@@ -59,7 +59,9 @@
                 }
             },
             "save": "保存",
-            "load": "加载"
+            "load": "加载",
+            "delete": "删除",
+            "saveLocally": "保存到本地"
         }
     }
 }

@@ -1,4 +1,4 @@
-import type { WebDAVClient } from 'webdav';
+import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { createClient } from 'webdav';
@@ -25,12 +25,22 @@ interface UploadOption {
     data: string;
 }
 
-function uploadFile(client: WebDAVClient, { path, filename, data }: UploadOption) {
-    return client.putFileContents(`${path}/${filename}`, data);
+async function uploadFile(client: WebDAVClient, { path, filename, data }: UploadOption) {
+    return await client.putFileContents(`${path}/${filename}`, data);
+}
+
+async function listDirectory(client: WebDAVClient, path: string, glob?: string) {
+    return (await client.getDirectoryContents(path, { glob })) as FileStat[];
+}
+
+async function getFile(client: WebDAVClient, path: string) {
+    return (await client.getFileContents(path, { format: 'text' })) as string;
 }
 
 export default {
     connect,
     createFolder,
     uploadFile,
+    listDirectory,
+    getFile,
 };

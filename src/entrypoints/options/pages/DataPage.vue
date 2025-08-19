@@ -67,19 +67,21 @@ function loadFromFile(file: File) {
     const reader = new FileReader();
     reader.onload = (event) => {
         if (event.target?.result) {
-            try {
-                const data = deserializePageList(event.target.result as string);
-                const numLoad = load(data);
-                notify.success(
-                    t('successMsg.loadData', { count: numLoad }),
-                );
-            }
-            catch (error) {
-                notify.error(t('errorMsg.parseError', { error }));
-            }
+            loadItems(event.target.result as string);
         }
     };
     reader.readAsText(file);
+}
+
+function loadItems(rawItems: string) {
+    try {
+        const items = deserializePageList(rawItems);
+        const numLoad = load(items);
+        notify.success(t('successMsg.loadData', { count: numLoad }));
+    }
+    catch (error) {
+        notify.error(t('errorMsg.parseError', { error }));
+    }
 }
 
 const cloudStorage = useTemplateRef('cloudStorage');
@@ -117,7 +119,13 @@ async function saveToCloudStorage() {
             </RadioGroup>
         </FormItem>
 
-        <WebDavConnect v-if="setting.cloudStorage === 'webdav'" ref="cloudStorage" v-model="setting.webDavConfig" :button-wrapper-col />
+        <WebDavConnect
+            v-if="setting.cloudStorage === 'webdav'"
+            ref="cloudStorage"
+            v-model="setting.webDavConfig"
+            :button-wrapper-col
+            @load-data="loadItems"
+        />
 
         <FormItem :wrapper-col="buttonWrapperCol">
             <Space>

@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, FormItem, Input, InputPassword } from 'ant-design-vue';
-import { computed } from 'vue';
+import { Button, FormItem, Input, InputPassword, List, ListItem, Modal, Space, Spin } from 'ant-design-vue';
 
+import { computed, ref } from 'vue';
 import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';
 
 defineProps<{ buttonWrapperCol: { offset: number } }>();
+
+const emit = defineEmits<{
+    (e: 'loadData', data: string): void;
+}>();
 
 const AFTER_URL = '/read-it-later-simply';
 
@@ -67,11 +72,45 @@ async function save({ filename, data }: { filename: string; data: string }) {
     notify.success(t('option.data.cloudStorage.webdav.message.saveSuccess'));
 }
 
+const loadDataModel = ref(false);
+const remoteFiles = ref<FileStat[] | null>(null);
+let remoteClient: WebDAVClient | null = null;
+
 async function load() {
     if (!await checkPermission(webdavConfig.value.url))
         return;
 
-    console.error('WebDav load not implemented yet');
+    loadDataModel.value = true;
+    remoteFiles.value = null;
+
+    remoteClient = WebDav.connect(webdavConfig.value);
+    remoteFiles.value = (await WebDav.listDirectory(remoteClient, '/backups', 'read-it-later-*.json'))
+        .sort((a, b) => a.basename < b.basename ? -1 : 1);
+}
+
+function parseData(filename: string) {
+    const m = filename.match(/\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z/);
+    if (m) {
+        const iso = m[0].replace(/^(\d{4}-\d{2}-\d{2}T)(\d{2})-(\d{2})-(\d{2})-(\d{3})Z$/, '$1$2:$3:$4.$5Z');
+        const date = new Date(iso);
+        return date.toLocaleString();
+    }
+
+    console.error(`Filename ${filename} does not match expected format.`);
+}
+
+function parseSize(size: number) {
+    const units = ['B', 'KB', 'MB', 'GB'];
+    while (size >= 1024 && units.length > 1) {
+        size /= 1024;
+        units.shift();
+    }
+    return `${size.toFixed(2)} ${units[0]}`;
+}
+
+async function loadFile(path: string) {
+    const data = await WebDav.getFile(remoteClient!, path);
+    emit('loadData', data);
 }
 
 defineExpose({ save, load });
@@ -98,6 +137,36 @@ defineExpose({ save, load });
             </Button>
         </FormItem>
     </div>
+
+    <Modal v-model:open="loadDataModel" centered :footer="null">
+        <div v-if="remoteFiles === null" style="text-align: center;">
+            <Spin />
+        </div>
+
+        <List v-else :data-source="remoteFiles" size="small">
+            <template #renderItem="{ item }: {item: FileStat}">
+                <ListItem :key="item.basename" class="file-list">
+                    <span class="file-date">{{ parseData(item.basename) }}</span>
+
+                    <span class="file-size">{{ parseSize(item.size) }} </span>
+
+                    <div class="file-action">
+                        <Space>
+                            <Button size="small" @click="() => loadFile(item.filename)">
+                                {{ t('option.data.load') }}
+                            </Button>
+                            <Button size="small">
+                                {{ t('option.data.delete') }}
+                            </Button>
+                            <Button size="small">
+                                {{ t('option.data.saveLocally') }}
+                            </Button>
+                        </Space>
+                    </div>
+                </ListItem>
+            </template>
+        </List>
+    </Modal>
 </template>
 
 <style scoped>
@@ -108,5 +177,23 @@ defineExpose({ save, load });
     min-width: 65%;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
+}
+
+.file-list {
+    display: flex;
+}
+
+.file-date {
+    flex: 3;
+}
+
+.file-size {
+    flex: 2;
+    text-align: center;
+}
+
+.file-action {
+    flex: 5;
+    text-align: right;
 }
 </style>
