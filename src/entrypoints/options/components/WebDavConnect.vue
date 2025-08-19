@@ -3,7 +3,7 @@ import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Button, FormItem, Input, InputPassword, List, ListItem, Modal, Space, Spin } from 'ant-design-vue';
+import { Button, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
 
 import { computed, ref } from 'vue';
 import useI18n from '@/composables/i18n';
@@ -113,6 +113,11 @@ async function loadFile(path: string) {
     emit('loadData', data);
 }
 
+async function deleteFile(path: string) {
+    await remoteClient!.deleteFile(path);
+    remoteFiles.value = remoteFiles.value?.filter(file => file.filename !== path) ?? null;
+}
+
 defineExpose({ save, load });
 </script>
 
@@ -155,9 +160,16 @@ defineExpose({ save, load });
                             <Button size="small" @click="() => loadFile(item.filename)">
                                 {{ t('option.data.load') }}
                             </Button>
-                            <Button size="small">
-                                {{ t('option.data.delete') }}
-                            </Button>
+
+                            <Popconfirm
+                                :title="t('option.data.cloudStorage.webdav.message.confirmDelete')"
+                                @confirm="() => deleteFile(item.filename)"
+                            >
+                                <Button size="small">
+                                    {{ t('option.data.delete') }}
+                                </Button>
+                            </Popconfirm>
+
                             <Button size="small">
                                 {{ t('option.data.saveLocally') }}
                             </Button>
