@@ -53,7 +53,8 @@
                     "message": {
                         "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
                         "urlRequired": "Please fill in the URL.",
-                        "validateSuccess": "WebDAV connection successful."
+                        "validateSuccess": "WebDAV connection successful.",
+                        "saveSuccess": "WebDAV saved successfully."
                     }
                 }
             },

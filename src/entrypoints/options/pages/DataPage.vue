@@ -30,13 +30,18 @@ const { setting } = await useSetting();
 
 const { pageList, load } = usePageList();
 
-function saveToLocalStorage() {
+function getData() {
     const data = serializePageList(pageList.value);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `read-it-later-${timestamp}.json`;
+    return { data, filename };
+}
+
+function saveToLocalStorage() {
+    const { data, filename } = getData();
 
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `read-it-later-${timestamp}.json`;
 
     browser.downloads
         .download({
@@ -78,6 +83,10 @@ function loadFromFile(file: File) {
 }
 
 const cloudStorage = useTemplateRef('cloudStorage');
+
+async function saveToCloudStorage() {
+    await cloudStorage.value?.save(getData());
+}
 </script>
 
 <template>
@@ -112,7 +121,7 @@ const cloudStorage = useTemplateRef('cloudStorage');
 
         <FormItem :wrapper-col="buttonWrapperCol">
             <Space>
-                <Button shape="round" :disabled="cloudStorage === null" @click="cloudStorage?.save()">
+                <Button shape="round" :disabled="cloudStorage === null" @click="saveToCloudStorage">
                     {{ t('option.data.save') }}
                 </Button>
 
@@ -123,14 +132,3 @@ const cloudStorage = useTemplateRef('cloudStorage');
         </FormItem>
     </Form>
 </template>
-
-<style scoped>
-.webdav-config {
-    margin: 16px auto;
-    padding: 16px;
-    width: fit-content;
-    min-width: 60%;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-}
-</style>

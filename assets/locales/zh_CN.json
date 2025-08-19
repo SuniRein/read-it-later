@@ -53,7 +53,8 @@
                     "message": {
                         "permissionDenied": "没有权限访问云端存储，请授予权限。",
                         "urlRequired": "请填写 URL。",
-                        "validateSuccess": "WebDAV 连接成功。"
+                        "validateSuccess": "WebDAV 连接成功。",
+                        "saveSuccess": "WebDAV 保存成功。"
                     }
                 }
             },

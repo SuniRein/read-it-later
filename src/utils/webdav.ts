@@ -1,3 +1,4 @@
+import type { WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { createClient } from 'webdav';
@@ -14,6 +15,22 @@ function connect(config: WebDavConfig) {
     });
 }
 
+function createFolder(client: WebDAVClient, path: string) {
+    return client.createDirectory(path, { recursive: true });
+}
+
+interface UploadOption {
+    path: string;
+    filename: string;
+    data: string;
+}
+
+function uploadFile(client: WebDAVClient, { path, filename, data }: UploadOption) {
+    return client.putFileContents(`${path}/${filename}`, data);
+}
+
 export default {
     connect,
+    createFolder,
+    uploadFile,
 };

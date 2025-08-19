@@ -3,6 +3,7 @@ import type { WebDavConfig } from '@/utils/types';
 
 import { browser } from '#imports';
 import { Button, FormItem, Input, InputPassword } from 'ant-design-vue';
+import { computed } from 'vue';
 
 import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
@@ -10,7 +11,15 @@ import WebDav from '@/utils/webdav';
 
 defineProps<{ buttonWrapperCol: { offset: number } }>();
 
+const AFTER_URL = '/read-it-later-simply';
+
 const config = defineModel<WebDavConfig>({ required: true });
+const webdavConfig = computed(() => {
+    return {
+        ...config.value,
+        url: config.value.url?.concat(AFTER_URL),
+    };
+});
 
 const { t } = useI18n();
 
@@ -27,10 +36,10 @@ async function checkPermission(url?: string) {
 }
 
 async function validate() {
-    if (!await checkPermission(config.value.url))
+    if (!await checkPermission(webdavConfig.value.url))
         return;
 
-    const client = WebDav.connect(config.value);
+    const client = WebDav.connect(webdavConfig.value);
     try {
         await client.exists('/');
     }
@@ -43,15 +52,23 @@ async function validate() {
     notify.success(t('option.data.cloudStorage.webdav.message.validateSuccess'));
 }
 
-async function save() {
-    if (!await checkPermission(config.value.url))
+async function save({ filename, data }: { filename: string; data: string }) {
+    if (!await checkPermission(webdavConfig.value.url))
         return;
 
-    console.error('WebDav save not implemented yet');
+    const client = WebDav.connect(webdavConfig.value);
+    await WebDav.createFolder(client, '/backups');
+    await WebDav.uploadFile(client, {
+        path: '/backups',
+        filename,
+        data,
+    });
+
+    notify.success(t('option.data.cloudStorage.webdav.message.saveSuccess'));
 }
 
 async function load() {
-    if (!await checkPermission(config.value.url))
+    if (!await checkPermission(webdavConfig.value.url))
         return;
 
     console.error('WebDav load not implemented yet');
@@ -64,7 +81,7 @@ defineExpose({ save, load });
     <div class="webdav-config">
         <FormItem :label="t('option.data.cloudStorage.webdav.url')">
             <!-- TODO: URL validate -->
-            <Input v-model:value="config.url" />
+            <Input v-model:value="config.url" :addon-after="AFTER_URL" />
         </FormItem>
 
         <FormItem :label="t('option.data.cloudStorage.webdav.username')">
@@ -82,3 +99,14 @@ defineExpose({ save, load });
         </FormItem>
     </div>
 </template>
+
+<style scoped>
+.webdav-config {
+    margin: 16px auto;
+    padding: 16px;
+    width: fit-content;
+    min-width: 65%;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+}
+</style>
