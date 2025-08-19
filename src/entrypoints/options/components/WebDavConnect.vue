@@ -14,6 +14,7 @@ defineProps<{ buttonWrapperCol: { offset: number } }>();
 
 const emit = defineEmits<{
     (e: 'loadData', data: string): void;
+    (e: 'saveLocally', data: string, filename: string): void;
 }>();
 
 const AFTER_URL = '/read-it-later-simply';
@@ -118,6 +119,11 @@ async function deleteFile(path: string) {
     remoteFiles.value = remoteFiles.value?.filter(file => file.filename !== path) ?? null;
 }
 
+async function saveFileLocally(item: FileStat) {
+    const data = await WebDav.getFile(remoteClient!, item.filename);
+    emit('saveLocally', data, item.basename);
+}
+
 defineExpose({ save, load });
 </script>
 
@@ -170,7 +176,7 @@ defineExpose({ save, load });
                                 </Button>
                             </Popconfirm>
 
-                            <Button size="small">
+                            <Button size="small" @click="() => saveFileLocally(item)">
                                 {{ t('option.data.saveLocally') }}
                             </Button>
                         </Space>

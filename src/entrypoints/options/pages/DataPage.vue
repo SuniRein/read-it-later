@@ -37,21 +37,17 @@ function getData() {
     return { data, filename };
 }
 
-function saveToLocalStorage() {
-    const { data, filename } = getData();
-
+async function saveLocally(data: string, filename: string) {
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
-    browser.downloads
-        .download({
-            url,
-            filename,
-            saveAs: true,
-        })
-        .then(() => {
-            URL.revokeObjectURL(url);
-        });
+    await browser.downloads.download({ url, filename, saveAs: true });
+    URL.revokeObjectURL(url);
+}
+
+async function saveToLocalStorage() {
+    const { data, filename } = getData();
+    await saveLocally(data, filename);
 }
 
 const uploadHandler: UploadProps['customRequest'] = (options) => {
@@ -125,6 +121,7 @@ async function saveToCloudStorage() {
             v-model="setting.webDavConfig"
             :button-wrapper-col
             @load-data="loadItems"
+            @save-locally="saveLocally"
         />
 
         <FormItem :wrapper-col="buttonWrapperCol">
