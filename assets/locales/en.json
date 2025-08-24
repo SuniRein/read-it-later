@@ -38,9 +38,9 @@
             "locale": "Language"
         },
         "data": {
-            "localStorage": "Local Storage",
+            "localStorage": "Local storage",
             "cloudStorage": {
-                "label": "Cloud Storage",
+                "label": "Cloud storage",
                 "type": {
                     "none": "None",
                     "webdav": "WebDAV"
@@ -60,11 +60,11 @@
                     }
                 }
             },
-            "browserData": "Browser Data",
+            "browserData": "Browser data",
             "save": "Save",
             "load": "Load",
             "delete": "Delete",
-            "saveLocally": "Save to Local",
+            "saveLocally": "Save to local",
             "clear": "Clear",
             "message": {
                 "confirmClear": {
