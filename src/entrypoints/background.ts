@@ -17,6 +17,7 @@ const action = browser.action ?? browser.browserAction;
 
 const commonBadgeColor = '#444';
 const activeBadgeColor = '#16a34a';
+const favoritedBadgeColor = '#eab308';
 
 export default defineBackground(() => {
     const { pageList } = usePageList();
@@ -65,9 +66,14 @@ export default defineBackground(() => {
     store.setting.getValue().then(setting => showBadge.value = setting.showBadge);
     store.setting.watch(setting => showBadge.value = setting.showBadge);
 
-    const pageUrls = computed(() => pageList.value.map(page => page.info.url));
+    const pageMap = computed(() => {
+        const map = new Map<string, PageItem>();
+        pageList.value.forEach(page => map.set(page.info.url, page));
+        return map;
+    });
 
-    const currentTabActive = computed(() => pageUrls.value.includes(currentTabUrl.value));
+    const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
+    const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
 
     function updateBadge() {
         if (!showBadge.value) {
@@ -75,17 +81,18 @@ export default defineBackground(() => {
             return;
         }
 
-        const currentTabActive = pageUrls.value.includes(currentTabUrl.value);
         action.setBadgeBackgroundColor({
-            color: currentTabActive ? activeBadgeColor : commonBadgeColor,
+            color: currentTabActive.value
+                ? (currentTabFavorited.value ? favoritedBadgeColor : activeBadgeColor)
+                : commonBadgeColor,
         });
 
-        const count = pageUrls.value.length;
+        const count = pageList.value.length;
         action.setBadgeText({ text: count.toString() });
     }
     updateBadge();
 
-    watch([showBadge, pageUrls, currentTabActive], updateBadge);
+    watch([showBadge, pageList, currentTabActive, currentTabFavorited], updateBadge);
 
     // open random page
     async function openRandomPage(pageList: PageItem[]) {
