@@ -1,0 +1,22 @@
+import { computed } from 'vue';
+
+import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
+import { usePageList } from '@/composables/page-list';
+import { usePageListFiltered } from '@/composables/page-list-filtered';
+import { useSearchText } from '@/composables/search-text';
+
+import { isFirefox, urlRestricted } from '@/utils/firefox';
+
+export function handlePageList() {
+    const { pageList } = usePageList();
+
+    const { searchText } = useSearchText();
+    const { favoritedFilterOption } = useFavoritedFilterOption();
+
+    const clikablePageList = computed(() =>
+        isFirefox() ? pageList.value.filter(item => !urlRestricted(item.info.url)) : pageList.value,
+    );
+    const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchText);
+
+    return { pageList, pageListFiltered };
+}
