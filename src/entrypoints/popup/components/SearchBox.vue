@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CloseCircleFilled } from '@ant-design/icons-vue';
 import { useDebounceFn } from '@vueuse/core';
-import { AutoComplete } from 'ant-design-vue';
+import { AutoComplete, Input } from 'ant-design-vue';
 import { computed, ref, watch } from 'vue';
 
 import useI18n from '@/composables/i18n';
@@ -50,13 +50,13 @@ const options = computed(() => {
 <template>
     <AutoComplete
         v-model:value="rawText"
-        :placeholder="t('search')"
         :autofocus
-        allow-clear
         :options
     >
         <template #clearIcon>
             <CloseCircleFilled @click.capture="emit('update:value', '')" />
         </template>
+
+        <Input :placeholder="t('search')" allow-clear />
     </AutoComplete>
 </template>
