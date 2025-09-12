@@ -19,10 +19,10 @@ export default defineBackground(() => {
     const currentTabUrl = handleCurrentTab(isConnected);
 
     // get the page list from storage
-    const { pageList, pageListFiltered } = handlePageList();
+    const { pageMap, pageActions, pageListFiltered } = handlePageList();
 
     // show and update the badge
-    handleBadge(pageList, currentTabUrl);
+    handleBadge(pageMap, currentTabUrl);
 
     // open a random page
     const openRandomPage = handleOpenRandomPage(pageListFiltered);
@@ -32,5 +32,13 @@ export default defineBackground(() => {
     handleCommand({
         'open-popup': action.openPopup,
         'open-random-page': openRandomPage,
+        'remove-current-page': removeCurrentPage,
     });
+
+    function removeCurrentPage() {
+        const id = pageMap.value.get(currentTabUrl.value)?.id;
+        if (id) {
+            pageActions.remove(id);
+        }
+    }
 });

@@ -32,6 +32,9 @@ export default defineConfig({
                 },
                 description: '__MSG_commandOpenRandomPage__',
             },
+            'remove-current-page': {
+                description: '__MSG_commandRemoveCurrentPage__',
+            },
         },
     }),
 });

@@ -10,5 +10,8 @@
     },
     "commandOpenRandomPage": {
         "message": "打开随机页面"
+    },
+    "commandRemoveCurrentPage": {
+        "message": "删除当前页面"
     }
 }

@@ -10,5 +10,8 @@
     },
     "commandOpenRandomPage": {
         "message": "Open random page"
+    },
+    "commandRemoveCurrentPage": {
+        "message": "Remove current page"
     }
 }

@@ -12,16 +12,10 @@ const favoritedBadgeColor = '#eab308';
 
 const action = browser.action ?? browser.browserAction;
 
-export function handleBadge(pageList: Ref<PageItem[]>, currentTabUrl: Ref<string>) {
+export function handleBadge(pageMap: Ref<Map<string, PageItem>>, currentTabUrl: Ref<string>) {
     const showBadge = shallowRef(false);
     store.setting.getValue().then(setting => showBadge.value = setting.showBadge);
     store.setting.watch(setting => showBadge.value = setting.showBadge);
-
-    const pageMap = computed(() => {
-        const map = new Map<string, PageItem>();
-        pageList.value.forEach(page => map.set(page.info.url, page));
-        return map;
-    });
 
     const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
     const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
@@ -38,7 +32,7 @@ export function handleBadge(pageList: Ref<PageItem[]>, currentTabUrl: Ref<string
                 : commonBadgeColor,
         });
 
-        const count = pageList.value.length;
+        const count = pageMap.value.size;
         action.setBadgeText({ text: count.toString() });
     }
 

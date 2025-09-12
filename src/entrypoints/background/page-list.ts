@@ -1,3 +1,5 @@
+import type { PageItem } from '@/utils/types';
+
 import { computed } from 'vue';
 
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
@@ -8,7 +10,7 @@ import { useSearchText } from '@/composables/search-text';
 import { isFirefox, urlRestricted } from '@/utils/firefox';
 
 export function handlePageList() {
-    const { pageList } = usePageList();
+    const { pageList, ...pageActions } = usePageList();
 
     const { searchText } = useSearchText();
     const { favoritedFilterOption } = useFavoritedFilterOption();
@@ -18,5 +20,11 @@ export function handlePageList() {
     );
     const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchText);
 
-    return { pageList, pageListFiltered };
+    const pageMap = computed(() => {
+        const map = new Map<string, PageItem>();
+        pageList.value.forEach(page => map.set(page.info.url, page));
+        return map;
+    });
+
+    return { pageActions, pageListFiltered, pageMap };
 }
