@@ -5,6 +5,7 @@ import { defineExtensionMessaging } from '@webext-core/messaging';
 interface ProtocolMap {
     currentTabChanged: (data: { tab: Tab }) => void;
     openRandomPage: () => void;
+    openPage: (data: { url: string }) => void;
 }
 
 export const { sendMessage, onMessage } = defineExtensionMessaging<ProtocolMap>();
