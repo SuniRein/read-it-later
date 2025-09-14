@@ -34,6 +34,7 @@ export interface Setting {
     locale: I18nLocales;
     cloudStorage: CloudStorageType;
     webDavConfig: WebDavConfig;
+    duplicatedUrlOpened: DuplicatedUrlOpenedOption;
 }
 
 export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';
@@ -43,3 +44,5 @@ export interface WebDavConfig {
     username?: string;
     password?: string;
 }
+
+export type DuplicatedUrlOpenedOption = 'ignore' | 'focus' | 'newTab';

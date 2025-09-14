@@ -35,7 +35,13 @@
             "paninationOption": "每页 {count} 个标签页",
             "showBadge": "显示徽章",
             "faviconSource": "图标源",
-            "locale": "语言"
+            "locale": "语言",
+            "duplicatedUrlOpened": {
+                "label": "打开重复 URL 时",
+                "ignore": "忽略",
+                "focus": "聚焦已打开的标签页",
+                "newTab": "在新标签页中打开"
+            }
         },
         "data": {
             "localStorage": "本地存储",

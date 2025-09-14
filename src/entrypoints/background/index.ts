@@ -6,8 +6,10 @@ import { handleBadge } from './badge';
 import { handleCommand } from './command';
 import { handleConnection } from './connect';
 import { handleCurrentTab } from './current-tab';
+import { handleOpenPage } from './open-page';
 import { handlePageList } from './page-list';
 import { handleOpenRandomPage } from './random-page';
+import { handleSetting } from './setting';
 
 const action = browser.action ?? browser.browserAction;
 
@@ -18,14 +20,21 @@ export default defineBackground(() => {
     // listen for current tab changes
     const currentTabUrl = handleCurrentTab(isConnected);
 
+    // get setting from storage
+    const { showBadge, duplicatedUrlOpened } = handleSetting();
+
     // get the page list from storage
     const { pageMap, pageActions, pageListFiltered } = handlePageList();
 
     // show and update the badge
-    handleBadge(pageMap, currentTabUrl);
+    handleBadge(showBadge, pageMap, currentTabUrl);
+
+    // open a page
+    const openPage = handleOpenPage(duplicatedUrlOpened);
+    onMessage('openPage', ({ data: { url } }) => openPage(url));
 
     // open a random page
-    const openRandomPage = handleOpenRandomPage(pageListFiltered);
+    const openRandomPage = handleOpenRandomPage(pageListFiltered, openPage);
     onMessage('openRandomPage', openRandomPage);
 
     // handle browser keyboard commands

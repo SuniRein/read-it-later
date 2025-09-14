@@ -1,9 +1,7 @@
 import type { Ref } from 'vue';
 import type { PageItem } from '@/utils/types';
 
-import { browser } from '#imports';
-
-export function handleOpenRandomPage(pageList: Ref<PageItem[]>) {
+export function handleOpenRandomPage(pageList: Ref<PageItem[]>, openPage: (url: string) => Promise<void>) {
     return async () => {
         if (pageList.value.length === 0) {
             console.warn('No pages available to open.');
@@ -12,6 +10,6 @@ export function handleOpenRandomPage(pageList: Ref<PageItem[]>) {
 
         const randomIndex = Math.floor(Math.random() * pageList.value.length);
         const randomPage = pageList.value[randomIndex];
-        await browser.tabs.create({ url: randomPage.info.url });
+        await openPage(randomPage.info.url);
     };
 }

@@ -61,7 +61,7 @@ function addPage(item: PageInfo) {
 }
 
 function openUrl(url: string) {
-    browser.tabs.create({ url });
+    sendMessage('openPage', { url });
 }
 
 function copyUrl(url: string) {

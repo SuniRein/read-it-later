@@ -35,7 +35,13 @@
             "paninationOption": "{count} items per page",
             "showBadge": "Show badge",
             "faviconSource": "Favicon source",
-            "locale": "Language"
+            "locale": "Language",
+            "duplicatedUrlOpened": {
+                "label": "Duplicated URL opened option",
+                "ignore": "Ignore",
+                "focus": "Focus existing tab",
+                "newTab": "Open in new tab"
+            }
         },
         "data": {
             "localStorage": "Local storage",
