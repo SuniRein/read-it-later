@@ -18,6 +18,7 @@ const defaultSetting: Setting = {
     locale: defaultLocale(),
     cloudStorage: null,
     webDavConfig: {},
+    duplicatedUrlOpened: 'newTab',
 } as const;
 
 export default {

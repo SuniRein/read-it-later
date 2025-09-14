@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { I18nLocales } from '@/utils/i18n';
-import type { FaviconSource } from '@/utils/types';
+import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
 import { Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption } from 'ant-design-vue';
 
@@ -50,6 +50,20 @@ const wrapperCol = { span: wrapperSpan };
                 </SelectOption>
                 <SelectOption :value="'duckduckgo' satisfies FaviconSource">
                     DuckDuckGo
+                </SelectOption>
+            </Select>
+        </FormItem>
+
+        <FormItem :label="t('option.setting.duplicatedUrlOpened.label')">
+            <Select v-model:value="setting.duplicatedUrlOpened">
+                <SelectOption :value="'ignore' satisfies DuplicatedUrlOpenedOption">
+                    {{ t('option.setting.duplicatedUrlOpened.ignore') }}
+                </SelectOption>
+                <SelectOption :value="'focus' satisfies DuplicatedUrlOpenedOption">
+                    {{ t('option.setting.duplicatedUrlOpened.focus') }}
+                </SelectOption>
+                <SelectOption :value="'newTab' satisfies DuplicatedUrlOpenedOption">
+                    {{ t('option.setting.duplicatedUrlOpened.newTab') }}
                 </SelectOption>
             </Select>
         </FormItem>
