@@ -25,10 +25,11 @@
         "parseError": "Failed to parse page list: {error}"
     },
     "option": {
-        "title": "Read It Later ",
+        "title": "Read It Later Simply",
         "nav": {
             "setting": "Setting",
-            "data": "Data"
+            "data": "Data",
+            "about": "About"
         },
         "setting": {
             "panination": "Pagination",
@@ -77,6 +78,16 @@
                     "title": "Confirm clear data?",
                     "content": "This action cannot be undone, please proceed with caution. \n\nNote: This does not include data exported to local storage and cloud storage."
                 }
+            }
+        },
+        "about": {
+            "title": "@:option.title",
+            "developedBy": "Developed by {0}",
+            "description": "A light web browser extension to manage your read-it-later list easily.",
+            "privacy": "This extension does not collect users' article contents or browsing history; saved items are stored locally only.",
+            "license": {
+                "info": "This project is distributed under {0}",
+                "body": "GNU General Public License v3 (GPLv3)"
             }
         }
     }

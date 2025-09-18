@@ -1,4 +1,5 @@
 import vueI18n from '@intlify/unplugin-vue-i18n/vite';
+import svgLoader from 'vite-svg-loader';
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
@@ -10,6 +11,7 @@ export default defineConfig({
             vueI18n({
                 include: 'assets/locales/*.json',
             }),
+            svgLoader(),
         ],
     }),
     manifest: ({ manifestVersion }) => ({

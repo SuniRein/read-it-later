@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MenuProps } from 'ant-design-vue';
 
-import { SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import { HomeOutlined, SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import {
     theme as antTheme,
     ConfigProvider,
@@ -37,6 +37,11 @@ const items = computed<MenuProps['items']>(() => [
         key: 'data',
         label: t('option.nav.data'),
         icon: h(SaveOutlined),
+    },
+    {
+        key: 'about',
+        label: t('option.nav.about'),
+        icon: h(HomeOutlined),
     },
 ]);
 

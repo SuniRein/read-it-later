@@ -28,7 +28,8 @@
         "title": "稍后读·简",
         "nav": {
             "setting": "设置",
-            "data": "数据"
+            "data": "数据",
+            "about": "关于"
         },
         "setting": {
             "panination": "分页",
@@ -77,6 +78,16 @@
                     "title": "确认清除数据？",
                     "content": "清除后将无法恢复，请谨慎操作。\n\n注意：这不包括导出至本地存储与云端存储的数据。"
                 }
+            }
+        },
+        "about": {
+            "title": "@:option.title",
+            "developedBy": "由 {0} 开发",
+            "description": "一个轻量的浏览器扩展，用于便捷地管理你的稍后阅读列表。",
+            "privacy": "本扩展不收集用户文章内容或浏览历史，仅本地保存用户保存的条目。",
+            "license": {
+                "info": "本项目采用 {0} 发行。",
+                "body": "GNU 通用公共许可证 第3版（GPLv3）"
             }
         }
     }
