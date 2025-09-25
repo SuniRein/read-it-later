@@ -2,13 +2,14 @@
 import type { PageItem } from '@/utils/types';
 
 import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
-import { Avatar, List, ListItem } from 'ant-design-vue';
+import { List, ListItem } from 'ant-design-vue';
 import { ref } from 'vue';
 
 import { useFavicon } from '@/composables/favicon';
 import { isFirefox, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
+import Favicon from './Favicon.vue';
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
 
@@ -74,7 +75,7 @@ function urlClickable(url: string): boolean {
                         v-on="{ click: urlClickable(item.info.url) ? () => emit('openUrl', item.info.url) : undefined }"
                     >
                         <div class="favicon-and-title">
-                            <Avatar class="favicon" :src="getFaviconUrl(item.info.url)" size="small" />
+                            <Favicon :url="getFaviconUrl(item.info.url)" />
                             <span class="title">{{ item.info.title }}</span>
                         </div>
 
@@ -170,16 +171,6 @@ function urlClickable(url: string): boolean {
 .favicon-and-title {
     display: flex;
     align-items: center;
-}
-
-.favicon {
-    height: 16px;
-    width: 16px;
-    min-height: 16px;
-    min-width: 16px;
-    margin-right: 0.5rem;
-    vertical-align: middle;
-    position: relative;
 }
 
 .title {

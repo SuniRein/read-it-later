@@ -3,6 +3,7 @@ import { browser, defineBackground } from '#imports';
 import { onMessage } from '@/utils/message';
 
 import { handleBadge } from './badge';
+import { handleCache } from './cache';
 import { handleCommand } from './command';
 import { handleConnection } from './connect';
 import { handleCurrentTab } from './current-tab';
@@ -50,4 +51,7 @@ export default defineBackground(() => {
             pageActions.remove(id);
         }
     }
+
+    // handle cache for fetched images
+    handleCache();
 });
