@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.11.0](https://github.com/SuniRein/read-it-later/compare/v0.10.0...v0.11.0) (2025-09-26)
+
+
+### Features
+
+* add about page, closed [#13](https://github.com/SuniRein/read-it-later/issues/13) ([61dcece](https://github.com/SuniRein/read-it-later/commit/61dcece763e534bdeecd411e923549d0886d141d))
+* **badge:** changed badge color when current tab is favorited, closed [#45](https://github.com/SuniRein/read-it-later/issues/45) ([8bbb0f2](https://github.com/SuniRein/read-it-later/commit/8bbb0f2225c276c33c8c0077c9e2ed95d856306c))
+* **command:** add a shortcut for remove current page, closed [#43](https://github.com/SuniRein/read-it-later/issues/43) ([980a900](https://github.com/SuniRein/read-it-later/commit/980a900835b135a2fe048939d3a99a3884192c92))
+* design the behaviors when opening an already opened tab page ([#47](https://github.com/SuniRein/read-it-later/issues/47)) ([f581bbe](https://github.com/SuniRein/read-it-later/commit/f581bbe9896205ff07358e99ec82d1852278115e))
+
+
+### Bug Fixes
+
+* **text:** use sentence case for all English text on the settings page ([5bdc7e5](https://github.com/SuniRein/read-it-later/commit/5bdc7e52f1191936ff9ae947bd037e3d69677fbc))
+* **ui:** wrong native clear icon in Chrome for input, fixed [#46](https://github.com/SuniRein/read-it-later/issues/46) ([675ebd0](https://github.com/SuniRein/read-it-later/commit/675ebd088bc142691da2753500ed7ea74f8e1875))
+
 ## [0.10.0](https://github.com/SuniRein/read-it-later/compare/v0.9.0...v0.10.0) (2025-08-19)
 
 
