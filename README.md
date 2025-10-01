@@ -22,7 +22,7 @@ Since my needs are simple and I don’t require full-page content storage, I dec
 
 ## Installation
 
-- [Firefox Addons](https://addons.mozilla.org/en-US/firefox/addon/read-it-later-simply/)
+- [Firefox Addons](https://addons.mozilla.org/firefox/addon/read-it-later-simply)
 
 ## Development
 

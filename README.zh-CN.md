@@ -20,7 +20,7 @@
 
 ## 插件安装
 
-- [Firefox Addons](https://addons.mozilla.org/zh-CN/firefox/addon/read-it-later-simply/)
+- [Firefox Addons](https://addons.mozilla.org/firefox/addon/read-it-later-simply)
 
 ## 开发指南
 

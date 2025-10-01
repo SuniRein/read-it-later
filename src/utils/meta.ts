@@ -7,4 +7,4 @@ export const version = pkg.version;
 
 export const repo = 'https://github.com/SuniRein/read-it-later';
 
-export const firefoxAddons = 'https://addons.mozilla.org/en-US/firefox/addon/read-it-later-simply/';
+export const firefoxAddons = 'https://addons.mozilla.org/firefox/addon/read-it-later-simply';
