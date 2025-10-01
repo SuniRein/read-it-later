@@ -12,8 +12,8 @@ function searchFilter(searchText: string) {
                 return true;
 
             if (token.startsWith('#')) {
-                const tag = token.slice(1).toLowerCase();
-                return item.tags.some(t => t.toLowerCase() === tag);
+                const tag = token.slice(1);
+                return item.tags.includes(tag);
             }
 
             const kw = token.toLowerCase();
