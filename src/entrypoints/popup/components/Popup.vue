@@ -26,24 +26,25 @@ const setting = useStoredValue(store.setting);
 const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
 
-const { currentTab } = useCurrentTab();
-
 const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
 
 const { searchText } = useSearchText();
 
 const { pageList, add, remove, update, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
 const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchText);
+
+const { currentTab } = useCurrentTab();
+const currentUrl = computed(() => currentTab.value?.url ?? null);
+
 const pageListDisplayed = computed(() => {
     const start = (current.value - 1) * pageSize.value;
     const end = start + pageSize.value;
     const paginated = pageListFiltered.value.slice(start, end);
 
     // make current page at the top if it exists
-    const currentUrl = currentTab.value?.url;
-    const currentPage = pageList.value.find(item => item.info.url === currentUrl);
+    const currentPage = pageList.value.find(item => item.info.url === currentUrl.value);
     if (currentPage) {
-        return [currentPage, ...paginated.filter(item => item.info.url !== currentUrl)];
+        return [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)];
     }
     return paginated;
 });
@@ -88,7 +89,7 @@ function copyUrl(url: string) {
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
             <PageList
-                :current-url="currentTab?.url ?? null"
+                :current-url
                 :page-list="pageListDisplayed"
                 :page-tags
                 @mark-read="remove"
