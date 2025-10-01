@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.11.1](https://github.com/SuniRein/read-it-later/compare/v0.11.0...v0.11.1) (2025-10-01)
+
+
+### Bug Fixes
+
+* **search:** make tag search case sensitive, fixed [#52](https://github.com/SuniRein/read-it-later/issues/52) ([ddda7da](https://github.com/SuniRein/read-it-later/commit/ddda7dafe4dad91958c279a6d2d7ced1c3bcdbb6))
+* update current tab highlight in popup when current tab changed, fixed [#50](https://github.com/SuniRein/read-it-later/issues/50) ([37ca05e](https://github.com/SuniRein/read-it-later/commit/37ca05e6293e814014148a4f7cf57ee119149d1d))
+* use locale-adaptive firefox addon url, fixed [#51](https://github.com/SuniRein/read-it-later/issues/51) ([43dccdd](https://github.com/SuniRein/read-it-later/commit/43dccddb280e9575c5c08fad12b1988b86cbf7b8))
+
 ## [0.11.0](https://github.com/SuniRein/read-it-later/compare/v0.10.0...v0.11.0) (2025-09-26)
 
 
