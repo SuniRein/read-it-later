@@ -12,13 +12,13 @@ import { isFirefox, urlRestricted } from '@/utils/firefox';
 export function handlePageList() {
     const { pageList, ...pageActions } = usePageList();
 
-    const { searchText } = useSearchText();
+    const { searchTextDebounced } = useSearchText();
     const { favoritedFilterOption } = useFavoritedFilterOption();
 
     const clikablePageList = computed(() =>
         isFirefox() ? pageList.value.filter(item => !urlRestricted(item.info.url)) : pageList.value,
     );
-    const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchText);
+    const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchTextDebounced);
 
     const pageMap = computed(() => {
         const map = new Map<string, PageItem>();

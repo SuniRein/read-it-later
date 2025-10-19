@@ -28,10 +28,10 @@ const pageSize = computed(() => setting.value.pagination);
 
 const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
 
-const { searchText } = useSearchText();
+const { searchText, searchTextDebounced } = useSearchText();
 
 const { pageList, add, remove, update, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
-const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchText);
+const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchTextDebounced);
 
 const { currentTab } = useCurrentTab();
 const currentUrl = computed(() => currentTab.value?.url ?? null);
