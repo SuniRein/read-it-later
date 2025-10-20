@@ -15,6 +15,7 @@ const defaultSetting: Setting = {
     pagination: 20,
     showBadge: false,
     faviconSource: 'favicon.im',
+    faviconCaching: false,
     locale: defaultLocale(),
     cloudStorage: null,
     webDavConfig: {},

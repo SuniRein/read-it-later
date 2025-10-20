@@ -22,6 +22,7 @@ import TopOperation from './TopOperation.vue';
 const { t } = useI18n();
 
 const setting = useStoredValue(store.setting);
+const faviconCaching = computed(() => setting.value.faviconCaching);
 
 const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
@@ -92,6 +93,7 @@ function copyUrl(url: string) {
                 :current-url
                 :page-list="pageListDisplayed"
                 :page-tags
+                :favicon-caching
                 @mark-read="remove"
                 @edit="update"
                 @toggle-star="toggleFavorite"

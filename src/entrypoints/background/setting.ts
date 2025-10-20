@@ -9,6 +9,7 @@ export function handleSetting() {
 
     return {
         showBadge: computed(() => setting.value.showBadge),
+        faviconCaching: computed(() => setting.value.faviconCaching),
         duplicatedUrlOpened: computed(() => setting.value.duplicatedUrlOpened),
     };
 }
