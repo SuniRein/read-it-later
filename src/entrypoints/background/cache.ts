@@ -1,9 +1,28 @@
 import { onMessage } from '@/utils/message';
 
+function createImageCache() {
+    let imageCache: Cache | null = null;
+
+    return {
+        async get() {
+            if (!imageCache) {
+                imageCache = await caches.open('image-cache');
+            }
+            return imageCache;
+        },
+        async clear() {
+            await caches.delete('image-cache');
+            imageCache = null;
+        },
+    };
+}
+
 export async function handleCache() {
-    const cache = await globalThis.caches.open('image-cache');
+    const imageCache = createImageCache();
 
     onMessage('fetchImageFromCache', async ({ data: { url } }) => {
+        const cache = await imageCache.get();
+
         let res = await cache.match(url);
         if (!res) {
             res = await fetch(url);
@@ -18,4 +37,6 @@ export async function handleCache() {
             reader.readAsDataURL(blob);
         });
     });
+
+    onMessage('clearImageCache', async () => await imageCache.clear());
 }

@@ -35,8 +35,13 @@
             "panination": "分页",
             "paninationOption": "每页 {count} 个标签页",
             "showBadge": "显示徽章",
-            "faviconSource": "图标源",
-            "faviconCaching": "缓存图标",
+            "favicon": {
+                "source": "图标源",
+                "caching": "缓存图标",
+                "clearCache": "清空图标缓存",
+                "clearCacheSuccess": "图标缓存已清空。",
+                "cachePermissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+            },
             "locale": "语言",
             "duplicatedUrlOpened": {
                 "label": "打开重复 URL 时",

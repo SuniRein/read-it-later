@@ -35,8 +35,13 @@
             "panination": "Pagination",
             "paninationOption": "{count} items per page",
             "showBadge": "Show badge",
-            "faviconSource": "Favicon source",
-            "faviconCaching": "Cache favicons",
+            "favicon": {
+                "source": "Favicon source",
+                "caching": "Cache favicons",
+                "clearCache": "Clear favicon cache",
+                "clearCacheSuccess": "Favicon cache cleared.",
+                "cachePermissionMissing": "Missing permission to cache favicons, try enable it by manual."
+            },
             "locale": "Language",
             "duplicatedUrlOpened": {
                 "label": "Duplicated URL opened option",

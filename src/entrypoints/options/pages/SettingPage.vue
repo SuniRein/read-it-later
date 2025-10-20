@@ -3,9 +3,11 @@ import type { I18nLocales } from '@/utils/i18n';
 import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
 import { browser } from '#imports';
-import { Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption } from 'ant-design-vue';
+import { Button, Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption, Space } from 'ant-design-vue';
 
 import useI18n from '@/composables/i18n';
+import { sendMessage } from '@/utils/message';
+import notify from '@/utils/notify';
 import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
@@ -20,27 +22,42 @@ const { setting } = await useSetting();
 const labelCol = { span: labelSpan };
 const wrapperCol = { span: wrapperSpan };
 
-async function checkFavicioCachingPermission() {
+function getRequestedFaviconCachingPermission() {
     const permissions = {
         'favicon.im': ['https://favicon.im/*'],
         google: ['https://www.google.com/s2/favicons/*', 'https://*.gstatic.com/faviconV2/*'],
         duckduckgo: ['https://icons.duckduckgo.com/ip3/'],
     };
-
-    const requiredPermissions = permissions[setting.value.faviconSource];
-    return await browser.permissions.request({ origins: requiredPermissions });
+    return permissions[setting.value.faviconSource];
 }
 
 async function updateFaviconCaching(checked: boolean) {
-    if (checked && (await checkFavicioCachingPermission())) {
-        setting.value.faviconCaching = true;
+    if (checked) {
+        const requiredPermissions = getRequestedFaviconCachingPermission();
+        if (await browser.permissions.request({ origins: requiredPermissions })) {
+            setting.value.faviconCaching = true;
+            return;
+        }
     }
-    else {
-        setting.value.faviconCaching = false;
+    setting.value.faviconCaching = false;
+}
+
+async function checkFaviconCachingPermission() {
+    if (setting.value.faviconCaching) {
+        const requiredPermissions = getRequestedFaviconCachingPermission();
+        if (!await browser.permissions.contains({ origins: requiredPermissions })) {
+            notify.error(t('option.setting.favicon.cachePermissionMissing'));
+            setting.value.faviconCaching = false;
+        }
     }
 }
 
-updateFaviconCaching(setting.value.faviconCaching);
+async function clearFaviconCache() {
+    await sendMessage('clearImageCache');
+    notify.success(t('option.setting.favicon.clearCacheSuccess'));
+}
+
+checkFaviconCachingPermission();
 </script>
 
 <template>
@@ -63,7 +80,7 @@ updateFaviconCaching(setting.value.faviconCaching);
             <Checkbox v-model:checked="setting.showBadge" />
         </FormItem>
 
-        <FormItem :label="t('option.setting.faviconSource')">
+        <FormItem :label="t('option.setting.favicon.source')">
             <Select v-model:value="setting.faviconSource" @change="() => updateFaviconCaching(setting.faviconCaching)">
                 <SelectOption :value="'favicon.im' satisfies FaviconSource">
                     Favicon.im
@@ -77,8 +94,14 @@ updateFaviconCaching(setting.value.faviconCaching);
             </Select>
         </FormItem>
 
-        <FormItem :label="t('option.setting.faviconCaching')">
-            <Checkbox :checked="setting.faviconCaching" @update:checked="updateFaviconCaching" />
+        <FormItem :label="t('option.setting.favicon.caching')">
+            <Space>
+                <Checkbox :checked="setting.faviconCaching" @update:checked="updateFaviconCaching" />
+
+                <Button :disabled="!setting.faviconCaching" @click="clearFaviconCache">
+                    {{ t('option.setting.favicon.clearCache') }}
+                </Button>
+            </Space>
         </FormItem>
 
         <FormItem :label="t('option.setting.duplicatedUrlOpened.label')">
