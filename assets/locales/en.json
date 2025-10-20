@@ -36,6 +36,7 @@
             "paninationOption": "{count} items per page",
             "showBadge": "Show badge",
             "faviconSource": "Favicon source",
+            "faviconCaching": "Cache favicons",
             "locale": "Language",
             "duplicatedUrlOpened": {
                 "label": "Duplicated URL opened option",

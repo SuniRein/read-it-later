@@ -4,14 +4,22 @@ import { onMounted, ref } from 'vue';
 
 import { sendMessage } from '@/utils/message';
 
-const { url } = defineProps<{ url?: string }>();
+const { url, useCache } = defineProps<{
+    url?: string;
+    useCache?: boolean;
+}>();
 const imgSrc = ref<string | undefined>(undefined);
 
 if (url) {
-    onMounted(async () => {
-        const dataUrl = await sendMessage('fetchImageFromCache', { url });
-        imgSrc.value = dataUrl;
-    });
+    if (useCache) {
+        onMounted(async () => {
+            const dataUrl = await sendMessage('fetchImageFromCache', { url });
+            imgSrc.value = dataUrl;
+        });
+    }
+    else {
+        imgSrc.value = url;
+    }
 }
 </script>
 

@@ -31,6 +31,7 @@ export interface Setting {
     pagination: number;
     showBadge: boolean;
     faviconSource: FaviconSource;
+    faviconCaching: boolean;
     locale: I18nLocales;
     cloudStorage: CloudStorageType;
     webDavConfig: WebDavConfig;

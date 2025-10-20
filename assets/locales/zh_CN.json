@@ -36,6 +36,7 @@
             "paninationOption": "每页 {count} 个标签页",
             "showBadge": "显示徽章",
             "faviconSource": "图标源",
+            "faviconCaching": "缓存图标",
             "locale": "语言",
             "duplicatedUrlOpened": {
                 "label": "打开重复 URL 时",

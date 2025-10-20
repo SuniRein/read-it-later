@@ -13,10 +13,11 @@ import Favicon from './Favicon.vue';
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
 
-const { currentUrl, pageList } = defineProps<{
+const { currentUrl, pageList, pageTags, faviconCaching } = defineProps<{
     currentUrl: string | null;
     pageList: PageItem[];
     pageTags: string[];
+    faviconCaching: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -75,7 +76,7 @@ function urlClickable(url: string): boolean {
                         v-on="{ click: urlClickable(item.info.url) ? () => emit('openUrl', item.info.url) : undefined }"
                     >
                         <div class="favicon-and-title">
-                            <Favicon :url="getFaviconUrl(item.info.url)" />
+                            <Favicon :url="getFaviconUrl(item.info.url)" :use-cache="faviconCaching" />
                             <span class="title">{{ item.info.title }}</span>
                         </div>
 
