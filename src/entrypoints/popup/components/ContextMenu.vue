@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CloseOutlined, EditOutlined } from '@ant-design/icons-vue';
 import { onClickOutside } from '@vueuse/core';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, nextTick, ref, useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
 
@@ -10,6 +10,8 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+
+const menu = useTemplateRef('menu');
 
 const x = ref(0);
 const y = ref(0);
@@ -24,13 +26,29 @@ function show(itemId: string, posX: number, posY: number) {
     id.value = itemId;
     x.value = posX;
     y.value = posY;
+
+    nextTick(() => {
+        const menuEl = menu.value;
+        if (!menuEl)
+            return;
+
+        const { innerWidth, innerHeight } = window;
+
+        const rect = menuEl.getBoundingClientRect();
+        const overflowX = rect.right - innerWidth;
+        const overflowY = rect.bottom - innerHeight;
+
+        if (overflowX > 0)
+            x.value = Math.floor(x.value - overflowX);
+        if (overflowY > 0)
+            y.value = Math.floor(y.value - overflowY);
+    });
 }
 
 function hide() {
     id.value = null;
 }
 
-const menu = useTemplateRef('menu');
 onClickOutside(menu, hide);
 
 defineExpose({
@@ -81,6 +99,9 @@ function updateUrl() {
     border-radius: 4px;
     box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.15);
     padding: 2px 0px;
+
+    white-space: nowrap;
+    overflow: auto;
 }
 
 .context-menu .close-button {
