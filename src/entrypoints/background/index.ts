@@ -43,12 +43,20 @@ export default defineBackground(() => {
         'open-popup': action.openPopup,
         'open-random-page': openRandomPage,
         'remove-current-page': removeCurrentPage,
+        'toggle-favorite-current-page': toggleFavoriteCurrentPage,
     });
 
     function removeCurrentPage() {
         const id = pageMap.value.get(currentTabUrl.value)?.id;
         if (id) {
             pageActions.remove(id);
+        }
+    }
+
+    function toggleFavoriteCurrentPage() {
+        const id = pageMap.value.get(currentTabUrl.value)?.id;
+        if (id) {
+            pageActions.toggleFavorite(id);
         }
     }
 

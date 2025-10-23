@@ -6,7 +6,8 @@ export type Tab = Browser.tabs.Tab;
 export type Command =
     | 'open-popup'
     | 'open-random-page'
-    | 'remove-current-page';
+    | 'remove-current-page'
+    | 'toggle-favorite-current-page';
 /* eslint-enable style/operator-linebreak */
 
 export interface PageInfo {

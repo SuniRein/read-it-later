@@ -13,5 +13,8 @@
     },
     "commandRemoveCurrentPage": {
         "message": "Remove current page"
+    },
+    "commandToggleFavoriteCurrentPage": {
+        "message": "Toggle favorite for current page"
     }
 }

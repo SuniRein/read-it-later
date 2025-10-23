@@ -37,6 +37,9 @@ export default defineConfig({
             'remove-current-page': {
                 description: '__MSG_commandRemoveCurrentPage__',
             },
+            'toggle-favorite-current-page': {
+                description: '__MSG_commandToggleFavoriteCurrentPage__',
+            },
         },
     }),
 });

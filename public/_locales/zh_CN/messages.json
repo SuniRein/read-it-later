@@ -13,5 +13,8 @@
     },
     "commandRemoveCurrentPage": {
         "message": "删除当前页面"
+    },
+    "commandToggleFavoriteCurrentPage": {
+        "message": "切换当前页面收藏状态"
     }
 }
