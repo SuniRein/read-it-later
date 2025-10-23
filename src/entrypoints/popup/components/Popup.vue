@@ -31,7 +31,7 @@ const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilte
 
 const { searchText, searchTextDebounced } = useSearchText();
 
-const { pageList, add, remove, update, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
+const { pageList, add, remove, update, updateUrl, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
 const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchTextDebounced);
 
 const { currentTab } = useCurrentTab();
@@ -69,6 +69,12 @@ function openUrl(url: string) {
 function copyUrl(url: string) {
     navigator.clipboard.writeText(url);
 }
+
+function updateUrlChecked(id: string, url: string) {
+    if (!updateUrl(id, url)) {
+        notify.error(t('errorMsg.pageAlreadyExists'));
+    }
+}
 </script>
 
 <template>
@@ -99,6 +105,7 @@ function copyUrl(url: string) {
                 @toggle-star="toggleFavorite"
                 @open-url="openUrl"
                 @copy-url="copyUrl"
+                @update-url="updateUrlChecked"
             />
         </LayoutContent>
 

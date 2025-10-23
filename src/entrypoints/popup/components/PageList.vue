@@ -3,12 +3,13 @@ import type { PageItem } from '@/utils/types';
 
 import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
 import { List, ListItem } from 'ant-design-vue';
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 import { useFavicon } from '@/composables/favicon';
 import { isFirefox, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
+import ContextMenu from './ContextMenu.vue';
 import Favicon from './Favicon.vue';
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
@@ -26,6 +27,7 @@ const emit = defineEmits<{
     (e: 'toggleStar', id: string): void;
     (e: 'openUrl', url: string): void;
     (e: 'copyUrl', url: string): void;
+    (e: 'updateUrl', id: string, url: string): void;
 }>();
 
 const { getFaviconUrl } = useFavicon();
@@ -58,6 +60,18 @@ function urlClickable(url: string): boolean {
     }
     return true;
 }
+
+const contextMenu = useTemplateRef('contextMenu');
+
+function showContextMenu(itemId: string, mouseEvent: MouseEvent) {
+    contextMenu.value!.show(itemId, mouseEvent.clientX, mouseEvent.clientY);
+}
+
+function updateUrlToCurrent(itemId: string) {
+    if (currentUrl) {
+        emit('updateUrl', itemId, currentUrl);
+    }
+}
 </script>
 
 <template>
@@ -69,6 +83,7 @@ function urlClickable(url: string): boolean {
                         favorited: item.favorited,
                         current: item.info.url === currentUrl,
                     }"
+                    @contextmenu.prevent="(e) => showContextMenu(item.id, e)"
                 >
                     <div
                         class="item-content"
@@ -108,6 +123,11 @@ function urlClickable(url: string): boolean {
             </ListItem>
         </template>
     </List>
+
+    <ContextMenu
+        ref="contextMenu"
+        @update-url-to-current="updateUrlToCurrent"
+    />
 </template>
 
 <style scoped>

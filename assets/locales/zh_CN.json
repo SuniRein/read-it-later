@@ -15,6 +15,12 @@
         "cancel": "取消",
         "tagsPlaceholder": "标签1, 标签2, ..."
     },
+    "contextMenu": {
+        "editItem": {
+            "title": "编辑条目",
+            "updateUrl": "将 URL 更新为当前页面"
+        }
+    },
     "successMsg": {
         "loadData": "成功加载 {count} 条数据。"
     },
@@ -22,7 +28,8 @@
         "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
         "pageAlreadyExists": "页面已存在于列表中。",
         "noUploadFile": "未提供上传文件。",
-        "parseError": "无法解析页面列表：{error}"
+        "parseError": "无法解析页面列表：{error}",
+        "currentPageURLError": "无法获取当前页面的 URL。"
     },
     "option": {
         "title": "稍后读·简",

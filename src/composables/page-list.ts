@@ -50,6 +50,20 @@ export function usePageList() {
         }
     }
 
+    function updateUrl(id: string, newUrl: string): boolean {
+        if (pageList.value.some(item => item.info.url === newUrl)) {
+            return false;
+        }
+
+        const item = pageList.value.find(item => item.id === id);
+        if (item) {
+            item.info.url = newUrl;
+            item.updatedAt = new Date().toISOString();
+            triggerRef(pageList);
+        }
+        return true;
+    }
+
     function toggleFavorite(id: string) {
         const item = pageList.value.find(item => item.id === id);
         if (item) {
@@ -88,6 +102,7 @@ export function usePageList() {
         add,
         remove,
         update,
+        updateUrl,
         toggleFavorite,
         load,
         clear,

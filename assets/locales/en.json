@@ -15,6 +15,12 @@
         "cancel": "Cancel",
         "tagsPlaceholder": "tag1, tag2, ..."
     },
+    "contextMenu": {
+        "editItem": {
+            "title": "Edit item",
+            "updateUrl": "Update URL to current page"
+        }
+    },
     "successMsg": {
         "loadData": "Successfully loaded {count} items."
     },
@@ -22,7 +28,8 @@
         "invalidTags": "Tags can only contain letters, numbers, underscores, hyphens and Chinese characters.",
         "pageAlreadyExists": "Page has already been in the page list.",
         "noUploadFile": "No file provided for upload.",
-        "parseError": "Failed to parse page list: {error}"
+        "parseError": "Failed to parse page list: {error}",
+        "currentPageURLError": "Failed to get current page URL."
     },
     "option": {
         "title": "Read It Later Simply",
