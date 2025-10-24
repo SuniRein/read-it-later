@@ -18,7 +18,8 @@
     "contextMenu": {
         "editItem": {
             "title": "Edit item",
-            "updateUrl": "Update URL to current page"
+            "updateUrl": "Update URL to current page",
+            "moveToTop": "Move to top"
         }
     },
     "successMsg": {

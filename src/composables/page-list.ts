@@ -73,6 +73,14 @@ export function usePageList() {
         triggerRef(pageList);
     }
 
+    function moveToTop(id: string) {
+        const idx = pageList.value.findIndex(item => item.id === id);
+        if (idx !== -1) {
+            const [item] = pageList.value.splice(idx, 1);
+            pageList.value = [item, ...pageList.value];
+        }
+    }
+
     function load(data: PageItem[]) {
         const existingIds = new Set(pageList.value.map(item => item.id));
         const existingUrls = new Set(pageList.value.map(item => item.info.url));
@@ -104,6 +112,7 @@ export function usePageList() {
         update,
         updateUrl,
         toggleFavorite,
+        moveToTop,
         load,
         clear,
 

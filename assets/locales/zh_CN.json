@@ -18,7 +18,8 @@
     "contextMenu": {
         "editItem": {
             "title": "编辑条目",
-            "updateUrl": "将 URL 更新为当前页面"
+            "updateUrl": "更新 URL 为当前页面",
+            "moveToTop": "移动到顶部"
         }
     },
     "successMsg": {

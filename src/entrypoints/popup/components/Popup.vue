@@ -31,7 +31,7 @@ const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilte
 
 const { searchText, searchTextDebounced } = useSearchText();
 
-const { pageList, add, remove, update, updateUrl, toggleFavorite, restorableItemCount, restoreRemoved } = usePageList();
+const { pageList, restorableItemCount, ...pageActions } = usePageList();
 const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchTextDebounced);
 
 const { currentTab } = useCurrentTab();
@@ -57,7 +57,7 @@ const pageTags = computed(() => {
 });
 
 function addPage(item: PageInfo) {
-    if (!add(item)) {
+    if (!pageActions.add(item)) {
         notify.error(t('errorMsg.pageAlreadyExists'));
     }
 }
@@ -70,8 +70,8 @@ function copyUrl(url: string) {
     navigator.clipboard.writeText(url);
 }
 
-function updateUrlChecked(id: string, url: string) {
-    if (!updateUrl(id, url)) {
+function updateUrl(id: string, url: string) {
+    if (!pageActions.updateUrl(id, url)) {
         notify.error(t('errorMsg.pageAlreadyExists'));
     }
 }
@@ -90,7 +90,7 @@ function updateUrlChecked(id: string, url: string) {
                 @change-favorited-view="changeFavoritedView"
                 @open-random-page="sendMessage('openRandomPage')"
                 @open-setting="browser.runtime.openOptionsPage"
-                @restore-removed-page="restoreRemoved"
+                @restore-removed-page="pageActions.restoreRemoved"
             />
         </LayoutHeader>
 
@@ -100,12 +100,13 @@ function updateUrlChecked(id: string, url: string) {
                 :page-list="pageListDisplayed"
                 :page-tags
                 :favicon-caching
-                @mark-read="remove"
-                @edit="update"
-                @toggle-star="toggleFavorite"
+                @mark-read="pageActions.remove"
+                @edit="pageActions.update"
+                @toggle-star="pageActions.toggleFavorite"
                 @open-url="openUrl"
                 @copy-url="copyUrl"
-                @update-url="updateUrlChecked"
+                @update-url="updateUrl"
+                @move-to-top="pageActions.moveToTop"
             />
         </LayoutContent>
 

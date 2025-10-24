@@ -7,6 +7,7 @@ import useI18n from '@/composables/i18n';
 
 const emit = defineEmits<{
     (e: 'updateUrlToCurrent', id: string): void;
+    (e: 'moveToTop', id: string): void;
 }>();
 
 const { t } = useI18n();
@@ -62,6 +63,13 @@ function updateUrl() {
     emit('updateUrlToCurrent', id.value);
     hide();
 }
+
+function moveToTop() {
+    if (id.value === null)
+        return;
+    emit('moveToTop', id.value);
+    hide();
+}
 </script>
 
 <template>
@@ -79,6 +87,12 @@ function updateUrl() {
             <li>
                 <button @click="updateUrl">
                     {{ t('contextMenu.editItem.updateUrl') }}
+                </button>
+            </li>
+
+            <li>
+                <button @click="moveToTop">
+                    {{ t('contextMenu.editItem.moveToTop') }}
                 </button>
             </li>
         </ul>

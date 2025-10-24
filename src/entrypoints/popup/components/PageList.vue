@@ -28,6 +28,7 @@ const emit = defineEmits<{
     (e: 'openUrl', url: string): void;
     (e: 'copyUrl', url: string): void;
     (e: 'updateUrl', id: string, url: string): void;
+    (e: 'moveToTop', id: string): void;
 }>();
 
 const { getFaviconUrl } = useFavicon();
@@ -127,6 +128,7 @@ function updateUrlToCurrent(itemId: string) {
     <ContextMenu
         ref="contextMenu"
         @update-url-to-current="updateUrlToCurrent"
+        @move-to-top="id => emit('moveToTop', id)"
     />
 </template>
 
