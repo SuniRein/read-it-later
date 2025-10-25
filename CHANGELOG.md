@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.12.0](https://github.com/SuniRein/read-it-later/compare/v0.11.1...v0.12.0) (2025-10-25)
+
+
+### Features
+
+* **command:** add a shortcut for toggle current page's favorite status, closed [#57](https://github.com/SuniRein/read-it-later/issues/57) ([e5aaa00](https://github.com/SuniRein/read-it-later/commit/e5aaa00daf6324073443f349a18d9b32ed91c80b))
+* **favicon:** favicon cache support ([#56](https://github.com/SuniRein/read-it-later/issues/56)), closed [#31](https://github.com/SuniRein/read-it-later/issues/31) ([4df629a](https://github.com/SuniRein/read-it-later/commit/4df629ab770b498bc10ea62c9c2e10a9cc5d0d51))
+* **popup/context-menu:** restrict menu position within window bounds ([e958b0f](https://github.com/SuniRein/read-it-later/commit/e958b0f54ecc810546b0d753602686ac650be84f))
+* **popup/context-menu:** support pinning item to top, closed [#60](https://github.com/SuniRein/read-it-later/issues/60) ([2deac43](https://github.com/SuniRein/read-it-later/commit/2deac43dc5c80ff18f6de373774f5217e5f78ee1))
+* **popup:** update item's url to current page in context menu, closed [#49](https://github.com/SuniRein/read-it-later/issues/49) ([2f20038](https://github.com/SuniRein/read-it-later/commit/2f20038deb12c1bfb65602517dd0c88eaae46de2))
+* **search:** support negation filter, closed [#54](https://github.com/SuniRein/read-it-later/issues/54) ([d152aa0](https://github.com/SuniRein/read-it-later/commit/d152aa089ba0906947db04e0044363f924da31e5))
+
+
+### Bug Fixes
+
+* **search:** auto save search text in real time, fixed [#55](https://github.com/SuniRein/read-it-later/issues/55) ([d90efce](https://github.com/SuniRein/read-it-later/commit/d90efced6d73734e7de28f9c33ef49e28429839c))
+
 ## [0.11.1](https://github.com/SuniRein/read-it-later/compare/v0.11.0...v0.11.1) (2025-10-01)
 
 
