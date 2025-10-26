@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AutoComplete, Input } from 'ant-design-vue';
-import { computed } from 'vue';
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
 
@@ -9,30 +9,57 @@ const props = defineProps<{
     tags: string[];
 }>();
 
-const searchText = defineModel<string>({ required: true });
-
 const { t } = useI18n();
 
-const lastToken = computed(() => {
-    return searchText.value.slice(searchText.value.lastIndexOf(' ') + 1);
+const searchText = defineModel<string>({ required: true });
+
+const input = useTemplateRef('input');
+const inputEl = computed(() => input.value?.$el.querySelector('input') as HTMLInputElement | undefined);
+
+const cursorPos = ref(-1);
+onMounted(() => {
+    if (!inputEl.value)
+        return;
+
+    const updateCursorPos = () => cursorPos.value = inputEl.value!.selectionStart ?? -1;
+    inputEl.value.addEventListener('keyup', updateCursorPos);
+    inputEl.value.addEventListener('click', updateCursorPos);
+    updateCursorPos();
 });
 
-const textBeforeLastToken = computed(() => {
-    return searchText.value.slice(0, searchText.value.length - (lastToken.value?.length ?? 0));
+const hints = computed(() => {
+    const start = searchText.value.lastIndexOf(' ', cursorPos.value - 1) + 1;
+    const end = searchText.value.indexOf(' ', cursorPos.value);
+
+    return {
+        before: searchText.value.slice(0, start),
+        token: searchText.value.slice(start, end === -1 ? undefined : end),
+        after: end === -1 ? '' : searchText.value.slice(end),
+    };
 });
 
 const options = computed(() => {
+    const { before, token, after } = hints.value;
+
     const prefixes = ['#', '!#'];
-    const prefix = prefixes.find(p => lastToken.value?.startsWith(p));
+    const prefix = prefixes.find(p => token.startsWith(p));
     if (prefix) {
-        const tag = lastToken.value.slice(prefix.length);
+        const tag = token.slice(prefix.length);
         return props.tags.filter(t => t.startsWith(tag)).map(t => ({
-            value: `${textBeforeLastToken.value}${prefix}${t}`,
+            value: `${before}${prefix}${t}${after}`,
             label: t,
+            finalCursorPos: before.length + prefix.length + t.length,
         }));
     }
     return [];
 });
+
+function setCursorPos(_value: any, option: any) {
+    const finalCursorPos = option.finalCursorPos as number;
+    setTimeout(() => {
+        inputEl.value?.setSelectionRange(finalCursorPos, finalCursorPos);
+    }, 0);
+}
 </script>
 
 <template>
@@ -40,7 +67,8 @@ const options = computed(() => {
         v-model:value="searchText"
         :autofocus
         :options
+        @select="setCursorPos"
     >
-        <Input :placeholder="t('search')" allow-clear />
+        <Input ref="input" :placeholder="t('search')" allow-clear />
     </AutoComplete>
 </template>
