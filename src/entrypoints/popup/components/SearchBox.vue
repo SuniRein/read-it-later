@@ -22,10 +22,12 @@ const textBeforeLastToken = computed(() => {
 });
 
 const options = computed(() => {
-    if (lastToken.value?.startsWith('#')) {
-        const tag = lastToken.value.slice(1);
+    const prefixes = ['#', '!#'];
+    const prefix = prefixes.find(p => lastToken.value?.startsWith(p));
+    if (prefix) {
+        const tag = lastToken.value.slice(prefix.length);
         return props.tags.filter(t => t.startsWith(tag)).map(t => ({
-            value: `${textBeforeLastToken.value}#${t}`,
+            value: `${textBeforeLastToken.value}${prefix}${t}`,
             label: t,
         }));
     }
