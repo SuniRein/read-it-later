@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.12.1](https://github.com/SuniRein/read-it-later/compare/v0.12.0...v0.12.1) (2025-10-26)
+
+
+### Bug Fixes
+
+* **search:** autocomplete supports completing tags in the middle of the input, fixed [#61](https://github.com/SuniRein/read-it-later/issues/61) ([2546761](https://github.com/SuniRein/read-it-later/commit/25467618bc1ebe61fc115e2adab56465929ac348))
+* **search:** enable autocomplete for negation tag filter, fixed [#62](https://github.com/SuniRein/read-it-later/issues/62) ([34c3eb4](https://github.com/SuniRein/read-it-later/commit/34c3eb4cb43bd6d341cc7072a79151ef3ba708c3))
+
 ## [0.12.0](https://github.com/SuniRein/read-it-later/compare/v0.11.1...v0.12.0) (2025-10-25)
 
 
