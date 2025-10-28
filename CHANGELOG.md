@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.12.2](https://github.com/SuniRein/read-it-later/compare/v0.12.1...v0.12.2) (2025-10-28)
+
+
+### Bug Fixes
+
+* current tab not update in popup view sometimes, fixed [#59](https://github.com/SuniRein/read-it-later/issues/59) ([d381f6c](https://github.com/SuniRein/read-it-later/commit/d381f6c923f1e8ce3881566a2ce119a4aade936b))
+
 ## [0.12.1](https://github.com/SuniRein/read-it-later/compare/v0.12.0...v0.12.1) (2025-10-26)
 
 
