@@ -1,19 +1,17 @@
-import type { Browser } from '#imports';
-
 import { browser } from '#imports';
-import { computed } from 'vue';
+import { ref } from 'vue';
 
 export function handleConnection() {
-    let popupPort: Browser.runtime.Port | null = null;
+    const isConnected = ref(false);
 
     browser.runtime.onConnect.addListener((port) => {
         if (port.name === 'popup-communication') {
-            popupPort = port;
+            isConnected.value = true;
             port.onDisconnect.addListener(() => {
-                popupPort = null;
+                isConnected.value = false;
             });
         }
     });
 
-    return computed(() => popupPort !== null);
+    return isConnected;
 }
