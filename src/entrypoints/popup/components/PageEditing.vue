@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { AutoComplete, Button, Input, message } from 'ant-design-vue';
+import { AutoComplete, Button, Input } from 'ant-design-vue';
 import { computed, onMounted, ref, useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
+import notify from '@/utils/notify';
 
 const { initTitle, initTags, pageTags } = defineProps<{
     initTitle: string;
@@ -49,10 +50,7 @@ function parseTags(raw: string) {
 function save() {
     const tags = parseTags(tagsRaw.value);
     if (tags.some(tag => !/^[\w\-\p{Script=Han}]+$/u.test(tag))) {
-        message.error({
-            content: t('errorMsg.invalidTags'),
-            duration: 2,
-        });
+        notify.error(t('errorMsg.invalidTags'));
         return;
     }
     emit('save', title.value, tags);
