@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDebounce } from '@vueuse/core';
 import { AutoComplete, Input } from 'ant-design-vue';
 import { computed, onMounted, ref, useTemplateRef } from 'vue';
 
@@ -12,6 +13,7 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const searchText = defineModel<string>({ required: true });
+const debouncedSearchText = useDebounce(searchText, 200);
 
 const input = useTemplateRef('input');
 const inputEl = computed(() => input.value?.$el.querySelector('input') as HTMLInputElement | undefined);
@@ -28,13 +30,13 @@ onMounted(() => {
 });
 
 const hints = computed(() => {
-    const start = searchText.value.lastIndexOf(' ', cursorPos.value - 1) + 1;
-    const end = searchText.value.indexOf(' ', cursorPos.value);
+    const start = debouncedSearchText.value.lastIndexOf(' ', cursorPos.value - 1) + 1;
+    const end = debouncedSearchText.value.indexOf(' ', cursorPos.value);
 
     return {
-        before: searchText.value.slice(0, start),
-        token: searchText.value.slice(start, end === -1 ? undefined : end),
-        after: end === -1 ? '' : searchText.value.slice(end),
+        before: debouncedSearchText.value.slice(0, start),
+        token: debouncedSearchText.value.slice(start, end === -1 ? undefined : end),
+        after: end === -1 ? '' : debouncedSearchText.value.slice(end),
     };
 });
 
