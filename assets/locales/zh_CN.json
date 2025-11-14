@@ -18,6 +18,7 @@
     "contextMenu": {
         "editItem": {
             "title": "编辑条目",
+            "updateTitle": "更新标题为当前页面标题",
             "updateUrl": "更新 URL 为当前页面",
             "moveToTop": "移动到顶部"
         }

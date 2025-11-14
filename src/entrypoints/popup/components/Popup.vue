@@ -96,7 +96,7 @@ function updateUrl(id: string, url: string) {
 
         <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
             <PageList
-                :current-url
+                :current-tab
                 :page-list="pageListDisplayed"
                 :page-tags
                 :favicon-caching
@@ -105,6 +105,7 @@ function updateUrl(id: string, url: string) {
                 @toggle-star="pageActions.toggleFavorite"
                 @open-url="openUrl"
                 @copy-url="copyUrl"
+                @update-title="pageActions.updateTitle"
                 @update-url="updateUrl"
                 @move-to-top="pageActions.moveToTop"
             />

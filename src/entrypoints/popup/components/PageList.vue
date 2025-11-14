@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageItem } from '@/utils/types';
+import type { PageItem, Tab } from '@/utils/types';
 
 import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
 import { List, ListItem } from 'ant-design-vue';
@@ -14,8 +14,8 @@ import Favicon from './Favicon.vue';
 import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
 
-const { currentUrl, pageList, pageTags, faviconCaching } = defineProps<{
-    currentUrl: string | null;
+const { currentTab, pageList, pageTags, faviconCaching } = defineProps<{
+    currentTab: Tab | null;
     pageList: PageItem[];
     pageTags: string[];
     faviconCaching: boolean;
@@ -27,6 +27,7 @@ const emit = defineEmits<{
     (e: 'toggleStar', id: string): void;
     (e: 'openUrl', url: string): void;
     (e: 'copyUrl', url: string): void;
+    (e: 'updateTitle', id: string, title: string): void;
     (e: 'updateUrl', id: string, url: string): void;
     (e: 'moveToTop', id: string): void;
 }>();
@@ -68,9 +69,15 @@ function showContextMenu(itemId: string, mouseEvent: MouseEvent) {
     contextMenu.value!.show(itemId, mouseEvent.clientX, mouseEvent.clientY);
 }
 
+function updateTitleToCurrent(itemId: string) {
+    if (currentTab?.title) {
+        emit('updateTitle', itemId, currentTab.title);
+    }
+}
+
 function updateUrlToCurrent(itemId: string) {
-    if (currentUrl) {
-        emit('updateUrl', itemId, currentUrl);
+    if (currentTab?.url) {
+        emit('updateUrl', itemId, currentTab.url);
     }
 }
 </script>
@@ -82,7 +89,7 @@ function updateUrlToCurrent(itemId: string) {
                 <div
                     v-if="editedId !== item.id" class="page-list-item" :class="{
                         favorited: item.favorited,
-                        current: item.info.url === currentUrl,
+                        current: item.info.url === currentTab?.url,
                     }"
                     @contextmenu.prevent="(e) => showContextMenu(item.id, e)"
                 >
@@ -127,6 +134,7 @@ function updateUrlToCurrent(itemId: string) {
 
     <ContextMenu
         ref="contextMenu"
+        @update-title-current="updateTitleToCurrent"
         @update-url-to-current="updateUrlToCurrent"
         @move-to-top="id => emit('moveToTop', id)"
     />

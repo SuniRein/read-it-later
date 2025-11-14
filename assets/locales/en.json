@@ -18,6 +18,7 @@
     "contextMenu": {
         "editItem": {
             "title": "Edit item",
+            "updateTitle": "Update title to current page title",
             "updateUrl": "Update URL to current page",
             "moveToTop": "Move to top"
         }

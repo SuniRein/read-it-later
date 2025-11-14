@@ -6,6 +6,7 @@ import { computed, nextTick, ref, useTemplateRef } from 'vue';
 import useI18n from '@/composables/i18n';
 
 const emit = defineEmits<{
+    (e: 'updateTitleCurrent', id: string): void;
     (e: 'updateUrlToCurrent', id: string): void;
     (e: 'moveToTop', id: string): void;
 }>();
@@ -64,6 +65,13 @@ function updateUrl() {
     hide();
 }
 
+function updateTitle() {
+    if (id.value === null)
+        return;
+    emit('updateTitleCurrent', id.value);
+    hide();
+}
+
 function moveToTop() {
     if (id.value === null)
         return;
@@ -82,6 +90,12 @@ function moveToTop() {
         <ul class="context" role="menu">
             <li class="section">
                 <EditOutlined /> {{ t('contextMenu.editItem.title') }}
+            </li>
+
+            <li>
+                <button @click="updateTitle">
+                    {{ t('contextMenu.editItem.updateTitle') }}
+                </button>
             </li>
 
             <li>

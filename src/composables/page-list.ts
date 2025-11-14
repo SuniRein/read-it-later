@@ -50,6 +50,15 @@ export function usePageList() {
         }
     }
 
+    function updateTitle(id: string, newTitle: string) {
+        const item = pageList.value.find(item => item.id === id);
+        if (item) {
+            item.info.title = newTitle;
+            item.updatedAt = new Date().toISOString();
+            triggerRef(pageList);
+        }
+    }
+
     function updateUrl(id: string, newUrl: string): boolean {
         if (pageList.value.some(item => item.info.url === newUrl)) {
             return false;
@@ -110,6 +119,7 @@ export function usePageList() {
         add,
         remove,
         update,
+        updateTitle,
         updateUrl,
         toggleFavorite,
         moveToTop,
