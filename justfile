@@ -14,5 +14,13 @@ package: build
 
     git archive --format tar.gz --output ($packageDir | path join $"read-it-later_($version).tar.gz") $"v($version)"
 
+package-beta version: build
+    #!/usr/bin/env nu
+    let packageDir = $".output/packages/beta/{{version}}"
+    mkdir $packageDir
+
+    ouch compress .output/chrome-mv3/* ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.chromium.zip")
+    ouch compress .output/firefox-mv2/* ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.firefox.zip")
+
 release version:
     pnpm run release --release-as {{version}}
