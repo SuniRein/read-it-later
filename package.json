@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "@ant-design/icons-vue": "^7.0.1",
-        "@vueuse/core": "^13.6.0",
+        "@vueuse/core": "^14.1.0",
         "@webext-core/messaging": "^2.3.0",
         "ant-design-vue": "~4.2.6",
         "arktype": "^2.1.20",
