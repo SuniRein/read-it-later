@@ -5,7 +5,7 @@ import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design
 import { List, ListItem } from 'ant-design-vue';
 
 import { useFavicon } from '@/composables/favicon';
-import { isFirefox, urlRestricted } from '@/utils/firefox';
+import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
 import ContextMenu from './ContextMenu.vue';
@@ -56,7 +56,7 @@ function savePageEdit(title: string, tags: string[]) {
 }
 
 function urlClickable(url: string): boolean {
-  if (isFirefox() && urlRestricted(url)) {
+  if (IS_FIREFOX && urlRestricted(url)) {
     return false;
   }
   return true;

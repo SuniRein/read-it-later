@@ -5,7 +5,7 @@ import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 
-import { isFirefox, urlRestricted } from '@/utils/firefox';
+import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
 export function handlePageList() {
   const { pageList, ...pageActions } = usePageList();
@@ -13,9 +13,9 @@ export function handlePageList() {
   const { searchTextDebounced } = useSearchText();
   const { favoritedFilterOption } = useFavoritedFilterOption();
 
-  const clikablePageList = computed(() =>
-    isFirefox() ? pageList.value.filter(item => !urlRestricted(item.info.url)) : pageList.value,
-  );
+  const clikablePageList = IS_FIREFOX
+    ? computed(() => pageList.value.filter(item => !urlRestricted(item.info.url)))
+    : pageList;
   const pageListFiltered = usePageListFiltered(clikablePageList, favoritedFilterOption, searchTextDebounced);
 
   const pageMap = computed(() => {

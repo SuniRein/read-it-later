@@ -1,6 +1,4 @@
-export function isFirefox(): boolean {
-  return (globalThis as any).browser?.runtime?.id !== undefined;
-}
+export const IS_FIREFOX = import.meta.env.FIREFOX;
 
 /**
  * Firefox restricts creating these URLs for security reasons
