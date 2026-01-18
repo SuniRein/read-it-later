@@ -1,7 +1,5 @@
 import type { PageItem } from '@/utils/types';
 
-import { computed } from 'vue';
-
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';

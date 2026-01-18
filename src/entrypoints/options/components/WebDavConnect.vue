@@ -2,10 +2,8 @@
 import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
-import { browser } from '#imports';
 import { Button, Form, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
 
-import { computed, ref, useTemplateRef } from 'vue';
 import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';

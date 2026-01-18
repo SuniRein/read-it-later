@@ -1,5 +1,3 @@
-import { browser, defineBackground } from '#imports';
-
 import { onMessage } from '@/utils/message';
 
 import { handleBadge } from './badge';

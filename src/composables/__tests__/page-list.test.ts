@@ -1,6 +1,5 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
-import { fakeBrowser } from '#imports';
 import { flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 

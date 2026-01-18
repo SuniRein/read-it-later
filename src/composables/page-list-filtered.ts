@@ -1,7 +1,4 @@
-import type { MaybeRef } from 'vue';
 import type { FavoritedFilterOption, PageItem } from '@/utils/types';
-
-import { computed, unref } from 'vue';
 
 type Filter = (item: PageItem) => boolean;
 

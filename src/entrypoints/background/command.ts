@@ -1,7 +1,5 @@
 import type { Command } from '@/utils/types';
 
-import { browser } from '#imports';
-
 type CommandHandlers = Record<Command, () => void>;
 
 export function handleCommand(handlers: CommandHandlers) {

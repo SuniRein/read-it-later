@@ -4,7 +4,12 @@ import { defineConfig } from 'wxt';
 
 export default defineConfig({
   srcDir: 'src',
-  imports: false,
+  imports: {
+    dirsScanOptions: {
+      // Disable auto-imports for project's files
+      fileFilter: (_file: string) => false,
+    },
+  },
   modules: ['@wxt-dev/module-vue'],
   vite: () => ({
     plugins: [

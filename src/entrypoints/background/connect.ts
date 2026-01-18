@@ -1,6 +1,3 @@
-import { browser } from '#imports';
-import { ref } from 'vue';
-
 export function handleConnection() {
   const isConnected = ref(false);
 

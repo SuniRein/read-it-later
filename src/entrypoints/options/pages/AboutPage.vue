@@ -11,7 +11,6 @@ import {
   TypographyTitle as Title,
   Typography,
 } from 'ant-design-vue';
-import { h } from 'vue';
 
 import FirefoxLogo from '~~/assets/firefox.svg?component';
 import GithubLogo from '~~/assets/github.svg?component';

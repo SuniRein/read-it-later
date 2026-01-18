@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Tag } from 'ant-design-vue';
-import { computed } from 'vue';
 
 const { tag } = defineProps<{
   tag: string;

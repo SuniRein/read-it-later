@@ -2,7 +2,6 @@
 import type { I18nLocales } from '@/utils/i18n';
 import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
-import { browser } from '#imports';
 import { Button, Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption, Space } from 'ant-design-vue';
 
 import useI18n from '@/composables/i18n';

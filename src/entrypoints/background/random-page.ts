@@ -1,4 +1,3 @@
-import type { Ref } from 'vue';
 import type { PageItem } from '@/utils/types';
 
 export function handleOpenRandomPage(pageList: Ref<PageItem[]>, openPage: (url: string) => Promise<void>) {

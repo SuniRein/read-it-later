@@ -1,8 +1,6 @@
-import { fakeBrowser } from '#imports';
 import { mount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { defineComponent } from 'vue';
 
 import store from '@/utils/store';
 import { useFavicon } from '../favicon';

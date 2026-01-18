@@ -1,7 +1,4 @@
-import type { Ref } from 'vue';
 import type { DuplicatedUrlOpenedOption } from '@/utils/types';
-
-import { browser } from '#imports';
 
 export function handleOpenPage(option: Ref<DuplicatedUrlOpenedOption>) {
   return async (url: string) => {

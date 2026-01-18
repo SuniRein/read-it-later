@@ -1,5 +1,3 @@
-import { toRaw } from 'vue';
-
 export function deepToRaw<T>(value: T): T {
   if (Array.isArray(value)) {
     return value.map(deepToRaw) as unknown as T;

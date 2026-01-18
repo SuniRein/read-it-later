@@ -1,6 +1,5 @@
 import type { FaviconSource } from '@/utils/types';
 
-import { onMounted, ref } from 'vue';
 import store from '@/utils/store';
 
 export function useFavicon() {

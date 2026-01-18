@@ -1,8 +1,4 @@
-import type { Ref } from 'vue';
 import type { PageItem } from '@/utils/types';
-
-import { browser } from '#imports';
-import { computed, watchEffect } from 'vue';
 
 const commonBadgeColor = '#444';
 const activeBadgeColor = '#16a34a';

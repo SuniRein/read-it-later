@@ -1,9 +1,8 @@
-import type { MaybeRef } from 'vue';
 import type { I18nLocales, I18nSchema } from '@/utils/i18n';
 
 import enUS from 'ant-design-vue/locale/en_US';
 import zhCN from 'ant-design-vue/locale/zh_CN';
-import { computed, unref } from 'vue';
+
 import { useI18n } from 'vue-i18n';
 
 export default function () {

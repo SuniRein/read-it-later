@@ -10,7 +10,7 @@ import {
   LayoutSider,
   Menu,
 } from 'ant-design-vue';
-import { computed, h } from 'vue';
+
 import { RouterView, useRoute, useRouter } from 'vue-router';
 
 import useI18n, { useAntLocale } from '@/composables/i18n';

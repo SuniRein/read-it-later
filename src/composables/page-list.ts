@@ -1,7 +1,6 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
 import { nanoid } from 'nanoid';
-import { computed, triggerRef } from 'vue';
 
 import { useStoredValue } from '@/composables/store';
 import store from '@/utils/store';

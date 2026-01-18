@@ -1,8 +1,6 @@
 import type { I18nLocales } from '@/utils/i18n';
 import type { FavoritedFilterOption, PageItem, Setting } from '@/utils/types';
 
-import { storage } from '#imports';
-
 function defaultLocale(): I18nLocales {
   const language = navigator.languages?.[0] ?? navigator.language ?? 'en';
   if (language.startsWith('zh')) {

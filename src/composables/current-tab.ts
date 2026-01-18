@@ -1,8 +1,5 @@
 import type { Tab } from '@/utils/types';
 
-import { browser } from '#imports';
-
-import { onMounted, ref } from 'vue';
 import { onMessage } from '@/utils/message';
 
 export function useCurrentTab() {

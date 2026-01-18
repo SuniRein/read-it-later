@@ -1,6 +1,3 @@
-import { browser } from '#imports';
-import { createApp } from 'vue';
-
 import i18n from '@/utils/i18n';
 import store from '@/utils/store';
 

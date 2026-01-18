@@ -2,9 +2,7 @@
 import type { UploadProps } from 'ant-design-vue';
 import type { CloudStorageType } from '@/utils/types';
 
-import { browser } from '#imports';
 import { Button, Divider, Form, FormItem, Popconfirm, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
-import { useTemplateRef } from 'vue';
 
 import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';

@@ -1,4 +1,3 @@
-import type { Browser } from '#imports';
 import type { I18nLocales } from '@/utils/i18n';
 
 export type Tab = Browser.tabs.Tab;

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Avatar } from 'ant-design-vue';
-import { onMounted, ref } from 'vue';
 
 import { sendMessage } from '@/utils/message';
 

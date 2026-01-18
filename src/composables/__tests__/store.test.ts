@@ -1,4 +1,3 @@
-import { fakeBrowser, storage } from '#imports';
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
 

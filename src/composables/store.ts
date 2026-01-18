@@ -1,6 +1,4 @@
-import type { storage } from '#imports';
 import { tryOnMounted, tryOnUnmounted } from '@vueuse/core';
-import { shallowRef, watch } from 'vue';
 
 import { deepToRaw } from '@/utils/object';
 

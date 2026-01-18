@@ -3,7 +3,6 @@ import type { PageItem, Tab } from '@/utils/types';
 
 import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
 import { List, ListItem } from 'ant-design-vue';
-import { ref, useTemplateRef } from 'vue';
 
 import { useFavicon } from '@/composables/favicon';
 import { isFirefox, urlRestricted } from '@/utils/firefox';

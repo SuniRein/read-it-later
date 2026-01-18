@@ -1,9 +1,3 @@
-import type { Browser } from '#imports';
-import type { Ref } from 'vue';
-
-import { browser } from '#imports';
-import { shallowRef } from 'vue';
-
 import { sendMessage } from '@/utils/message';
 
 export function handleCurrentTab(isConnected: Ref<boolean>) {

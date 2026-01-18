@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { Component } from 'vue';
-
 import { Button, Tooltip } from 'ant-design-vue';
-import { h } from 'vue';
 
 defineProps<{
   icon: Component;

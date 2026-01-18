@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type { PageInfo } from '@/utils/types';
 
-import { browser } from '#imports';
 import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } from 'ant-design-vue';
-import { computed, h, ref } from 'vue';
 
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
