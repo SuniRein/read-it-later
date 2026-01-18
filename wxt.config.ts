@@ -1,5 +1,6 @@
 import vueI18n from '@intlify/unplugin-vue-i18n/vite';
 import tailwindcss from '@tailwindcss/vite';
+import Components from 'unplugin-vue-components/vite';
 import svgLoader from 'vite-svg-loader';
 import { defineConfig } from 'wxt';
 
@@ -28,6 +29,10 @@ export default defineConfig({
         include: 'assets/locales/*.json',
       }),
       svgLoader(),
+      Components({
+        dirs: ['src/components'],
+        dts: 'src/components.d.ts',
+      }),
     ],
   }),
   manifest: ({ manifestVersion }) => ({

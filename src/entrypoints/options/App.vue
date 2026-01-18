@@ -11,7 +11,7 @@ import {
   Menu,
 } from 'ant-design-vue';
 
-import { RouterView, useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useAntLocale } from '@/composables/i18n';
 
