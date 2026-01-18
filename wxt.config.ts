@@ -1,4 +1,5 @@
 import vueI18n from '@intlify/unplugin-vue-i18n/vite';
+import tailwindcss from '@tailwindcss/vite';
 import svgLoader from 'vite-svg-loader';
 import { defineConfig } from 'wxt';
 
@@ -22,6 +23,7 @@ export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
   vite: () => ({
     plugins: [
+      tailwindcss(),
       vueI18n({
         include: 'assets/locales/*.json',
       }),
