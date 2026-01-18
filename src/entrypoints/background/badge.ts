@@ -11,24 +11,24 @@ const favoritedBadgeColor = '#eab308';
 const action = browser.action ?? browser.browserAction;
 
 export function handleBadge(showBadge: Ref<boolean>, pageMap: Ref<Map<string, PageItem>>, currentTabUrl: Ref<string>) {
-    const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
-    const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
+  const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
+  const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
 
-    async function updateBadge() {
-        if (!showBadge.value) {
-            await action.setBadgeText({ text: '' });
-            return;
-        }
-
-        await action.setBadgeBackgroundColor({
-            color: currentTabActive.value
-                ? (currentTabFavorited.value ? favoritedBadgeColor : activeBadgeColor)
-                : commonBadgeColor,
-        });
-
-        const count = pageMap.value.size;
-        await action.setBadgeText({ text: count.toString() });
+  async function updateBadge() {
+    if (!showBadge.value) {
+      await action.setBadgeText({ text: '' });
+      return;
     }
 
-    watchEffect(updateBadge);
+    await action.setBadgeBackgroundColor({
+      color: currentTabActive.value
+        ? (currentTabFavorited.value ? favoritedBadgeColor : activeBadgeColor)
+        : commonBadgeColor,
+    });
+
+    const count = pageMap.value.size;
+    await action.setBadgeText({ text: count.toString() });
+  }
+
+  watchEffect(updateBadge);
 }

@@ -7,14 +7,14 @@ import { computed, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export default function () {
-    return useI18n<[I18nSchema], I18nLocales>();
+  return useI18n<[I18nSchema], I18nLocales>();
 }
 
 export function useAntLocale(locale: MaybeRef<I18nLocales>) {
-    return computed(() => {
-        switch (unref(locale)) {
-            case 'zh_CN': return zhCN;
-            case 'en': return enUS;
-        }
-    });
+  return computed(() => {
+    switch (unref(locale)) {
+      case 'zh_CN': return zhCN;
+      case 'en': return enUS;
+    }
+  });
 }

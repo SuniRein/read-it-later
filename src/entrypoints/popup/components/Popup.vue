@@ -38,96 +38,96 @@ const { currentTab } = useCurrentTab();
 const currentUrl = computed(() => currentTab.value?.url ?? null);
 
 const pageListDisplayed = computed(() => {
-    const start = (current.value - 1) * pageSize.value;
-    const end = start + pageSize.value;
-    const paginated = pageListFiltered.value.slice(start, end);
+  const start = (current.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  const paginated = pageListFiltered.value.slice(start, end);
 
-    // make current page at the top if it exists
-    const currentPage = pageList.value.find(item => item.info.url === currentUrl.value);
-    if (currentPage) {
-        return [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)];
-    }
-    return paginated;
+  // make current page at the top if it exists
+  const currentPage = pageList.value.find(item => item.info.url === currentUrl.value);
+  if (currentPage) {
+    return [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)];
+  }
+  return paginated;
 });
 
 const pageTags = computed(() => {
-    return Array.from(
-        new Set(pageList.value.flatMap(item => item.tags)),
-    );
+  return Array.from(
+    new Set(pageList.value.flatMap(item => item.tags)),
+  );
 });
 
 function addPage(item: PageInfo) {
-    if (!pageActions.add(item)) {
-        notify.error(t('errorMsg.pageAlreadyExists'));
-    }
+  if (!pageActions.add(item)) {
+    notify.error(t('errorMsg.pageAlreadyExists'));
+  }
 }
 
 async function openUrl(url: string) {
-    await sendMessage('openPage', { url });
+  await sendMessage('openPage', { url });
 }
 
 async function copyUrl(url: string) {
-    await navigator.clipboard.writeText(url);
+  await navigator.clipboard.writeText(url);
 }
 
 function updateUrl(id: string, url: string) {
-    if (!pageActions.updateUrl(id, url)) {
-        notify.error(t('errorMsg.pageAlreadyExists'));
-    }
+  if (!pageActions.updateUrl(id, url)) {
+    notify.error(t('errorMsg.pageAlreadyExists'));
+  }
 }
 </script>
 
 <template>
-    <Layout>
-        <LayoutHeader style="height: 40px; padding: 0">
-            <TopOperation
-                v-model:search-text="searchText"
-                :current-tab
-                :page-tags
-                :favorited-filter-option
-                :restorable-item-count
-                @add-page="addPage"
-                @change-favorited-view="changeFavoritedView"
-                @open-random-page="sendMessage('openRandomPage')"
-                @open-setting="browser.runtime.openOptionsPage"
-                @restore-removed-page="pageActions.restoreRemoved"
-            />
-        </LayoutHeader>
+  <Layout>
+    <LayoutHeader style="height: 40px; padding: 0">
+      <TopOperation
+        v-model:search-text="searchText"
+        :current-tab
+        :page-tags
+        :favorited-filter-option
+        :restorable-item-count
+        @add-page="addPage"
+        @change-favorited-view="changeFavoritedView"
+        @open-random-page="sendMessage('openRandomPage')"
+        @open-setting="browser.runtime.openOptionsPage"
+        @restore-removed-page="pageActions.restoreRemoved"
+      />
+    </LayoutHeader>
 
-        <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
-            <PageList
-                :current-tab
-                :page-list="pageListDisplayed"
-                :page-tags
-                :favicon-caching
-                @mark-read="pageActions.remove"
-                @edit="pageActions.update"
-                @toggle-star="pageActions.toggleFavorite"
-                @open-url="openUrl"
-                @copy-url="copyUrl"
-                @update-title="pageActions.updateTitle"
-                @update-url="updateUrl"
-                @move-to-top="pageActions.moveToTop"
-            />
-        </LayoutContent>
+    <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
+      <PageList
+        :current-tab
+        :page-list="pageListDisplayed"
+        :page-tags
+        :favicon-caching
+        @mark-read="pageActions.remove"
+        @edit="pageActions.update"
+        @toggle-star="pageActions.toggleFavorite"
+        @open-url="openUrl"
+        @copy-url="copyUrl"
+        @update-title="pageActions.updateTitle"
+        @update-url="updateUrl"
+        @move-to-top="pageActions.moveToTop"
+      />
+    </LayoutContent>
 
-        <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
-            <Pagination
-                v-model:current="current"
-                v-model:page-size="pageSize"
-                :total="pageListFiltered.length"
-                :show-total="(total) =>
-                    h(Badge, {
-                        count: total,
-                        numberStyle: {
-                            backgroundColor: '#52c41a',
-                            boxShadow: '0 0 0 1px #d9d9d9 inset',
-                        },
-                        showZero: true,
-                        overflowCount: 999,
-                    })
-                "
-            />
-        </LayoutFooter>
-    </Layout>
+    <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
+      <Pagination
+        v-model:current="current"
+        v-model:page-size="pageSize"
+        :total="pageListFiltered.length"
+        :show-total="(total) =>
+          h(Badge, {
+            count: total,
+            numberStyle: {
+              backgroundColor: '#52c41a',
+              boxShadow: '0 0 0 1px #d9d9d9 inset',
+            },
+            showZero: true,
+            overflowCount: 999,
+          })
+        "
+      />
+    </LayoutFooter>
+  </Layout>
 </template>

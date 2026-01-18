@@ -1,20 +1,20 @@
 {
-    "extName": {
-        "message": "稍后读·简"
-    },
-    "extDescription": {
-        "message": "保存文章链接以便稍后阅读。"
-    },
-    "commandOpenPopup": {
-        "message": "打开弹出窗口"
-    },
-    "commandOpenRandomPage": {
-        "message": "打开随机页面"
-    },
-    "commandRemoveCurrentPage": {
-        "message": "删除当前页面"
-    },
-    "commandToggleFavoriteCurrentPage": {
-        "message": "切换当前页面收藏状态"
-    }
+  "extName": {
+    "message": "稍后读·简"
+  },
+  "extDescription": {
+    "message": "保存文章链接以便稍后阅读。"
+  },
+  "commandOpenPopup": {
+    "message": "打开弹出窗口"
+  },
+  "commandOpenRandomPage": {
+    "message": "打开随机页面"
+  },
+  "commandRemoveCurrentPage": {
+    "message": "删除当前页面"
+  },
+  "commandToggleFavoriteCurrentPage": {
+    "message": "切换当前页面收藏状态"
+  }
 }

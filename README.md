@@ -32,16 +32,16 @@ This extension is built with the [WXT framework](https://wxt.dev/).
 
 1. Install dependencies
 
-    ```bash
-    pnpm install
-    ```
+   ```bash
+   pnpm install
+   ```
 
 1. Load the extension in your browser
 
-    ```bash
-    pnpm run dev # Chrome
-    pnpm run dev:firefox # Firefox
-    ```
+   ```bash
+   pnpm run dev # Chrome
+   pnpm run dev:firefox # Firefox
+   ```
 
 ## License
 

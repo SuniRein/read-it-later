@@ -7,6 +7,6 @@ export type I18nSchema = typeof schema;
 export type I18nLocales = 'en' | 'zh_CN';
 
 export default createI18n<[I18nSchema], I18nLocales, false>({
-    legacy: false,
-    messages: messages as any,
+  legacy: false,
+  messages: messages as any,
 });

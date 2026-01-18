@@ -6,7 +6,7 @@ import useI18n, { useAntLocale } from '@/composables/i18n';
 import Popup from './components/Popup.vue';
 
 const theme = {
-    algorithm: antTheme.defaultAlgorithm,
+  algorithm: antTheme.defaultAlgorithm,
 };
 
 const { locale } = useI18n();
@@ -14,7 +14,7 @@ const antLocale = useAntLocale(locale);
 </script>
 
 <template>
-    <ConfigProvider :theme :locale="antLocale">
-        <Popup />
-    </ConfigProvider>
+  <ConfigProvider :theme :locale="antLocale">
+    <Popup />
+  </ConfigProvider>
 </template>

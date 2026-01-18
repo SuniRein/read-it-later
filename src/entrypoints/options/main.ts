@@ -9,17 +9,17 @@ import router from './router';
 import './style.css';
 
 async function bootstrap() {
-    const { locale } = await store.setting.getValue();
+  const { locale } = await store.setting.getValue();
+  i18n.global.locale.value = locale;
+
+  store.setting.watch(({ locale }) => {
     i18n.global.locale.value = locale;
+  });
 
-    store.setting.watch(({ locale }) => {
-        i18n.global.locale.value = locale;
-    });
-
-    createApp(App)
-        .use(i18n)
-        .use(router)
-        .mount('#app');
+  createApp(App)
+    .use(i18n)
+    .use(router)
+    .mount('#app');
 }
 
 void bootstrap();

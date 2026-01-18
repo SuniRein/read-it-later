@@ -1,20 +1,20 @@
 {
-    "extName": {
-        "message": "Read It Later Simply"
-    },
-    "extDescription": {
-        "message": "Save article links to read later."
-    },
-    "commandOpenPopup": {
-        "message": "Open popup"
-    },
-    "commandOpenRandomPage": {
-        "message": "Open random page"
-    },
-    "commandRemoveCurrentPage": {
-        "message": "Remove current page"
-    },
-    "commandToggleFavoriteCurrentPage": {
-        "message": "Toggle favorite for current page"
-    }
+  "extName": {
+    "message": "Read It Later Simply"
+  },
+  "extDescription": {
+    "message": "Save article links to read later."
+  },
+  "commandOpenPopup": {
+    "message": "Open popup"
+  },
+  "commandOpenRandomPage": {
+    "message": "Open random page"
+  },
+  "commandRemoveCurrentPage": {
+    "message": "Remove current page"
+  },
+  "commandToggleFavoriteCurrentPage": {
+    "message": "Toggle favorite for current page"
+  }
 }

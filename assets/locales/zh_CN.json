@@ -1,109 +1,109 @@
 {
-    "topTip": {
-        "setting": "打开设置界面",
-        "sync": "同步",
-        "toggleFavorite": "按收藏状态筛选",
-        "random": "打开随机页面",
-        "restore": "恢复被删除的页面",
-        "add": "添加当前页面到列表"
-    },
-    "search": "搜索...",
-    "edit": {
-        "title": "标题",
-        "tags": "标签",
-        "save": "保存",
-        "cancel": "取消",
-        "tagsPlaceholder": "标签1, 标签2, ..."
-    },
-    "contextMenu": {
-        "editItem": {
-            "title": "编辑条目",
-            "updateTitle": "更新标题为当前页面标题",
-            "updateUrl": "更新 URL 为当前页面",
-            "moveToTop": "移动到顶部"
-        }
-    },
-    "successMsg": {
-        "loadData": "成功加载 {count} 条数据。"
-    },
-    "errorMsg": {
-        "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
-        "pageAlreadyExists": "页面已存在于列表中。",
-        "noUploadFile": "未提供上传文件。",
-        "parseError": "无法解析页面列表：{error}",
-        "currentPageURLError": "无法获取当前页面的 URL。"
-    },
-    "option": {
-        "title": "稍后读·简",
-        "nav": {
-            "setting": "设置",
-            "data": "数据",
-            "about": "关于"
-        },
-        "setting": {
-            "panination": "分页",
-            "paninationOption": "每页 {count} 个标签页",
-            "showBadge": "显示徽章",
-            "favicon": {
-                "source": "图标源",
-                "caching": "缓存图标",
-                "clearCache": "清空图标缓存",
-                "clearCacheSuccess": "图标缓存已清空。",
-                "cachePermissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
-            },
-            "locale": "语言",
-            "duplicatedUrlOpened": {
-                "label": "打开重复 URL 时",
-                "ignore": "忽略",
-                "focus": "聚焦已打开的标签页",
-                "newTab": "在新标签页中打开"
-            }
-        },
-        "data": {
-            "localStorage": "本地存储",
-            "cloudStorage": {
-                "label": "云端存储",
-                "type": {
-                    "none": "无",
-                    "webdav": "WebDAV"
-                },
-                "webdav": {
-                    "url": "URL",
-                    "username": "用户名",
-                    "password": "密码",
-                    "validate": "验证",
-                    "message": {
-                        "permissionDenied": "没有权限访问云端存储，请授予权限。",
-                        "urlRequired": "请填写 URL。",
-                        "urlInvalid": "无效的 URL 格式。",
-                        "validateSuccess": "WebDAV 连接成功。",
-                        "saveSuccess": "WebDAV 保存成功。",
-                        "confirmDelete": "确定删除该条目？"
-                    }
-                }
-            },
-            "browserData": "浏览器数据",
-            "save": "保存",
-            "load": "加载",
-            "delete": "删除",
-            "saveLocally": "保存到本地",
-            "clear": "清除",
-            "message": {
-                "confirmClear": {
-                    "title": "确认清除数据？",
-                    "content": "清除后将无法恢复，请谨慎操作。\n\n注意：这不包括导出至本地存储与云端存储的数据。"
-                }
-            }
-        },
-        "about": {
-            "title": "@:option.title",
-            "developedBy": "由 {0} 开发",
-            "description": "一个轻量的浏览器扩展，用于便捷地管理你的稍后阅读列表。",
-            "privacy": "本扩展不收集用户文章内容或浏览历史，仅本地保存用户保存的条目。",
-            "license": {
-                "info": "本项目采用 {0} 发行。",
-                "body": "GNU 通用公共许可证 第3版（GPLv3）"
-            }
-        }
+  "topTip": {
+    "setting": "打开设置界面",
+    "sync": "同步",
+    "toggleFavorite": "按收藏状态筛选",
+    "random": "打开随机页面",
+    "restore": "恢复被删除的页面",
+    "add": "添加当前页面到列表"
+  },
+  "search": "搜索...",
+  "edit": {
+    "title": "标题",
+    "tags": "标签",
+    "save": "保存",
+    "cancel": "取消",
+    "tagsPlaceholder": "标签1, 标签2, ..."
+  },
+  "contextMenu": {
+    "editItem": {
+      "title": "编辑条目",
+      "updateTitle": "更新标题为当前页面标题",
+      "updateUrl": "更新 URL 为当前页面",
+      "moveToTop": "移动到顶部"
     }
+  },
+  "successMsg": {
+    "loadData": "成功加载 {count} 条数据。"
+  },
+  "errorMsg": {
+    "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
+    "pageAlreadyExists": "页面已存在于列表中。",
+    "noUploadFile": "未提供上传文件。",
+    "parseError": "无法解析页面列表：{error}",
+    "currentPageURLError": "无法获取当前页面的 URL。"
+  },
+  "option": {
+    "title": "稍后读·简",
+    "nav": {
+      "setting": "设置",
+      "data": "数据",
+      "about": "关于"
+    },
+    "setting": {
+      "panination": "分页",
+      "paninationOption": "每页 {count} 个标签页",
+      "showBadge": "显示徽章",
+      "favicon": {
+        "source": "图标源",
+        "caching": "缓存图标",
+        "clearCache": "清空图标缓存",
+        "clearCacheSuccess": "图标缓存已清空。",
+        "cachePermissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+      },
+      "locale": "语言",
+      "duplicatedUrlOpened": {
+        "label": "打开重复 URL 时",
+        "ignore": "忽略",
+        "focus": "聚焦已打开的标签页",
+        "newTab": "在新标签页中打开"
+      }
+    },
+    "data": {
+      "localStorage": "本地存储",
+      "cloudStorage": {
+        "label": "云端存储",
+        "type": {
+          "none": "无",
+          "webdav": "WebDAV"
+        },
+        "webdav": {
+          "url": "URL",
+          "username": "用户名",
+          "password": "密码",
+          "validate": "验证",
+          "message": {
+            "permissionDenied": "没有权限访问云端存储，请授予权限。",
+            "urlRequired": "请填写 URL。",
+            "urlInvalid": "无效的 URL 格式。",
+            "validateSuccess": "WebDAV 连接成功。",
+            "saveSuccess": "WebDAV 保存成功。",
+            "confirmDelete": "确定删除该条目？"
+          }
+        }
+      },
+      "browserData": "浏览器数据",
+      "save": "保存",
+      "load": "加载",
+      "delete": "删除",
+      "saveLocally": "保存到本地",
+      "clear": "清除",
+      "message": {
+        "confirmClear": {
+          "title": "确认清除数据？",
+          "content": "清除后将无法恢复，请谨慎操作。\n\n注意：这不包括导出至本地存储与云端存储的数据。"
+        }
+      }
+    },
+    "about": {
+      "title": "@:option.title",
+      "developedBy": "由 {0} 开发",
+      "description": "一个轻量的浏览器扩展，用于便捷地管理你的稍后阅读列表。",
+      "privacy": "本扩展不收集用户文章内容或浏览历史，仅本地保存用户保存的条目。",
+      "license": {
+        "info": "本项目采用 {0} 发行。",
+        "body": "GNU 通用公共许可证 第3版（GPLv3）"
+      }
+    }
+  }
 }

@@ -4,15 +4,15 @@ import { defineConfig } from 'vitest/config';
 import { WxtVitest } from 'wxt/testing';
 
 export default defineConfig({
-    test: {
-        mockReset: true,
-        restoreMocks: true,
-        environment: 'happy-dom',
-        setupFiles: './tests/setup.ts',
-    },
-    plugins: [
-        Vue(),
-        vueI18n({ include: 'assets/locales/*.json' }),
-        WxtVitest(),
-    ],
+  test: {
+    mockReset: true,
+    restoreMocks: true,
+    environment: 'happy-dom',
+    setupFiles: './tests/setup.ts',
+  },
+  plugins: [
+    Vue(),
+    vueI18n({ include: 'assets/locales/*.json' }),
+    WxtVitest(),
+  ],
 });

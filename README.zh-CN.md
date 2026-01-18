@@ -30,16 +30,16 @@
 
 1. 安装依赖。
 
-    ```bash
-    pnpm install
-    ```
+   ```bash
+   pnpm install
+   ```
 
 1. 在浏览器中加载扩展。
 
-    ```bash
-    pnpm run dev # Chrome
-    pnpm run dev:firefox # Firefox
-    ```
+   ```bash
+   pnpm run dev # Chrome
+   pnpm run dev:firefox # Firefox
+   ```
 
 ## 许可协议
 

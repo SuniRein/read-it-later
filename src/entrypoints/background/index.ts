@@ -15,51 +15,51 @@ import { handleSetting } from './setting';
 const action = browser.action ?? browser.browserAction;
 
 export default defineBackground(() => {
-    // check if popup is connected
-    const isConnected = handleConnection();
+  // check if popup is connected
+  const isConnected = handleConnection();
 
-    // listen for current tab changes
-    const currentTabUrl = handleCurrentTab(isConnected);
+  // listen for current tab changes
+  const currentTabUrl = handleCurrentTab(isConnected);
 
-    // get setting from storage
-    const { showBadge, duplicatedUrlOpened } = handleSetting();
+  // get setting from storage
+  const { showBadge, duplicatedUrlOpened } = handleSetting();
 
-    // get the page list from storage
-    const { pageMap, pageActions, pageListFiltered } = handlePageList();
+  // get the page list from storage
+  const { pageMap, pageActions, pageListFiltered } = handlePageList();
 
-    // show and update the badge
-    handleBadge(showBadge, pageMap, currentTabUrl);
+  // show and update the badge
+  handleBadge(showBadge, pageMap, currentTabUrl);
 
-    // open a page
-    const openPage = handleOpenPage(duplicatedUrlOpened);
-    onMessage('openPage', async ({ data: { url } }) => openPage(url));
+  // open a page
+  const openPage = handleOpenPage(duplicatedUrlOpened);
+  onMessage('openPage', async ({ data: { url } }) => openPage(url));
 
-    // open a random page
-    const openRandomPage = handleOpenRandomPage(pageListFiltered, openPage);
-    onMessage('openRandomPage', openRandomPage);
+  // open a random page
+  const openRandomPage = handleOpenRandomPage(pageListFiltered, openPage);
+  onMessage('openRandomPage', openRandomPage);
 
-    // handle browser keyboard commands
-    handleCommand({
-        'open-popup': action.openPopup,
-        'open-random-page': openRandomPage,
-        'remove-current-page': removeCurrentPage,
-        'toggle-favorite-current-page': toggleFavoriteCurrentPage,
-    });
+  // handle browser keyboard commands
+  handleCommand({
+    'open-popup': action.openPopup,
+    'open-random-page': openRandomPage,
+    'remove-current-page': removeCurrentPage,
+    'toggle-favorite-current-page': toggleFavoriteCurrentPage,
+  });
 
-    function removeCurrentPage() {
-        const id = pageMap.value.get(currentTabUrl.value)?.id;
-        if (id !== undefined) {
-            pageActions.remove(id);
-        }
+  function removeCurrentPage() {
+    const id = pageMap.value.get(currentTabUrl.value)?.id;
+    if (id !== undefined) {
+      pageActions.remove(id);
     }
+  }
 
-    function toggleFavoriteCurrentPage() {
-        const id = pageMap.value.get(currentTabUrl.value)?.id;
-        if (id !== undefined) {
-            pageActions.toggleFavorite(id);
-        }
+  function toggleFavoriteCurrentPage() {
+    const id = pageMap.value.get(currentTabUrl.value)?.id;
+    if (id !== undefined) {
+      pageActions.toggleFavorite(id);
     }
+  }
 
-    // handle cache for fetched images
-    void handleCache();
+  // handle cache for fetched images
+  void handleCache();
 });

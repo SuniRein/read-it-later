@@ -15,8 +15,8 @@ import WebDavConnect from '../components/WebDavConnect.vue';
 import { useSetting } from '../composables/setting';
 
 const { labelSpan, wrapperSpan } = defineProps<{
-    labelSpan: number;
-    wrapperSpan: number;
+  labelSpan: number;
+  wrapperSpan: number;
 }>();
 
 const labelCol = { span: labelSpan };
@@ -31,133 +31,133 @@ const { setting } = await useSetting();
 const { pageList, load, clear } = usePageList();
 
 function getData() {
-    const data = serializePageList(pageList.value);
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `read-it-later-${timestamp}.json`;
-    return { data, filename };
+  const data = serializePageList(pageList.value);
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const filename = `read-it-later-${timestamp}.json`;
+  return { data, filename };
 }
 
 async function saveLocally(data: string, filename: string) {
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
 
-    await browser.downloads.download({ url, filename, saveAs: true });
-    URL.revokeObjectURL(url);
+  await browser.downloads.download({ url, filename, saveAs: true });
+  URL.revokeObjectURL(url);
 }
 
 async function saveToLocalStorage() {
-    const { data, filename } = getData();
-    await saveLocally(data, filename);
+  const { data, filename } = getData();
+  await saveLocally(data, filename);
 }
 
 const uploadHandler: UploadProps['customRequest'] = (options) => {
-    if (options.file instanceof File) {
-        loadFromFile(options.file);
-    }
-    else {
-        notify.error(t('errorMsg.noUploadFile'));
-    }
+  if (options.file instanceof File) {
+    loadFromFile(options.file);
+  }
+  else {
+    notify.error(t('errorMsg.noUploadFile'));
+  }
 };
 
 function loadFromFile(file: File) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        if (event.target?.result != null) {
-            loadItems(event.target.result as string);
-        }
-    };
-    reader.readAsText(file);
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    if (event.target?.result != null) {
+      loadItems(event.target.result as string);
+    }
+  };
+  reader.readAsText(file);
 }
 
 function loadItems(rawItems: string) {
-    try {
-        const items = deserializePageList(rawItems);
-        const numLoad = load(items);
-        notify.success(t('successMsg.loadData', { count: numLoad }));
-    }
-    catch (error) {
-        notify.error(t('errorMsg.parseError', { error }));
-    }
+  try {
+    const items = deserializePageList(rawItems);
+    const numLoad = load(items);
+    notify.success(t('successMsg.loadData', { count: numLoad }));
+  }
+  catch (error) {
+    notify.error(t('errorMsg.parseError', { error }));
+  }
 }
 
 const cloudStorage = useTemplateRef('cloudStorage');
 
 async function saveToCloudStorage() {
-    await cloudStorage.value?.save(getData());
+  await cloudStorage.value?.save(getData());
 }
 
 function clearBrowserData() {
-    clear();
+  clear();
 }
 </script>
 
 <template>
-    <Form :label-col :wrapper-col>
-        <FormItem :label="t('option.data.localStorage')">
-            <Space>
-                <Button shape="round" @click="saveToLocalStorage">
-                    {{ t('option.data.save') }}
-                </Button>
-                <Upload accept=".json" :file-list="[]" :custom-request="uploadHandler">
-                    <Button shape="round">
-                        {{ t('option.data.load') }}
-                    </Button>
-                </Upload>
-            </Space>
-        </FormItem>
+  <Form :label-col :wrapper-col>
+    <FormItem :label="t('option.data.localStorage')">
+      <Space>
+        <Button shape="round" @click="saveToLocalStorage">
+          {{ t('option.data.save') }}
+        </Button>
+        <Upload accept=".json" :file-list="[]" :custom-request="uploadHandler">
+          <Button shape="round">
+            {{ t('option.data.load') }}
+          </Button>
+        </Upload>
+      </Space>
+    </FormItem>
 
-        <Divider />
+    <Divider />
 
-        <FormItem :label="t('option.data.cloudStorage.label')">
-            <RadioGroup v-model:value="setting.cloudStorage">
-                <RadioButton :value="null satisfies CloudStorageType">
-                    {{ t('option.data.cloudStorage.type.none') }}
-                </RadioButton>
-                <RadioButton :value="'webdav' satisfies CloudStorageType">
-                    {{ t('option.data.cloudStorage.type.webdav') }}
-                </RadioButton>
-            </RadioGroup>
-        </FormItem>
+    <FormItem :label="t('option.data.cloudStorage.label')">
+      <RadioGroup v-model:value="setting.cloudStorage">
+        <RadioButton :value="null satisfies CloudStorageType">
+          {{ t('option.data.cloudStorage.type.none') }}
+        </RadioButton>
+        <RadioButton :value="'webdav' satisfies CloudStorageType">
+          {{ t('option.data.cloudStorage.type.webdav') }}
+        </RadioButton>
+      </RadioGroup>
+    </FormItem>
 
-        <WebDavConnect
-            v-if="setting.cloudStorage === 'webdav'"
-            ref="cloudStorage"
-            v-model="setting.webDavConfig"
-            :button-wrapper-col
-            @load-data="loadItems"
-            @save-locally="saveLocally"
-        />
+    <WebDavConnect
+      v-if="setting.cloudStorage === 'webdav'"
+      ref="cloudStorage"
+      v-model="setting.webDavConfig"
+      :button-wrapper-col
+      @load-data="loadItems"
+      @save-locally="saveLocally"
+    />
 
-        <FormItem :wrapper-col="buttonWrapperCol">
-            <Space>
-                <Button shape="round" :disabled="cloudStorage === null" @click="saveToCloudStorage">
-                    {{ t('option.data.save') }}
-                </Button>
+    <FormItem :wrapper-col="buttonWrapperCol">
+      <Space>
+        <Button shape="round" :disabled="cloudStorage === null" @click="saveToCloudStorage">
+          {{ t('option.data.save') }}
+        </Button>
 
-                <Button shape="round" :disabled="setting.cloudStorage === null" @click="cloudStorage?.load()">
-                    {{ t('option.data.load') }}
-                </Button>
-            </Space>
-        </FormItem>
+        <Button shape="round" :disabled="setting.cloudStorage === null" @click="cloudStorage?.load()">
+          {{ t('option.data.load') }}
+        </Button>
+      </Space>
+    </FormItem>
 
-        <Divider />
+    <Divider />
 
-        <FormItem :label="t('option.data.browserData')">
-            <Popconfirm
-                :title="t('option.data.message.confirmClear.title')"
-                :ok-button-props="{ danger: true }"
-                @confirm="clearBrowserData"
-            >
-                <Button shape="round" danger>
-                    {{ t('option.data.clear') }}
-                </Button>
+    <FormItem :label="t('option.data.browserData')">
+      <Popconfirm
+        :title="t('option.data.message.confirmClear.title')"
+        :ok-button-props="{ danger: true }"
+        @confirm="clearBrowserData"
+      >
+        <Button shape="round" danger>
+          {{ t('option.data.clear') }}
+        </Button>
 
-                <template #description>
-                    <span style="white-space: pre-line;">
-                        {{ t('option.data.message.confirmClear.content') }}
-                    </span>
-                </template>
-            </Popconfirm>
-        </FormItem>
-    </Form>
+        <template #description>
+          <span style="white-space: pre-line;">
+            {{ t('option.data.message.confirmClear.content') }}
+          </span>
+        </template>
+      </Popconfirm>
+    </FormItem>
+  </Form>
 </template>

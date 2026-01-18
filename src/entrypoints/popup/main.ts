@@ -8,18 +8,18 @@ import App from './App.vue';
 import './style.css';
 
 async function bootstrap() {
-    const { locale } = await store.setting.getValue();
+  const { locale } = await store.setting.getValue();
+  i18n.global.locale.value = locale;
+
+  store.setting.watch(({ locale }) => {
     i18n.global.locale.value = locale;
+  });
 
-    store.setting.watch(({ locale }) => {
-        i18n.global.locale.value = locale;
-    });
+  createApp(App)
+    .use(i18n)
+    .mount('#app');
 
-    createApp(App)
-        .use(i18n)
-        .mount('#app');
-
-    browser.runtime.connect({ name: 'popup-communication' });
+  browser.runtime.connect({ name: 'popup-communication' });
 }
 
 void bootstrap();
