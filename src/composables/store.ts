@@ -13,6 +13,10 @@ async function getMeta(store: ReturnType<typeof storage.defineItem<any>>) {
 }
 
 export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>) {
+  if (store.fallback === null) {
+    throw new Error('useStoredValue requires a fallback value in the storage item definition.');
+  }
+
   const state = shallowRef<T>(store.fallback);
 
   let lastModified: number | undefined;
