@@ -25,12 +25,12 @@
     "@vueuse/core": "^14.1.0",
     "@webext-core/messaging": "^2.3.0",
     "ant-design-vue": "~4.2.6",
-    "arktype": "^2.1.20",
-    "happy-dom": "^18.0.1",
-    "nanoid": "^5.1.5",
-    "vue": "^3.5.13",
-    "vue-i18n": "^11.1.11",
-    "vue-router": "^4.5.1",
+    "arktype": "^2.1.29",
+    "happy-dom": "^20.3.1",
+    "nanoid": "^5.1.6",
+    "vue": "^3.5.26",
+    "vue-i18n": "^11.2.8",
+    "vue-router": "^4.6.4",
     "webdav": "^5.8.0"
   },
   "devDependencies": {
