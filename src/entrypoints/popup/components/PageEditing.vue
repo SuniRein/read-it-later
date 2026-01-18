@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { AutoComplete, Button, Input } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
 
 const { initTitle, initTags, pageTags } = defineProps<{

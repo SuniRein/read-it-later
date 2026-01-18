@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { AutoComplete, Input } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
-
 const props = defineProps<{
   autofocus?: boolean;
   tags: string[];

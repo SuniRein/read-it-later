@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { theme as antTheme, ConfigProvider } from 'ant-design-vue';
 
-import useI18n, { useAntLocale } from '@/composables/i18n';
+import { useAntLocale } from '@/composables/i18n';
 
 import Popup from './components/Popup.vue';
 

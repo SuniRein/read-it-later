@@ -5,9 +5,7 @@ import zhCN from 'ant-design-vue/locale/zh_CN';
 
 import { useI18n } from 'vue-i18n';
 
-export default function () {
-  return useI18n<[I18nSchema], I18nLocales>();
-}
+export default useI18n<[I18nSchema], I18nLocales>;
 
 export function useAntLocale(locale: MaybeRef<I18nLocales>) {
   return computed(() => {

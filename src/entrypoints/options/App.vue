@@ -13,7 +13,7 @@ import {
 
 import { RouterView, useRoute, useRouter } from 'vue-router';
 
-import useI18n, { useAntLocale } from '@/composables/i18n';
+import { useAntLocale } from '@/composables/i18n';
 
 const theme = {
   algorithm: antTheme.defaultAlgorithm,

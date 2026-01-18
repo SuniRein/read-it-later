@@ -5,15 +5,14 @@ import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } 
 
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
-import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
 import { sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
-
 import store from '@/utils/store';
+
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 

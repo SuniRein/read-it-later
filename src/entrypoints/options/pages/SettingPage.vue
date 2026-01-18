@@ -4,7 +4,6 @@ import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
 import { Button, Checkbox, Form, FormItem, RadioButton, RadioGroup, Select, SelectOption, Space } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
 import { sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
 import { useSetting } from '../composables/setting';

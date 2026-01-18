@@ -15,7 +15,6 @@ import {
 import FirefoxLogo from '~~/assets/firefox.svg?component';
 import GithubLogo from '~~/assets/github.svg?component';
 
-import useI18n from '@/composables/i18n';
 import * as meta from '@/utils/meta';
 
 const { t } = useI18n();

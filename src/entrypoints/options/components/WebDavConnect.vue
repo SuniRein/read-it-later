@@ -4,7 +4,6 @@ import type { WebDavConfig } from '@/utils/types';
 
 import { Button, Form, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';
 

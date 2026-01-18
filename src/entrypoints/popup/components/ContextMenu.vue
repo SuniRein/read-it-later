@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { CloseOutlined, EditOutlined } from '@ant-design/icons-vue';
 
-import useI18n from '@/composables/i18n';
-
 const emit = defineEmits<{
   (e: 'updateTitleCurrent', id: string): void;
   (e: 'updateUrlToCurrent', id: string): void;

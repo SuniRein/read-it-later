@@ -5,7 +5,10 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   srcDir: 'src',
   imports: {
-    presets: ['@vueuse/core'],
+    presets: [
+      '@vueuse/core',
+      { from: '@/composables/i18n', imports: [['default', 'useI18n']] },
+    ],
     warn: (msg: string) => {
       if (!msg.includes('toRef')) {
         console.warn(msg);

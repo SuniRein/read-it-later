@@ -4,7 +4,6 @@ import type { CloudStorageType } from '@/utils/types';
 
 import { Button, Divider, Form, FormItem, Popconfirm, RadioButton, RadioGroup, Space, Upload } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
 import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';

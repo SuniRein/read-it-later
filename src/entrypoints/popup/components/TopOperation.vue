@@ -13,8 +13,6 @@ import {
 } from '@ant-design/icons-vue';
 import { Badge } from 'ant-design-vue';
 
-import useI18n from '@/composables/i18n';
-
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
