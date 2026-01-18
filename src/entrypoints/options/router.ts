@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import AboutPage from './pages/AboutPage.vue';
 import DataPage from './pages/DataPage.vue';
 import SettingPage from './pages/SettingPage.vue';
+import AboutView from './views/AboutView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -20,7 +20,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: AboutPage,
+      component: AboutView,
     },
   ],
 });

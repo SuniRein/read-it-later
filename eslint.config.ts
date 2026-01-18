@@ -33,6 +33,7 @@ export default antfu(
     },
     rules: {
       ...betterTailwindcss.configs.recommended.rules,
+      'better-tailwindcss/enforce-consistent-line-wrapping': ['warn', { printWidth: 120 }],
     },
     settings: {
       'better-tailwindcss': {
