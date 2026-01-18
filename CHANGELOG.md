@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.13.0](https://github.com/SuniRein/read-it-later/compare/v0.12.2...v0.13.0) (2026-01-18)
+
+
+### Features
+
+* **notify:** set duration for invalid tag message to 1 second ([f15b557](https://github.com/SuniRein/read-it-later/commit/f15b557dca8f00d73dbea5c5b8cfec4198abdc31))
+* **popup/context-menu:** update item's title to current page, closed [#64](https://github.com/SuniRein/read-it-later/issues/64) ([93f233b](https://github.com/SuniRein/read-it-later/commit/93f233bceb31a106f75b17812cd207a062049adb))
+
 ## [0.12.2](https://github.com/SuniRein/read-it-later/compare/v0.12.1...v0.12.2) (2025-10-28)
 
 
