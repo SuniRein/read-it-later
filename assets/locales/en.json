@@ -41,22 +41,45 @@
       "about": "About"
     },
     "setting": {
-      "panination": "Pagination",
-      "paninationOption": "{count} items per page",
-      "showBadge": "Show badge",
-      "favicon": {
-        "source": "Favicon source",
-        "caching": "Cache favicons",
-        "clearCache": "Clear favicon cache",
-        "clearCacheSuccess": "Favicon cache cleared.",
-        "cachePermissionMissing": "Missing permission to cache favicons, try enable it by manual."
+      "section": {
+        "general": "General",
+        "favicon": "Favicon",
+        "locale": "Locale"
       },
-      "locale": "Language",
+      "panination": {
+        "label": "Pagination",
+        "description": "Control the number of items displayed per page",
+        "items": "{count} items per page"
+      },
+      "showBadge": {
+        "label": "Show badge",
+        "description": "Display item count on the extension icon"
+      },
       "duplicatedUrlOpened": {
-        "label": "Duplicated URL opened option",
-        "ignore": "Ignore",
-        "focus": "Focus existing tab",
-        "newTab": "Open in new tab"
+        "label": "When opening duplicated tabs",
+        "description": "Control the behavior when attempting to open an already opened tab",
+        "option": {
+          "ignore": "Ignore",
+          "focus": "Focus existing tab",
+          "newTab": "Open in new tab"
+        }
+      },
+      "faviconSource": {
+        "label": "Favicon source",
+        "description": "Select service to fetch website favicons"
+      },
+      "faviconCache": {
+        "label": "Cache favicons",
+        "description": "Cache website favicons to improve loading speed and save bandwidth",
+        "clear": {
+          "label": "Clear favicon cache",
+          "success": "Favicon cache cleared.",
+          "permissionMissing": "Missing permission to cache favicons, try enable it by manual."
+        }
+      },
+      "language": {
+        "label": "Language",
+        "description": "Select the display language"
       }
     },
     "data": {

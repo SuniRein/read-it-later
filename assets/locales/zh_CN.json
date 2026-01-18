@@ -41,22 +41,45 @@
       "about": "关于"
     },
     "setting": {
-      "panination": "分页",
-      "paninationOption": "每页 {count} 个标签页",
-      "showBadge": "显示徽章",
-      "favicon": {
-        "source": "图标源",
-        "caching": "缓存图标",
-        "clearCache": "清空图标缓存",
-        "clearCacheSuccess": "图标缓存已清空。",
-        "cachePermissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+      "section": {
+        "general": "常规设置",
+        "favicon": "网站图标",
+        "locale": "区域设置"
       },
-      "locale": "语言",
+      "panination": {
+        "label": "分页",
+        "description": "控制每页显示的条目数量",
+        "items": "每页 {count} 条"
+      },
+      "showBadge": {
+        "label": "显示徽章",
+        "description": "在扩展图标上显示条目数量"
+      },
       "duplicatedUrlOpened": {
-        "label": "打开重复 URL 时",
-        "ignore": "忽略",
-        "focus": "聚焦已打开的标签页",
-        "newTab": "在新标签页中打开"
+        "label": "打开重复标签页时",
+        "description": "当尝试打开已打开的标签页时的行为",
+        "option": {
+          "ignore": "忽略",
+          "focus": "聚焦已打开的标签页",
+          "newTab": "在新标签页中打开"
+        }
+      },
+      "faviconSource": {
+        "label": "图标源",
+        "description": "选择用于获取网站图标的服务"
+      },
+      "faviconCache": {
+        "label": "缓存图标",
+        "description": "缓存网站图标以提升加载速度并节省流量",
+        "clear": {
+          "label": "清空图标缓存",
+          "success": "图标缓存已清空。",
+          "permissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+        }
+      },
+      "language": {
+        "label": "语言",
+        "description": "选择界面语言"
       }
     },
     "data": {

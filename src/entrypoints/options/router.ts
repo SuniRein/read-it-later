@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import DataPage from './pages/DataPage.vue';
-import SettingPage from './pages/SettingPage.vue';
 import AboutView from './views/AboutView.vue';
+import SettingView from './views/SettingView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -10,7 +10,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'setting',
-      component: SettingPage,
+      component: SettingView,
     },
     {
       path: '/data',
