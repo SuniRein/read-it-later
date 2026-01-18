@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDebounce } from '@vueuse/core';
+import { refDebounced } from '@vueuse/core';
 import { AutoComplete, Input } from 'ant-design-vue';
 import { computed, onMounted, ref, useTemplateRef } from 'vue';
 
@@ -13,7 +13,7 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const searchText = defineModel<string>({ required: true });
-const debouncedSearchText = useDebounce(searchText, 200);
+const debouncedSearchText = refDebounced(searchText, 200);
 
 const input = useTemplateRef('input');
 const inputEl = computed(() => input.value?.$el.querySelector('input') as HTMLInputElement | undefined);
@@ -45,7 +45,7 @@ const options = computed(() => {
 
     const prefixes = ['#', '!#'];
     const prefix = prefixes.find(p => token.startsWith(p));
-    if (prefix) {
+    if (prefix !== undefined) {
         const tag = token.slice(prefix.length);
         return props.tags.filter(t => t.startsWith(tag)).map(t => ({
             value: `${before}${prefix}${t}${after}`,

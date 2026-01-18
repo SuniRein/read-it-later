@@ -57,7 +57,7 @@ async function clearFaviconCache() {
     notify.success(t('option.setting.favicon.clearCacheSuccess'));
 }
 
-checkFaviconCachingPermission();
+void checkFaviconCachingPermission();
 </script>
 
 <template>

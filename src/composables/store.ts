@@ -26,7 +26,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
 
         unwatchStore = store.watch(async (newValue) => {
             const remoteLastModified = (await getMeta(store)).lastModified;
-            if (!lastModified || (remoteLastModified && remoteLastModified > lastModified)) {
+            if (lastModified === undefined || (remoteLastModified !== undefined && remoteLastModified > lastModified)) {
                 lastModified = remoteLastModified;
                 state.value = structuredClone(newValue);
             }
@@ -34,7 +34,7 @@ export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>
 
         unwatchRef = watch(
             state,
-            async (newValue) => {
+            async (newValue: T) => {
                 lastModified = Date.now();
                 await store.setMeta({ lastModified });
                 await store.setValue(deepToRaw(newValue));

@@ -15,7 +15,7 @@ function connect(config: WebDavConfig) {
     });
 }
 
-function createFolder(client: WebDAVClient, path: string) {
+async function createFolder(client: WebDAVClient, path: string) {
     return client.createDirectory(path, { recursive: true });
 }
 
@@ -26,7 +26,7 @@ interface UploadOption {
 }
 
 async function uploadFile(client: WebDAVClient, { path, filename, data }: UploadOption) {
-    return await client.putFileContents(`${path}/${filename}`, data);
+    return client.putFileContents(`${path}/${filename}`, data);
 }
 
 async function listDirectory(client: WebDAVClient, path: string, glob?: string) {

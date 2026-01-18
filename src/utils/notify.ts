@@ -13,7 +13,7 @@ function makeNotifyFunction(fn: typeof message.success) {
 }
 
 export default {
-    success: makeNotifyFunction(message.success),
-    error: makeNotifyFunction(message.error),
-    info: makeNotifyFunction(message.info),
+    success: makeNotifyFunction(message.success.bind(message)),
+    error: makeNotifyFunction(message.error.bind(message)),
+    info: makeNotifyFunction(message.info.bind(message)),
 };

@@ -62,7 +62,7 @@ const uploadHandler: UploadProps['customRequest'] = (options) => {
 function loadFromFile(file: File) {
     const reader = new FileReader();
     reader.onload = (event) => {
-        if (event.target?.result) {
+        if (event.target?.result != null) {
             loadItems(event.target.result as string);
         }
     };

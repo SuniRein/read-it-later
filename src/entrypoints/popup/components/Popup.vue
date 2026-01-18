@@ -62,12 +62,12 @@ function addPage(item: PageInfo) {
     }
 }
 
-function openUrl(url: string) {
-    sendMessage('openPage', { url });
+async function openUrl(url: string) {
+    await sendMessage('openPage', { url });
 }
 
-function copyUrl(url: string) {
-    navigator.clipboard.writeText(url);
+async function copyUrl(url: string) {
+    await navigator.clipboard.writeText(url);
 }
 
 function updateUrl(id: string, url: string) {

@@ -32,7 +32,7 @@ export default defineBackground(() => {
 
     // open a page
     const openPage = handleOpenPage(duplicatedUrlOpened);
-    onMessage('openPage', ({ data: { url } }) => openPage(url));
+    onMessage('openPage', async ({ data: { url } }) => openPage(url));
 
     // open a random page
     const openRandomPage = handleOpenRandomPage(pageListFiltered, openPage);
@@ -48,18 +48,18 @@ export default defineBackground(() => {
 
     function removeCurrentPage() {
         const id = pageMap.value.get(currentTabUrl.value)?.id;
-        if (id) {
+        if (id !== undefined) {
             pageActions.remove(id);
         }
     }
 
     function toggleFavoriteCurrentPage() {
         const id = pageMap.value.get(currentTabUrl.value)?.id;
-        if (id) {
+        if (id !== undefined) {
             pageActions.toggleFavorite(id);
         }
     }
 
     // handle cache for fetched images
-    handleCache();
+    void handleCache();
 });

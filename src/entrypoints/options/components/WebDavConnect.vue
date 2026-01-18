@@ -36,10 +36,10 @@ async function checkPermission(url?: string) {
         await (formRef.value as any).validate();
     }
     catch {
-        return;
+        return false;
     }
 
-    if (!url) {
+    if (url === undefined || !url) {
         notify.error(t('option.data.cloudStorage.webdav.message.urlRequired'));
         return false;
     }

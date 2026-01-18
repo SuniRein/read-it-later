@@ -22,4 +22,4 @@ async function bootstrap() {
     browser.runtime.connect({ name: 'popup-communication' });
 }
 
-bootstrap();
+void bootstrap();

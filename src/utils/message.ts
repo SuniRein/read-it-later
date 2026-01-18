@@ -12,4 +12,5 @@ interface ProtocolMap {
     clearImageCache: () => void;
 }
 
+// eslint-disable-next-line ts/unbound-method
 export const { sendMessage, onMessage } = defineExtensionMessaging<ProtocolMap>();

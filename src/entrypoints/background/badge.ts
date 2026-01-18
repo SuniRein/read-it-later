@@ -14,20 +14,20 @@ export function handleBadge(showBadge: Ref<boolean>, pageMap: Ref<Map<string, Pa
     const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
     const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
 
-    function updateBadge() {
+    async function updateBadge() {
         if (!showBadge.value) {
-            action.setBadgeText({ text: '' });
+            await action.setBadgeText({ text: '' });
             return;
         }
 
-        action.setBadgeBackgroundColor({
+        await action.setBadgeBackgroundColor({
             color: currentTabActive.value
                 ? (currentTabFavorited.value ? favoritedBadgeColor : activeBadgeColor)
                 : commonBadgeColor,
         });
 
         const count = pageMap.value.size;
-        action.setBadgeText({ text: count.toString() });
+        await action.setBadgeText({ text: count.toString() });
     }
 
     watchEffect(updateBadge);

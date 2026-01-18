@@ -45,9 +45,7 @@ const items = computed<MenuProps['items']>(() => [
     },
 ]);
 
-const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
-    router.push({ name: key as string });
-};
+const clickMenuItem: MenuProps['onClick'] = async ({ key }) => router.push({ name: key as string });
 </script>
 
 <template>

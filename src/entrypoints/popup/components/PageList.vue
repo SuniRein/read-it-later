@@ -50,7 +50,7 @@ function editPage(item: PageItem) {
 }
 
 function savePageEdit(title: string, tags: string[]) {
-    if (!editedId.value)
+    if (editedId.value === null)
         return;
     emit('edit', editedId.value, title, tags);
     editedId.value = null;
@@ -70,13 +70,13 @@ function showContextMenu(itemId: string, mouseEvent: MouseEvent) {
 }
 
 function updateTitleToCurrent(itemId: string) {
-    if (currentTab?.title) {
+    if (currentTab?.title != null) {
         emit('updateTitle', itemId, currentTab.title);
     }
 }
 
 function updateUrlToCurrent(itemId: string) {
-    if (currentTab?.url) {
+    if (currentTab?.url != null) {
         emit('updateUrl', itemId, currentTab.url);
     }
 }

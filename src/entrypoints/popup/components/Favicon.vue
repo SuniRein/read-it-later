@@ -10,7 +10,7 @@ const { url, useCache } = defineProps<{
 }>();
 const imgSrc = ref<string | undefined>(undefined);
 
-if (url) {
+if (url !== undefined) {
     if (useCache) {
         onMounted(async () => {
             const dataUrl = await sendMessage('fetchImageFromCache', { url });

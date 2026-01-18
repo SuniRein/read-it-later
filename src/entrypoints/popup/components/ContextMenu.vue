@@ -29,9 +29,9 @@ function show(itemId: string, posX: number, posY: number) {
     x.value = posX;
     y.value = posY;
 
-    nextTick(() => {
+    void nextTick(() => {
         const menuEl = menu.value;
-        if (!menuEl)
+        if (menuEl === null)
             return;
 
         const { innerWidth, innerHeight } = window;

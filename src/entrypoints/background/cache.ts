@@ -38,5 +38,5 @@ export async function handleCache() {
         });
     });
 
-    onMessage('clearImageCache', async () => await imageCache.clear());
+    onMessage('clearImageCache', async () => imageCache.clear());
 }
