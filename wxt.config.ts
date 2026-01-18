@@ -6,6 +6,11 @@ export default defineConfig({
   srcDir: 'src',
   imports: {
     presets: ['@vueuse/core'],
+    warn: (msg: string) => {
+      if (!msg.includes('toRef')) {
+        console.warn(msg);
+      }
+    },
     dirsScanOptions: {
       // Disable auto-imports for project's files
       fileFilter: (_file: string) => false,
