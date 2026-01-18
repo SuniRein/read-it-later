@@ -5,6 +5,7 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   srcDir: 'src',
   imports: {
+    presets: ['@vueuse/core'],
     dirsScanOptions: {
       // Disable auto-imports for project's files
       fileFilter: (_file: string) => false,

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { CloseOutlined, EditOutlined } from '@ant-design/icons-vue';
-import { onClickOutside } from '@vueuse/core';
 
 import useI18n from '@/composables/i18n';
 
