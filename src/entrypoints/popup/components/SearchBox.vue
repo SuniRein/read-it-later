@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AutoComplete, Input } from 'ant-design-vue';
+import { X } from 'lucide-vue-next';
+import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui';
 
 const props = defineProps<{
   autofocus?: boolean;
@@ -9,64 +10,128 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const searchText = defineModel<string>({ required: true });
-const debouncedSearchText = refDebounced(searchText, 200);
 
-const input = useTemplateRef('input');
-const inputEl = computed(() => input.value?.$el.querySelector('input') as HTMLInputElement | undefined);
-
+const open = ref(false);
 const cursorPos = ref(-1);
-onMounted(() => {
-  if (!inputEl.value)
-    return;
 
-  const updateCursorPos = () => cursorPos.value = inputEl.value!.selectionStart ?? -1;
-  inputEl.value.addEventListener('keyup', updateCursorPos);
-  inputEl.value.addEventListener('click', updateCursorPos);
-  updateCursorPos();
-});
+function updateCursor(e: Event) {
+  const target = e.target as HTMLInputElement;
+  cursorPos.value = target.selectionStart ?? -1;
+}
+
+const inputRef = useTemplateRef('inputRef');
 
 const hints = computed(() => {
-  const start = debouncedSearchText.value.lastIndexOf(' ', cursorPos.value - 1) + 1;
-  const end = debouncedSearchText.value.indexOf(' ', cursorPos.value);
+  const text = searchText.value;
+  const cursor = cursorPos.value;
+
+  if (cursor === -1)
+    return null;
+
+  const start = text.lastIndexOf(' ', cursor - 1) + 1;
+  const end = text.indexOf(' ', cursor);
+  const actualEnd = end === -1 ? text.length : end;
 
   return {
-    before: debouncedSearchText.value.slice(0, start),
-    token: debouncedSearchText.value.slice(start, end === -1 ? undefined : end),
-    after: end === -1 ? '' : debouncedSearchText.value.slice(end),
+    before: text.slice(0, start),
+    token: text.slice(start, actualEnd),
+    after: text.slice(actualEnd),
   };
 });
 
-const options = computed(() => {
-  const { before, token, after } = hints.value;
+const filteredTags = computed(() => {
+  if (!hints.value)
+    return [];
+  const { token } = hints.value;
 
   const prefixes = ['#', '!#'];
   const prefix = prefixes.find(p => token.startsWith(p));
-  if (prefix !== undefined) {
-    const tag = token.slice(prefix.length);
-    return props.tags.filter(t => t.startsWith(tag)).map(t => ({
-      value: `${before}${prefix}${t}${after}`,
-      label: t,
-      finalCursorPos: before.length + prefix.length + t.length,
-    }));
-  }
-  return [];
+  if (prefix === undefined)
+    return [];
+
+  const searchStr = token.slice(prefix.length).toLowerCase();
+  return props.tags
+    .filter(t => t.toLowerCase().startsWith(searchStr))
+    .map(t => ({ label: t, prefix }));
 });
 
-function setCursorPos(_value: any, option: any) {
-  const finalCursorPos = option.finalCursorPos as number;
-  setTimeout(() => {
-    inputEl.value?.setSelectionRange(finalCursorPos, finalCursorPos);
-  }, 0);
+function handleSelect(tagName: string, prefix: string) {
+  if (!hints.value)
+    return;
+  const { before, after } = hints.value;
+
+  const insertedText = `${prefix}${tagName}`;
+  const newValue = `${before}${insertedText}${after}`;
+  const nextPos = before.length + insertedText.length;
+
+  searchText.value = newValue;
+  open.value = false;
+
+  void nextTick(() => {
+    const inputEl = inputRef.value?.$el as HTMLInputElement | null;
+    if (inputEl) {
+      inputEl.setSelectionRange(nextPos, nextPos);
+      inputEl.focus();
+      cursorPos.value = nextPos;
+    }
+  });
 }
 </script>
 
 <template>
-  <AutoComplete
-    v-model:value="searchText"
-    :autofocus
-    :options
-    @select="setCursorPos"
-  >
-    <Input ref="input" :placeholder="t('search')" allow-clear />
-  </AutoComplete>
+  <ComboboxRoot v-model:open="open" class="relative" ignore-filter>
+    <ComboboxAnchor as-child>
+      <div class="relative">
+        <ComboboxInput
+          ref="inputRef"
+          v-model="searchText"
+          class="
+            flex h-10 w-full rounded-md border border-input bg-background px-3 py-2
+            disabled:cursor-not-allowed disabled:opacity-50
+          "
+          :placeholder="t('search')"
+          @input="updateCursor"
+          @click="updateCursor"
+          @keyup.left="updateCursor"
+          @keyup.right="updateCursor"
+          @focus="open = true"
+        />
+        <X
+          v-if="searchText.length > 0"
+          class="
+            absolute top-1/2 right-3 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
+            hover:text-foreground
+          "
+          @click="searchText = ''; cursorPos = 0;"
+        />
+      </div>
+    </ComboboxAnchor>
+
+    <ComboboxPortal>
+      <ComboboxContent
+        class="
+          z-50 mt-2 max-h-50 w-full min-w-(--reka-combobox-trigger-width) animate-in overflow-hidden rounded-md border
+          bg-popover text-popover-foreground shadow-md fade-in-0 zoom-in-95
+        "
+        align="start"
+        position="popper"
+      >
+        <ComboboxViewport>
+          <ComboboxItem
+            v-for="tag in filteredTags"
+            :key="tag.label"
+            :value="tag.label"
+            class="
+              relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-lg outline-none select-none
+              data-disabled:pointer-events-none data-disabled:opacity-50
+              data-highlighted:bg-accent data-highlighted:text-accent-foreground
+            "
+            @select.prevent="handleSelect(tag.label, tag.prefix)"
+          >
+            {{ tag.label }}
+          </ComboboxItem>
+        </ComboboxViewport>
+      </ComboboxContent>
+    </ComboboxPortal>
+  </ComboboxRoot>
 </template>

@@ -52,7 +52,7 @@ function addNewPage() {
 
     <IconButton :icon="SyncOutlined" :tip="t('topTip.sync')" />
 
-    <SearchBox v-model.trim="searchText" autofocus :tags="pageTags" />
+    <SearchBox v-model="searchText" autofocus :tags="pageTags" />
 
     <Badge :offset="[-8, 22]">
       <template #count>
