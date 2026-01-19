@@ -1,89 +1,47 @@
 <script lang="ts" setup>
-import type { MenuProps } from 'ant-design-vue';
+import { Home, Save, Settings } from 'lucide-vue-next';
 
-import { HomeOutlined, SaveOutlined, SettingOutlined } from '@ant-design/icons-vue';
-import {
-  theme as antTheme,
-  ConfigProvider,
-  Layout,
-  LayoutContent,
-  LayoutSider,
-  Menu,
-} from 'ant-design-vue';
+const { t } = useI18n();
 
-import { useRoute, useRouter } from 'vue-router';
-
-import { useAntLocale } from '@/composables/i18n';
-
-const theme = {
-  algorithm: antTheme.defaultAlgorithm,
-};
-
-const route = useRoute();
-const router = useRouter();
-
-const { t, locale } = useI18n();
-const antLocale = useAntLocale(locale);
-
-const selectedKeys = computed(() => [route.name as string]);
-
-const items = computed<MenuProps['items']>(() => [
-  {
-    key: 'setting',
-    label: t('option.nav.setting'),
-    icon: h(SettingOutlined),
-  },
-  {
-    key: 'data',
-    label: t('option.nav.data'),
-    icon: h(SaveOutlined),
-  },
-  {
-    key: 'about',
-    label: t('option.nav.about'),
-    icon: h(HomeOutlined),
-  },
+const navItems = computed(() => [
+  { key: 'setting', label: t('option.nav.setting'), icon: Settings },
+  { key: 'data', label: t('option.nav.data'), icon: Save },
+  { key: 'about', label: t('option.nav.about'), icon: Home },
 ]);
-
-const clickMenuItem: MenuProps['onClick'] = async ({ key }) => router.push({ name: key as string });
 </script>
 
 <template>
-  <ConfigProvider :theme :locale="antLocale">
-    <Layout style="min-height: 100vh">
-      <LayoutSider class="sider">
-        <h2>{{ t('option.title') }}</h2>
-        <Menu :selected-keys="selectedKeys" mode="inline" :items class="menu" @click="clickMenuItem" />
-      </LayoutSider>
+  <div class="flex h-screen bg-background text-foreground">
+    <aside class="w-56 flex-col border-r">
+      <div class="p-4">
+        <h1 class="text-2xl font-bold tracking-tight">
+          {{ t('option.title') }}
+        </h1>
+      </div>
+      <div class="flex-1 px-2">
+        <nav class="space-y-2">
+          <RouterLink v-for="item in navItems" :key="item.key" :to="{ name: item.key }" custom>
+            <template #default="{ navigate, isActive }">
+              <Button
+                :variant="isActive ? 'secondary' : 'ghost'"
+                class="w-full justify-start"
+                @click="navigate"
+              >
+                <component :is="item.icon" class="mr-2 size-4" />
+                {{ item.label }}
+              </Button>
+            </template>
+          </RouterLink>
+        </nav>
+      </div>
+    </aside>
 
-      <LayoutContent class="content">
-        <Suspense>
-          <RouterView v-slot="{ Component }">
-            <component :is="Component" :label-span="6" :wrapper-span="14" />
-          </RouterView>
-        </Suspense>
-      </LayoutContent>
-    </Layout>
-  </ConfigProvider>
+    <main class="flex-1 overflow-hidden">
+      <Suspense>
+        <ScrollArea class="h-full p-4">
+          <RouterView />
+        </ScrollArea>
+      </Suspense>
+    </main>
+  </div>
 </template>
-
-<style scoped>
-.sider {
-  background-color: #fff;
-}
-
-.sider h2 {
-  padding: 16px;
-  margin: 0;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.menu {
-  border-right: none !important;
-}
-
-.content {
-  padding: 16px;
-}
-</style>
