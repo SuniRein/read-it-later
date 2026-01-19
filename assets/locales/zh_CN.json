@@ -83,10 +83,22 @@
       }
     },
     "data": {
-      "localStorage": "本地存储",
-      "cloudStorage": {
-        "label": "云端存储",
-        "type": {
+      "section": {
+        "local": {
+          "title": "本地存储",
+          "description": "将您的阅读列表导出为 JSON 文件或从 JSON 文件中加载。"
+        },
+        "cloud": {
+          "title": "云端存储",
+          "description": "配置云端存储以在不同设备间同步您的列表。"
+        },
+        "browser": {
+          "title": "浏览器数据",
+          "description": "管理浏览器存储的扩展数据。"
+        }
+      },
+      "cloud": {
+        "option": {
           "none": "无",
           "webdav": "WebDAV"
         },
@@ -94,27 +106,35 @@
           "url": "URL",
           "username": "用户名",
           "password": "密码",
-          "validate": "验证",
           "message": {
             "permissionDenied": "没有权限访问云端存储，请授予权限。",
             "urlRequired": "请填写 URL。",
             "urlInvalid": "无效的 URL 格式。",
             "validateSuccess": "WebDAV 连接成功。",
-            "saveSuccess": "WebDAV 保存成功。",
-            "confirmDelete": "确定删除该条目？"
+            "saveSuccess": "WebDAV 保存成功。"
+          },
+          "validate": "验证",
+          "load": {
+            "description": "从云端 WebDAV 服务器选择一个备份点。",
+            "loading": "正在读取远程文件..."
+          },
+          "confirmDelete": {
+            "title": "确定删除该条目？",
+            "description": "这将从 WebDAV 上永久移除该备份文件。"
           }
         }
       },
-      "browserData": "浏览器数据",
-      "save": "保存",
-      "load": "加载",
-      "delete": "删除",
-      "saveLocally": "保存到本地",
-      "clear": "清除",
+      "action": {
+        "save": "保存",
+        "saveLocally": "保存到本地",
+        "load": "加载",
+        "delete": "删除",
+        "clear": "清除"
+      },
       "message": {
         "confirmClear": {
           "title": "确认清除数据？",
-          "content": "清除后将无法恢复，请谨慎操作。\n\n注意：这不包括导出至本地存储与云端存储的数据。"
+          "description": "清除后将无法恢复，请谨慎操作。注意：这不包括导出至本地存储与云端存储的数据。"
         }
       }
     },
@@ -128,5 +148,9 @@
         "body": "GNU 通用公共许可证 第3版（GPLv3）"
       }
     }
+  },
+  "common": {
+    "confirm": "确认",
+    "cancel": "取消"
   }
 }

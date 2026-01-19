@@ -15,7 +15,7 @@ const defaultSetting: Setting = {
   faviconSource: 'favicon.im',
   faviconCaching: false,
   locale: defaultLocale(),
-  cloudStorage: null,
+  cloudStorage: 'none',
   webDavConfig: {},
   duplicatedUrlOpened: 'newTab',
 } as const;

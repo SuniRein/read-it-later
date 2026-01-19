@@ -83,10 +83,22 @@
       }
     },
     "data": {
-      "localStorage": "Local storage",
-      "cloudStorage": {
-        "label": "Cloud storage",
-        "type": {
+      "section": {
+        "local": {
+          "title": "Local Storage",
+          "description": "Export your reading list to a JSON file or load from a JSON file."
+        },
+        "cloud": {
+          "title": "Cloud Storage",
+          "description": "Configure cloud storage to sync your list across different devices."
+        },
+        "browser": {
+          "title": "Browser Data",
+          "description": "Manage extension data stored in the browser."
+        }
+      },
+      "cloud": {
+        "option": {
           "none": "None",
           "webdav": "WebDAV"
         },
@@ -94,27 +106,35 @@
           "url": "URL",
           "username": "Username",
           "password": "Password",
-          "validate": "Validate",
           "message": {
             "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
             "urlRequired": "Please fill in the URL.",
             "urlInvalid": "Invalid URL format.",
             "validateSuccess": "WebDAV connection successful.",
-            "saveSuccess": "WebDAV saved successfully.",
-            "confirmDelete": "Sure to delete this entry?"
+            "saveSuccess": "WebDAV saved successfully."
+          },
+          "validate": "Validate",
+          "load": {
+            "description": "Select a backup point from the cloud WebDAV server.",
+            "loading": "Loading remote file..."
+          },
+          "confirmDelete": {
+            "title": "Sure to delete this entry?",
+            "description": "This will permanently remove the backup file from WebDAV."
           }
         }
       },
-      "browserData": "Browser data",
-      "save": "Save",
-      "load": "Load",
-      "delete": "Delete",
-      "saveLocally": "Save to local",
-      "clear": "Clear",
+      "action": {
+        "save": "Save",
+        "saveLocally": "Save to local",
+        "load": "Load",
+        "delete": "Delete",
+        "clear": "Clear"
+      },
       "message": {
         "confirmClear": {
           "title": "Confirm clear data?",
-          "content": "This action cannot be undone, please proceed with caution. \n\nNote: This does not include data exported to local storage and cloud storage."
+          "description": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
         }
       }
     },
@@ -128,5 +148,9 @@
         "body": "GNU General Public License v3 (GPLv3)"
       }
     }
+  },
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   }
 }

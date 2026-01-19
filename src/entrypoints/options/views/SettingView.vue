@@ -150,7 +150,11 @@ void checkFaviconCachingPermission();
         :label="t('option.setting.language.label')"
         :description="t('option.setting.language.description')"
       >
-        <ToggleGroup v-model="setting.locale" type="single" class="rounded-lg bg-muted p-1">
+        <ToggleGroup
+          type="single" class="rounded-lg bg-muted p-1"
+          :model-value="setting.locale"
+          @update:model-value="(val) => { if (val) setting.locale = val as I18nLocales }"
+        >
           <ToggleGroupItem
             v-for="[value, text] in [['en', 'English'], ['zh_CN', '简体中文']] satisfies Array<[I18nLocales, string]>"
             :key="value" :value

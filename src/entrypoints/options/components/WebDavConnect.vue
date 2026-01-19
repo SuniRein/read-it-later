@@ -2,8 +2,7 @@
 import type { FileStat, WebDAVClient } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
-import { Button, Form, FormItem, Input, InputPassword, List, ListItem, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
-
+import { CloudDownload, Download, FileJson, Globe, Loader2, Lock, Trash2, User } from 'lucide-vue-next';
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';
 
@@ -26,33 +25,28 @@ const webdavConfig = computed(() => {
 
 const { t } = useI18n();
 
-const formRef = useTemplateRef('form');
-
 async function checkPermission(url?: string) {
-  try {
-    await (formRef.value as any).validate();
-  }
-  catch {
-    return false;
-  }
-
-  if (url === undefined || !url) {
-    notify.error(t('option.data.cloudStorage.webdav.message.urlRequired'));
+  if (!url) {
+    notify.error(t('option.data.cloud.webdav.message.urlRequired'));
     return false;
   }
 
   if (await browser.permissions.request({ origins: [url] }))
     return true;
-  notify.error(t('option.data.cloudStorage.webdav.message.permissionDenied'));
+  notify.error(t('option.data.cloud.webdav.message.permissionDenied'));
   return false;
 }
+
+const isValidating = ref(false);
 
 async function validate() {
   if (!await checkPermission(webdavConfig.value.url))
     return;
 
-  const client = WebDav.connect(webdavConfig.value);
+  isValidating.value = true;
+
   try {
+    const client = WebDav.connect(webdavConfig.value);
     await client.exists('/');
   }
   catch (e) {
@@ -61,7 +55,11 @@ async function validate() {
       return;
     }
   }
-  notify.success(t('option.data.cloudStorage.webdav.message.validateSuccess'));
+  finally {
+    isValidating.value = false;
+  }
+
+  notify.success(t('option.data.cloud.webdav.message.validateSuccess'));
 }
 
 async function save({ filename, data }: { filename: string; data: string }) {
@@ -76,7 +74,7 @@ async function save({ filename, data }: { filename: string; data: string }) {
     data,
   });
 
-  notify.success(t('option.data.cloudStorage.webdav.message.saveSuccess'));
+  notify.success(t('option.data.cloud.webdav.message.saveSuccess'));
 }
 
 const loadDataModel = ref(false);
@@ -130,103 +128,127 @@ async function saveFileLocally(item: FileStat) {
   emit('saveLocally', data, item.basename);
 }
 
-defineExpose({ save, load });
+defineExpose({ save, load, validate, isValidating });
 </script>
 
 <template>
-  <Form ref="form" :model="config" class="webdav-config" :label-col="{ span: 4 }" :wrapper-col="{ span: 18 }">
-    <FormItem
-      :label="t('option.data.cloudStorage.webdav.url')"
-      name="url"
-      :rules="{
-        pattern: /^http[s]:\/\/.+$/,
-        whitespace: false,
-        required: true,
-        message: t('option.data.cloudStorage.webdav.message.urlInvalid'),
-      }"
-      has-feedback
-    >
-      <Input v-model:value="config.url" :addon-after="AFTER_URL" />
-    </FormItem>
+  <div class="animate-in space-y-6 duration-300 fade-in slide-in-from-top-2">
+    <div class="grid gap-6 py-4">
+      <div class="grid gap-2">
+        <Label for="url" class="flex items-center gap-2">
+          <Globe class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.url') }}
+        </Label>
+        <ButtonGroup class="w-full gap-0!">
+          <Input id="url" v-model="config.url" placeholder="https://example.com/dav" />
+          <ButtonGroupText>{{ AFTER_URL }}</ButtonGroupText>
+        </ButtonGroup>
+      </div>
 
-    <FormItem name="username" :label="t('option.data.cloudStorage.webdav.username')">
-      <Input v-model:value="config.username" />
-    </FormItem>
-
-    <FormItem name="password" :label="t('option.data.cloudStorage.webdav.password')">
-      <InputPassword v-model:value="config.password" />
-    </FormItem>
-
-    <FormItem :wrapper-col="buttonWrapperCol">
-      <Button type="primary" @click="validate">
-        {{ t('option.data.cloudStorage.webdav.validate') }}
-      </Button>
-    </FormItem>
-  </Form>
-
-  <Modal v-model:open="loadDataModel" centered :footer="null">
-    <div v-if="remoteFiles === null" style="text-align: center;">
-      <Spin />
+      <div
+        class="
+          grid grid-cols-1 gap-4
+          md:grid-cols-2
+        "
+      >
+        <div class="grid gap-2">
+          <Label for="username" class="flex items-center gap-2">
+            <User class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.username') }}
+          </Label>
+          <Input id="username" v-model="config.username" />
+        </div>
+        <div class="grid gap-2">
+          <Label for="password" class="flex items-center gap-2">
+            <Lock class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.password') }}
+          </Label>
+          <Input id="password" v-model="config.password" type="password" />
+        </div>
+      </div>
     </div>
 
-    <List v-else :data-source="remoteFiles" size="small">
-      <template #renderItem="{ item }: {item: FileStat}">
-        <ListItem :key="item.basename" class="file-list">
-          <span class="file-date">{{ parseData(item.basename) }}</span>
+    <div class="flex justify-start" />
 
-          <span class="file-size">{{ parseSize(item.size) }} </span>
+    <Dialog v-model:open="loadDataModel">
+      <DialogContent
+        class="
+          gap-0 overflow-hidden p-0
+          sm:max-w-125
+        "
+      >
+        <DialogHeader class="p-6 pb-4">
+          <DialogTitle class="flex items-center gap-2">
+            <FileJson class="size-5 text-primary" /> {{ t('option.data.action.load') }}
+          </DialogTitle>
+          <DialogDescription>{{ t('option.data.cloud.webdav.load.description') }}</DialogDescription>
+        </DialogHeader>
 
-          <div class="file-action">
-            <Space>
-              <Button size="small" @click="() => loadFile(item.filename)">
-                {{ t('option.data.load') }}
+        <Separator />
+
+        <div v-if="remoteFiles === null" class="flex flex-col items-center justify-center gap-4 py-20">
+          <Loader2 class="size-8 animate-spin text-primary/50" />
+          <p class="text-sm text-muted-foreground italic">
+            {{ t('option.data.cloud.webdav.load.loading') }}
+          </p>
+        </div>
+
+        <div v-else class="space-y-2 p-4">
+          <div
+            v-for="item in remoteFiles"
+            :key="item.basename"
+            class="
+              group flex items-center justify-between rounded-lg border bg-card p-3 shadow-sm transition-all
+              hover:bg-accent/50
+            "
+          >
+            <div class="flex flex-col gap-1">
+              <span class="font-mono text-sm font-medium">{{ parseData(item.basename) }}</span>
+              <Badge variant="outline" class="w-fit px-1 py-0 text-[10px] font-normal">
+                {{ parseSize(item.size) }}
+              </Badge>
+            </div>
+
+            <div
+              class="
+                flex items-center gap-1 opacity-80 transition-opacity
+                group-hover:opacity-100
+              "
+            >
+              <Button variant="ghost" size="icon" class="size-8" @click="loadFile(item.filename)">
+                <CloudDownload />
               </Button>
 
-              <Popconfirm
-                :title="t('option.data.cloudStorage.webdav.message.confirmDelete')"
-                @confirm="() => deleteFile(item.filename)"
-              >
-                <Button size="small">
-                  {{ t('option.data.delete') }}
-                </Button>
-              </Popconfirm>
-
-              <Button size="small" @click="() => saveFileLocally(item)">
-                {{ t('option.data.saveLocally') }}
+              <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="saveFileLocally(item)">
+                <Download />
               </Button>
-            </Space>
+
+              <AlertDialog>
+                <AlertDialogTrigger as-child>
+                  <Button variant="ghost" size="icon" class="size-8 text-destructive">
+                    <Trash2 />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{{ t('option.data.cloud.webdav.confirmDelete.title') }}</AlertDialogTitle>
+                    <AlertDialogDescription>{{ t('option.data.cloud.webdav.confirmDelete.description') }}</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>{{ t('common.cancel') }}</AlertDialogCancel>
+                    <AlertDialogAction
+                      class="
+                        bg-destructive
+                        hover:bg-destructive/80
+                      "
+                      @click="deleteFile(item.filename)"
+                    >
+                      {{ t('common.confirm') }}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
-        </ListItem>
-      </template>
-    </List>
-  </Modal>
+        </div>
+      </DialogContent>
+    </Dialog>
+  </div>
 </template>
-
-<style scoped>
-.webdav-config {
-  margin: 16px auto;
-  padding-top: 32px;
-  width: fit-content;
-  min-width: 60%;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-}
-
-.file-list {
-  display: flex;
-}
-
-.file-date {
-  flex: 3;
-}
-
-.file-size {
-  flex: 2;
-  text-align: center;
-}
-
-.file-action {
-  flex: 5;
-  text-align: right;
-}
-</style>
