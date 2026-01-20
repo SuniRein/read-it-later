@@ -86,10 +86,12 @@ function handleSelect(tagName: string, prefix: string) {
           ref="inputRef"
           v-model="searchText"
           class="
-            flex h-10 w-full rounded-md border border-input bg-background px-3 py-2
+            flex w-full rounded-md border bg-background px-2 py-1 text-lg
+            focus:ring-1 focus:ring-ring focus:outline-none
             disabled:cursor-not-allowed disabled:opacity-50
           "
           :placeholder="t('search')"
+          :auto-focus="autofocus"
           @input="updateCursor"
           @click="updateCursor"
           @keyup.left="updateCursor"
@@ -99,7 +101,7 @@ function handleSelect(tagName: string, prefix: string) {
         <X
           v-if="searchText.length > 0"
           class="
-            absolute top-1/2 right-3 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
+            absolute top-1/2 right-1 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
             hover:text-foreground
           "
           @click="searchText = ''; cursorPos = 0;"
@@ -109,6 +111,7 @@ function handleSelect(tagName: string, prefix: string) {
 
     <ComboboxPortal>
       <ComboboxContent
+        v-if="filteredTags.length > 0"
         class="
           z-50 mt-2 max-h-50 w-full min-w-(--reka-combobox-trigger-width) animate-in overflow-hidden rounded-md border
           bg-popover text-popover-foreground shadow-md fade-in-0 zoom-in-95
@@ -122,7 +125,7 @@ function handleSelect(tagName: string, prefix: string) {
             :key="tag.label"
             :value="tag.label"
             class="
-              relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-lg outline-none select-none
+              relative flex cursor-default items-center rounded-sm p-1 text-sm outline-none select-none
               data-disabled:pointer-events-none data-disabled:opacity-50
               data-highlighted:bg-accent data-highlighted:text-accent-foreground
             "

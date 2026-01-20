@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageInfo } from '@/utils/types';
 
-import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } from 'ant-design-vue';
+import { Badge, Layout, LayoutContent, LayoutFooter, Pagination } from 'ant-design-vue';
 
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
@@ -76,20 +76,18 @@ function updateUrl(id: string, url: string) {
 
 <template>
   <Layout>
-    <LayoutHeader style="height: 40px; padding: 0">
-      <TopOperation
-        v-model:search-text="searchText"
-        :current-tab
-        :page-tags
-        :favorited-filter-option
-        :restorable-item-count
-        @add-page="addPage"
-        @change-favorited-view="changeFavoritedView"
-        @open-random-page="sendMessage('openRandomPage')"
-        @open-setting="browser.runtime.openOptionsPage"
-        @restore-removed-page="pageActions.restoreRemoved"
-      />
-    </LayoutHeader>
+    <TopOperation
+      v-model:search-text="searchText"
+      :current-tab
+      :page-tags
+      :favorited-filter-option
+      :restorable-item-count
+      @add-page="addPage"
+      @change-favorited-view="changeFavoritedView"
+      @open-random-page="sendMessage('openRandomPage')"
+      @open-setting="browser.runtime.openOptionsPage"
+      @restore-removed-page="pageActions.restoreRemoved"
+    />
 
     <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
       <PageList

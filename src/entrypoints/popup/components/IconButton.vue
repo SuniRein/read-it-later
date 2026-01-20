@@ -1,31 +1,40 @@
 <script setup lang="ts">
-import { Button, Tooltip } from 'ant-design-vue';
+import type { HTMLAttributes } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   icon: Component;
-  tip?: string;
-  color?: string;
-  size?: 'small' | 'middle' | 'large';
+  tip: string;
   disabled?: boolean;
+  class?: HTMLAttributes['class'];
 }>();
 
 const emit = defineEmits<{
-  (e: 'click', event: MouseEvent): void;
+  click: [e: MouseEvent];
 }>();
-
-function onClick(event: MouseEvent) {
-  emit('click', event);
-}
 </script>
 
 <template>
-  <Tooltip :title="tip" placement="bottomRight">
-    <Button
-      type="ghost" ghost :size :disabled :icon="h(icon, {
-        style: {
-          color: disabled ? '#666' : color ?? '#CCC',
-        },
-      })" @click="onClick"
-    />
-  </Tooltip>
+  <TooltipProvider :delay-duration="300">
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button
+          variant="ghost"
+          size="icon"
+          :disabled
+          :class="cn(`
+            size-8 cursor-pointer text-zinc-400 transition-all
+            hover:bg-white/10 hover:text-white
+            active:scale-95
+            disabled:opacity-30
+          `, props.class)"
+          @click="emit('click', $event)"
+        >
+          <component :is="icon" class="size-6" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent v-if="tip" side="bottom" align="end" class="text-lg">
+        <p>{{ tip }}</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 </template>

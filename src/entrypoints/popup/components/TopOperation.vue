@@ -1,22 +1,11 @@
 <script setup lang="ts">
 import type { FavoritedFilterOption, PageInfo, Tab } from '@/utils/types';
 
-import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-  PlusCircleOutlined,
-  SettingOutlined,
-  StarOutlined,
-  SyncOutlined,
-  ThunderboltOutlined,
-  UndoOutlined,
-} from '@ant-design/icons-vue';
-import { Badge } from 'ant-design-vue';
-
+import { CheckCircle2, PlusCircle, RefreshCw, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
-const { currentTab, favoritedFilterOption, restorableItemCount } = defineProps<{
+const props = defineProps<{
   currentTab: Tab | null;
   pageTags: string[];
   favoritedFilterOption: FavoritedFilterOption;
@@ -36,10 +25,10 @@ const searchText = defineModel<string>('searchText', { default: '' });
 const { t } = useI18n();
 
 function addNewPage() {
-  if (currentTab) {
+  if (props.currentTab) {
     const info: PageInfo = {
-      title: currentTab.title ?? 'Title Not Available',
-      url: currentTab.url ?? 'Url Not Available',
+      title: props.currentTab.title ?? 'Title Not Available',
+      url: props.currentTab.url ?? 'Url Not Available',
     };
     emit('addPage', info);
   }
@@ -47,47 +36,56 @@ function addNewPage() {
 </script>
 
 <template>
-  <div class="top-operation">
-    <IconButton :icon="SettingOutlined" :tip="t('topTip.setting')" @click="emit('openSetting')" />
-
-    <IconButton :icon="SyncOutlined" :tip="t('topTip.sync')" />
+  <header
+    class="
+      flex h-12 w-full items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md
+    "
+  >
+    <div class="flex items-center gap-1">
+      <IconButton :icon="Settings" :tip="t('topTip.setting')" @click="emit('openSetting')" />
+      <IconButton :icon="RefreshCw" :tip="t('topTip.sync')" />
+    </div>
 
     <SearchBox v-model="searchText" autofocus :tags="pageTags" />
 
-    <Badge :offset="[-8, 22]">
-      <template #count>
-        <CheckCircleFilled v-if="favoritedFilterOption === 'favorited'" style="color: green" />
-        <CloseCircleFilled v-else-if="favoritedFilterOption === 'unfavorited'" style="color: red" />
-        <div v-else>
-          <!-- Empty badge for 'all' option -->
+    <div class="flex items-center gap-1">
+      <div class="relative flex items-center justify-center">
+        <IconButton :icon="Star" :tip="t('topTip.toggleFavorite')" @click="emit('changeFavoritedView')" />
+        <div v-if="favoritedFilterOption !== 'all'" class="pointer-events-none absolute -top-1 -right-1">
+          <CheckCircle2
+            v-if="favoritedFilterOption === 'favorited'" class="size-4 fill-emerald-500/20 text-emerald-500"
+          />
+          <XCircle v-else class="size-4 fill-red-500/20 text-red-500" />
         </div>
-      </template>
-      <IconButton :icon="StarOutlined" :tip="t('topTip.toggleFavorite')" @click="emit('changeFavoritedView')" />
-    </Badge>
+      </div>
 
-    <IconButton :icon="ThunderboltOutlined" :tip="t('topTip.random')" @click="emit('openRandomPage')" />
+      <IconButton :icon="Zap" :tip="t('topTip.random')" @click="emit('openRandomPage')" />
 
-    <Badge :offset="[-8, 22]">
-      <template #count>
-        <span v-if="restorableItemCount !== 0" style="color: darksalmon">{{ restorableItemCount }}</span>
-        <div v-else />
-      </template>
-      <IconButton :icon="UndoOutlined" :tip="t('topTip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
-    </Badge>
+      <div class="relative flex items-center justify-center">
+        <IconButton :icon="Undo2" :tip="t('topTip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
+        <Badge
+          v-if="restorableItemCount > 0"
+          class="
+            pointer-events-none absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center bg-orange-600 px-1
+            text-[10px]
+          "
+        >
+          {{ restorableItemCount }}
+        </Badge>
+      </div>
+    </div>
 
-    <IconButton :icon="PlusCircleOutlined" :tip="t('topTip.add')" @click="addNewPage" />
-  </div>
+    <div class="mx-1 h-4 w-px bg-zinc-600" />
+
+    <IconButton
+      :icon="PlusCircle"
+      class="
+        text-indigo-400
+        hover:bg-indigo-500/20 hover:text-indigo-300
+        active:scale-95
+      "
+      :tip="t('topTip.add')"
+      @click="addNewPage"
+    />
+  </header>
 </template>
-
-<style scoped>
-.top-operation {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr) 10fr repeat(4, 1fr);
-  align-items: center;
-  gap: 0.2rem;
-
-  height: 100%;
-  padding: 0 0.25rem;
-  margin: 0;
-}
-</style>
