@@ -1,6 +1,8 @@
+import process from 'node:process';
 import vueI18n from '@intlify/unplugin-vue-i18n/vite';
 import tailwindcss from '@tailwindcss/vite';
 import Components from 'unplugin-vue-components/vite';
+import devtools from 'vite-plugin-vue-devtools';
 import svgLoader from 'vite-svg-loader';
 import { defineConfig } from 'wxt';
 
@@ -23,19 +25,25 @@ export default defineConfig({
     },
   },
   modules: ['@wxt-dev/module-vue'],
-  vite: () => ({
-    plugins: [
-      tailwindcss(),
-      vueI18n({
-        include: 'assets/locales/*.json',
-      }),
-      svgLoader(),
-      Components({
-        dirs: ['src/components'],
-        dts: 'src/components.d.ts',
-      }),
-    ],
-  }),
+  vite: () => {
+    const useDevtools = process.env.USE_VUE_DEVTOOLS === 'true';
+    return {
+      plugins: [
+        tailwindcss(),
+        vueI18n({
+          include: 'assets/locales/*.json',
+        }),
+        svgLoader(),
+        Components({
+          dirs: ['src/components'],
+          dts: 'src/components.d.ts',
+        }),
+        useDevtools && devtools({
+          appendTo: /src\/entrypoints\/[\w-]*\/main\.ts/,
+        }),
+      ],
+    };
+  },
   manifest: ({ manifestVersion }) => ({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
