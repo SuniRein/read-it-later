@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import type { PageItem, Tab } from '@/utils/types';
 
-import { CheckOutlined, CopyOutlined, EditFilled, StarFilled } from '@ant-design/icons-vue';
-import { List, ListItem } from 'ant-design-vue';
-
+import { ArrowUpToLine, Check, Copy, Edit2, RefreshCw, Star } from 'lucide-vue-next';
 import { useFavicon } from '@/composables/favicon';
 import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
-import ContextMenu from './ContextMenu.vue';
 import Favicon from './Favicon.vue';
-import IconButton from './IconButton.vue';
 import PageEditing from './PageEditing.vue';
 
 const { currentTab, pageList, pageTags, faviconCaching } = defineProps<{
@@ -31,12 +27,9 @@ const emit = defineEmits<{
   (e: 'moveToTop', id: string): void;
 }>();
 
-const { getFaviconUrl } = useFavicon();
+const { t } = useI18n();
 
-const actionAttr = {
-  color: '#555',
-  size: 'large',
-} as const;
+const { getFaviconUrl } = useFavicon();
 
 const editedId = ref<string | null>(null);
 const editedTitle = ref<string>('');
@@ -61,210 +54,117 @@ function urlClickable(url: string): boolean {
   }
   return true;
 }
-
-const contextMenu = useTemplateRef('contextMenu');
-
-function showContextMenu(itemId: string, mouseEvent: MouseEvent) {
-  contextMenu.value!.show(itemId, mouseEvent.clientX, mouseEvent.clientY);
-}
-
-function updateTitleToCurrent(itemId: string) {
-  if (currentTab?.title != null) {
-    emit('updateTitle', itemId, currentTab.title);
-  }
-}
-
-function updateUrlToCurrent(itemId: string) {
-  if (currentTab?.url != null) {
-    emit('updateUrl', itemId, currentTab.url);
-  }
-}
 </script>
 
 <template>
-  <List :data-source="pageList" size="small">
-    <template #renderItem="{ item }: { item: PageItem }">
-      <ListItem :key="item.id">
-        <div
-          v-if="editedId !== item.id" class="page-list-item" :class="{
-            favorited: item.favorited,
-            current: item.info.url === currentTab?.url,
-          }"
-          @contextmenu.prevent="(e) => showContextMenu(item.id, e)"
-        >
+  <div class="flex w-full flex-col bg-background">
+    <div v-for="item in pageList" :key="item.id" class="group relative">
+      <ContextMenu v-if="editedId !== item.id">
+        <ContextMenuTrigger>
           <div
-            class="item-content"
-            :class="{ clickable: urlClickable(item.info.url) }"
-            v-on="{ click: urlClickable(item.info.url) ? () => emit('openUrl', item.info.url) : undefined }"
+            v-if="item.info.url === currentTab?.url"
+            class="absolute inset-y-1 w-1 rounded-full bg-linear-to-b from-blue-400 via-blue-600 to-blue-400 opacity-90"
+          />
+          <div
+            :class="cn(
+              `
+                flex flex-col border-b px-1 py-1.5 transition-colors
+                group-last:border-0
+                hover:bg-accent/70
+              `,
+              item.favorited && `
+                bg-yellow-200/50
+                hover:bg-yellow-200/70
+                dark:bg-yellow-900/10
+              `,
+            )"
           >
-            <div class="favicon-and-title">
-              <Favicon :url="getFaviconUrl(item.info.url)" :use-cache="faviconCaching" />
-              <span class="title">{{ item.info.title }}</span>
-            </div>
+            <div
+              class="flex flex-col gap-1"
+              :class="urlClickable(item.info.url) ? 'cursor-pointer' : 'cursor-not-allowed'"
+              @click="urlClickable(item.info.url) && emit('openUrl', item.info.url)"
+            >
+              <div class="flex items-center gap-2">
+                <Favicon :url="getFaviconUrl(item.info.url)" :use-cache="faviconCaching" />
+                <span class="truncate pr-4 text-lg/tight font-semibold">{{ item.info.title }}</span>
+              </div>
 
-            <div class="url-and-tags">
-              <span class="url">{{ item.info.url }}</span>
-
-              <div class="tags">
-                <ColorTag v-for="tag in item.tags" :key="tag" :tag />
+              <div class="flex items-center justify-between gap-4">
+                <span class="flex-1 truncate font-mono text-sm text-muted-foreground">{{ item.info.url }}</span>
+                <div class="flex gap-1">
+                  <ColorTag v-for="tag in item.tags" :key="tag" :tag="tag" />
+                </div>
               </div>
             </div>
+
+            <div
+              class="
+                absolute top-1/2 right-1 flex -translate-y-1/2 items-center gap-1 opacity-0 transition-opacity
+                group-hover:opacity-100
+              "
+            >
+              <Button
+                variant="ghost" class="
+                  size-10 border border-input shadow-sm
+                  hover:bg-primary hover:text-primary-foreground
+                " @click.stop="emit('copyUrl', item.info.url)"
+              >
+                <Copy />
+              </Button>
+
+              <Button
+                variant="ghost" class="
+                  size-10 border border-input shadow-sm
+                  hover:bg-primary hover:text-primary-foreground
+                " @click.stop="editPage(item)"
+              >
+                <Edit2 />
+              </Button>
+
+              <Button
+                variant="ghost" class="size-10 border border-input shadow-sm"
+                :class="item.favorited ? `
+                  border-yellow-200 bg-yellow-50 text-yellow-400
+                  hover:bg-yellow-400 hover:text-white
+                ` : `hover:text-yellow-500`"
+                @click.stop="emit('toggleStar', item.id)"
+              >
+                <Star />
+              </Button>
+
+              <Button
+                variant="ghost" class="
+                  size-10 border border-input text-green-600 shadow-sm
+                  hover:bg-green-600 hover:text-white
+                " @click.stop="emit('markRead', item.id)"
+              >
+                <Check />
+              </Button>
+            </div>
           </div>
+        </ContextmenuTrigger>
 
-          <div class="actions">
-            <IconButton v-bind="actionAttr" :icon="CopyOutlined" @click="emit('copyUrl', item.info.url)" />
-            <IconButton v-bind="actionAttr" :icon="EditFilled" @click="editPage(item)" />
-            <IconButton v-bind="actionAttr" :icon="StarFilled" @click="emit('toggleStar', item.id)" />
-            <IconButton v-bind="actionAttr" :icon="CheckOutlined" @click="emit('markRead', item.id)" />
-          </div>
-        </div>
+        <ContextMenuContent>
+          <ContextMenuItem @select="currentTab?.title != null && emit('updateTitle', item.id, currentTab.title)">
+            <RefreshCw /> {{ t('contextMenu.editItem.updateTitle') }}
+          </ContextMenuItem>
+          <ContextMenuItem @select="currentTab?.url != null && emit('updateUrl', item.id, currentTab?.url)">
+            <RefreshCw /> {{ t('contextMenu.editItem.updateUrl') }}
+          </ContextMenuItem>
+          <ContextMenuItem @select="emit('moveToTop', item.id)">
+            <ArrowUpToLine /> {{ t('contextMenu.editItem.moveToTop') }}
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
 
-        <PageEditing
-          v-else
-          :init-title="editedTitle"
-          :init-tags="editedTags"
-          :page-tags
-          @cancel="editedId = null"
-          @save="savePageEdit"
-        />
-      </ListItem>
-    </template>
-  </List>
-
-  <ContextMenu
-    ref="contextMenu"
-    @update-title-current="updateTitleToCurrent"
-    @update-url-to-current="updateUrlToCurrent"
-    @move-to-top="id => emit('moveToTop', id)"
-  />
+      <PageEditing
+        v-else
+        :init-title="editedTitle"
+        :init-tags="editedTags"
+        :page-tags
+        @cancel="editedId = null"
+        @save="savePageEdit"
+      />
+    </div>
+  </div>
 </template>
-
-<style scoped>
-:deep(.ant-list-item) {
-  padding: 0;
-}
-
-.page-list-item {
-  --favorited-bg-rgb: 249, 232, 144;
-  --favorited-bg: #f9e890;
-
-  --current-page-background-color: hsl(0, 0, 90%);
-  --current-page-border-color: hsl(0, 0, 30%);
-  --current-page-accent-color: #409eff;
-
-  margin: 0;
-  padding: 0 0.5rem;
-  position: relative;
-  width: 100%;
-
-  box-sizing: border-box;
-}
-
-.page-list-item.favorited {
-  background-color: rgba(var(--favorited-bg-rgb), 0.8);
-}
-
-.page-list-item.current {
-  background-color: var(--current-page-background-color);
-
-  &.favorited {
-    background-color: var(--favorited-bg);
-  }
-
-  padding: 0.2rem 0.5rem;
-  font-weight: bold;
-
-  /* left highlight bar */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.2rem;
-    bottom: 0.2rem;
-    width: 4px;
-    background-color: var(--current-page-accent-color);
-    border-radius: 2px;
-    transition: background-color 0.2s ease;
-  }
-}
-
-.item-content {
-  &.clickable {
-    cursor: pointer;
-  }
-
-  &:not(.clickable) {
-    cursor: not-allowed;
-  }
-}
-
-.favicon-and-title {
-  display: flex;
-  align-items: center;
-}
-
-.title {
-  display: inline-block;
-  line-height: calc(1.25rem + 6px);
-  font-size: 1.25rem;
-  padding: 0.3rem 0px;
-
-  user-select: text;
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-
-.url-and-tags {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.url {
-  display: inline-block;
-  font-size: 0.875rem;
-  padding: 0.2rem 0px;
-
-  user-select: text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-decoration: none;
-  text-overflow: ellipsis;
-
-  color: gray;
-
-  flex: 1;
-  min-width: 0;
-}
-
-.tags {
-  font-size: 0.75rem;
-
-  & > *:last-child {
-    margin-right: 0;
-  }
-}
-
-.actions {
-  z-index: 3;
-  position: absolute;
-  right: 0;
-  top: 0;
-
-  height: 100%;
-  display: flex;
-  align-items: center;
-
-  opacity: 0;
-  transition:
-    height 200ms ease-out,
-    opacity 200ms ease-out;
-}
-
-.page-list-item:hover .actions {
-  background-color: rgba(196, 196, 196, 0.4);
-  opacity: 1;
-}
-</style>

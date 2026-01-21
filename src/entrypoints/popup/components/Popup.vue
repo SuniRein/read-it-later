@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PageInfo } from '@/utils/types';
 
-import { Badge, Layout, LayoutContent, LayoutFooter, Pagination } from 'ant-design-vue';
+import { Badge, Layout, LayoutFooter, Pagination } from 'ant-design-vue';
 
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
@@ -11,8 +11,8 @@ import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
 import { sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
-import store from '@/utils/store';
 
+import store from '@/utils/store';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
@@ -89,7 +89,7 @@ function updateUrl(id: string, url: string) {
       @restore-removed-page="pageActions.restoreRemoved"
     />
 
-    <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
+    <ScrollArea class="h-120 pr-2">
       <PageList
         :current-tab
         :page-list="pageListDisplayed"
@@ -104,7 +104,7 @@ function updateUrl(id: string, url: string) {
         @update-url="updateUrl"
         @move-to-top="pageActions.moveToTop"
       />
-    </LayoutContent>
+    </ScrollArea>
 
     <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
       <Pagination
