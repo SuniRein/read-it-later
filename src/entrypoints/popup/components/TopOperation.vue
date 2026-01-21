@@ -36,11 +36,7 @@ function addNewPage() {
 </script>
 
 <template>
-  <header
-    class="
-      flex h-12 w-full items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md
-    "
-  >
+  <div class="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md">
     <div class="flex items-center gap-1">
       <IconButton :icon="Settings" :tip="t('topTip.setting')" @click="emit('openSetting')" />
       <IconButton :icon="RefreshCw" :tip="t('topTip.sync')" />
@@ -87,5 +83,5 @@ function addNewPage() {
       :tip="t('topTip.add')"
       @click="addNewPage"
     />
-  </header>
+  </div>
 </template>

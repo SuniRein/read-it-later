@@ -2,7 +2,6 @@ import i18n from '@/utils/i18n';
 import store from '@/utils/store';
 
 import App from './App.vue';
-import './style.css';
 import '@/style.css';
 import 'vue-sonner/style.css';
 
