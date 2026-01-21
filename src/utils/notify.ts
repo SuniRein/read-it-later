@@ -1,19 +1,20 @@
-import { message } from 'ant-design-vue';
+import type { ExternalToast } from 'vue-sonner';
+import { toast } from 'vue-sonner';
 
-const defaultDuration = 1; // seconds
+const defaultDuration = 1000;
 
-function makeNotifyFunction(fn: typeof message.success) {
-  return (content: string, duration = defaultDuration) => fn({
-    content,
-    duration,
-    style: {
-      whiteSpace: 'pre-line',
-    },
-  });
+function makeNotifyFunction(type: 'success' | 'error' | 'warning' | 'info', duration = defaultDuration) {
+  return (message: string, data?: ExternalToast) => {
+    toast[type](message, {
+      duration,
+      ...data,
+    });
+  };
 }
 
 export default {
-  success: makeNotifyFunction(message.success.bind(message)),
-  error: makeNotifyFunction(message.error.bind(message)),
-  info: makeNotifyFunction(message.info.bind(message)),
+  success: makeNotifyFunction('success'),
+  error: makeNotifyFunction('error'),
+  warning: makeNotifyFunction('warning'),
+  info: makeNotifyFunction('info'),
 };

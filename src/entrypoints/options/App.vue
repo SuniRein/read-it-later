@@ -43,5 +43,7 @@ const navItems = computed(() => [
         </ScrollArea>
       </Suspense>
     </main>
+
+    <Sonner rich-colors position="top-center" />
   </div>
 </template>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { theme as antTheme, ConfigProvider } from 'ant-design-vue';
-
 import { useAntLocale } from '@/composables/i18n';
 
 import Popup from './components/Popup.vue';
@@ -17,4 +16,6 @@ const antLocale = useAntLocale(locale);
   <ConfigProvider :theme :locale="antLocale">
     <Popup />
   </ConfigProvider>
+
+  <Sonner rich-colors position="top-center" />
 </template>
