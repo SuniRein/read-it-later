@@ -7,7 +7,7 @@ import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
 import ColorTag from './ColorTag.vue';
 import Favicon from './Favicon.vue';
-import PageEditing from './PageEditing.vue';
+import PageEditSheet from './PageEditSheet.vue';
 
 const { currentTab, pageList, pageTags, faviconCaching } = defineProps<{
   currentTab: Tab | null;
@@ -31,21 +31,13 @@ const { t } = useI18n();
 
 const { getFaviconUrl } = useFavicon();
 
-const editedId = ref<string | null>(null);
-const editedTitle = ref<string>('');
-const editedTags = ref<string[]>([]);
-
-function editPage(item: PageItem) {
-  editedId.value = item.id;
-  editedTitle.value = item.info.title;
-  editedTags.value = item.tags;
-}
+const editedItem = ref<PageItem | null>(null);
 
 function savePageEdit(title: string, tags: string[]) {
-  if (editedId.value === null)
+  if (editedItem.value === null)
     return;
-  emit('edit', editedId.value, title, tags);
-  editedId.value = null;
+  emit('edit', editedItem.value.id, title, tags);
+  editedItem.value = null;
 }
 
 function urlClickable(url: string): boolean {
@@ -59,7 +51,7 @@ function urlClickable(url: string): boolean {
 <template>
   <div class="flex w-full flex-col bg-background">
     <div v-for="item in pageList" :key="item.id" class="group relative">
-      <ContextMenu v-if="editedId !== item.id">
+      <ContextMenu>
         <ContextMenuTrigger>
           <div
             v-if="item.info.url === currentTab?.url"
@@ -116,7 +108,7 @@ function urlClickable(url: string): boolean {
                 variant="ghost" class="
                   size-10 border border-input shadow-sm
                   hover:bg-primary hover:text-primary-foreground
-                " @click.stop="editPage(item)"
+                " @click.stop="editedItem = item"
               >
                 <Edit2 />
               </Button>
@@ -156,15 +148,8 @@ function urlClickable(url: string): boolean {
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-
-      <PageEditing
-        v-else
-        :init-title="editedTitle"
-        :init-tags="editedTags"
-        :page-tags
-        @cancel="editedId = null"
-        @save="savePageEdit"
-      />
     </div>
+
+    <PageEditSheet v-model:item="editedItem" :tags="pageTags" @save="savePageEdit" />
   </div>
 </template>

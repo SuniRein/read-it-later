@@ -2,6 +2,8 @@
 import { X } from 'lucide-vue-next';
 import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui';
 
+defineOptions({ inheritAttrs: false });
+
 defineProps<{
   items: T[];
   placeholder?: string;
@@ -12,7 +14,7 @@ const emit = defineEmits<{
   select: [item: T];
 }>();
 
-const input = defineModel<string>({ default: '' });
+const input = defineModel<string>({ required: true });
 const cursor = defineModel<number>('cursor', { default: -1 });
 const open = defineModel<boolean>('open', { default: false });
 
@@ -38,11 +40,12 @@ defineExpose({ focus });
 </script>
 
 <template>
-  <ComboboxRoot v-model:open="open" class="relative" ignore-filter>
+  <ComboboxRoot v-model:open="open" :model-value="input" class="relative" ignore-filter>
     <ComboboxAnchor as-child>
       <div class="relative">
         <ComboboxInput
           ref="inputRef"
+          v-bind="$attrs"
           v-model="input"
           class="
             flex w-full rounded-md border bg-background px-2 py-1 text-lg

@@ -9,11 +9,16 @@
   },
   "search": "Find...",
   "edit": {
-    "title": "Title",
-    "tags": "Tags",
-    "save": "Save",
-    "cancel": "Cancel",
-    "tagsPlaceholder": "tag1, tag2, ..."
+    "title": "Edit item",
+    "description": "Edit the title and tags of the item",
+    "item": {
+      "title": "Title",
+      "tags": {
+        "label": "Tags",
+        "placeholder": "tag1, tag2, ...",
+        "description": "Separate multiple tags with commas"
+      }
+    }
   },
   "contextMenu": {
     "editItem": {
@@ -151,6 +156,7 @@
   },
   "common": {
     "confirm": "Confirm",
+    "save": "Save",
     "cancel": "Cancel"
   }
 }
