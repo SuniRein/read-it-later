@@ -25,7 +25,7 @@ export interface PageItem {
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
-export type CloudStorageType = 'webdav' | null;
+export type CloudStorageType = 'webdav' | 'none';
 
 export interface Setting {
   pagination: number;

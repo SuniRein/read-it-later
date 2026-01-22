@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { PageInfo } from '@/utils/types';
 
-import { Badge, Layout, LayoutContent, LayoutFooter, LayoutHeader, Pagination } from 'ant-design-vue';
-
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
@@ -11,8 +9,8 @@ import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
 import { sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
-import store from '@/utils/store';
 
+import store from '@/utils/store';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
@@ -75,8 +73,8 @@ function updateUrl(id: string, url: string) {
 </script>
 
 <template>
-  <Layout>
-    <LayoutHeader style="height: 40px; padding: 0">
+  <div class="m-0 flex h-125 w-120 flex-col overflow-hidden bg-background text-foreground shadow-xl">
+    <header class="h-12 w-full">
       <TopOperation
         v-model:search-text="searchText"
         :current-tab
@@ -89,42 +87,67 @@ function updateUrl(id: string, url: string) {
         @open-setting="browser.runtime.openOptionsPage"
         @restore-removed-page="pageActions.restoreRemoved"
       />
-    </LayoutHeader>
+    </header>
 
-    <LayoutContent style="height: 420px; overflow-x: hidden; overflow-y: auto">
-      <PageList
-        :current-tab
-        :page-list="pageListDisplayed"
-        :page-tags
-        :favicon-caching
-        @mark-read="pageActions.remove"
-        @edit="pageActions.update"
-        @toggle-star="pageActions.toggleFavorite"
-        @open-url="openUrl"
-        @copy-url="copyUrl"
-        @update-title="pageActions.updateTitle"
-        @update-url="updateUrl"
-        @move-to-top="pageActions.moveToTop"
-      />
-    </LayoutContent>
+    <main class="flex-1 overflow-hidden">
+      <ScrollArea class="h-full pr-2">
+        <PageList
+          :current-tab
+          :page-list="pageListDisplayed"
+          :page-tags
+          :favicon-caching
+          @mark-read="pageActions.remove"
+          @edit="pageActions.update"
+          @toggle-star="pageActions.toggleFavorite"
+          @open-url="openUrl"
+          @copy-url="copyUrl"
+          @update-title="pageActions.updateTitle"
+          @update-url="updateUrl"
+          @move-to-top="pageActions.moveToTop"
+        />
+      </ScrollArea>
+    </main>
 
-    <LayoutFooter style="height: 40px; padding: 0 10px; text-align: center">
+    <footer class="flex items-center justify-between border-t bg-muted/40 px-2 py-1.5">
+      <Badge variant="outline" class="rounded-full bg-green-600/10 font-mono font-bold text-green-600">
+        {{ pageListFiltered.length }}
+      </Badge>
+
       <Pagination
-        v-model:current="current"
-        v-model:page-size="pageSize"
+        v-model:page="current"
         :total="pageListFiltered.length"
-        :show-total="(total) =>
-          h(Badge, {
-            count: total,
-            numberStyle: {
-              backgroundColor: '#52c41a',
-              boxShadow: '0 0 0 1px #d9d9d9 inset',
-            },
-            showZero: true,
-            overflowCount: 999,
-          })
-        "
-      />
-    </LayoutFooter>
-  </Layout>
+        :items-per-page="pageSize"
+        :sibling-count="0"
+        show-edges
+      >
+        <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
+          <PaginationFirst />
+          <PaginationPrevious />
+
+          <template v-for="(item, index) in items">
+            <PaginationItem
+              v-if="item.type === 'page'"
+              :key="index"
+              :value="item.value"
+              as-child
+            >
+              <Button
+                :class="cn(
+                  'size-8 p-0 transition-all',
+                  item.value === current && 'hover:bg-primary hover:text-primary-foreground',
+                )"
+                :variant="item.value === current ? 'default' : 'ghost'"
+              >
+                {{ item.value }}
+              </Button>
+            </PaginationItem>
+            <PaginationEllipsis v-else :key="item.type" :index="index" />
+          </template>
+
+          <PaginationNext />
+          <PaginationLast />
+        </PaginationContent>
+      </Pagination>
+    </footer>
+  </div>
 </template>

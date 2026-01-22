@@ -9,11 +9,16 @@
   },
   "search": "Find...",
   "edit": {
-    "title": "Title",
-    "tags": "Tags",
-    "save": "Save",
-    "cancel": "Cancel",
-    "tagsPlaceholder": "tag1, tag2, ..."
+    "title": "Edit item",
+    "description": "Edit the title and tags of the item",
+    "item": {
+      "title": "Title",
+      "tags": {
+        "label": "Tags",
+        "placeholder": "tag1, tag2, ...",
+        "description": "Separate multiple tags with commas"
+      }
+    }
   },
   "contextMenu": {
     "editItem": {
@@ -41,29 +46,64 @@
       "about": "About"
     },
     "setting": {
-      "panination": "Pagination",
-      "paninationOption": "{count} items per page",
-      "showBadge": "Show badge",
-      "favicon": {
-        "source": "Favicon source",
-        "caching": "Cache favicons",
-        "clearCache": "Clear favicon cache",
-        "clearCacheSuccess": "Favicon cache cleared.",
-        "cachePermissionMissing": "Missing permission to cache favicons, try enable it by manual."
+      "section": {
+        "general": "General",
+        "favicon": "Favicon",
+        "locale": "Locale"
       },
-      "locale": "Language",
+      "panination": {
+        "label": "Pagination",
+        "description": "Control the number of items displayed per page",
+        "items": "{count} items per page"
+      },
+      "showBadge": {
+        "label": "Show badge",
+        "description": "Display item count on the extension icon"
+      },
       "duplicatedUrlOpened": {
-        "label": "Duplicated URL opened option",
-        "ignore": "Ignore",
-        "focus": "Focus existing tab",
-        "newTab": "Open in new tab"
+        "label": "When opening duplicated tabs",
+        "description": "Control the behavior when attempting to open an already opened tab",
+        "option": {
+          "ignore": "Ignore",
+          "focus": "Focus existing tab",
+          "newTab": "Open in new tab"
+        }
+      },
+      "faviconSource": {
+        "label": "Favicon source",
+        "description": "Select service to fetch website favicons"
+      },
+      "faviconCache": {
+        "label": "Cache favicons",
+        "description": "Cache website favicons to improve loading speed and save bandwidth",
+        "clear": {
+          "label": "Clear favicon cache",
+          "success": "Favicon cache cleared.",
+          "permissionMissing": "Missing permission to cache favicons, try enable it by manual."
+        }
+      },
+      "language": {
+        "label": "Language",
+        "description": "Select the display language"
       }
     },
     "data": {
-      "localStorage": "Local storage",
-      "cloudStorage": {
-        "label": "Cloud storage",
-        "type": {
+      "section": {
+        "local": {
+          "title": "Local Storage",
+          "description": "Export your reading list to a JSON file or load from a JSON file."
+        },
+        "cloud": {
+          "title": "Cloud Storage",
+          "description": "Configure cloud storage to sync your list across different devices."
+        },
+        "browser": {
+          "title": "Browser Data",
+          "description": "Manage extension data stored in the browser."
+        }
+      },
+      "cloud": {
+        "option": {
           "none": "None",
           "webdav": "WebDAV"
         },
@@ -71,27 +111,35 @@
           "url": "URL",
           "username": "Username",
           "password": "Password",
-          "validate": "Validate",
           "message": {
             "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
             "urlRequired": "Please fill in the URL.",
             "urlInvalid": "Invalid URL format.",
             "validateSuccess": "WebDAV connection successful.",
-            "saveSuccess": "WebDAV saved successfully.",
-            "confirmDelete": "Sure to delete this entry?"
+            "saveSuccess": "WebDAV saved successfully."
+          },
+          "validate": "Validate",
+          "load": {
+            "description": "Select a backup point from the cloud WebDAV server.",
+            "loading": "Loading remote file..."
+          },
+          "confirmDelete": {
+            "title": "Sure to delete this entry?",
+            "description": "This will permanently remove the backup file from WebDAV."
           }
         }
       },
-      "browserData": "Browser data",
-      "save": "Save",
-      "load": "Load",
-      "delete": "Delete",
-      "saveLocally": "Save to local",
-      "clear": "Clear",
+      "action": {
+        "save": "Save",
+        "saveLocally": "Save to local",
+        "load": "Load",
+        "delete": "Delete",
+        "clear": "Clear"
+      },
       "message": {
         "confirmClear": {
           "title": "Confirm clear data?",
-          "content": "This action cannot be undone, please proceed with caution. \n\nNote: This does not include data exported to local storage and cloud storage."
+          "description": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
         }
       }
     },
@@ -105,5 +153,10 @@
         "body": "GNU General Public License v3 (GPLv3)"
       }
     }
+  },
+  "common": {
+    "confirm": "Confirm",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }

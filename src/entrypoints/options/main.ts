@@ -4,7 +4,8 @@ import store from '@/utils/store';
 import App from './App.vue';
 
 import router from './router';
-import './style.css';
+import '@/style.css';
+import 'vue-sonner/style.css';
 
 async function bootstrap() {
   const { locale } = await store.setting.getValue();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AutoComplete, Input } from 'ant-design-vue';
+import AutoComplete from '@/components/AutoComplete.vue';
 
 const props = defineProps<{
   autofocus?: boolean;
@@ -9,64 +9,69 @@ const props = defineProps<{
 const { t } = useI18n();
 
 const searchText = defineModel<string>({ required: true });
-const debouncedSearchText = refDebounced(searchText, 200);
-
-const input = useTemplateRef('input');
-const inputEl = computed(() => input.value?.$el.querySelector('input') as HTMLInputElement | undefined);
-
 const cursorPos = ref(-1);
-onMounted(() => {
-  if (!inputEl.value)
-    return;
+const open = ref(false);
 
-  const updateCursorPos = () => cursorPos.value = inputEl.value!.selectionStart ?? -1;
-  inputEl.value.addEventListener('keyup', updateCursorPos);
-  inputEl.value.addEventListener('click', updateCursorPos);
-  updateCursorPos();
-});
+const inputRef = useTemplateRef('inputRef');
 
 const hints = computed(() => {
-  const start = debouncedSearchText.value.lastIndexOf(' ', cursorPos.value - 1) + 1;
-  const end = debouncedSearchText.value.indexOf(' ', cursorPos.value);
+  const text = searchText.value;
+  const cursor = cursorPos.value;
+
+  if (cursor === -1)
+    return null;
+
+  const start = text.lastIndexOf(' ', cursor - 1) + 1;
+  const end = text.indexOf(' ', cursor);
+  const actualEnd = end === -1 ? text.length : end;
 
   return {
-    before: debouncedSearchText.value.slice(0, start),
-    token: debouncedSearchText.value.slice(start, end === -1 ? undefined : end),
-    after: end === -1 ? '' : debouncedSearchText.value.slice(end),
+    before: text.slice(0, start),
+    token: text.slice(start, actualEnd),
+    after: text.slice(actualEnd),
   };
 });
 
-const options = computed(() => {
-  const { before, token, after } = hints.value;
+const filteredTags = computed(() => {
+  if (!hints.value)
+    return [];
+  const { token } = hints.value;
 
   const prefixes = ['#', '!#'];
   const prefix = prefixes.find(p => token.startsWith(p));
-  if (prefix !== undefined) {
-    const tag = token.slice(prefix.length);
-    return props.tags.filter(t => t.startsWith(tag)).map(t => ({
-      value: `${before}${prefix}${t}${after}`,
-      label: t,
-      finalCursorPos: before.length + prefix.length + t.length,
-    }));
-  }
-  return [];
+  if (prefix === undefined)
+    return [];
+
+  const searchStr = token.slice(prefix.length).toLowerCase();
+  return props.tags
+    .filter(t => t.toLowerCase().startsWith(searchStr))
+    .map(t => ({ value: t, prefix }));
 });
 
-function setCursorPos(_value: any, option: any) {
-  const finalCursorPos = option.finalCursorPos as number;
-  setTimeout(() => {
-    inputEl.value?.setSelectionRange(finalCursorPos, finalCursorPos);
-  }, 0);
+function handleSelect(tagName: string, prefix: string) {
+  if (!hints.value)
+    return;
+  const { before, after } = hints.value;
+
+  const insertedText = `${prefix}${tagName}`;
+  const newValue = `${before}${insertedText}${after}`;
+  const nextPos = before.length + insertedText.length;
+
+  searchText.value = newValue;
+  open.value = false;
+  inputRef.value?.focus(nextPos);
 }
 </script>
 
 <template>
   <AutoComplete
-    v-model:value="searchText"
+    ref="inputRef"
+    v-model="searchText"
+    v-model:cursor="cursorPos"
+    v-model:open="open"
+    :items="filteredTags"
+    :placeholder="t('search')"
     :autofocus
-    :options
-    @select="setCursorPos"
-  >
-    <Input ref="input" :placeholder="t('search')" allow-clear />
-  </AutoComplete>
+    @select="({ value, prefix }) => handleSelect(value, prefix)"
+  />
 </template>
