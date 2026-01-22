@@ -21,11 +21,9 @@
     "release": "commit-and-tag-version"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^7.0.1",
     "@tailwindcss/vite": "^4.1.18",
     "@vueuse/core": "^14.1.0",
     "@webext-core/messaging": "^2.3.0",
-    "ant-design-vue": "~4.2.6",
     "arktype": "^2.1.29",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
