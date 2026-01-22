@@ -124,7 +124,6 @@ function clearBrowserData() {
           <WebDavConnect
             ref="cloudStorageRef"
             v-model="setting.webDavConfig"
-            :button-wrapper-col="{ offset: 14 }"
             @load-data="loadItems"
             @save-locally="saveLocally"
           />

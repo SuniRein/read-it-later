@@ -134,7 +134,7 @@ function urlClickable(url: string): boolean {
               </Button>
             </div>
           </div>
-        </ContextmenuTrigger>
+        </ContextMenuTrigger>
 
         <ContextMenuContent>
           <ContextMenuItem @select="currentTab?.title != null && emit('updateTitle', item.id, currentTab.title)">

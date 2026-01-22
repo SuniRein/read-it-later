@@ -6,8 +6,6 @@ import { CloudDownload, Download, FileJson, Globe, Loader2, Lock, Trash2, User }
 import notify from '@/utils/notify';
 import WebDav from '@/utils/webdav';
 
-defineProps<{ buttonWrapperCol: { offset: number } }>();
-
 const emit = defineEmits<{
   (e: 'loadData', data: string): void;
   (e: 'saveLocally', data: string, filename: string): void;
