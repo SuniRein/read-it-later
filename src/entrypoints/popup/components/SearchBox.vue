@@ -70,7 +70,7 @@ function handleSelect(tagName: string, prefix: string) {
     v-model:cursor="cursorPos"
     v-model:open="open"
     :items="filteredTags"
-    :placeholder="t('search')"
+    :placeholder="t('popup.searchPlaceholder')"
     :autofocus
     @select="({ value, prefix }) => handleSelect(value, prefix)"
   />

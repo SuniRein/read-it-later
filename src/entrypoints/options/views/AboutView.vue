@@ -11,7 +11,7 @@ const { t } = useI18n();
     <CardHeader>
       <div class="flex items-center justify-center gap-2">
         <CardTitle class="text-3xl font-semibold tracking-tight">
-          {{ t('option.about.title') }}
+          {{ t('common.title') }}
         </CardTitle>
         <Badge variant="secondary" class="bg-purple-100 text-purple-700">
           v{{ meta.version }}
@@ -34,7 +34,7 @@ const { t } = useI18n();
 
     <CardContent>
       <CardDescription class="mb-4 text-sm/7">
-        {{ t('option.about.description') }}
+        {{ t('option.about.desc') }}
       </CardDescription>
 
       <div class="flex items-center justify-center gap-4">

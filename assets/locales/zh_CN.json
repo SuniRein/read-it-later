@@ -1,45 +1,50 @@
 {
-  "topTip": {
-    "setting": "打开设置界面",
-    "sync": "同步",
-    "toggleFavorite": "按收藏状态筛选",
-    "random": "打开随机页面",
-    "restore": "恢复被删除的页面",
-    "add": "添加当前页面到列表"
-  },
-  "search": "搜索...",
-  "edit": {
-    "title": "编辑条目",
-    "description": "编辑条目的标题和标签",
-    "item": {
-      "title": "标题",
-      "tags": {
-        "label": "标签",
-        "placeholder": "标签1, 标签2, ...",
-        "description": "用逗号分隔多个标签"
-      }
+  "common": {
+    "title": "稍后读·简",
+    "action": {
+      "confirm": "确认",
+      "cancel": "取消",
+      "save": "保存",
+      "load": "加载",
+      "delete": "删除",
+      "clear": "清除",
+      "validate": "验证"
     }
   },
-  "contextMenu": {
-    "editItem": {
-      "title": "编辑条目",
+  "popup": {
+    "searchPlaceholder": "搜索...",
+    "tooltip": {
+      "setting": "打开设置界面",
+      "sync": "同步",
+      "toggleFavorite": "按收藏状态筛选",
+      "random": "打开随机页面",
+      "restore": "恢复被删除的页面",
+      "add": "添加当前页面到列表"
+    },
+    "contextMenu": {
       "updateTitle": "更新标题为当前页面标题",
       "updateUrl": "更新 URL 为当前页面",
       "moveToTop": "移动到顶部"
+    },
+    "editModal": {
+      "title": "编辑条目",
+      "desc": "编辑条目的标题和标签",
+      "field": {
+        "title": "标题",
+        "tags": {
+          "label": "标签",
+          "placeholder": "标签1, 标签2, ...",
+          "desc": "用逗号分隔多个标签"
+        }
+      }
+    },
+    "msg": {
+      "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
+      "pageAlreadyExists": "页面已存在于列表中。",
+      "currentPageURLError": "无法获取当前页面的 URL。"
     }
   },
-  "successMsg": {
-    "loadData": "成功加载 {count} 条数据。"
-  },
-  "errorMsg": {
-    "invalidTags": "标签只能包含字母、数字、下划线、连字符和中文字符。",
-    "pageAlreadyExists": "页面已存在于列表中。",
-    "noUploadFile": "未提供上传文件。",
-    "parseError": "无法解析页面列表：{error}",
-    "currentPageURLError": "无法获取当前页面的 URL。"
-  },
   "option": {
-    "title": "稍后读·简",
     "nav": {
       "setting": "设置",
       "data": "数据",
@@ -51,18 +56,18 @@
         "favicon": "网站图标",
         "locale": "区域设置"
       },
-      "panination": {
+      "pagination": {
         "label": "分页",
-        "description": "控制每页显示的条目数量",
-        "items": "每页 {count} 条"
+        "desc": "控制每页显示的条目数量",
+        "display": "每页 {count} 条"
       },
       "showBadge": {
         "label": "显示徽章",
-        "description": "在扩展图标上显示条目数量"
+        "desc": "在扩展图标上显示条目数量"
       },
-      "duplicatedUrlOpened": {
+      "duplicatedUrl": {
         "label": "打开重复标签页时",
-        "description": "当尝试打开已打开的标签页时的行为",
+        "desc": "当尝试打开已打开的标签页时的行为",
         "option": {
           "ignore": "忽略",
           "focus": "聚焦已打开的标签页",
@@ -71,35 +76,37 @@
       },
       "faviconSource": {
         "label": "图标源",
-        "description": "选择用于获取网站图标的服务"
+        "desc": "选择用于获取网站图标的服务"
       },
       "faviconCache": {
         "label": "缓存图标",
-        "description": "缓存网站图标以提升加载速度并节省流量",
+        "desc": "缓存网站图标以提升加载速度并节省流量",
         "clear": {
           "label": "清空图标缓存",
-          "success": "图标缓存已清空。",
-          "permissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+          "msg": {
+            "success": "图标缓存已清空。",
+            "permissionMissing": "缺少缓存图标的权限，请尝试手动启用。"
+          }
         }
       },
       "language": {
         "label": "语言",
-        "description": "选择界面语言"
+        "desc": "选择界面语言"
       }
     },
     "data": {
       "section": {
         "local": {
           "title": "本地存储",
-          "description": "将您的阅读列表导出为 JSON 文件或从 JSON 文件中加载。"
+          "desc": "将您的阅读列表导出为 JSON 文件或从 JSON 文件中加载。"
         },
         "cloud": {
           "title": "云端存储",
-          "description": "配置云端存储以在不同设备间同步您的列表。"
+          "desc": "配置云端存储以在不同设备间同步您的列表。"
         },
         "browser": {
           "title": "浏览器数据",
-          "description": "管理浏览器存储的扩展数据。"
+          "desc": "管理浏览器存储的扩展数据。"
         }
       },
       "cloud": {
@@ -107,56 +114,52 @@
           "none": "无",
           "webdav": "WebDAV"
         },
+        "action": {
+          "saveLocally": "保存到本地"
+        },
         "webdav": {
-          "url": "URL",
-          "username": "用户名",
-          "password": "密码",
-          "message": {
+          "field": {
+            "url": "URL",
+            "username": "用户名",
+            "password": "密码"
+          },
+          "msg": {
             "permissionDenied": "没有权限访问云端存储，请授予权限。",
             "urlRequired": "请填写 URL。",
             "urlInvalid": "无效的 URL 格式。",
             "validateSuccess": "WebDAV 连接成功。",
-            "saveSuccess": "WebDAV 保存成功。"
+            "saveSuccess": "WebDAV 保存成功。",
+            "confirmDelete": {
+              "title": "确定删除该条目？",
+              "desc": "这将从 WebDAV 上永久移除该备份文件。"
+            }
           },
-          "validate": "验证",
-          "load": {
-            "description": "从云端 WebDAV 服务器选择一个备份点。",
-            "loading": "正在读取远程文件..."
-          },
-          "confirmDelete": {
-            "title": "确定删除该条目？",
-            "description": "这将从 WebDAV 上永久移除该备份文件。"
+          "action": {
+            "load": {
+              "desc": "从云端 WebDAV 服务器选择一个备份点。",
+              "loadingStatus": "正在读取远程文件..."
+            }
           }
         }
       },
-      "action": {
-        "save": "保存",
-        "saveLocally": "保存到本地",
-        "load": "加载",
-        "delete": "删除",
-        "clear": "清除"
-      },
-      "message": {
+      "msg": {
+        "loadData": "成功加载 {count} 条数据。",
+        "noUploadFile": "未提供上传文件。",
+        "parseError": "无法解析页面列表：{error}",
         "confirmClear": {
           "title": "确认清除数据？",
-          "description": "清除后将无法恢复，请谨慎操作。注意：这不包括导出至本地存储与云端存储的数据。"
+          "desc": "清除后将无法恢复，请谨慎操作。注意：这不包括导出至本地存储与云端存储的数据。"
         }
       }
     },
     "about": {
-      "title": "@:option.title",
       "developedBy": "由 {0} 开发",
-      "description": "一个轻量的浏览器扩展，用于便捷地管理你的稍后阅读列表。",
+      "desc": "一个轻量的浏览器扩展，用于便捷地管理你的稍后阅读列表。",
       "privacy": "本扩展不收集用户文章内容或浏览历史，仅本地保存用户保存的条目。",
       "license": {
         "info": "本项目采用 {0} 发行。",
         "body": "GNU 通用公共许可证 第3版（GPLv3）"
       }
     }
-  },
-  "common": {
-    "confirm": "确认",
-    "save": "保存",
-    "cancel": "取消"
   }
 }

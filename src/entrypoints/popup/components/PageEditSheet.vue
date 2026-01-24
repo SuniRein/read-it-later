@@ -51,7 +51,7 @@ function parseTags(raw: string) {
 function handleSave() {
   const tags = parseTags(tagsInput.value);
   if (tags.some(tag => !/^[\w\-\p{Script=Han}]+$/u.test(tag))) {
-    notify.error(t('errorMsg.invalidTags'));
+    notify.error(t('popup.msg.invalidTags'));
     return;
   }
   emit('save', titleInput.value, tags);
@@ -63,30 +63,30 @@ function handleSave() {
     <SheetContent side="right" class="w-100">
       <SheetHeader>
         <SheetTitle class="text-lg">
-          {{ t('edit.title') }}
+          {{ t('popup.editModal.title') }}
         </SheetTitle>
         <SheetDescription>
-          {{ t('edit.description') }}
+          {{ t('popup.editModal.desc') }}
         </SheetDescription>
       </SheetHeader>
 
       <div class="grid gap-6 px-2">
         <div class="grid gap-2">
-          <Label for="title">{{ t('edit.item.title') }}</Label>
+          <Label for="title">{{ t('popup.editModal.field.title') }}</Label>
           <Input id="title" v-model="titleInput" />
         </div>
 
         <div class="grid gap-2">
           <div class="flex items-center justify-between">
-            <Label for="tags">{{ t('edit.item.tags.label') }}</Label>
+            <Label for="tags">{{ t('popup.editModal.field.tags.label') }}</Label>
             <span class="text-xs text-muted-foreground">
-              {{ t('edit.item.tags.description') }}
+              {{ t('popup.editModal.field.tags.desc') }}
             </span>
           </div>
           <AutoComplete
             id="tags"
             v-model="tagsInput"
-            :placeholder="t('edit.item.tags.placeholder')"
+            :placeholder="t('popup.editModal.field.tags.placeholder')"
             :items="options"
             @select="({ value }) => tagsInput = `${textBeforeLastToken}${value}`"
           />
@@ -100,10 +100,10 @@ function handleSave() {
         "
       >
         <Button class="w-full" @click="handleSave">
-          {{ t('common.save') }}
+          {{ t('common.action.save') }}
         </Button>
         <Button variant="outline" class="w-full" @click="open = false">
-          {{ t('common.cancel') }}
+          {{ t('common.action.cancel') }}
         </Button>
       </SheetFooter>
     </SheetContent>

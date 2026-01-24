@@ -38,7 +38,7 @@ async function checkFaviconCachingPermission() {
   if (setting.value.faviconCaching) {
     const requiredPermissions = getRequestedFaviconCachingPermission();
     if (!await browser.permissions.contains({ origins: requiredPermissions })) {
-      notify.error(t('option.setting.faviconCache.clear.permissionMissing'));
+      notify.error(t('option.setting.faviconCache.clear.msg.permissionMissing'));
       setting.value.faviconCaching = false;
     }
   }
@@ -46,7 +46,7 @@ async function checkFaviconCachingPermission() {
 
 async function clearFaviconCache() {
   await sendMessage('clearImageCache');
-  notify.success(t('option.setting.faviconCache.clear.success'));
+  notify.success(t('option.setting.faviconCache.clear.msg.success'));
 }
 
 void checkFaviconCachingPermission();
@@ -56,31 +56,31 @@ void checkFaviconCachingPermission();
   <div class="mx-auto max-w-3xl space-y-8 p-6">
     <SettingSection :title="t('option.setting.section.general')" :icon="Layers">
       <SettingOption
-        :label="t('option.setting.panination.label')"
-        :description="t('option.setting.panination.description')"
+        :label="t('option.setting.pagination.label')"
+        :description="t('option.setting.pagination.desc')"
       >
         <Select v-model="setting.pagination">
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem v-for="value in [10, 20, 50]" :key="value" :value>
-              {{ t('option.setting.panination.items', { count: value }) }}
+              {{ t('option.setting.pagination.display', { count: value }) }}
             </SelectItem>
           </SelectContent>
         </Select>
       </SettingOption>
 
       <SettingOption
-        :label="t('option.setting.duplicatedUrlOpened.label')"
-        :description="t('option.setting.duplicatedUrlOpened.description')"
+        :label="t('option.setting.duplicatedUrl.label')"
+        :description="t('option.setting.duplicatedUrl.desc')"
       >
         <Select v-model="setting.duplicatedUrlOpened">
           <SelectTrigger><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem
               v-for="[value, text] in [
-                ['focus', t('option.setting.duplicatedUrlOpened.option.focus')],
-                ['newTab', t('option.setting.duplicatedUrlOpened.option.newTab')],
-                ['ignore', t('option.setting.duplicatedUrlOpened.option.ignore')],
+                ['focus', t('option.setting.duplicatedUrl.option.focus')],
+                ['newTab', t('option.setting.duplicatedUrl.option.newTab')],
+                ['ignore', t('option.setting.duplicatedUrl.option.ignore')],
               ] satisfies Array<[DuplicatedUrlOpenedOption, string]>"
               :key="text" :value
             >
@@ -92,7 +92,7 @@ void checkFaviconCachingPermission();
 
       <SettingOption
         :label="t('option.setting.showBadge.label')"
-        :description="t('option.setting.showBadge.description')"
+        :description="t('option.setting.showBadge.desc')"
       >
         <Switch v-model="setting.showBadge" />
       </SettingOption>
@@ -101,7 +101,7 @@ void checkFaviconCachingPermission();
     <SettingSection :title="t('option.setting.section.favicon')" :icon="ShieldCheck">
       <SettingOption
         :label="t('option.setting.faviconSource.label')"
-        :description="t('option.setting.faviconSource.description')"
+        :description="t('option.setting.faviconSource.desc')"
       >
         <Select
           v-model="setting.faviconSource"
@@ -124,7 +124,7 @@ void checkFaviconCachingPermission();
 
       <SettingOption
         :label="t('option.setting.faviconCache.label')"
-        :description="t('option.setting.faviconCache.description')"
+        :description="t('option.setting.faviconCache.desc')"
       >
         <div class="flex items-center gap-4">
           <Button
@@ -148,7 +148,7 @@ void checkFaviconCachingPermission();
     <SettingSection :title="t('option.setting.section.locale')" :icon="Globe">
       <SettingOption
         :label="t('option.setting.language.label')"
-        :description="t('option.setting.language.description')"
+        :description="t('option.setting.language.desc')"
       >
         <ToggleGroup
           type="single" class="rounded-lg bg-muted p-1"

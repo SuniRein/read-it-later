@@ -138,13 +138,13 @@ function urlClickable(url: string): boolean {
 
         <ContextMenuContent>
           <ContextMenuItem @select="currentTab?.title != null && emit('updateTitle', item.id, currentTab.title)">
-            <RefreshCw /> {{ t('contextMenu.editItem.updateTitle') }}
+            <RefreshCw /> {{ t('popup.contextMenu.updateTitle') }}
           </ContextMenuItem>
           <ContextMenuItem @select="currentTab?.url != null && emit('updateUrl', item.id, currentTab?.url)">
-            <RefreshCw /> {{ t('contextMenu.editItem.updateUrl') }}
+            <RefreshCw /> {{ t('popup.contextMenu.updateUrl') }}
           </ContextMenuItem>
           <ContextMenuItem @select="emit('moveToTop', item.id)">
-            <ArrowUpToLine /> {{ t('contextMenu.editItem.moveToTop') }}
+            <ArrowUpToLine /> {{ t('popup.contextMenu.moveToTop') }}
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>

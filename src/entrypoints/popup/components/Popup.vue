@@ -53,7 +53,7 @@ const pageTags = computed(() => {
 
 function addPage(item: PageInfo) {
   if (!pageActions.add(item)) {
-    notify.error(t('errorMsg.pageAlreadyExists'));
+    notify.error(t('popup.msg.pageAlreadyExists'));
   }
 }
 
@@ -67,7 +67,7 @@ async function copyUrl(url: string) {
 
 function updateUrl(id: string, url: string) {
   if (!pageActions.updateUrl(id, url)) {
-    notify.error(t('errorMsg.pageAlreadyExists'));
+    notify.error(t('popup.msg.pageAlreadyExists'));
   }
 }
 </script>

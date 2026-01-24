@@ -38,15 +38,15 @@ function addNewPage() {
 <template>
   <div class="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md">
     <div class="flex items-center gap-1">
-      <IconButton :icon="Settings" :tip="t('topTip.setting')" @click="emit('openSetting')" />
-      <IconButton :icon="RefreshCw" :tip="t('topTip.sync')" />
+      <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="emit('openSetting')" />
+      <IconButton :icon="RefreshCw" :tip="t('popup.tooltip.sync')" />
     </div>
 
     <SearchBox v-model="searchText" autofocus :tags="pageTags" />
 
     <div class="flex items-center gap-1">
       <div class="relative flex items-center justify-center">
-        <IconButton :icon="Star" :tip="t('topTip.toggleFavorite')" @click="emit('changeFavoritedView')" />
+        <IconButton :icon="Star" :tip="t('popup.tooltip.toggleFavorite')" @click="emit('changeFavoritedView')" />
         <div v-if="favoritedFilterOption !== 'all'" class="pointer-events-none absolute -top-1 -right-1">
           <CheckCircle2
             v-if="favoritedFilterOption === 'favorited'" class="size-4 fill-emerald-500/20 text-emerald-500"
@@ -55,10 +55,10 @@ function addNewPage() {
         </div>
       </div>
 
-      <IconButton :icon="Zap" :tip="t('topTip.random')" @click="emit('openRandomPage')" />
+      <IconButton :icon="Zap" :tip="t('popup.tooltip.random')" @click="emit('openRandomPage')" />
 
       <div class="relative flex items-center justify-center">
-        <IconButton :icon="Undo2" :tip="t('topTip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
+        <IconButton :icon="Undo2" :tip="t('popup.tooltip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
         <Badge
           v-if="restorableItemCount > 0"
           class="
@@ -80,7 +80,7 @@ function addNewPage() {
         hover:bg-indigo-500/20 hover:text-indigo-300
         active:scale-95
       "
-      :tip="t('topTip.add')"
+      :tip="t('popup.tooltip.add')"
       @click="addNewPage"
     />
   </div>

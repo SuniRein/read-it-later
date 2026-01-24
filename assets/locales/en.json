@@ -1,45 +1,50 @@
 {
-  "topTip": {
-    "setting": "Open setting page",
-    "sync": "Sync",
-    "toggleFavorite": "Filter by 'favorited' status",
-    "random": "Open a random page",
-    "restore": "Restore removed items",
-    "add": "Add current page to list"
-  },
-  "search": "Find...",
-  "edit": {
-    "title": "Edit item",
-    "description": "Edit the title and tags of the item",
-    "item": {
-      "title": "Title",
-      "tags": {
-        "label": "Tags",
-        "placeholder": "tag1, tag2, ...",
-        "description": "Separate multiple tags with commas"
-      }
+  "common": {
+    "title": "Read It Later Simply",
+    "action": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "save": "Save",
+      "load": "Load",
+      "delete": "Delete",
+      "clear": "Clear",
+      "validate": "Validate"
     }
   },
-  "contextMenu": {
-    "editItem": {
-      "title": "Edit item",
+  "popup": {
+    "searchPlaceholder": "Find...",
+    "tooltip": {
+      "setting": "Open setting page",
+      "sync": "Sync",
+      "toggleFavorite": "Filter by 'favorited' status",
+      "random": "Open a random page",
+      "restore": "Restore removed items",
+      "add": "Add current page to list"
+    },
+    "contextMenu": {
       "updateTitle": "Update title to current page title",
       "updateUrl": "Update URL to current page",
       "moveToTop": "Move to top"
+    },
+    "editModal": {
+      "title": "Edit item",
+      "desc": "Edit the title and tags of the item",
+      "field": {
+        "title": "Title",
+        "tags": {
+          "label": "Tags",
+          "placeholder": "tag1, tag2, ...",
+          "desc": "Separate multiple tags with commas"
+        }
+      }
+    },
+    "msg": {
+      "invalidTags": "Tags can only contain letters, numbers, underscores, hyphens and Chinese characters.",
+      "pageAlreadyExists": "Page has already been in the page list.",
+      "currentPageURLError": "Failed to get current page URL."
     }
   },
-  "successMsg": {
-    "loadData": "Successfully loaded {count} items."
-  },
-  "errorMsg": {
-    "invalidTags": "Tags can only contain letters, numbers, underscores, hyphens and Chinese characters.",
-    "pageAlreadyExists": "Page has already been in the page list.",
-    "noUploadFile": "No file provided for upload.",
-    "parseError": "Failed to parse page list: {error}",
-    "currentPageURLError": "Failed to get current page URL."
-  },
   "option": {
-    "title": "Read It Later Simply",
     "nav": {
       "setting": "Setting",
       "data": "Data",
@@ -51,18 +56,18 @@
         "favicon": "Favicon",
         "locale": "Locale"
       },
-      "panination": {
+      "pagination": {
         "label": "Pagination",
-        "description": "Control the number of items displayed per page",
-        "items": "{count} items per page"
+        "desc": "Control the number of items displayed per page",
+        "display": "{count} items per page"
       },
       "showBadge": {
         "label": "Show badge",
-        "description": "Display item count on the extension icon"
+        "desc": "Display item count on the extension icon"
       },
-      "duplicatedUrlOpened": {
+      "duplicatedUrl": {
         "label": "When opening duplicated tabs",
-        "description": "Control the behavior when attempting to open an already opened tab",
+        "desc": "Control the behavior when attempting to open an already opened tab",
         "option": {
           "ignore": "Ignore",
           "focus": "Focus existing tab",
@@ -71,35 +76,37 @@
       },
       "faviconSource": {
         "label": "Favicon source",
-        "description": "Select service to fetch website favicons"
+        "desc": "Select service to fetch website favicons"
       },
       "faviconCache": {
         "label": "Cache favicons",
-        "description": "Cache website favicons to improve loading speed and save bandwidth",
+        "desc": "Cache website favicons to improve loading speed and save bandwidth",
         "clear": {
           "label": "Clear favicon cache",
-          "success": "Favicon cache cleared.",
-          "permissionMissing": "Missing permission to cache favicons, try enable it by manual."
+          "msg": {
+            "success": "Favicon cache cleared.",
+            "permissionMissing": "Missing permission to cache favicons, try enable it by manual."
+          }
         }
       },
       "language": {
         "label": "Language",
-        "description": "Select the display language"
+        "desc": "Select the display language"
       }
     },
     "data": {
       "section": {
         "local": {
           "title": "Local Storage",
-          "description": "Export your reading list to a JSON file or load from a JSON file."
+          "desc": "Export your reading list to a JSON file or load from a JSON file."
         },
         "cloud": {
           "title": "Cloud Storage",
-          "description": "Configure cloud storage to sync your list across different devices."
+          "desc": "Configure cloud storage to sync your list across different devices."
         },
         "browser": {
           "title": "Browser Data",
-          "description": "Manage extension data stored in the browser."
+          "desc": "Manage extension data stored in the browser."
         }
       },
       "cloud": {
@@ -107,56 +114,52 @@
           "none": "None",
           "webdav": "WebDAV"
         },
+        "action": {
+          "saveLocally": "Save to local"
+        },
         "webdav": {
-          "url": "URL",
-          "username": "Username",
-          "password": "Password",
-          "message": {
+          "field": {
+            "url": "URL",
+            "username": "Username",
+            "password": "Password"
+          },
+          "msg": {
             "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
             "urlRequired": "Please fill in the URL.",
             "urlInvalid": "Invalid URL format.",
             "validateSuccess": "WebDAV connection successful.",
-            "saveSuccess": "WebDAV saved successfully."
+            "saveSuccess": "WebDAV saved successfully.",
+            "confirmDelete": {
+              "title": "Sure to delete this entry?",
+              "desc": "This will permanently remove the backup file from WebDAV."
+            }
           },
-          "validate": "Validate",
-          "load": {
-            "description": "Select a backup point from the cloud WebDAV server.",
-            "loading": "Loading remote file..."
-          },
-          "confirmDelete": {
-            "title": "Sure to delete this entry?",
-            "description": "This will permanently remove the backup file from WebDAV."
+          "action": {
+            "load": {
+              "desc": "Select a backup point from the cloud WebDAV server.",
+              "loadingStatus": "Loading remote file..."
+            }
           }
         }
       },
-      "action": {
-        "save": "Save",
-        "saveLocally": "Save to local",
-        "load": "Load",
-        "delete": "Delete",
-        "clear": "Clear"
-      },
-      "message": {
+      "msg": {
+        "loadData": "Successfully loaded {count} items.",
+        "noUploadFile": "No file provided for upload.",
+        "parseError": "Failed to parse page list: {error}",
         "confirmClear": {
           "title": "Confirm clear data?",
-          "description": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
+          "desc": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
         }
       }
     },
     "about": {
-      "title": "@:option.title",
       "developedBy": "Developed by {0}",
-      "description": "A light web browser extension to manage your read-it-later list easily.",
+      "desc": "A light web browser extension to manage your read-it-later list easily.",
       "privacy": "This extension does not collect users' article contents or browsing history; saved items are stored locally only.",
       "license": {
         "info": "This project is distributed under {0}",
         "body": "GNU General Public License v3 (GPLv3)"
       }
     }
-  },
-  "common": {
-    "confirm": "Confirm",
-    "save": "Save",
-    "cancel": "Cancel"
   }
 }

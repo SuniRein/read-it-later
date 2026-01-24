@@ -15,7 +15,7 @@ const navItems = computed(() => [
     <aside class="w-56 flex-col border-r">
       <div class="p-4">
         <h1 class="text-2xl font-bold tracking-tight">
-          {{ t('option.title') }}
+          {{ t('common.title') }}
         </h1>
       </div>
       <div class="flex-1 px-2">

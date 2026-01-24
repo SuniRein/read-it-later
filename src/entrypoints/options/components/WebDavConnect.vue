@@ -25,13 +25,13 @@ const { t } = useI18n();
 
 async function checkPermission(url?: string) {
   if (!url) {
-    notify.error(t('option.data.cloud.webdav.message.urlRequired'));
+    notify.error(t('option.data.cloud.webdav.msg.urlRequired'));
     return false;
   }
 
   if (await browser.permissions.request({ origins: [url] }))
     return true;
-  notify.error(t('option.data.cloud.webdav.message.permissionDenied'));
+  notify.error(t('option.data.cloud.webdav.msg.permissionDenied'));
   return false;
 }
 
@@ -57,7 +57,7 @@ async function validate() {
     isValidating.value = false;
   }
 
-  notify.success(t('option.data.cloud.webdav.message.validateSuccess'));
+  notify.success(t('option.data.cloud.webdav.msg.validateSuccess'));
 }
 
 async function save({ filename, data }: { filename: string; data: string }) {
@@ -72,7 +72,7 @@ async function save({ filename, data }: { filename: string; data: string }) {
     data,
   });
 
-  notify.success(t('option.data.cloud.webdav.message.saveSuccess'));
+  notify.success(t('option.data.cloud.webdav.msg.saveSuccess'));
 }
 
 const loadDataModel = ref(false);
@@ -134,7 +134,7 @@ defineExpose({ save, load, validate, isValidating });
     <div class="grid gap-6 py-4">
       <div class="grid gap-2">
         <Label for="url" class="flex items-center gap-2">
-          <Globe class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.url') }}
+          <Globe class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.field.url') }}
         </Label>
         <ButtonGroup class="w-full gap-0!">
           <Input id="url" v-model="config.url" placeholder="https://example.com/dav" />
@@ -150,13 +150,13 @@ defineExpose({ save, load, validate, isValidating });
       >
         <div class="grid gap-2">
           <Label for="username" class="flex items-center gap-2">
-            <User class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.username') }}
+            <User class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.field.username') }}
           </Label>
           <Input id="username" v-model="config.username" />
         </div>
         <div class="grid gap-2">
           <Label for="password" class="flex items-center gap-2">
-            <Lock class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.password') }}
+            <Lock class="size-4 text-muted-foreground" /> {{ t('option.data.cloud.webdav.field.password') }}
           </Label>
           <Input id="password" v-model="config.password" type="password" />
         </div>
@@ -176,7 +176,7 @@ defineExpose({ save, load, validate, isValidating });
           <DialogTitle class="flex items-center gap-2">
             <FileJson class="size-5 text-primary" /> {{ t('option.data.action.load') }}
           </DialogTitle>
-          <DialogDescription>{{ t('option.data.cloud.webdav.load.description') }}</DialogDescription>
+          <DialogDescription>{{ t('option.data.cloud.webdav.action.load.desc') }}</DialogDescription>
         </DialogHeader>
 
         <Separator />
@@ -184,7 +184,7 @@ defineExpose({ save, load, validate, isValidating });
         <div v-if="remoteFiles === null" class="flex flex-col items-center justify-center gap-4 py-20">
           <Loader2 class="size-8 animate-spin text-primary/50" />
           <p class="text-sm text-muted-foreground italic">
-            {{ t('option.data.cloud.webdav.load.loading') }}
+            {{ t('option.data.cloud.webdav.action.load.loadingStatus') }}
           </p>
         </div>
 
@@ -226,11 +226,11 @@ defineExpose({ save, load, validate, isValidating });
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>{{ t('option.data.cloud.webdav.confirmDelete.title') }}</AlertDialogTitle>
-                    <AlertDialogDescription>{{ t('option.data.cloud.webdav.confirmDelete.description') }}</AlertDialogDescription>
+                    <AlertDialogTitle>{{ t('option.data.cloud.webdav.msg.confirmDelete.title') }}</AlertDialogTitle>
+                    <AlertDialogDescription>{{ t('option.data.cloud.webdav.msg.confirmDelete.description') }}</AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>{{ t('common.cancel') }}</AlertDialogCancel>
+                    <AlertDialogCancel>{{ t('common.action.cancel') }}</AlertDialogCancel>
                     <AlertDialogAction
                       class="
                         bg-destructive
@@ -238,7 +238,7 @@ defineExpose({ save, load, validate, isValidating });
                       "
                       @click="deleteFile(item.filename)"
                     >
-                      {{ t('common.confirm') }}
+                      {{ t('common.action.confirm') }}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

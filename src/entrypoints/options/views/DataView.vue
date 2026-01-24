@@ -43,7 +43,7 @@ function handleLocalFileChange(e: Event) {
     loadFromFile(files[0]);
   }
   else {
-    notify.error(t('errorMsg.noUploadFile'));
+    notify.error(t('option.data.msg.noUploadFile'));
   }
 };
 
@@ -61,10 +61,10 @@ function loadItems(rawItems: string) {
   try {
     const items = deserializePageList(rawItems);
     const numLoad = load(items);
-    notify.success(t('successMsg.loadData', { count: numLoad }));
+    notify.success(t('option.data.msg.loadData', { count: numLoad }));
   }
   catch (error) {
-    notify.error(t('errorMsg.parseError', { error }));
+    notify.error(t('option.data.msg.parseError', { error }));
   }
 }
 
@@ -82,16 +82,16 @@ function clearBrowserData() {
         <CardTitle class="flex items-center gap-2 text-lg">
           <Download class="size-5" /> {{ t('option.data.section.local.title') }}
         </CardTitle>
-        <CardDescription>{{ t('option.data.section.local.description') }}</CardDescription>
+        <CardDescription>{{ t('option.data.section.local.desc') }}</CardDescription>
       </CardHeader>
 
       <CardContent class="flex gap-4">
         <Button variant="outline" class="flex-1" @click="saveToLocalStorage">
-          <Download /> {{ t('option.data.action.save') }}
+          <Download /> {{ t('common.action.save') }}
         </Button>
         <div class="flex-1">
           <Button variant="outline" class="w-full" @click="localInputRef?.click()">
-            <Upload /> {{ t('option.data.action.load') }}
+            <Upload /> {{ t('common.action.load') }}
           </Button>
           <input ref="localInputRef" type="file" accept=".json" class="hidden" @change="handleLocalFileChange">
         </div>
@@ -103,7 +103,7 @@ function clearBrowserData() {
         <CardTitle class="flex items-center gap-2 text-lg">
           <Cloud class="size-5" /> {{ t('option.data.section.cloud.title') }}
         </CardTitle>
-        <CardDescription>{{ t('option.data.section.cloud.description') }}</CardDescription>
+        <CardDescription>{{ t('option.data.section.cloud.desc') }}</CardDescription>
       </CardHeader>
 
       <CardContent class="space-y-6">
@@ -134,13 +134,13 @@ function clearBrowserData() {
         <Button variant="secondary" :disabled="cloudStorageRef?.isValidating" @click="cloudStorageRef?.validate()">
           <Loader2 v-if="cloudStorageRef?.isValidating" class="size-4 animate-spin" />
           <CheckCircle2 v-else class="size-4 text-green-500" />
-          {{ t('option.data.cloud.webdav.validate') }}
+          {{ t('common.action.validate') }}
         </Button>
         <Button variant="secondary" @click="cloudStorageRef?.load()">
-          {{ t('option.data.action.load') }}
+          {{ t('common.action.load') }}
         </Button>
         <Button @click="cloudStorageRef?.save(getData())">
-          {{ t('option.data.action.save') }}
+          {{ t('common.action.save') }}
         </Button>
       </CardFooter>
     </Card>
@@ -150,23 +150,23 @@ function clearBrowserData() {
         <CardTitle class="flex items-center gap-2 text-lg">
           <Globe class="size-5" /> {{ t('option.data.section.browser.title') }}
         </CardTitle>
-        <CardDescription>{{ t('option.data.section.browser.description') }}</CardDescription>
+        <CardDescription>{{ t('option.data.section.browser.desc') }}</CardDescription>
       </CardHeader>
 
       <CardContent>
         <AlertDialog>
           <AlertDialogTrigger as-child>
             <Button variant="destructive">
-              <Trash2 /> {{ t('option.data.action.clear') }}
+              <Trash2 /> {{ t('common.action.clear') }}
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>{{ t('option.data.message.confirmClear.title') }}</AlertDialogTitle>
-              <AlertDialogDescription>{{ t('option.data.message.confirmClear.description') }}</AlertDialogDescription>
+              <AlertDialogTitle>{{ t('option.data.msg.confirmClear.title') }}</AlertDialogTitle>
+              <AlertDialogDescription>{{ t('option.data.msg.confirmClear.desc') }}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{{ t('common.cancel') }}</AlertDialogCancel>
+              <AlertDialogCancel>{{ t('common.action.cancel') }}</AlertDialogCancel>
               <AlertDialogAction
                 class="
                   bg-destructive
@@ -174,7 +174,7 @@ function clearBrowserData() {
                 "
                 @click="clearBrowserData"
               >
-                {{ t('common.confirm') }}
+                {{ t('common.action.confirm') }}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
