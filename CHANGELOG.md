@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.14.0](https://github.com/SuniRein/read-it-later/compare/v0.13.0...v0.14.0) (2026-01-25)
+
+
+### Features
+
+- **ui**: rewrite and refine UI interface use shadcn/vue, see [#66](https://github.com/SuniRein/read-it-later/issues/66)
+
+### Bug Fixes
+
+* **eslint:** enable ts check and fix lint errors ([b99a60f](https://github.com/SuniRein/read-it-later/commit/b99a60f5725a0989b0273d360ef40700fb178648))
+
 ## [0.13.0](https://github.com/SuniRein/read-it-later/compare/v0.12.2...v0.13.0) (2026-01-18)
 
 
