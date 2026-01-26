@@ -1,35 +1,28 @@
 <script setup lang="ts">
-import type { FileStat, WebDAVClient } from 'webdav';
+import type { FileStat } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { CloudDownload, Download, FileJson, Globe, Loader2, Lock, Trash2, User } from 'lucide-vue-next';
 import notify from '@/utils/notify';
-import WebDav from '@/utils/webdav';
+import { AFTER_URL, useWabDavConnect } from '../composables/webdav';
 
 const emit = defineEmits<{
   (e: 'loadData', data: string): void;
   (e: 'saveLocally', data: string, filename: string): void;
 }>();
 
-const AFTER_URL = '/read-it-later-simply';
-
 const config = defineModel<WebDavConfig>({ required: true });
-const webdavConfig = computed(() => {
-  return {
-    ...config.value,
-    url: config.value.url?.concat(AFTER_URL),
-  };
-});
+const webDav = useWabDavConnect(config);
 
 const { t } = useI18n();
 
-async function checkPermission(url?: string) {
-  if (!url) {
+async function checkPermission() {
+  if (!config.value.url) {
     notify.error(t('option.data.cloud.webdav.msg.urlRequired'));
     return false;
   }
 
-  if (await browser.permissions.request({ origins: [url] }))
+  if (await browser.permissions.request({ origins: [config.value.url] }))
     return true;
   notify.error(t('option.data.cloud.webdav.msg.permissionDenied'));
   return false;
@@ -38,14 +31,13 @@ async function checkPermission(url?: string) {
 const isValidating = ref(false);
 
 async function validate() {
-  if (!await checkPermission(webdavConfig.value.url))
+  if (!await checkPermission())
     return;
 
   isValidating.value = true;
 
   try {
-    const client = WebDav.connect(webdavConfig.value);
-    await client.exists('/');
+    await webDav.validate();
   }
   catch (e) {
     if (e instanceof Error) {
@@ -61,34 +53,20 @@ async function validate() {
 }
 
 async function save({ filename, data }: { filename: string; data: string }) {
-  if (!await checkPermission(webdavConfig.value.url))
+  if (!await checkPermission())
     return;
-
-  const client = WebDav.connect(webdavConfig.value);
-  await WebDav.createFolder(client, '/backups');
-  await WebDav.uploadFile(client, {
-    path: '/backups',
-    filename,
-    data,
-  });
-
+  await webDav.save(filename, data);
   notify.success(t('option.data.cloud.webdav.msg.saveSuccess'));
 }
 
 const loadDataModel = ref(false);
 const remoteFiles = ref<FileStat[] | null>(null);
-let remoteClient: WebDAVClient | null = null;
 
 async function load() {
-  if (!await checkPermission(webdavConfig.value.url))
+  if (!await checkPermission())
     return;
-
   loadDataModel.value = true;
-  remoteFiles.value = null;
-
-  remoteClient = WebDav.connect(webdavConfig.value);
-  remoteFiles.value = (await WebDav.listDirectory(remoteClient, '/backups', 'read-it-later-*.json'))
-    .sort((a, b) => a.basename < b.basename ? -1 : 1);
+  remoteFiles.value = await webDav.list(); ;
 }
 
 function parseData(filename: string) {
@@ -112,17 +90,17 @@ function parseSize(size: number) {
 }
 
 async function loadFile(path: string) {
-  const data = await WebDav.getFile(remoteClient!, path);
+  const data = await webDav.get(path);
   emit('loadData', data);
 }
 
 async function deleteFile(path: string) {
-  await remoteClient!.deleteFile(path);
+  await webDav.remove(path);
   remoteFiles.value = remoteFiles.value?.filter(file => file.filename !== path) ?? null;
 }
 
 async function saveFileLocally(item: FileStat) {
-  const data = await WebDav.getFile(remoteClient!, item.filename);
+  const data = await webDav.get(item.filename);
   emit('saveLocally', data, item.basename);
 }
 
@@ -174,7 +152,7 @@ defineExpose({ save, load, validate, isValidating });
       >
         <DialogHeader class="p-6 pb-4">
           <DialogTitle class="flex items-center gap-2">
-            <FileJson class="size-5 text-primary" /> {{ t('option.data.action.load') }}
+            <FileJson class="size-5 text-primary" /> {{ t('common.action.load') }}
           </DialogTitle>
           <DialogDescription>{{ t('option.data.cloud.webdav.action.load.desc') }}</DialogDescription>
         </DialogHeader>
