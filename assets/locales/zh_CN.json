@@ -112,7 +112,8 @@
       "cloud": {
         "option": {
           "none": "无",
-          "webdav": "WebDAV"
+          "webdav": "WebDAV",
+          "googleDrive": "谷歌云盘"
         },
         "action": {
           "saveLocally": "保存到本地"
@@ -139,6 +140,22 @@
               "desc": "从云端 WebDAV 服务器选择一个备份点。",
               "loadingStatus": "正在读取远程文件..."
             }
+          }
+        },
+        "googleDrive": {
+          "title": "谷歌云盘授权",
+          "desc": {
+            "signedOut": "使用您的谷歌账户进行认证以启用谷歌云盘存储。",
+            "signedIn": "已登录为 {email}",
+            "pending": "正在验证，请稍后..."
+          },
+          "msg": {
+            "authSuccess": "授权成功。",
+            "authFailed": "授权失败：{error}"
+          },
+          "action": {
+            "authenticate": "立即授权",
+            "disconnect": "断开连接"
           }
         }
       },

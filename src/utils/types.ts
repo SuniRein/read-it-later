@@ -25,7 +25,7 @@ export interface PageItem {
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
-export type CloudStorageType = 'webdav' | 'none';
+export type CloudStorageType = 'webdav' | 'google-drive' | 'none';
 
 export interface Setting {
   pagination: number;
@@ -35,6 +35,7 @@ export interface Setting {
   locale: I18nLocales;
   cloudStorage: CloudStorageType;
   webDavConfig: WebDavConfig;
+  googleDriveConfig: GoogleDriveConfig | null;
   duplicatedUrlOpened: DuplicatedUrlOpenedOption;
 }
 
@@ -45,5 +46,12 @@ export interface WebDavConfig {
   username?: string;
   password?: string;
 }
+
+export interface GoogleDriveConfig {
+  email: string;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+};
 
 export type DuplicatedUrlOpenedOption = 'ignore' | 'focus' | 'newTab';

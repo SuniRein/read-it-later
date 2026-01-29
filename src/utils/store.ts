@@ -17,6 +17,7 @@ const defaultSetting: Setting = {
   locale: defaultLocale(),
   cloudStorage: 'none',
   webDavConfig: {},
+  googleDriveConfig: null,
   duplicatedUrlOpened: 'newTab',
 } as const;
 

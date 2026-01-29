@@ -112,7 +112,8 @@
       "cloud": {
         "option": {
           "none": "None",
-          "webdav": "WebDAV"
+          "webdav": "WebDAV",
+          "googleDrive": "Google Drive"
         },
         "action": {
           "saveLocally": "Save to local"
@@ -139,6 +140,22 @@
               "desc": "Select a backup point from the cloud WebDAV server.",
               "loadingStatus": "Loading remote file..."
             }
+          }
+        },
+        "googleDrive": {
+          "title": "Google Drive Authentication",
+          "desc": {
+            "signedOut": "Authenticate with your Google account to enable Google Drive storage.",
+            "signedIn": "Signed in as {email}",
+            "pending": "Validating, please wait..."
+          },
+          "msg": {
+            "authSuccess": "Authentication successful.",
+            "authFailed": "Authentication failed: {error}"
+          },
+          "action": {
+            "authenticate": "Authenticate",
+            "disconnect": "Disconnect"
           }
         }
       },

@@ -48,7 +48,7 @@ export default defineConfig({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
     default_locale: 'en',
-    permissions: ['tabs', 'storage', 'downloads'],
+    permissions: ['tabs', 'storage', 'downloads', 'identity'],
     optional_permissions: manifestVersion === 2 ? ['<all_urls>'] : undefined,
     optional_host_permissions: manifestVersion === 3 ? ['<all_urls>'] : undefined,
     commands: {

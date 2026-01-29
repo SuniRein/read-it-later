@@ -6,6 +6,7 @@ import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
 import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
 
+import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
 import WebDavConnect from '../components/WebDavConnect.vue';
 import { useSetting } from '../composables/setting';
 
@@ -118,6 +119,9 @@ function clearBrowserData() {
           <ToggleGroupItem :value="'webdav' satisfies CloudStorageType" class="flex-1">
             {{ t('option.data.cloud.option.webdav') }}
           </ToggleGroupItem>
+          <ToggleGroupItem :value="'google-drive' satisfies CloudStorageType" class="flex-1">
+            {{ t('option.data.cloud.option.googleDrive') }}
+          </ToggleGroupItem>
         </ToggleGroup>
 
         <div v-if="setting.cloudStorage === 'webdav'" class="border-t pt-6">
@@ -127,6 +131,10 @@ function clearBrowserData() {
             @load-data="loadItems"
             @save-locally="saveLocally"
           />
+        </div>
+
+        <div v-else-if="setting.cloudStorage === 'google-drive'" class="border-t pt-6">
+          <GoogleDriveConnect v-model="setting.googleDriveConfig" />
         </div>
       </CardContent>
 
