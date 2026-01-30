@@ -4,7 +4,7 @@ const CLIENT_SECRET = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
 export async function getAuthCode(email?: string) {
   const SCOPES = [
     'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/drive.appdata',
   ];
   const redirectUri = browser.identity.getRedirectURL();
   // eslint-disable-next-line prefer-template

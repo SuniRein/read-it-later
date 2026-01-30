@@ -5,6 +5,7 @@ import type { WebDavConfig } from '@/utils/types';
 import { CloudDownload, Download, FileJson, Globe, Loader2, Lock, Trash2, User } from 'lucide-vue-next';
 import notify from '@/utils/notify';
 import { AFTER_URL, useWabDavConnect } from '../composables/webdav';
+import { parseDate, parseSize } from '../utils/file-parse';
 
 const emit = defineEmits<{
   (e: 'loadData', data: string): void;
@@ -69,26 +70,6 @@ async function load() {
   remoteFiles.value = await webDav.list(); ;
 }
 
-function parseData(filename: string) {
-  const m = filename.match(/\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z/);
-  if (m) {
-    const iso = m[0].replace(/^(\d{4}-\d{2}-\d{2}T)(\d{2})-(\d{2})-(\d{2})-(\d{3})Z$/, '$1$2:$3:$4.$5Z');
-    const date = new Date(iso);
-    return date.toLocaleString();
-  }
-
-  console.error(`Filename ${filename} does not match expected format.`);
-}
-
-function parseSize(size: number) {
-  const units = ['B', 'KB', 'MB', 'GB'];
-  while (size >= 1024 && units.length > 1) {
-    size /= 1024;
-    units.shift();
-  }
-  return `${size.toFixed(2)} ${units[0]}`;
-}
-
 async function loadFile(path: string) {
   const data = await webDav.get(path);
   emit('loadData', data);
@@ -141,8 +122,6 @@ defineExpose({ save, load, validate, isValidating });
       </div>
     </div>
 
-    <div class="flex justify-start" />
-
     <Dialog v-model:open="loadDataModel">
       <DialogContent
         class="
@@ -154,7 +133,7 @@ defineExpose({ save, load, validate, isValidating });
           <DialogTitle class="flex items-center gap-2">
             <FileJson class="size-5 text-primary" /> {{ t('common.action.load') }}
           </DialogTitle>
-          <DialogDescription>{{ t('option.data.cloud.webdav.action.load.desc') }}</DialogDescription>
+          <DialogDescription>{{ t('option.data.cloud.action.load.desc') }}</DialogDescription>
         </DialogHeader>
 
         <Separator />
@@ -162,7 +141,7 @@ defineExpose({ save, load, validate, isValidating });
         <div v-if="remoteFiles === null" class="flex flex-col items-center justify-center gap-4 py-20">
           <Loader2 class="size-8 animate-spin text-primary/50" />
           <p class="text-sm text-muted-foreground italic">
-            {{ t('option.data.cloud.webdav.action.load.loadingStatus') }}
+            {{ t('option.data.cloud.action.load.loadingStatus') }}
           </p>
         </div>
 
@@ -176,7 +155,7 @@ defineExpose({ save, load, validate, isValidating });
             "
           >
             <div class="flex flex-col gap-1">
-              <span class="font-mono text-sm font-medium">{{ parseData(item.basename) }}</span>
+              <span class="font-mono text-sm font-medium">{{ parseDate(item.basename) }}</span>
               <Badge variant="outline" class="w-fit px-1 py-0 text-[10px] font-normal">
                 {{ parseSize(item.size) }}
               </Badge>
@@ -204,8 +183,8 @@ defineExpose({ save, load, validate, isValidating });
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>{{ t('option.data.cloud.webdav.msg.confirmDelete.title') }}</AlertDialogTitle>
-                    <AlertDialogDescription>{{ t('option.data.cloud.webdav.msg.confirmDelete.description') }}</AlertDialogDescription>
+                    <AlertDialogTitle>{{ t('option.data.cloud.msg.confirmDelete.title') }}</AlertDialogTitle>
+                    <AlertDialogDescription>{{ t('option.data.cloud.msg.confirmDelete.desc') }}</AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>{{ t('common.action.cancel') }}</AlertDialogCancel>

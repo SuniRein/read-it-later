@@ -134,7 +134,12 @@ function clearBrowserData() {
         </div>
 
         <div v-else-if="setting.cloudStorage === 'google-drive'" class="border-t pt-6">
-          <GoogleDriveConnect v-model="setting.googleDriveConfig" />
+          <GoogleDriveConnect
+            ref="cloudStorageRef"
+            v-model="setting.googleDriveConfig"
+            @load-data="loadItems"
+            @save-locally="saveLocally"
+          />
         </div>
       </CardContent>
 

@@ -1,4 +1,5 @@
 import type { GoogleDriveConfig } from '@/utils/types';
+import { deleteFile, downloadFile, listFiles, uploadFile, validateToken } from '../utils/google-drive-api';
 import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '../utils/google-drive-auth';
 
 export function useGoogleDriveConnect(config: Ref<GoogleDriveConfig | null>) {
@@ -41,10 +42,42 @@ export function useGoogleDriveConnect(config: Ref<GoogleDriveConfig | null>) {
       accessToken,
       expiresIn: getTokenExpiration(expiresIn),
     };
+    return accessToken;
+  }
+
+  async function list() {
+    const accessToken = await getOrRefreshAccessToken();
+    return listFiles(accessToken);
+  }
+
+  async function save(filename: string, data: string) {
+    const accessToken = await getOrRefreshAccessToken();
+    return uploadFile(accessToken, { filename, data });
+  }
+
+  async function get(id: string) {
+    const accessToken = await getOrRefreshAccessToken();
+    return downloadFile(accessToken, id);
+  }
+
+  async function remove(id: string) {
+    const accessToken = await getOrRefreshAccessToken();
+    return deleteFile(accessToken, id);
+  }
+
+  async function validate() {
+    const accessToken = await getOrRefreshAccessToken();
+    return validateToken(accessToken);
   }
 
   return {
     signIn,
     signOut,
+
+    list,
+    save,
+    get,
+    remove,
+    validate,
   };
 }

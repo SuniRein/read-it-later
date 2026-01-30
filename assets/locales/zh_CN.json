@@ -116,7 +116,17 @@
           "googleDrive": "谷歌云盘"
         },
         "action": {
-          "saveLocally": "保存到本地"
+          "saveLocally": "保存到本地",
+          "load": {
+            "desc": "从云端选择一个备份点。",
+            "loadingStatus": "正在读取远程文件..."
+          }
+        },
+        "msg": {
+          "confirmDelete": {
+            "title": "确定删除该条目？",
+            "desc": "这将从云端上永久移除该备份文件。"
+          }
         },
         "webdav": {
           "field": {
@@ -129,17 +139,7 @@
             "urlRequired": "请填写 URL。",
             "urlInvalid": "无效的 URL 格式。",
             "validateSuccess": "WebDAV 连接成功。",
-            "saveSuccess": "WebDAV 保存成功。",
-            "confirmDelete": {
-              "title": "确定删除该条目？",
-              "desc": "这将从 WebDAV 上永久移除该备份文件。"
-            }
-          },
-          "action": {
-            "load": {
-              "desc": "从云端 WebDAV 服务器选择一个备份点。",
-              "loadingStatus": "正在读取远程文件..."
-            }
+            "saveSuccess": "WebDAV 保存成功。"
           }
         },
         "googleDrive": {
@@ -151,7 +151,10 @@
           },
           "msg": {
             "authSuccess": "授权成功。",
-            "authFailed": "授权失败：{error}"
+            "authFailed": "授权失败：{error}",
+            "notConnected": "谷歌云盘未连接。",
+            "validateSuccess": "谷歌云盘连接成功。",
+            "saveSuccess": "谷歌云盘保存成功。"
           },
           "action": {
             "authenticate": "立即授权",
