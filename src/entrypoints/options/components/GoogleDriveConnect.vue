@@ -1,26 +1,38 @@
 <script setup lang="ts">
-import type { GoogleDriveFile } from '../utils/google-drive-api';
+import type { CloudManagerEmit } from '../composables/cloud-storage-manager';
 import type { GoogleDriveConfig } from '@/utils/types';
 import { Cloud, CloudDownload, CloudOff, Download, FileJson, Loader2, RefreshCw, Trash2 } from 'lucide-vue-next';
 import notify from '@/utils/notify';
-import { useGoogleDriveConnect } from '../composables/google-drive';
+import { useCloudStorageManager } from '../composables/cloud-storage-manager';
+import { useGoogleDriveService } from '../composables/google-drive';
 import { parseDate, parseSize } from '../utils/file-parse';
 
-const emit = defineEmits<{
-  (e: 'loadData', data: string): void;
-  (e: 'saveLocally', data: string, filename: string): void;
-}>();
+const emit = defineEmits<CloudManagerEmit>();
 
 const { t } = useI18n();
 
 const config = defineModel<GoogleDriveConfig | null>({ required: true });
-const googleDrive = useGoogleDriveConnect(config);
+const service = {
+  ...useGoogleDriveService(config),
+  preflight: checkConnection,
+};
+const { isValidating, loadDataModal, remoteFiles, ...manager } = useCloudStorageManager(service, emit);
+
+async function checkConnection() {
+  if (!config.value) {
+    notify.error(t('option.data.cloud.googleDrive.msg.notConnected'));
+    return false;
+  }
+  return true;
+}
+
 const isPending = ref(false);
 
 async function handleSignIn() {
   isPending.value = true;
   try {
-    await googleDrive.signIn();
+    await service.signIn();
+    notify.success(t('option.data.cloud.googleDrive.msg.authSuccess'));
   }
   catch (e) {
     if (e instanceof Error) {
@@ -31,78 +43,12 @@ async function handleSignIn() {
   finally {
     isPending.value = false;
   }
-
-  notify.success(t('option.data.cloud.googleDrive.msg.authSuccess'));
-}
-
-function checkConnection() {
-  if (!config.value) {
-    notify.error(t('option.data.cloud.googleDrive.msg.notConnected'));
-    return false;
-  }
-  return true;
-}
-
-async function save({ filename, data }: { filename: string; data: string }) {
-  if (!checkConnection())
-    return;
-  await googleDrive.save(filename, data);
-  notify.success(t('option.data.cloud.googleDrive.msg.saveSuccess'));
-}
-
-const loadDataModel = ref(false);
-const remoteFiles = ref<GoogleDriveFile[] | null>(null);
-
-async function load() {
-  if (!checkConnection())
-    return;
-  loadDataModel.value = true;
-  remoteFiles.value = await googleDrive.list(); ;
-}
-
-async function deleteFile(id: string) {
-  await googleDrive.remove(id);
-  remoteFiles.value = remoteFiles.value?.filter(file => file.id !== id) ?? null;
-}
-
-async function loadFile(id: string) {
-  const data = await googleDrive.get(id);
-  emit('loadData', data);
-}
-
-async function saveFileLocally(item: GoogleDriveFile) {
-  const data = await googleDrive.get(item.id);
-  emit('saveLocally', data, item.name);
-}
-
-const isValidating = ref(false);
-
-async function validate() {
-  if (!checkConnection())
-    return;
-
-  isValidating.value = true;
-
-  try {
-    await googleDrive.validate();
-  }
-  catch (e) {
-    if (e instanceof Error) {
-      notify.error(e.message);
-      return;
-    }
-  }
-  finally {
-    isValidating.value = false;
-  }
-
-  notify.success(t('option.data.cloud.googleDrive.msg.validateSuccess'));
 }
 
 defineExpose({
-  save,
-  load,
-  validate,
+  save: manager.save,
+  load: manager.load,
+  validate: manager.validate,
   isValidating,
 });
 </script>
@@ -159,14 +105,14 @@ defineExpose({
           h-9 rounded-full px-3 text-destructive
           hover:bg-destructive/10 hover:text-destructive
         "
-        @click="googleDrive.signOut"
+        @click="service.signOut"
       >
         {{ t('option.data.cloud.googleDrive.action.disconnect') }}
       </Button>
     </div>
   </div>
 
-  <Dialog v-model:open="loadDataModel">
+  <Dialog v-model:open="loadDataModal">
     <DialogContent
       class="
         gap-0 overflow-hidden p-0
@@ -211,11 +157,11 @@ defineExpose({
               group-hover:opacity-100
             "
           >
-            <Button variant="ghost" size="icon" class="size-8" @click="loadFile(item.id)">
+            <Button variant="ghost" size="icon" class="size-8" @click="manager.loadFile(item.id)">
               <CloudDownload />
             </Button>
 
-            <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="saveFileLocally(item)">
+            <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="manager.saveFileLocally(item.id, item.name)">
               <Download />
             </Button>
 
@@ -237,7 +183,7 @@ defineExpose({
                       bg-destructive
                       hover:bg-destructive/80
                     "
-                    @click="deleteFile(item.id)"
+                    @click="manager.deleteFile(item.id)"
                   >
                     {{ t('common.action.confirm') }}
                   </AlertDialogAction>

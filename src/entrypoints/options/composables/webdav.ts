@@ -12,7 +12,7 @@ export interface UploadOption {
   data: string;
 }
 
-export function useWabDavConnect(config: MaybeRef<WebDavConfig>) {
+export function useWabDavService(config: MaybeRef<WebDavConfig>) {
   const mappedConfig = computed(() => ({
     ...unref(config),
     url: unref(config).url?.concat(AFTER_URL),
@@ -34,7 +34,11 @@ export function useWabDavConnect(config: MaybeRef<WebDavConfig>) {
   async function list() {
     const client = connect();
     return (await client.getDirectoryContents(BACKUP_FOLDER, { glob: 'read-it-later-*.json' }) as FileStat[])
-      .sort((a, b) => a.basename < b.basename ? -1 : 1);
+      .map(file => ({
+        id: file.filename,
+        name: file.basename,
+        size: file.size ?? 0,
+      }));
   }
 
   async function save(filename: string, data: string) {

@@ -19,21 +19,21 @@ const { pageList, load, clear } = usePageList();
 function getData() {
   const data = serializePageList(pageList.value);
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const filename = `read-it-later-${timestamp}.json`;
-  return { data, filename };
+  const name = `read-it-later-${timestamp}.json`;
+  return { data, name };
 }
 
-async function saveLocally(data: string, filename: string) {
+async function saveLocally(data: string, name: string) {
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
 
-  await browser.downloads.download({ url, filename, saveAs: true });
+  await browser.downloads.download({ url, filename: name, saveAs: true });
   URL.revokeObjectURL(url);
 }
 
 async function saveToLocalStorage() {
-  const { data, filename } = getData();
-  await saveLocally(data, filename);
+  const { data, name } = getData();
+  await saveLocally(data, name);
 }
 
 const localInputRef = useTemplateRef('localInputRef');

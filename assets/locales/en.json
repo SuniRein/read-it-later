@@ -116,13 +116,23 @@
           "googleDrive": "Google Drive"
         },
         "action": {
-          "saveLocally": "Save to local"
+          "saveLocally": "Save to local",
+          "load": {
+            "desc": "Select a backup point from cloud.",
+            "loadingStatus": "Loading remote file..."
+          }
         },
         "msg": {
           "confirmDelete": {
             "title": "Sure to delete this entry?",
             "desc": "This will permanently remove the backup file from cloud storage."
-          }
+          },
+          "loadFailed": "Failed to load data: {error}",
+          "deleteSuccess": "Entry deleted successfully.",
+          "validateSuccess": "Cloud storage validated successfully.",
+          "validateFailed": "Cloud storage validation failed: {error}",
+          "saveSuccess": "Cloud storage saved successfully.",
+          "saveFailed": "Failed to save to cloud storage: {error}"
         },
         "webdav": {
           "field": {
@@ -133,15 +143,7 @@
           "msg": {
             "permissionDenied": "Permission denied to access cloud storage, please grant permission.",
             "urlRequired": "Please fill in the URL.",
-            "urlInvalid": "Invalid URL format.",
-            "validateSuccess": "WebDAV connected successful.",
-            "saveSuccess": "WebDAV saved successfully."
-          },
-          "action": {
-            "load": {
-              "desc": "Select a backup point from the cloud WebDAV server.",
-              "loadingStatus": "Loading remote file..."
-            }
+            "urlInvalid": "Invalid URL format."
           }
         },
         "googleDrive": {
@@ -154,9 +156,7 @@
           "msg": {
             "authSuccess": "Authentication successful.",
             "authFailed": "Authentication failed: {error}",
-            "notConnected": "Google Drive is not connected.",
-            "validateSuccess": "Google Drive connected successful.",
-            "saveSuccess": "Google Drive saved successfully."
+            "notConnected": "Google Drive is not connected."
           },
           "action": {
             "authenticate": "Authenticate",

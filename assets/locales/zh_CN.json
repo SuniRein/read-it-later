@@ -126,7 +126,13 @@
           "confirmDelete": {
             "title": "确定删除该条目？",
             "desc": "这将从云端上永久移除该备份文件。"
-          }
+          },
+          "loadFailed": "加载数据失败：{error}",
+          "deleteSuccess": "文件已成功删除。",
+          "validateSuccess": "云端存储验证成功。",
+          "validateFailed": "云端存储验证失败：{error}",
+          "saveSuccess": "成功保存至云端存储。",
+          "saveFailed": "云端存储保存失败：{error}"
         },
         "webdav": {
           "field": {
@@ -137,9 +143,7 @@
           "msg": {
             "permissionDenied": "没有权限访问云端存储，请授予权限。",
             "urlRequired": "请填写 URL。",
-            "urlInvalid": "无效的 URL 格式。",
-            "validateSuccess": "WebDAV 连接成功。",
-            "saveSuccess": "WebDAV 保存成功。"
+            "urlInvalid": "无效的 URL 格式。"
           }
         },
         "googleDrive": {
@@ -152,9 +156,7 @@
           "msg": {
             "authSuccess": "授权成功。",
             "authFailed": "授权失败：{error}",
-            "notConnected": "谷歌云盘未连接。",
-            "validateSuccess": "谷歌云盘连接成功。",
-            "saveSuccess": "谷歌云盘保存成功。"
+            "notConnected": "谷歌云盘未连接。"
           },
           "action": {
             "authenticate": "立即授权",

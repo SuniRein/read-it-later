@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import type { FileStat } from 'webdav';
+import type { CloudManagerEmit } from '../composables/cloud-storage-manager';
 import type { WebDavConfig } from '@/utils/types';
-
 import { CloudDownload, Download, FileJson, Globe, Loader2, Lock, Trash2, User } from 'lucide-vue-next';
 import notify from '@/utils/notify';
-import { AFTER_URL, useWabDavConnect } from '../composables/webdav';
+import { useCloudStorageManager } from '../composables/cloud-storage-manager';
+import { AFTER_URL, useWabDavService } from '../composables/webdav';
 import { parseDate, parseSize } from '../utils/file-parse';
 
-const emit = defineEmits<{
-  (e: 'loadData', data: string): void;
-  (e: 'saveLocally', data: string, filename: string): void;
-}>();
-
-const config = defineModel<WebDavConfig>({ required: true });
-const webDav = useWabDavConnect(config);
+const emit = defineEmits<CloudManagerEmit>();
 
 const { t } = useI18n();
+
+const config = defineModel<WebDavConfig>({ required: true });
+const service = {
+  ...useWabDavService(config),
+  preflight: checkPermission,
+};
+const { isValidating, loadDataModal, remoteFiles, ...manager } = useCloudStorageManager(service, emit);
 
 async function checkPermission() {
   if (!config.value.url) {
@@ -29,63 +30,12 @@ async function checkPermission() {
   return false;
 }
 
-const isValidating = ref(false);
-
-async function validate() {
-  if (!await checkPermission())
-    return;
-
-  isValidating.value = true;
-
-  try {
-    await webDav.validate();
-  }
-  catch (e) {
-    if (e instanceof Error) {
-      notify.error(e.message);
-      return;
-    }
-  }
-  finally {
-    isValidating.value = false;
-  }
-
-  notify.success(t('option.data.cloud.webdav.msg.validateSuccess'));
-}
-
-async function save({ filename, data }: { filename: string; data: string }) {
-  if (!await checkPermission())
-    return;
-  await webDav.save(filename, data);
-  notify.success(t('option.data.cloud.webdav.msg.saveSuccess'));
-}
-
-const loadDataModel = ref(false);
-const remoteFiles = ref<FileStat[] | null>(null);
-
-async function load() {
-  if (!await checkPermission())
-    return;
-  loadDataModel.value = true;
-  remoteFiles.value = await webDav.list(); ;
-}
-
-async function loadFile(path: string) {
-  const data = await webDav.get(path);
-  emit('loadData', data);
-}
-
-async function deleteFile(path: string) {
-  await webDav.remove(path);
-  remoteFiles.value = remoteFiles.value?.filter(file => file.filename !== path) ?? null;
-}
-
-async function saveFileLocally(item: FileStat) {
-  const data = await webDav.get(item.filename);
-  emit('saveLocally', data, item.basename);
-}
-
-defineExpose({ save, load, validate, isValidating });
+defineExpose({
+  save: manager.save,
+  load: manager.load,
+  validate: manager.validate,
+  isValidating,
+});
 </script>
 
 <template>
@@ -122,7 +72,7 @@ defineExpose({ save, load, validate, isValidating });
       </div>
     </div>
 
-    <Dialog v-model:open="loadDataModel">
+    <Dialog v-model:open="loadDataModal">
       <DialogContent
         class="
           gap-0 overflow-hidden p-0
@@ -148,14 +98,14 @@ defineExpose({ save, load, validate, isValidating });
         <div v-else class="space-y-2 p-4">
           <div
             v-for="item in remoteFiles"
-            :key="item.basename"
+            :key="item.id"
             class="
               group flex items-center justify-between rounded-lg border bg-card p-3 shadow-sm transition-all
               hover:bg-accent/50
             "
           >
             <div class="flex flex-col gap-1">
-              <span class="font-mono text-sm font-medium">{{ parseDate(item.basename) }}</span>
+              <span class="font-mono text-sm font-medium">{{ parseDate(item.name) }}</span>
               <Badge variant="outline" class="w-fit px-1 py-0 text-[10px] font-normal">
                 {{ parseSize(item.size) }}
               </Badge>
@@ -167,11 +117,11 @@ defineExpose({ save, load, validate, isValidating });
                 group-hover:opacity-100
               "
             >
-              <Button variant="ghost" size="icon" class="size-8" @click="loadFile(item.filename)">
+              <Button variant="ghost" size="icon" class="size-8" @click="manager.loadFile(item.id)">
                 <CloudDownload />
               </Button>
 
-              <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="saveFileLocally(item)">
+              <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="manager.saveFileLocally(item.id, item.name)">
                 <Download />
               </Button>
 
@@ -193,7 +143,7 @@ defineExpose({ save, load, validate, isValidating });
                         bg-destructive
                         hover:bg-destructive/80
                       "
-                      @click="deleteFile(item.filename)"
+                      @click="manager.deleteFile(item.id)"
                     >
                       {{ t('common.action.confirm') }}
                     </AlertDialogAction>
