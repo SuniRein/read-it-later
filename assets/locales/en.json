@@ -48,6 +48,7 @@
     "nav": {
       "setting": "Setting",
       "data": "Data",
+      "guide": "Guide",
       "about": "About"
     },
     "setting": {
@@ -173,6 +174,22 @@
           "desc": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
         }
       }
+    },
+    "guide": {
+      "section": {
+        "faq": "FAQ"
+      },
+      "faq": {
+        "shortcut": {
+          "q": "How to set a shortcut to open the Popup?",
+          "a": "You can customize global shortcuts for this extension on the browser's extension management page."
+        },
+        "searchByTag": {
+          "q": "How to search by tags?",
+          "a": "Type `#tag` in the search bar to filter. Multiple tags are supported, separated by spaces."
+        }
+      },
+      "feedback": "Not finding the answer you want? You can go to {0} to give your feedback."
     },
     "about": {
       "developedBy": "Developed by {0}",
