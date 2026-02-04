@@ -39,7 +39,7 @@ function addNewPage() {
   <div class="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md">
     <div class="flex items-center gap-1">
       <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="emit('openSetting')" />
-      <IconButton :icon="RefreshCw" :tip="t('popup.tooltip.sync')" />
+      <IconButton :icon="RefreshCw" :tip="t('popup.tooltip.sync')" disabled />
     </div>
 
     <SearchBox v-model="searchText" autofocus :tags="pageTags" />
