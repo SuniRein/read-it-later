@@ -7,6 +7,7 @@ const favoritedBadgeColor = '#eab308';
 const action = browser.action ?? browser.browserAction;
 
 export function handleBadge(showBadge: Ref<boolean>, pageMap: Ref<Map<string, PageItem>>, currentTabUrl: Ref<string>) {
+  const pageCount = computed(() => pageMap.value.size);
   const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
   const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
 
@@ -21,10 +22,8 @@ export function handleBadge(showBadge: Ref<boolean>, pageMap: Ref<Map<string, Pa
         ? (currentTabFavorited.value ? favoritedBadgeColor : activeBadgeColor)
         : commonBadgeColor,
     });
-
-    const count = pageMap.value.size;
-    await action.setBadgeText({ text: count.toString() });
+    await action.setBadgeText({ text: pageCount.value.toString() });
   }
 
-  watchEffect(updateBadge);
+  watch([showBadge, pageCount, currentTabActive, currentTabFavorited], updateBadge);
 }
