@@ -10,6 +10,7 @@ const SerializedPageItem = type({
     '+': 'delete',
   },
   tags: 'string[]',
+  desc: 'string = ""', // optional for compatibility
   favorited: 'boolean',
   createdAt: 'string.date.iso',
   updatedAt: 'string.date.iso',

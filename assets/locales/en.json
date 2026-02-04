@@ -28,13 +28,17 @@
     },
     "editModal": {
       "title": "Edit item",
-      "desc": "Edit the title and tags of the item",
+      "desc": "Modify the item's information",
       "field": {
         "title": "Title",
         "tags": {
           "label": "Tags",
           "placeholder": "tag1, tag2, ...",
           "desc": "Separate multiple tags with commas"
+        },
+        "desc": {
+          "label": "Description",
+          "placeholder": "Type description here..."
         }
       }
     },

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { PageUpdateInfo } from '@/composables/page-list';
 import type { PageItem, Tab } from '@/utils/types';
 
-import { ArrowUpToLine, Check, Copy, Edit2, RefreshCw, Star } from 'lucide-vue-next';
+import { ArrowUpToLine, Check, Copy, Edit2, Quote, RefreshCw, Star } from 'lucide-vue-next';
 import { useFavicon } from '@/composables/favicon';
 import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
@@ -18,7 +19,7 @@ const { currentTab, pageList, pageTags, faviconCaching } = defineProps<{
 
 const emit = defineEmits<{
   (e: 'markRead', id: string): void;
-  (e: 'edit', id: string, newTitle: string, newTags: string[]): void;
+  (e: 'edit', id: string, info: PageUpdateInfo): void;
   (e: 'toggleStar', id: string): void;
   (e: 'openUrl', url: string): void;
   (e: 'copyUrl', url: string): void;
@@ -33,10 +34,10 @@ const { getFaviconUrl } = useFavicon();
 
 const editedItem = ref<PageItem | null>(null);
 
-function savePageEdit(title: string, tags: string[]) {
+function savePageEdit(info: PageUpdateInfo) {
   if (editedItem.value === null)
     return;
-  emit('edit', editedItem.value.id, title, tags);
+  emit('edit', editedItem.value.id, info);
   editedItem.value = null;
 }
 
@@ -82,7 +83,25 @@ function urlClickable(url: string): boolean {
               </div>
 
               <div class="flex items-center justify-between gap-4">
-                <span class="flex-1 truncate font-mono text-sm text-muted-foreground">{{ item.info.url }}</span>
+                <div class="flex flex-1 items-center gap-1 truncate">
+                  <HoverCard v-if="item.desc" :open-delay="300" :close-delay="200">
+                    <HoverCardTrigger>
+                      <Quote
+                        class="
+                          size-4 text-muted-foreground
+                          hover:text-foreground
+                        "
+                        @click.stop
+                      />
+                    </HoverCardTrigger>
+                    <HoverCardContent class="p-1 text-sm whitespace-pre-wrap">
+                      {{ item.desc }}
+                    </HoverCardContent>
+                  </HoverCard>
+
+                  <span class="truncate font-mono text-sm text-muted-foreground">{{ item.info.url }}</span>
+                </div>
+
                 <div class="flex gap-1">
                   <ColorTag v-for="tag in item.tags" :key="tag" :tag="tag" />
                 </div>

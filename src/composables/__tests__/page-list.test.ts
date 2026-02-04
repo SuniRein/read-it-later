@@ -11,6 +11,7 @@ function createTestPageItem(id: string): PageItem {
     id,
     favorited: false,
     tags: ['tag1', 'tag2'],
+    desc: '',
     info: createTestPageInfo(id),
     createdAt: '2023-01-01T00:00:00Z',
     updatedAt: '2023-01-01T00:00:00Z',
@@ -98,15 +99,19 @@ it('successfully remove a page', async () => {
 it('successfully update a page', async () => {
   const { pageList, update } = await setup();
 
-  const newTitle = 'Updated Page Title';
-  const newTags = ['updatedTag1', 'updatedTag2'];
-  update('2', newTitle, newTags);
+  const newInfo = {
+    title: 'Updated Page Title',
+    tags: ['updatedTag1', 'updatedTag2'],
+    desc: 'This is an updated description.',
+  };
+  update('2', newInfo);
   await flushPromises();
 
   const updatedItem = pageList.value.find(item => item.id === '2');
   expect(updatedItem).toBeDefined();
-  expect(updatedItem!.info.title).toBe(newTitle);
-  expect(updatedItem!.tags).toEqual(newTags);
+  expect(updatedItem!.info.title).toBe(newInfo.title);
+  expect(updatedItem!.tags).toEqual(newInfo.tags);
+  expect(updatedItem!.desc).toBe(newInfo.desc);
   expect(updatedItem!.updatedAt).not.toBe('2023-01-01T00:00:00Z');
 
   const storedPageList = await store.pageList.getValue();

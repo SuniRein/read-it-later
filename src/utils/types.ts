@@ -19,6 +19,7 @@ export interface PageItem {
   info: PageInfo;
   tags: string[];
   favorited: boolean;
+  desc: string;
   createdAt: string;
   updatedAt: string;
 }

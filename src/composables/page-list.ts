@@ -5,6 +5,12 @@ import { nanoid } from 'nanoid';
 import { useStoredValue } from '@/composables/store';
 import store from '@/utils/store';
 
+export interface PageUpdateInfo {
+  title?: string;
+  tags?: string[];
+  desc?: string;
+}
+
 export function usePageList() {
   const pageList = useStoredValue(store.pageList);
   const removedPageList = useStoredValue(store.removedPageList);
@@ -22,6 +28,7 @@ export function usePageList() {
       id: nanoid(),
       info,
       tags: [],
+      desc: '',
       favorited: false,
       createdAt: now,
       updatedAt: now,
@@ -39,11 +46,12 @@ export function usePageList() {
     }
   }
 
-  function update(id: string, newTitle: string, newTags: string[]) {
+  function update(id: string, info: PageUpdateInfo) {
     const item = pageList.value.find(item => item.id === id);
     if (item) {
-      item.info.title = newTitle;
-      item.tags = newTags;
+      item.info.title = info.title ?? item.info.title;
+      item.tags = info.tags ?? item.tags;
+      item.desc = info.desc ?? item.desc;
       item.updatedAt = new Date().toISOString();
       triggerRef(pageList);
     }
