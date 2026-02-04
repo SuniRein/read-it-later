@@ -9,10 +9,14 @@ import { handleOpenPage } from './open-page';
 import { handlePageList } from './page-list';
 import { handleOpenRandomPage } from './random-page';
 import { handleSetting } from './setting';
+import { handleUpdate } from './update';
 
 const action = browser.action ?? browser.browserAction;
 
 export default defineBackground(() => {
+  // post update tasks
+  handleUpdate();
+
   // check if popup is connected
   const isConnected = handleConnection();
 
