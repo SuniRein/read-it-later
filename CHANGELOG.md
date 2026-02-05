@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.15.0](https://github.com/SuniRein/read-it-later/compare/v0.14.0...v0.15.0) (2026-02-05)
+
+
+### Features
+
+* add guide view ([fb97564](https://github.com/SuniRein/read-it-later/commit/fb975643f76a0641f15c79aeec9103dc4fe9097e))
+* **cloud/google:** auth for google drive ([733cd00](https://github.com/SuniRein/read-it-later/commit/733cd00df9553e5538ab6484b02bb104115f3873))
+* **cloud/google:** save and load data from google drive, closed [#58](https://github.com/SuniRein/read-it-later/issues/58) ([894e58e](https://github.com/SuniRein/read-it-later/commit/894e58e79ae284e129d80144696f1fbf7523e12d))
+* **migration:** add migration for 0.15.0 ([7c19c5c](https://github.com/SuniRein/read-it-later/commit/7c19c5cfa9b9dd009dece99cb3502be19cb7b5d9))
+* **popup:** allow to add, edit and display note in page item, closed [#53](https://github.com/SuniRein/read-it-later/issues/53) ([f98b3a5](https://github.com/SuniRein/read-it-later/commit/f98b3a53e913cec74ac811e5312eab277bd60747))
+* **ui:** set sync button to disabled, which currently not work ([d68fb40](https://github.com/SuniRein/read-it-later/commit/d68fb40bc0ed7c73188a1bcf1aa5eb880ea83740))
+
+
+### Bug Fixes
+
+* **badge:** badge not updated when page list changed ([b9fa288](https://github.com/SuniRein/read-it-later/commit/b9fa288eb4c40bf583ab96930629c47d1a2756ee))
+
 ## [0.14.0](https://github.com/SuniRein/read-it-later/compare/v0.13.0...v0.14.0) (2026-01-25)
 
 
