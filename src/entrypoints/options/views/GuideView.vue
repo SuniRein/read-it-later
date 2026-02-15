@@ -4,7 +4,7 @@ import * as meta from '@/utils/meta';
 
 const { t } = useI18n();
 
-const faqKeys = ['shortcut', 'searchByTag'];
+const faqKeys = ['shortcut', 'searchByTag', 'IMP'];
 
 const faqs = computed(() => faqKeys.map(key => ({
   key,

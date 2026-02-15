@@ -1,4 +1,4 @@
-import type { PageInfo, PageItem } from '@/utils/types';
+import type { PageInfo, PageItem, PageItemIMP } from '@/utils/types';
 
 import { nanoid } from 'nanoid';
 import { useStoredValue } from '@/composables/store';
@@ -143,6 +143,27 @@ export function usePageList() {
     return result;
   }
 
+  function tryLoadFromIMP(data: PageItemIMP[]): PageLoadResult {
+    const now = new Date().toISOString();
+    const items = data.map(item => ({
+      id: nanoid(),
+      info: { title: item.title, url: item.url },
+      tags: item.tags,
+      desc: '',
+      favorited: false,
+      createdAt: now,
+      updatedAt: now,
+    }));
+
+    const added: PageItem[] = [];
+    const conflicted: PageItem[] = [];
+
+    const urlSet = new Set(pageList.value.map(item => item.info.url));
+    items.forEach(item => urlSet.has(item.info.url) ? conflicted.push(item) : added.push(item));
+
+    return { added, conflicted, updated: [], ignored: [] };
+  }
+
   // must be used immediately after `tryLoad` for data integrity
   function load(data: PageLoadResult) {
     const updatedItems = new Map(data.updated.map(item => [item.id, item]));
@@ -177,6 +198,7 @@ export function usePageList() {
     clear,
 
     tryLoad,
+    tryLoadFromIMP,
     load,
 
     restorableItemCount,

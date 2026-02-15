@@ -24,6 +24,12 @@ export interface PageItem {
   updatedAt: string;
 }
 
+export interface PageItemIMP {
+  url: string;
+  title: string;
+  tags: string[];
+}
+
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
 export type CloudStorageType = 'webdav' | 'google-drive' | 'none';

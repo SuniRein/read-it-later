@@ -4,7 +4,7 @@ import type { CloudStorageType } from '@/utils/types';
 import { CheckCircle2, Cloud, Download, Globe, Loader2, Trash2, Upload } from 'lucide-vue-next';
 import { usePageList } from '@/composables/page-list';
 import notify from '@/utils/notify';
-import { deserializePageList, serializePageList } from '@/utils/page-list-serializatoin';
+import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/utils/page-list-serializatoin';
 
 import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
 import WebDavConnect from '../components/WebDavConnect.vue';
@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 const { setting } = await useSetting();
 
-const { pageList, tryLoad, load, clear } = usePageList();
+const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList();
 
 function getData() {
   const data = serializePageList(pageList.value);
@@ -41,27 +41,35 @@ const localInputRef = useTemplateRef('localInputRef');
 function handleLocalFileChange(e: Event) {
   const files = (e.target as HTMLInputElement).files;
   if (files && files.length > 0) {
-    loadFromFile(files[0]);
+    const file = files[0];
+    if (file.name.endsWith('.json'))
+      loadFromFile(file);
+    else if (file.name.endsWith('.csv'))
+      loadFromFile(file, { fromIMP: true });
+    else
+      notify.error(t('option.data.msg.invalidFileType'));
   }
   else {
     notify.error(t('option.data.msg.noUploadFile'));
   }
 };
 
-function loadFromFile(file: File) {
+function loadFromFile(file: File, { fromIMP = false } = {}) {
   const reader = new FileReader();
   reader.onload = (event) => {
     if (event.target?.result != null) {
-      loadItems(event.target.result as string);
+      loadItems(event.target.result as string, { fromIMP });
     }
   };
   reader.readAsText(file);
 }
 
-function loadItems(rawItems: string) {
+function loadItems(rawItems: string, { fromIMP = false } = {}) {
   try {
-    const items = deserializePageList(rawItems);
-    const result = tryLoad(items);
+    const result = fromIMP
+      ? tryLoadFromIMP(deserializePageListFromIMP(rawItems))
+      : tryLoad(deserializePageList(rawItems));
+
     load(result);
 
     notify.success(
@@ -74,7 +82,7 @@ function loadItems(rawItems: string) {
     );
   }
   catch (error) {
-    notify.error(t('option.data.msg.parseError', { error }));
+    notify.error(t('option.data.msg.parseError', { error: error instanceof Error ? error.message : String(error) }));
   }
 }
 
@@ -103,7 +111,7 @@ function clearBrowserData() {
           <Button variant="outline" class="w-full" @click="localInputRef?.click()">
             <Upload /> {{ t('common.action.load') }}
           </Button>
-          <input ref="localInputRef" type="file" accept=".json" class="hidden" @change="handleLocalFileChange">
+          <input ref="localInputRef" type="file" accept=".json,.csv" class="hidden" @change="handleLocalFileChange">
         </div>
       </CardContent>
     </Card>
