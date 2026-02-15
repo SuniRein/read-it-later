@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.16.0](https://github.com/SuniRein/read-it-later/compare/v0.15.0...v0.16.0) (2026-02-15)
+
+
+### Features
+
+* **data:** load from IMP CSV export ([22460c1](https://github.com/SuniRein/read-it-later/commit/22460c15b4eab378c9aaa9b41e3050a771068471))
+* **data:** optimize data import logic, update by updated time and show detailed info, closed [#68](https://github.com/SuniRein/read-it-later/issues/68) ([fc34162](https://github.com/SuniRein/read-it-later/commit/fc34162587855ad8c16450441b6f72c333ff8105))
+
 ## [0.15.0](https://github.com/SuniRein/read-it-later/compare/v0.14.0...v0.15.0) (2026-02-05)
 
 
