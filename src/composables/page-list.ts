@@ -1,7 +1,6 @@
 import type { PageInfo, PageItem } from '@/utils/types';
 
 import { nanoid } from 'nanoid';
-
 import { useStoredValue } from '@/composables/store';
 import store from '@/utils/store';
 
@@ -9,6 +8,13 @@ export interface PageUpdateInfo {
   title?: string;
   tags?: string[];
   desc?: string;
+}
+
+export interface PageLoadResult {
+  added: PageItem[];
+  updated: PageItem[];
+  ignored: PageItem[];
+  conflicted: PageItem[];
 }
 
 export function usePageList() {
@@ -97,13 +103,51 @@ export function usePageList() {
     }
   }
 
-  function load(data: PageItem[]) {
-    const existingIds = new Set(pageList.value.map(item => item.id));
-    const existingUrls = new Set(pageList.value.map(item => item.info.url));
+  // assume no duplicate IDs or URLs in the dataset
+  function tryLoad(data: PageItem[]) {
+    const result: PageLoadResult = { added: [], updated: [], ignored: [], conflicted: [] };
 
-    const newItems = data.filter(item => !existingIds.has(item.id) && !existingUrls.has(item.info.url));
-    pageList.value = [...newItems, ...pageList.value];
-    return newItems.length;
+    const idMap = new Map(pageList.value.map(item => [item.id, item]));
+    const urlMap = new Map(pageList.value.map(item => [item.info.url, item]));
+
+    // First find updated and ignored
+    const remainingData = data.filter((item) => {
+      const old = idMap.get(item.id);
+      if (!old)
+        return true;
+
+      if (item.updatedAt > old.updatedAt) {
+        // update url map if item updated
+        if (item.info.url !== old.info.url) {
+          urlMap.delete(old.info.url);
+          urlMap.set(item.info.url, item);
+        }
+        result.updated.push(item);
+      }
+      else {
+        result.ignored.push(item);
+      }
+      return false;
+    });
+
+    // Then find added and conflicted
+    remainingData.forEach((item) => {
+      if (urlMap.has(item.info.url)) {
+        result.conflicted.push(item);
+      }
+      else {
+        result.added.push(item);
+      }
+    });
+
+    return result;
+  }
+
+  // must be used immediately after `tryLoad` for data integrity
+  function load(data: PageLoadResult) {
+    const updatedItems = new Map(data.updated.map(item => [item.id, item]));
+    pageList.value = pageList.value.map(item => updatedItems.get(item.id) ?? item);
+    pageList.value = [...data.added, ...pageList.value];
   }
 
   function clear() {
@@ -130,8 +174,10 @@ export function usePageList() {
     updateUrl,
     toggleFavorite,
     moveToTop,
-    load,
     clear,
+
+    tryLoad,
+    load,
 
     restorableItemCount,
     restoreRemoved,

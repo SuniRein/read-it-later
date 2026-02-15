@@ -170,7 +170,7 @@
         }
       },
       "msg": {
-        "loadData": "Successfully loaded {count} items.",
+        "loadData": "Loaded successful: {added} added, {updated} updated and {ignored} ignored.",
         "noUploadFile": "No file provided for upload.",
         "parseError": "Failed to parse page list: {error}",
         "confirmClear": {

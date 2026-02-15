@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 const { setting } = await useSetting();
 
-const { pageList, load, clear } = usePageList();
+const { pageList, tryLoad, load, clear } = usePageList();
 
 function getData() {
   const data = serializePageList(pageList.value);
@@ -61,8 +61,17 @@ function loadFromFile(file: File) {
 function loadItems(rawItems: string) {
   try {
     const items = deserializePageList(rawItems);
-    const numLoad = load(items);
-    notify.success(t('option.data.msg.loadData', { count: numLoad }));
+    const result = tryLoad(items);
+    load(result);
+
+    notify.success(
+      t('option.data.msg.loadData', {
+        added: result.added.length,
+        updated: result.updated.length,
+        ignored: result.ignored.length + result.conflicted.length,
+      }),
+      { duration: 3000 },
+    );
   }
   catch (error) {
     notify.error(t('option.data.msg.parseError', { error }));

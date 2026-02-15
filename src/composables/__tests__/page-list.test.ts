@@ -135,7 +135,7 @@ it('successfully toggle favorite status', async () => {
 
 describe('loading pages', () => {
   it('load new pages', async () => {
-    const { pageList, load } = await setup();
+    const { pageList, tryLoad, load } = await setup();
 
     const newPages = [
       createTestPageItem('4'),
@@ -143,10 +143,14 @@ describe('loading pages', () => {
       createTestPageItem('6'),
     ];
 
-    const addedCount = load(newPages);
-    await flushPromises();
+    const result = tryLoad(newPages);
+    expect(result.added).toHaveLength(3);
+    expect(result.updated).toHaveLength(0);
+    expect(result.ignored).toHaveLength(0);
+    expect(result.conflicted).toHaveLength(0);
 
-    expect(addedCount).toBe(3);
+    load(result);
+    await flushPromises();
     expect(pageList.value).toHaveLength(6);
     expect(pageList.value.map(item => item.id).slice(0, 3)).toEqual(['4', '5', '6']);
 
@@ -155,7 +159,7 @@ describe('loading pages', () => {
   });
 
   it('do not load existing pages', async () => {
-    const { pageList, load } = await setup();
+    const { pageList, tryLoad, load } = await setup();
 
     const existingPage = createTestPageItem('1');
     const newPages = [
@@ -163,10 +167,15 @@ describe('loading pages', () => {
       createTestPageItem('4'),
     ];
 
-    const addedCount = load(newPages);
+    const result = tryLoad(newPages);
+    expect(result.added).toHaveLength(1);
+    expect(result.updated).toHaveLength(0);
+    expect(result.ignored).toHaveLength(1);
+    expect(result.conflicted).toHaveLength(0);
+
+    load(result);
     await flushPromises();
 
-    expect(addedCount).toBe(1);
     expect(pageList.value).toHaveLength(4);
     expect(pageList.value[0].id).toBe('4');
 

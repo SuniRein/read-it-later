@@ -170,7 +170,7 @@
         }
       },
       "msg": {
-        "loadData": "成功加载 {count} 条数据。",
+        "loadData": "加载成功：新增 {added} 项，更新 {updated} 项，忽略 {ignored} 项。",
         "noUploadFile": "未提供上传文件。",
         "parseError": "无法解析页面列表：{error}",
         "confirmClear": {
