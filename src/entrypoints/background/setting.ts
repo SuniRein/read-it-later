@@ -10,5 +10,6 @@ export function handleSetting() {
     faviconCaching: computed(() => setting.value.faviconCaching),
     duplicatedUrlOpened: computed(() => setting.value.duplicatedUrlOpened),
     openAndRemove: computed(() => setting.value.openAndRemove),
+    addAndClose: computed(() => setting.value.addAndClose),
   };
 }

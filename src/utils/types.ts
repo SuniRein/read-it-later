@@ -50,6 +50,7 @@ export interface Setting {
 
   duplicatedUrlOpened: DuplicatedUrlOpenedOption;
   openAndRemove: boolean;
+  addAndClose: boolean;
 }
 
 export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';

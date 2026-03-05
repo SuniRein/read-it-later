@@ -24,6 +24,7 @@ const migrations = [
       await store.setting.setValue({
         ...oldSetting,
         openAndRemove: false,
+        addAndClose: false,
       });
     },
   },

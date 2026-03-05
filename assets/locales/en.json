@@ -86,8 +86,12 @@
         }
       },
       "openAndRemove": {
-        "label": "Auto remove after opening",
+        "label": "Auto remove after opened",
         "desc": "Automatically remove the page from the list when opening it"
+      },
+      "addAndClose": {
+        "label": "Close current tab after added",
+        "desc": "Automatically close the current tab after adding it to the list"
       },
       "faviconSource": {
         "label": "Favicon source",

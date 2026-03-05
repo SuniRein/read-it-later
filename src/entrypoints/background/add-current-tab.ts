@@ -2,9 +2,13 @@ import type { PageInfo, Tab } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
 
 export function handleAddCurrentTab(
-  currentTab: Ref<Tab | null>,
-  addPage: (info: PageInfo) => boolean,
-  isConnected: Ref<boolean>,
+  { currentTab, addPage, isConnected, addAndClose }:
+  {
+    currentTab: Ref<Tab | null>;
+    addPage: (info: PageInfo) => boolean;
+    isConnected: Ref<boolean>;
+    addAndClose: Ref<boolean>;
+  },
 ) {
   return async () => {
     if (currentTab.value === null)
@@ -17,9 +21,17 @@ export function handleAddCurrentTab(
       url: url ?? 'Url Not Available',
     });
 
-    if (isConnected.value)
-      await sendMessage('addTabResult', { success });
-    else if (tabId != null)
-      await sendMessage('addTabResult', { success }, tabId);
+    try {
+      if (isConnected.value)
+        await sendMessage('addTabResult', { success });
+      else if (tabId != null)
+        await sendMessage('addTabResult', { success }, tabId);
+    }
+    catch (error) {
+      console.error('Failed to send addTabResult message:', error);
+    }
+
+    if (success && addAndClose.value && tabId != null)
+      await browser.tabs.remove(tabId);
   };
 }

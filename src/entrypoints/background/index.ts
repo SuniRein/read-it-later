@@ -26,7 +26,7 @@ export default defineBackground(() => {
   const currentTabUrl = computed(() => currentTab.value?.url ?? '');
 
   // get setting from storage
-  const { showBadge, duplicatedUrlOpened, openAndRemove } = handleSetting();
+  const { showBadge, duplicatedUrlOpened, openAndRemove, addAndClose } = handleSetting();
 
   // get the page list from storage
   const { pageMap, pageActions, pageListFiltered } = handlePageList();
@@ -47,7 +47,12 @@ export default defineBackground(() => {
   onMessage('openRandomPage', openRandomPage);
 
   // add or edit the current page
-  const addCurrentTab = handleAddCurrentTab(currentTab, pageActions.add, isConnected);
+  const addCurrentTab = handleAddCurrentTab({
+    currentTab,
+    addPage: pageActions.add,
+    isConnected,
+    addAndClose,
+  });
   onMessage('addCurrentTab', addCurrentTab);
 
   // handle browser keyboard commands

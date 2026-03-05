@@ -105,6 +105,13 @@ void checkFaviconCachingPermission();
       >
         <Switch v-model="setting.openAndRemove" />
       </SettingOption>
+
+      <SettingOption
+        :label="t('option.setting.addAndClose.label')"
+        :description="t('option.setting.addAndClose.desc')"
+      >
+        <Switch v-model="setting.addAndClose" />
+      </SettingOption>
     </SettingSection>
 
     <SettingSection :title="t('option.setting.section.favicon')" :icon="ShieldCheck">

@@ -12,14 +12,19 @@ function defaultLocale(): I18nLocales {
 const defaultSetting: Setting = {
   pagination: 20,
   showBadge: false,
+
   faviconSource: 'favicon.im',
   faviconCaching: false,
+
   locale: defaultLocale(),
+
   cloudStorage: 'none',
   webDavConfig: {},
   googleDriveConfig: null,
+
   duplicatedUrlOpened: 'newTab',
   openAndRemove: false,
+  addAndClose: false,
 } as const;
 
 export default {
