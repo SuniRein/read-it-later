@@ -26,7 +26,7 @@ export default defineBackground(() => {
   const currentTabUrl = computed(() => currentTab.value?.url ?? '');
 
   // get setting from storage
-  const { showBadge, duplicatedUrlOpened } = handleSetting();
+  const { showBadge, duplicatedUrlOpened, openAndRemove } = handleSetting();
 
   // get the page list from storage
   const { pageMap, pageActions, pageListFiltered } = handlePageList();
@@ -35,7 +35,11 @@ export default defineBackground(() => {
   handleBadge(showBadge, pageMap, currentTabUrl);
 
   // open a page
-  const openPage = handleOpenPage(duplicatedUrlOpened);
+  const openPage = handleOpenPage(
+    { duplicatedUrlOpened, openAndRemove },
+    pageMap,
+    pageActions.remove,
+  );
   onMessage('openPage', async ({ data: { url } }) => openPage(url));
 
   // open a random page

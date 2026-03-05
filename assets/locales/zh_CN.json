@@ -63,6 +63,7 @@
     "setting": {
       "section": {
         "general": "常规设置",
+        "tab": "标签页设置",
         "favicon": "网站图标",
         "locale": "区域设置"
       },
@@ -83,6 +84,10 @@
           "focus": "聚焦已打开的标签页",
           "newTab": "在新标签页中打开"
         }
+      },
+      "openAndRemove": {
+        "label": "打开后自动移除",
+        "desc": "打开页面时自动将其从列表中移除"
       },
       "faviconSource": {
         "label": "图标源",

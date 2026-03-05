@@ -63,6 +63,7 @@
     "setting": {
       "section": {
         "general": "General",
+        "tab": "Tab",
         "favicon": "Favicon",
         "locale": "Locale"
       },
@@ -83,6 +84,10 @@
           "focus": "Focus existing tab",
           "newTab": "Open in new tab"
         }
+      },
+      "openAndRemove": {
+        "label": "Auto remove after opening",
+        "desc": "Automatically remove the page from the list when opening it"
       },
       "faviconSource": {
         "label": "Favicon source",

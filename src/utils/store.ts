@@ -19,6 +19,7 @@ const defaultSetting: Setting = {
   webDavConfig: {},
   googleDriveConfig: null,
   duplicatedUrlOpened: 'newTab',
+  openAndRemove: false,
 } as const;
 
 export default {

@@ -38,13 +38,18 @@ export type CloudStorageType = 'webdav' | 'google-drive' | 'none';
 export interface Setting {
   pagination: number;
   showBadge: boolean;
+
   faviconSource: FaviconSource;
   faviconCaching: boolean;
+
   locale: I18nLocales;
+
   cloudStorage: CloudStorageType;
   webDavConfig: WebDavConfig;
   googleDriveConfig: GoogleDriveConfig | null;
+
   duplicatedUrlOpened: DuplicatedUrlOpenedOption;
+  openAndRemove: boolean;
 }
 
 export type FaviconSource = 'favicon.im' | 'google' | 'duckduckgo';
@@ -60,6 +65,6 @@ export interface GoogleDriveConfig {
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
-};
+}
 
 export type DuplicatedUrlOpenedOption = 'ignore' | 'focus' | 'newTab';

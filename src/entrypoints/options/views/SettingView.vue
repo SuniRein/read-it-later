@@ -2,7 +2,7 @@
 import type { I18nLocales } from '@/utils/i18n';
 import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
-import { Globe, Layers, ShieldCheck, Trash2 } from 'lucide-vue-next';
+import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
 
@@ -70,6 +70,15 @@ void checkFaviconCachingPermission();
       </SettingOption>
 
       <SettingOption
+        :label="t('option.setting.showBadge.label')"
+        :description="t('option.setting.showBadge.desc')"
+      >
+        <Switch v-model="setting.showBadge" />
+      </SettingOption>
+    </SettingSection>
+
+    <SettingSection :title="t('option.setting.section.tab')" :icon="PanelTop">
+      <SettingOption
         :label="t('option.setting.duplicatedUrl.label')"
         :description="t('option.setting.duplicatedUrl.desc')"
       >
@@ -91,10 +100,10 @@ void checkFaviconCachingPermission();
       </SettingOption>
 
       <SettingOption
-        :label="t('option.setting.showBadge.label')"
-        :description="t('option.setting.showBadge.desc')"
+        :label="t('option.setting.openAndRemove.label')"
+        :description="t('option.setting.openAndRemove.desc')"
       >
-        <Switch v-model="setting.showBadge" />
+        <Switch v-model="setting.openAndRemove" />
       </SettingOption>
     </SettingSection>
 
