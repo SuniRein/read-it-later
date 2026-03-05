@@ -5,7 +5,7 @@ import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
-import { onMessage, sendMessage } from '@/utils/message';
+import { handleNotify, sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
 
 import store from '@/utils/store';
@@ -49,14 +49,11 @@ const pageTags = computed(() => {
   );
 });
 
+handleNotify(t);
+
 async function addPage() {
   await sendMessage('addCurrentTab');
 }
-
-onMessage('addTabResult', ({ data: { success } }) => {
-  if (!success)
-    notify.error(t('common.msg.addTab.pageAlreadyExists'));
-});
 
 async function openUrl(url: string) {
   await sendMessage('openPage', { url });

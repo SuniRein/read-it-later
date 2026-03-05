@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import useI18n from '@/composables/i18n';
-import { onMessage } from '@/utils/message';
-import notify from '@/utils/notify';
+import { handleNotify } from '@/utils/message';
 
 const { t } = useI18n();
 
-onMessage('addTabResult', ({ data: { success } }) => {
-  if (success)
-    notify.success(t('common.msg.addTab.success'));
-  else
-    notify.error(t('common.msg.addTab.pageAlreadyExists'));
-});
+handleNotify(t);
 </script>
 
 <template>

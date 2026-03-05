@@ -1,13 +1,13 @@
+import type { NotifyFunction } from './notify';
 import type { PageInfo, Tab } from '@/utils/types';
-import { sendMessage } from '@/utils/message';
 
 export function handleAddCurrentTab(
-  { currentTab, addPage, isConnected, addAndClose }:
+  { currentTab, addPage, addAndClose, sendNotify }:
   {
     currentTab: Ref<Tab | null>;
     addPage: (info: PageInfo) => boolean;
-    isConnected: Ref<boolean>;
     addAndClose: Ref<boolean>;
+    sendNotify: NotifyFunction;
   },
 ) {
   return async () => {
@@ -22,13 +22,13 @@ export function handleAddCurrentTab(
     });
 
     try {
-      if (isConnected.value)
-        await sendMessage('addTabResult', { success });
-      else if (tabId != null)
-        await sendMessage('addTabResult', { success }, tabId);
+      if (success)
+        await sendNotify('success', 'common.msg.addTab.success', undefined, true);
+      else
+        await sendNotify('error', 'common.msg.addTab.pageAlreadyExists');
     }
     catch (error) {
-      console.error('Failed to send addTabResult message:', error);
+      console.error('Failed to send notify:', error);
     }
 
     if (success && addAndClose.value && tabId != null)

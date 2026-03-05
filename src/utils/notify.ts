@@ -3,7 +3,9 @@ import { toast } from 'vue-sonner';
 
 const defaultDuration = 1000;
 
-function makeNotifyFunction(type: 'success' | 'error' | 'warning' | 'info', duration = defaultDuration) {
+export type NotifyLevel = 'success' | 'error' | 'warning' | 'info';
+
+function makeNotifyFunction(type: NotifyLevel, duration = defaultDuration) {
   return (message: string, data?: ExternalToast) => {
     toast[type](message, {
       duration,

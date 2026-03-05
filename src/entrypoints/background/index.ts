@@ -6,6 +6,7 @@ import { handleCache } from './cache';
 import { handleCommand } from './command';
 import { handleConnection } from './connect';
 import { handleCurrentTab } from './current-tab';
+import { handleSendNotify } from './notify';
 import { handleOpenPage } from './open-page';
 import { handlePageList } from './page-list';
 import { handleOpenRandomPage } from './random-page';
@@ -24,6 +25,10 @@ export default defineBackground(() => {
   // listen for current tab changes
   const currentTab = handleCurrentTab(isConnected);
   const currentTabUrl = computed(() => currentTab.value?.url ?? '');
+  const currentTabId = computed(() => currentTab.value?.id ?? null);
+
+  // send notification to popup or current tab
+  const sendNotify = handleSendNotify(isConnected, currentTabId);
 
   // get setting from storage
   const {
@@ -60,8 +65,8 @@ export default defineBackground(() => {
   const addCurrentTab = handleAddCurrentTab({
     currentTab,
     addPage: pageActions.add,
-    isConnected,
     addAndClose,
+    sendNotify,
   });
   onMessage('addCurrentTab', addCurrentTab);
 
