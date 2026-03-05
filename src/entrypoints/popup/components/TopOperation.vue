@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { FavoritedFilterOption, PageInfo, Tab } from '@/utils/types';
+import type { FavoritedFilterOption } from '@/utils/types';
 
 import { CheckCircle2, PlusCircle, RefreshCw, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
-const props = defineProps<{
-  currentTab: Tab | null;
+defineProps<{
   pageTags: string[];
   favoritedFilterOption: FavoritedFilterOption;
   restorableItemCount: number;
@@ -14,7 +13,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'openSetting'): void;
-  (e: 'addPage', info: PageInfo): void;
+  (e: 'addPage'): void;
   (e: 'changeFavoritedView'): void;
   (e: 'openRandomPage'): void;
   (e: 'restoreRemovedPage'): void;
@@ -23,16 +22,6 @@ const emit = defineEmits<{
 const searchText = defineModel<string>('searchText', { default: '' });
 
 const { t } = useI18n();
-
-function addNewPage() {
-  if (props.currentTab) {
-    const info: PageInfo = {
-      title: props.currentTab.title ?? 'Title Not Available',
-      url: props.currentTab.url ?? 'Url Not Available',
-    };
-    emit('addPage', info);
-  }
-}
 </script>
 
 <template>
@@ -81,7 +70,7 @@ function addNewPage() {
         active:scale-95
       "
       :tip="t('popup.tooltip.add')"
-      @click="addNewPage"
+      @click="emit('addPage')"
     />
   </div>
 </template>

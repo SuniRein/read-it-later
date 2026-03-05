@@ -8,6 +8,7 @@ interface ProtocolMap {
   openRandomPage: () => void;
   openPage: (data: { url: string }) => void;
 
+  addCurrentTab: () => void;
   addTabResult: (data: { success: boolean }) => void;
 
   fetchImageFromCache: (data: { url: string }) => string;

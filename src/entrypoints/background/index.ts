@@ -1,6 +1,6 @@
 import { onMessage } from '@/utils/message';
 
-import { handleAddOrEditCurrentPage } from './add-or-edit-current-page';
+import { handleAddCurrentTab } from './add-current-tab';
 import { handleBadge } from './badge';
 import { handleCache } from './cache';
 import { handleCommand } from './command';
@@ -47,11 +47,12 @@ export default defineBackground(() => {
   onMessage('openRandomPage', openRandomPage);
 
   // add or edit the current page
-  const addCurrentPage = handleAddOrEditCurrentPage(currentTab, pageActions.add);
+  const addCurrentTab = handleAddCurrentTab(currentTab, pageActions.add, isConnected);
+  onMessage('addCurrentTab', addCurrentTab);
 
   // handle browser keyboard commands
   handleCommand({
-    'add-current-page': addCurrentPage,
+    'add-current-page': addCurrentTab,
     'open-popup': action.openPopup,
     'open-random-page': openRandomPage,
     'remove-current-page': removeCurrentPage,

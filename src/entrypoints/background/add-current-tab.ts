@@ -1,9 +1,10 @@
 import type { PageInfo, Tab } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
 
-export function handleAddOrEditCurrentPage(
+export function handleAddCurrentTab(
   currentTab: Ref<Tab | null>,
   addPage: (info: PageInfo) => boolean,
+  isConnected: Ref<boolean>,
 ) {
   return async () => {
     if (currentTab.value === null)
@@ -15,6 +16,10 @@ export function handleAddOrEditCurrentPage(
       title: title ?? 'Title Not Available',
       url: url ?? 'Url Not Available',
     });
-    await sendMessage('addTabResult', { success }, tabId);
+
+    if (isConnected.value)
+      await sendMessage('addTabResult', { success });
+    else if (tabId != null)
+      await sendMessage('addTabResult', { success }, tabId);
   };
 }
