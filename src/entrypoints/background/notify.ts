@@ -1,4 +1,4 @@
-import type { I18nKey } from '@/composables/i18n';
+import type { I18nKey } from '@/utils/i18n';
 import type { NotifyLevel } from '@/utils/notify';
 import { sendMessage } from '@/utils/message';
 

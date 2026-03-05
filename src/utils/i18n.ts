@@ -6,6 +6,14 @@ import { createI18n } from 'vue-i18n';
 export type I18nSchema = typeof schema;
 export type I18nLocales = 'en' | 'zh_CN';
 
+type LeaveKeys<T> = {
+  [K in keyof T]: T[K] extends object
+    ? `${K & string}.${LeaveKeys<T[K]>}`
+    : `${K & string}`;
+}[keyof T];
+
+export type I18nKey = LeaveKeys<I18nSchema>;
+
 export default createI18n<[I18nSchema], I18nLocales, false>({
   legacy: false,
   messages: messages as any,

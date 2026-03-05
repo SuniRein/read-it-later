@@ -1,13 +1,8 @@
-import type { I18nLocales, I18nSchema } from '@/utils/i18n';
+import type { I18nKey, I18nLocales, I18nSchema } from '@/utils/i18n';
 
 import { useI18n } from 'vue-i18n';
 
-export default useI18n<[I18nSchema], I18nLocales>;
+type UseI18n = ReturnType<typeof useI18n<[I18nSchema], I18nLocales>>;
+type UseI18nT = (key: I18nKey, args?: Record<string, unknown>) => string;
 
-type LeaveKeys<T> = {
-  [K in keyof T]: T[K] extends object
-    ? `${K & string}.${LeaveKeys<T[K]>}`
-    : `${K & string}`;
-}[keyof T];
-
-export type I18nKey = LeaveKeys<I18nSchema>;
+export default useI18n as unknown as () => Omit<UseI18n, 't'> & { t: UseI18nT };
