@@ -23,6 +23,7 @@ const migrations = [
       const oldSetting = await store.setting.getValue();
       await store.setting.setValue({
         ...oldSetting,
+        randomPageIgnoreOpened: false,
         openAndRemove: false,
         addAndClose: false,
       });

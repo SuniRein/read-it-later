@@ -100,6 +100,13 @@ void checkFaviconCachingPermission();
       </SettingOption>
 
       <SettingOption
+        :label="t('option.setting.randomPageIgnoreOpened.label')"
+        :description="t('option.setting.randomPageIgnoreOpened.desc')"
+      >
+        <Switch v-model="setting.randomPageIgnoreOpened" />
+      </SettingOption>
+
+      <SettingOption
         :label="t('option.setting.openAndRemove.label')"
         :description="t('option.setting.openAndRemove.desc')"
       >

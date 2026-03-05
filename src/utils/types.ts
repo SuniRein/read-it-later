@@ -49,6 +49,7 @@ export interface Setting {
   googleDriveConfig: GoogleDriveConfig | null;
 
   duplicatedUrlOpened: DuplicatedUrlOpenedOption;
+  randomPageIgnoreOpened: boolean;
   openAndRemove: boolean;
   addAndClose: boolean;
 }

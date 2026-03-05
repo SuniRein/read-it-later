@@ -23,6 +23,7 @@ const defaultSetting: Setting = {
   googleDriveConfig: null,
 
   duplicatedUrlOpened: 'newTab',
+  randomPageIgnoreOpened: false,
   openAndRemove: false,
   addAndClose: false,
 } as const;
