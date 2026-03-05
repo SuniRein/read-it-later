@@ -9,6 +9,12 @@
       "delete": "Delete",
       "clear": "Clear",
       "validate": "Validate"
+    },
+    "msg": {
+      "addTab": {
+        "success": "Page added successfully.",
+        "pageAlreadyExists": "Page has already been in the page list."
+      }
     }
   },
   "popup": {
@@ -44,7 +50,6 @@
     },
     "msg": {
       "invalidTags": "Tags can only contain letters, numbers, underscores, hyphens and Chinese characters.",
-      "pageAlreadyExists": "Page has already been in the page list.",
       "currentPageURLError": "Failed to get current page URL."
     }
   },

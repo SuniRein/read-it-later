@@ -50,8 +50,13 @@ export default defineConfig({
     default_locale: 'en',
     permissions: ['tabs', 'storage', 'downloads', 'identity'],
     optional_permissions: manifestVersion === 2 ? ['<all_urls>'] : undefined,
-    optional_host_permissions: manifestVersion === 3 ? ['<all_urls>'] : undefined,
     commands: {
+      'add-current-page': {
+        suggested_key: {
+          default: 'Alt+A',
+        },
+        description: '__MSG_commandAddCurrentPage__',
+      },
       'open-popup': {
         suggested_key: {
           default: 'Alt+R',

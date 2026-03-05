@@ -1,12 +1,13 @@
+import type { Tab } from '@/utils/types';
 import { sendMessage } from '@/utils/message';
 
 export function handleCurrentTab(isConnected: Ref<boolean>) {
-  const currentTabUrl = shallowRef<string>('');
+  const tab = shallowRef<Tab | null>(null);
 
-  async function updateCurrentTab(tab: Browser.tabs.Tab) {
-    currentTabUrl.value = tab.url ?? '';
+  async function updateCurrentTab(newTab: Tab) {
+    tab.value = newTab;
     if (isConnected.value)
-      await sendMessage('currentTabChanged', { tab });
+      await sendMessage('currentTabChanged', { tab: newTab });
   }
 
   browser.tabs.onActivated.addListener(async (activeInfo) => {
@@ -19,5 +20,5 @@ export function handleCurrentTab(isConnected: Ref<boolean>) {
       await updateCurrentTab(tab);
   });
 
-  return currentTabUrl;
+  return tab;
 }

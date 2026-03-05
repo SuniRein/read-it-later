@@ -5,6 +5,9 @@
   "extDescription": {
     "message": "Save article links to read later."
   },
+  "commandAddCurrentPage": {
+    "message": "Add current page"
+  },
   "commandOpenPopup": {
     "message": "Open popup"
   },

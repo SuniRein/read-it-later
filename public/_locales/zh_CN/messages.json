@@ -5,6 +5,9 @@
   "extDescription": {
     "message": "保存文章链接以便稍后阅读。"
   },
+  "commandAddCurrentPage": {
+    "message": "添加当前页面"
+  },
   "commandOpenPopup": {
     "message": "打开弹出窗口"
   },

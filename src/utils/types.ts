@@ -3,6 +3,7 @@ import type { I18nLocales } from '@/utils/i18n';
 export type Tab = Browser.tabs.Tab;
 /* eslint-disable style/operator-linebreak */
 export type Command =
+  | 'add-current-page'
   | 'open-popup'
   | 'open-random-page'
   | 'remove-current-page'

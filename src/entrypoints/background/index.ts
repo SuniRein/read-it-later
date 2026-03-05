@@ -1,5 +1,6 @@
 import { onMessage } from '@/utils/message';
 
+import { handleAddOrEditCurrentPage } from './add-or-edit-current-page';
 import { handleBadge } from './badge';
 import { handleCache } from './cache';
 import { handleCommand } from './command';
@@ -21,7 +22,8 @@ export default defineBackground(() => {
   const isConnected = handleConnection();
 
   // listen for current tab changes
-  const currentTabUrl = handleCurrentTab(isConnected);
+  const currentTab = handleCurrentTab(isConnected);
+  const currentTabUrl = computed(() => currentTab.value?.url ?? '');
 
   // get setting from storage
   const { showBadge, duplicatedUrlOpened } = handleSetting();
@@ -40,8 +42,12 @@ export default defineBackground(() => {
   const openRandomPage = handleOpenRandomPage(pageListFiltered, openPage);
   onMessage('openRandomPage', openRandomPage);
 
+  // add or edit the current page
+  const addCurrentPage = handleAddOrEditCurrentPage(currentTab, pageActions.add);
+
   // handle browser keyboard commands
   handleCommand({
+    'add-current-page': addCurrentPage,
     'open-popup': action.openPopup,
     'open-random-page': openRandomPage,
     'remove-current-page': removeCurrentPage,
