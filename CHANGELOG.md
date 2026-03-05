@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.17.0](https://github.com/SuniRein/read-it-later/compare/v0.16.0...v0.17.0) (2026-03-05)
+
+
+### Features
+
+* **command:** add a shortcut for add current tab to page list, closed [#69](https://github.com/SuniRein/read-it-later/issues/69) ([825b9be](https://github.com/SuniRein/read-it-later/commit/825b9be606777560358dc1959c481f1c3acea5eb))
+* **notify:** warn if no page available when opening random page ([803d02a](https://github.com/SuniRein/read-it-later/commit/803d02ae730a0ee3f6a6b38dad222b0ad66bd78e))
+* **tab:** option to close current tab after added, closed [#70](https://github.com/SuniRein/read-it-later/issues/70) ([c711583](https://github.com/SuniRein/read-it-later/commit/c7115838c109d97d377e7254fef10a90ca725994))
+* **tab:** option to ignore opened tab when opening random page ([355eb9e](https://github.com/SuniRein/read-it-later/commit/355eb9e8c3388391a0b0bf17bf2dba9b8c15b328)), closes [#48](https://github.com/SuniRein/read-it-later/issues/48)
+* **tab:** option to remove page from list when it's opened, closed [#71](https://github.com/SuniRein/read-it-later/issues/71) ([3745acf](https://github.com/SuniRein/read-it-later/commit/3745acf3fbbc503689cb0843576523577e865771))
+
 ## [0.16.0](https://github.com/SuniRein/read-it-later/compare/v0.15.0...v0.16.0) (2026-02-15)
 
 
