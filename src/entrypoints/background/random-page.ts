@@ -1,9 +1,11 @@
+import type { NotifyFunction } from './notify';
 import type { PageItem } from '@/utils/types';
 
 export function handleOpenRandomPage(
   pageList: Ref<PageItem[]>,
   openPage: (url: string) => Promise<void>,
   randomPageIgnoreOpened: Ref<boolean>,
+  sendNotify: NotifyFunction,
 ) {
   return async () => {
     let availablePages = pageList.value;
@@ -15,7 +17,7 @@ export function handleOpenRandomPage(
     }
 
     if (availablePages.length === 0) {
-      console.warn('No pages available to open.');
+      await sendNotify('warning', 'common.msg.openRandomPage.noPage');
       return;
     }
 

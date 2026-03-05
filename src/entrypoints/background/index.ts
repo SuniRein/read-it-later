@@ -58,6 +58,7 @@ export default defineBackground(() => {
     pageListFiltered,
     openPage,
     randomPageIgnoreOpened,
+    sendNotify,
   );
   onMessage('openRandomPage', openRandomPage);
 
