@@ -192,7 +192,7 @@
       },
       "msg": {
         "loadData": "Loaded successful: {added} added, {updated} updated and {ignored} ignored.",
-        "invalidFile": "Invalid file format.",
+        "invalidFileType": "Invalid file format.",
         "noUploadFile": "No file provided for upload.",
         "parseError": "Failed to parse page list: {error}",
         "parseErrorCsv": "Failed to parse CSV file: {error}",
