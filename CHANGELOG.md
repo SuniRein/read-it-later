@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.17.1](https://github.com/SuniRein/read-it-later/compare/v0.17.0...v0.17.1) (2026-03-11)
+
+### Bug Fixes
+
+* *cloud/google*: google api secret missing in build artifacts
+
 ## [0.17.0](https://github.com/SuniRein/read-it-later/compare/v0.16.0...v0.17.0) (2026-03-05)
 
 
