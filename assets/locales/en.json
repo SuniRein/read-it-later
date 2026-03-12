@@ -220,9 +220,9 @@
           "q": "How to set a shortcut to open the Popup?",
           "a": "You can customize global shortcuts for this extension on the browser's extension management page."
         },
-        "searchByTag": {
-          "q": "How to search by tags?",
-          "a": "Type `#tag` in the search bar to filter. Multiple tags are supported, separated by spaces."
+        "search": {
+          "q": "How to find items?",
+          "a": "Just type keywords in the search bar. Separate multiple keywords with spaces to narrow down the results. The search will look for matches in both the title and url.\nTo filter by tags, type `#tag` in the search bar. Multiple tags are supported, separated by spaces.\nA keyword starting with `!` means excluding items that match the keyword. For example, `!#tag1` will exclude items tagged with `tag1`, and `!keyword` will exclude items that have `keyword` in the title or url.\nYou can also combine these syntaxes for more complex searches, such as `keyword1 keyword2 #tag1 !#tag2` to filter items that contain `keyword1` and `keyword2`, have the tag `tag1` but do not have the tag `tag2`."
         },
         "IMP": {
           "q": "How to import from IMP's CSV export?",

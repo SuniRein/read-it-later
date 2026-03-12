@@ -4,7 +4,7 @@ import * as meta from '@/utils/meta';
 
 const { t } = useI18n();
 
-const faqKeys = ['shortcut', 'searchByTag', 'IMP'] as const;
+const faqKeys = ['shortcut', 'search', 'IMP'] as const;
 
 const faqs = computed(() => faqKeys.map(key => ({
   key,
@@ -28,8 +28,8 @@ const faqs = computed(() => faqKeys.map(key => ({
         >
           {{ faq.question }}
         </AccordionTrigger>
-        <AccordionContent class="py-4 leading-relaxed text-muted-foreground">
-          {{ faq.answer }}
+        <AccordionContent class="py-4 leading-relaxed whitespace-pre-wrap text-muted-foreground">
+          {{ faq.answer.split('\n').join('\n\n') }}
         </AccordionContent>
       </AccordionItem>
     </Accordion>
