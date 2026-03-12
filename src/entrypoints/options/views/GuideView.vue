@@ -23,7 +23,7 @@ const faqs = computed(() => faqKeys.map(key => ({
         <AccordionTrigger
           class="
             border-b py-4 text-left transition-colors
-            hover:text-primary hover:no-underline
+            hover:text-primary/80 hover:no-underline
           "
         >
           {{ faq.question }}
@@ -34,8 +34,18 @@ const faqs = computed(() => faqKeys.map(key => ({
       </AccordionItem>
     </Accordion>
 
-    <div class="rounded-lg border border-blue-100 bg-blue-50 p-4">
-      <p class="flex items-start gap-2 text-sm text-blue-800">
+    <div
+      class="
+        rounded-lg border border-blue-50 bg-blue-100 p-4
+        dark:border-blue-800/50 dark:bg-blue-900/50
+      "
+    >
+      <p
+        class="
+          flex items-start gap-2 text-sm text-blue-800
+          dark:text-blue-200
+        "
+      >
         <Info class="mt-0.5 size-4 shrink-0" />
         <i18n-t keypath="option.guide.feedback" tag="span">
           <a :href="meta.issues" class="font-medium underline decoration-2 underline-offset-2">GitHub Issue</a>

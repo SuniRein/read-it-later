@@ -9,7 +9,9 @@ defineProps<{
   <div
     class="
       flex items-center justify-between p-4 transition-colors
-      hover:bg-muted/50
+      first:rounded-t-xl
+      last:rounded-b-xl
+      hover:bg-muted/60
     "
   >
     <div class="space-y-0.5">

@@ -9,7 +9,7 @@ defineProps<{
   <section class="space-y-2">
     <div class="flex items-center gap-2 px-1">
       <component :is="icon" class="size-5 text-primary" />
-      <h3 class="text-lg font-medium">
+      <h3 class="text-lg font-semibold">
         {{ title }}
       </h3>
     </div>

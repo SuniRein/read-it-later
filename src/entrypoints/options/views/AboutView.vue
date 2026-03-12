@@ -13,16 +13,21 @@ const { t } = useI18n();
         <CardTitle class="text-3xl font-semibold tracking-tight">
           {{ t('common.title') }}
         </CardTitle>
-        <Badge variant="secondary" class="bg-purple-100 text-purple-700">
+        <Badge
+          variant="secondary" class="
+            bg-purple-100 text-purple-700
+            dark:bg-purple-800 dark:text-purple-200
+          "
+        >
           v{{ meta.version }}
         </Badge>
       </div>
 
-      <p class="text-sm text-muted-foreground">
+      <p class="text-sm">
         <i18n-t keypath="option.about.developedBy">
           <a
             :href="meta.authorPage" target="_blank" class="
-              text-primary underline-offset-4
+              text-muted-foreground underline-offset-4
               hover:underline
             "
           >
@@ -33,7 +38,7 @@ const { t } = useI18n();
     </CardHeader>
 
     <CardContent>
-      <CardDescription class="mb-4 text-sm/7">
+      <CardDescription class="mb-4 text-sm/7 text-card-foreground">
         {{ t('option.about.desc') }}
       </CardDescription>
 
@@ -53,17 +58,17 @@ const { t } = useI18n();
     </CardContent>
 
     <CardFooter class="flex flex-col gap-2 border-t pt-4">
-      <p class="text-muted-foreground">
+      <p>
         {{ t('option.about.privacy') }}
       </p>
 
-      <p class="text-muted-foreground">
+      <p>
         <i18n-t keypath="option.about.license.info">
           <a
             href="https://www.gnu.org/licenses/gpl-3.0.html"
             target="_blank"
             class="
-              text-primary underline-offset-4
+              text-muted-foreground underline-offset-4
               hover:underline
             "
           >

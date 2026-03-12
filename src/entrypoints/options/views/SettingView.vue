@@ -168,7 +168,7 @@ void checkFaviconCachingPermission();
             v-if="setting.faviconCaching"
             variant="outline" size="sm" class="
               text-destructive transition-all
-              hover:bg-destructive/10
+              hover:bg-destructive/20 hover:text-destructive
             "
             @click="clearFaviconCache"
           >
@@ -188,17 +188,14 @@ void checkFaviconCachingPermission();
         :description="t('option.setting.language.desc')"
       >
         <ToggleGroup
-          type="single" class="rounded-lg bg-muted p-1"
+          type="single" class="rounded-lg border border-border p-1"
           :model-value="setting.locale"
           @update:model-value="(val) => { if (val) setting.locale = val as I18nLocales }"
         >
           <ToggleGroupItem
             v-for="[value, text] in [['en', 'English'], ['zh_CN', '简体中文']] satisfies Array<[I18nLocales, string]>"
             :key="value" :value
-            class="
-              rounded-md px-4 py-2
-              data-[state=on]:bg-background data-[state=on]:shadow-sm
-            "
+            class="px-4 py-2"
           >
             {{ text }}
           </ToggleGroupItem>

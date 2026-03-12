@@ -16,7 +16,7 @@ const navItems = computed(() => [
 
 <template>
   <div class="flex h-screen bg-background text-foreground">
-    <aside class="w-56 flex-col border-r">
+    <aside class="w-56 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
       <div class="p-4">
         <h1 class="text-2xl font-bold tracking-tight">
           {{ t('common.title') }}
@@ -27,8 +27,14 @@ const navItems = computed(() => [
           <RouterLink v-for="item in navItems" :key="item.key" :to="{ name: item.key }" custom>
             <template #default="{ navigate, isActive }">
               <Button
-                :variant="isActive ? 'secondary' : 'ghost'"
-                class="w-full justify-start"
+                variant="ghost"
+                :class="cn(
+                  `
+                    w-full justify-start
+                    hover:bg-sidebar-accent hover:text-sidebar-accent-foreground
+                  `,
+                  isActive && 'bg-sidebar-accent text-sidebar-accent-foreground',
+                )"
                 @click="navigate"
               >
                 <component :is="item.icon" class="mr-2 size-4" />

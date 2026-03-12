@@ -87,10 +87,7 @@ defineExpose({
         v-if="config === null"
         size="sm"
         variant="outline"
-        class="
-          h-9 rounded-full px-4 transition-all
-          hover:bg-primary hover:text-primary-foreground
-        "
+        class="h-9 rounded-full px-4 transition-all"
         :disabled="isPending"
         @click="handleSignIn"
       >

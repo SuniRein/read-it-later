@@ -36,7 +36,7 @@ const { t } = useI18n();
       <Separator />
 
       <div v-if="files === null" class="flex flex-col items-center justify-center gap-4 py-20">
-        <Loader2 class="size-8 animate-spin text-primary/50" />
+        <Loader2 class="size-8 animate-spin text-muted-foreground" />
         <p class="text-sm text-muted-foreground italic">
           {{ t('option.data.cloud.action.load.loadingStatus') }}
         </p>
@@ -48,7 +48,7 @@ const { t } = useI18n();
           :key="file.id"
           class="
             group flex items-center justify-between rounded-lg border bg-card p-3 shadow-sm transition-all
-            hover:bg-accent/50
+            hover:bg-accent/60
           "
         >
           <div class="flex flex-col gap-1">
@@ -68,13 +68,23 @@ const { t } = useI18n();
               <CloudDownload />
             </Button>
 
-            <Button variant="ghost" size="icon" class="size-8 text-blue-500" @click="emit('download', file.id, file.name)">
+            <Button
+              variant="ghost" size="icon" class="
+                size-8 text-blue-500
+                hover:text-blue-500
+              " @click="emit('download', file.id, file.name)"
+            >
               <Download />
             </Button>
 
             <AlertDialog>
               <AlertDialogTrigger as-child>
-                <Button variant="ghost" size="icon" class="size-8 text-destructive">
+                <Button
+                  variant="ghost" size="icon" class="
+                    size-8 text-destructive
+                    hover:text-destructive
+                  "
+                >
                   <Trash2 />
                 </Button>
               </AlertDialogTrigger>
