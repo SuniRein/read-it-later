@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
@@ -7,7 +8,6 @@ import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
 import { handleNotify, sendMessage } from '@/utils/message';
 import notify from '@/utils/notify';
-
 import store from '@/utils/store';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
@@ -68,10 +68,23 @@ function updateUrl(id: string, url: string) {
     notify.error(t('common.msg.addTab.pageAlreadyExists'));
   }
 }
+
+async function popOut() {
+  const url = browser.runtime.getURL('/popup.html?mode=popout');
+  await browser.windows.create({ url, type: 'popup', width: 480, height: 500 });
+  window.close();
+}
+
+const isPopout = new URLSearchParams(window.location.search).get('mode') === 'popout';
 </script>
 
 <template>
-  <div class="m-0 flex h-125 w-120 flex-col overflow-hidden bg-background text-foreground shadow-xl">
+  <div
+    :class="cn(
+      'm-0 flex flex-col overflow-hidden bg-background text-foreground shadow-xl',
+      isPopout ? 'h-screen w-screen' : 'h-125 w-120',
+    )"
+  >
     <header class="h-12 w-full">
       <TopOperation
         v-model:search-text="searchText"
@@ -79,10 +92,12 @@ function updateUrl(id: string, url: string) {
         :page-tags
         :favorited-filter-option
         :restorable-item-count
+        :is-popout
         @add-page="addPage"
         @change-favorited-view="changeFavoritedView"
         @open-random-page="sendMessage('openRandomPage')"
         @open-setting="browser.runtime.openOptionsPage"
+        @open-popout="popOut"
         @restore-removed-page="pageActions.restoreRemoved"
       />
     </header>
@@ -119,8 +134,8 @@ function updateUrl(id: string, url: string) {
         show-edges
       >
         <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst />
-          <PaginationPrevious />
+          <PaginationFirst><ChevronFirst /></PaginationFirst>
+          <PaginationPrevious><ChevronLeft /></PaginationPrevious>
 
           <template v-for="(item, index) in items">
             <PaginationItem
@@ -142,8 +157,8 @@ function updateUrl(id: string, url: string) {
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
 
-          <PaginationNext />
-          <PaginationLast />
+          <PaginationNext><ChevronRight /></PaginationNext>
+          <PaginationLast><ChevronLast /></PaginationLast>
         </PaginationContent>
       </Pagination>
     </footer>

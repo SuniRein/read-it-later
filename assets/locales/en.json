@@ -24,7 +24,7 @@
     "searchPlaceholder": "Find...",
     "tooltip": {
       "setting": "Open setting page",
-      "sync": "Sync",
+      "popout": "Pop out to new window",
       "toggleFavorite": "Filter by 'favorited' status",
       "random": "Open a random page",
       "restore": "Restore removed items",

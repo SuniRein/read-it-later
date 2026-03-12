@@ -1,13 +1,15 @@
 <script setup lang="ts" generic="T extends { value: string }">
+import type { HTMLAttributes } from 'vue';
 import { X } from 'lucide-vue-next';
 import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui';
 
 defineOptions({ inheritAttrs: false });
 
-defineProps<{
+const props = defineProps<{
   items: T[];
   placeholder?: string;
   autofocus?: boolean;
+  class?: HTMLAttributes['class'];
 }>();
 
 const emit = defineEmits<{
@@ -40,34 +42,32 @@ defineExpose({ focus });
 </script>
 
 <template>
-  <ComboboxRoot v-model:open="open" :model-value="input" class="relative" ignore-filter>
+  <ComboboxRoot v-model:open="open" :model-value="input" :class="cn('relative', props.class)" ignore-filter>
     <ComboboxAnchor as-child>
-      <div class="relative">
-        <ComboboxInput
-          ref="inputRef"
-          v-bind="$attrs"
-          v-model="input"
-          class="
-            flex w-full rounded-md border bg-background px-2 py-1 text-lg
-            focus:ring-1 focus:ring-ring focus:outline-none
-            disabled:cursor-not-allowed disabled:opacity-50
-          "
-          :placeholder
-          :auto-focus="autofocus"
-          @input="syncCursor"
-          @click="syncCursor"
-          @keyup="syncCursor"
-          @focus="open = true"
-        />
-        <X
-          v-if="input.length > 0"
-          class="
-            absolute top-1/2 right-1 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
-            hover:text-foreground
-          "
-          @click="input = ''; cursor = 0;"
-        />
-      </div>
+      <ComboboxInput
+        ref="inputRef"
+        v-bind="$attrs"
+        v-model="input"
+        class="
+          flex w-full rounded-md border bg-background px-2 py-1 text-lg
+          focus:ring-1 focus:ring-ring focus:outline-none
+          disabled:cursor-not-allowed disabled:opacity-50
+        "
+        :placeholder
+        :auto-focus="autofocus"
+        @input="syncCursor"
+        @click="syncCursor"
+        @keyup="syncCursor"
+        @focus="open = true"
+      />
+      <X
+        v-if="input.length > 0"
+        class="
+          absolute top-1/2 right-1 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
+          hover:text-foreground
+        "
+        @click="input = ''; cursor = 0;"
+      />
     </ComboboxAnchor>
 
     <ComboboxPortal>

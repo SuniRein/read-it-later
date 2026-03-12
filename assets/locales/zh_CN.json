@@ -24,7 +24,7 @@
     "searchPlaceholder": "搜索...",
     "tooltip": {
       "setting": "打开设置界面",
-      "sync": "同步",
+      "popout": "弹出到新窗口",
       "toggleFavorite": "按收藏状态筛选",
       "random": "打开随机页面",
       "restore": "恢复被删除的页面",

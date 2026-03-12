@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FavoritedFilterOption } from '@/utils/types';
 
-import { CheckCircle2, PlusCircle, RefreshCw, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
+import { CheckCircle2, ExternalLink, PlusCircle, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
 import IconButton from './IconButton.vue';
 import SearchBox from './SearchBox.vue';
 
@@ -9,10 +9,12 @@ defineProps<{
   pageTags: string[];
   favoritedFilterOption: FavoritedFilterOption;
   restorableItemCount: number;
+  isPopout: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: 'openSetting'): void;
+  (e: 'openPopout'): void;
   (e: 'addPage'): void;
   (e: 'changeFavoritedView'): void;
   (e: 'openRandomPage'): void;
@@ -28,10 +30,10 @@ const { t } = useI18n();
   <div class="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md">
     <div class="flex items-center gap-1">
       <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="emit('openSetting')" />
-      <IconButton :icon="RefreshCw" :tip="t('popup.tooltip.sync')" disabled />
+      <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="emit('openPopout')" />
     </div>
 
-    <SearchBox v-model="searchText" autofocus :tags="pageTags" />
+    <SearchBox v-model="searchText" autofocus :tags="pageTags" class="w-full" />
 
     <div class="flex items-center gap-1">
       <div class="relative flex items-center justify-center">
