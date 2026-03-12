@@ -27,22 +27,36 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div class="flex items-center gap-2 border-b border-zinc-800 bg-zinc-950/90 px-1.5 py-1 shadow-sm backdrop-blur-md">
+  <div
+    class="
+      flex items-center gap-2 border-b border-sidebar-border bg-sidebar-primary px-1.5 py-1
+      text-sidebar-primary-foreground shadow-sm
+      dark:bg-sidebar dark:text-sidebar-foreground
+    "
+  >
     <div class="flex items-center gap-1">
       <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="emit('openSetting')" />
       <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="emit('openPopout')" />
     </div>
 
-    <SearchBox v-model="searchText" autofocus :tags="pageTags" class="w-full" />
+    <SearchBox v-model="searchText" autofocus :tags="pageTags" root-class="w-full" class="bg-input text-primary" />
 
     <div class="flex items-center gap-1">
       <div class="relative flex items-center justify-center">
         <IconButton :icon="Star" :tip="t('popup.tooltip.toggleFavorite')" @click="emit('changeFavoritedView')" />
         <div v-if="favoritedFilterOption !== 'all'" class="pointer-events-none absolute -top-1 -right-1">
           <CheckCircle2
-            v-if="favoritedFilterOption === 'favorited'" class="size-4 fill-emerald-500/20 text-emerald-500"
+            v-if="favoritedFilterOption === 'favorited'" class="
+              size-4 fill-emerald-500/20 text-emerald-500
+              dark:fill-emerald-400/20 dark:text-emerald-400
+            "
           />
-          <XCircle v-else class="size-4 fill-red-500/20 text-red-500" />
+          <XCircle
+            v-else class="
+              size-4 fill-red-500/20 text-red-500
+              dark:fill-red-400/20 dark:text-red-400
+            "
+          />
         </div>
       </div>
 
@@ -53,8 +67,8 @@ const { t } = useI18n();
         <Badge
           v-if="restorableItemCount > 0"
           class="
-            pointer-events-none absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center bg-orange-600 px-1
-            text-[10px]
+            pointer-events-none absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center bg-orange-400/20
+            px-1 text-[10px] text-orange-400
           "
         >
           {{ restorableItemCount }}

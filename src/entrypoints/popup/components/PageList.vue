@@ -50,25 +50,30 @@ function urlClickable(url: string): boolean {
 </script>
 
 <template>
-  <div class="flex w-full flex-col bg-background">
+  <div class="flex w-full flex-col">
     <div v-for="item in pageList" :key="item.id" class="group relative">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
             v-if="item.info.url === currentTab?.url"
-            class="absolute inset-y-1 w-1 rounded-full bg-linear-to-b from-blue-400 via-blue-600 to-blue-400 opacity-90"
+            class="
+              absolute inset-y-1 w-1 rounded-full bg-linear-to-b from-blue-400 via-blue-600 to-blue-400 opacity-90
+              dark:from-blue-300 dark:via-blue-400 dark:to-blue-300 dark:opacity-100
+              dark:shadow-[0_0_8px_rgba(96,165,250,0.5)]
+            "
           />
           <div
             :class="cn(
               `
-                flex flex-col border-b px-1 py-1.5 transition-colors
+                flex flex-col border-b border-border px-1 py-1.5 transition-colors
                 group-last:border-0
                 hover:bg-accent/70
               `,
               item.favorited && `
                 bg-yellow-200/50
                 hover:bg-yellow-200/70
-                dark:bg-yellow-900/10
+                dark:bg-yellow-400/15
+                dark:hover:bg-yellow-400/30
               `,
             )"
           >
@@ -114,29 +119,21 @@ function urlClickable(url: string): boolean {
                 group-hover:opacity-100
               "
             >
-              <Button
-                variant="ghost" class="
-                  size-10 border border-input shadow-sm
-                  hover:bg-primary hover:text-primary-foreground
-                " @click.stop="emit('copyUrl', item.info.url)"
-              >
+              <Button variant="ghost" class="size-10 border border-border shadow-sm" @click.stop="emit('copyUrl', item.info.url)">
                 <Copy />
               </Button>
 
-              <Button
-                variant="ghost" class="
-                  size-10 border border-input shadow-sm
-                  hover:bg-primary hover:text-primary-foreground
-                " @click.stop="editedItem = item"
-              >
+              <Button variant="ghost" class="size-10 border border-border shadow-sm" @click.stop="editedItem = item">
                 <Edit2 />
               </Button>
 
               <Button
-                variant="ghost" class="size-10 border border-input shadow-sm"
+                variant="ghost" class="size-10 border border-border shadow-sm"
                 :class="item.favorited ? `
                   border-yellow-200 bg-yellow-50 text-yellow-400
                   hover:bg-yellow-400 hover:text-white
+                  dark:border-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-400
+                  dark:hover:bg-yellow-400/30 dark:hover:text-white
                 ` : `hover:text-yellow-500`"
                 @click.stop="emit('toggleStar', item.id)"
               >
@@ -145,8 +142,8 @@ function urlClickable(url: string): boolean {
 
               <Button
                 variant="ghost" class="
-                  size-10 border border-input text-green-600 shadow-sm
-                  hover:bg-green-600 hover:text-white
+                  size-10 border border-border text-green-600 shadow-sm
+                  hover:text-green-600
                 " @click.stop="emit('markRead', item.id)"
               >
                 <Check />

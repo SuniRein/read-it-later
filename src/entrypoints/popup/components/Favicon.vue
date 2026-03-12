@@ -6,7 +6,6 @@ const { url, useCache } = defineProps<{
   url?: string;
   useCache?: boolean;
 }>();
-
 const imgSrc = ref<string>();
 const isLoading = ref(true);
 const isError = ref(false);
@@ -51,9 +50,9 @@ function handleImageError() {
 <template>
   <div
     class="
-      relative flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-md border border-black/5
-      bg-secondary/50 shadow-sm
-      dark:border-white/10
+      relative flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-md border border-zinc-300/50
+      bg-white/95 shadow-sm
+      dark:border-zinc-700/50 dark:bg-zinc-100/95
     "
   >
     <div

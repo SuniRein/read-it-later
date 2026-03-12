@@ -121,8 +121,15 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
       </ScrollArea>
     </main>
 
-    <footer class="flex items-center justify-between border-t bg-muted/40 px-2 py-1.5">
-      <Badge variant="outline" class="rounded-full bg-green-600/10 font-mono font-bold text-green-600">
+    <footer
+      class="flex items-center justify-between border-t border-sidebar-border bg-card px-2 py-1.5 text-card-foreground"
+    >
+      <Badge
+        variant="outline" class="
+          rounded-full bg-green-600/10 font-mono font-bold text-green-600
+          dark:bg-green-400/10 dark:text-green-400
+        "
+      >
         {{ pageListFiltered.length }}
       </Badge>
 
@@ -142,17 +149,9 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
               v-if="item.type === 'page'"
               :key="index"
               :value="item.value"
-              as-child
+              :is-active="item.value === current"
             >
-              <Button
-                :class="cn(
-                  'size-8 p-0 transition-all',
-                  item.value === current && 'hover:bg-primary hover:text-primary-foreground',
-                )"
-                :variant="item.value === current ? 'default' : 'ghost'"
-              >
-                {{ item.value }}
-              </Button>
+              {{ item.value }}
             </PaginationItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
