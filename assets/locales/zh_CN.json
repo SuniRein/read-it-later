@@ -79,6 +79,15 @@
         "label": "显示徽章",
         "desc": "在扩展图标上显示条目数量"
       },
+      "colorMode": {
+        "label": "色彩模式",
+        "desc": "选择扩展界面的色彩模式",
+        "option": {
+          "light": "浅色",
+          "dark": "深色",
+          "auto": "自动"
+        }
+      },
       "duplicatedUrl": {
         "label": "打开重复标签页时",
         "desc": "当尝试打开已打开的标签页时的行为",

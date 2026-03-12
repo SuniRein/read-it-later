@@ -31,6 +31,8 @@ export interface PageItemIMP {
   tags: string[];
 }
 
+export type ColorMode = 'light' | 'dark' | 'auto';
+
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
 export type CloudStorageType = 'webdav' | 'google-drive' | 'none';
@@ -38,6 +40,7 @@ export type CloudStorageType = 'webdav' | 'google-drive' | 'none';
 export interface Setting {
   pagination: number;
   showBadge: boolean;
+  colorMode: ColorMode;
 
   faviconSource: FaviconSource;
   faviconCaching: boolean;

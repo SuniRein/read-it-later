@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { I18nLocales } from '@/utils/i18n';
-import type { DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
+import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
 
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { sendMessage } from '@/utils/message';
@@ -74,6 +74,20 @@ void checkFaviconCachingPermission();
         :description="t('option.setting.showBadge.desc')"
       >
         <Switch v-model="setting.showBadge" />
+      </SettingOption>
+
+      <SettingOption
+        :label="t('option.setting.colorMode.label')"
+        :description="t('option.setting.colorMode.desc')"
+      >
+        <Select v-model="setting.colorMode">
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="value in ['light', 'dark', 'auto'] satisfies ColorMode[]" :key="value" :value>
+              {{ t(`option.setting.colorMode.option.${value}`) }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </SettingOption>
     </SettingSection>
 

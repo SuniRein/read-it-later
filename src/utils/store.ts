@@ -12,6 +12,7 @@ function defaultLocale(): I18nLocales {
 const defaultSetting: Setting = {
   pagination: 20,
   showBadge: false,
+  colorMode: 'auto',
 
   faviconSource: 'favicon.im',
   faviconCaching: false,

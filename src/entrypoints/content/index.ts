@@ -1,5 +1,7 @@
+import { setupTheme } from '@/composables/theme';
 import i18n from '@/utils/i18n';
 import store from '@/utils/store';
+import { IsDarkKey } from '@/utils/symbols';
 import App from './App.vue';
 
 import '@/style.css';
@@ -27,9 +29,12 @@ export default defineContentScript({
       position: 'inline',
       anchor: 'body',
       onMount: async (container) => {
+        const { isDark } = await setupTheme(container);
+
         const app = createApp(App);
         app
           .use(i18n)
+          .provide(IsDarkKey, isDark)
           .mount(container);
         return app;
       },

@@ -29,6 +29,16 @@ const migrations = [
       });
     },
   },
+  {
+    version: '0.18.0',
+    run: async () => {
+      const oldSetting = await store.setting.getValue();
+      await store.setting.setValue({
+        ...oldSetting,
+        colorMode: 'auto',
+      });
+    },
+  },
 ];
 
 export function handleUpdate() {

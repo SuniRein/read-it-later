@@ -1,5 +1,7 @@
+import { setupTheme } from '@/composables/theme';
 import i18n from '@/utils/i18n';
 import store from '@/utils/store';
+import { IsDarkKey } from '@/utils/symbols';
 
 import App from './App.vue';
 
@@ -15,9 +17,12 @@ async function bootstrap() {
     i18n.global.locale.value = locale;
   });
 
+  const { isDark } = await setupTheme();
+
   createApp(App)
     .use(i18n)
     .use(router)
+    .provide(IsDarkKey, isDark)
     .mount('#app');
 }
 

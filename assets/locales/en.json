@@ -79,6 +79,15 @@
         "label": "Show badge",
         "desc": "Display item count on the extension icon"
       },
+      "colorMode": {
+        "label": "Color mode",
+        "desc": "Choose the color mode for the extension interface",
+        "option": {
+          "light": "Light",
+          "dark": "Dark",
+          "auto": "Auto"
+        }
+      },
       "duplicatedUrl": {
         "label": "When opening duplicated tabs",
         "desc": "Control the behavior when attempting to open an already opened tab",

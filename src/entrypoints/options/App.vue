@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { HelpCircle, Home, Save, Settings } from 'lucide-vue-next';
+import { IsDarkKey } from '@/utils/symbols';
+
+const isDark = inject(IsDarkKey);
 
 const { t } = useI18n();
 
@@ -45,6 +48,6 @@ const navItems = computed(() => [
       </Suspense>
     </main>
 
-    <Sonner rich-colors position="top-center" />
+    <Sonner rich-colors position="top-center" :theme="isDark ? 'dark' : 'light'" />
   </div>
 </template>
