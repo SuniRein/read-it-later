@@ -1,11 +1,13 @@
 export function handleConnection() {
-  const isConnected = ref(false);
+  const connectionCounter = ref(0);
+  const isConnected = computed(() => connectionCounter.value > 0);
 
   browser.runtime.onConnect.addListener((port) => {
     if (port.name === 'popup-communication') {
-      isConnected.value = true;
+      connectionCounter.value += 1;
       port.onDisconnect.addListener(() => {
-        isConnected.value = false;
+        if (connectionCounter.value > 0)
+          connectionCounter.value -= 1;
       });
     }
   });
