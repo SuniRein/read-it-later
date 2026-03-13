@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.18.0](https://github.com/SuniRein/read-it-later/compare/v0.17.1...v0.18.0) (2026-03-13)
+
+
+### Features
+
+* **guide:** improve document for search items ([6989bff](https://github.com/SuniRein/read-it-later/commit/6989bff16caae0ff417e0a75ce1600f6b088c4f4))
+* **popup:** add popout window ([d192207](https://github.com/SuniRein/read-it-later/commit/d192207a6c0aa01969375a6a21d5a0e619c9bd01))
+* **setting:** add color mode ([a059acb](https://github.com/SuniRein/read-it-later/commit/a059acbb9b89e69301ea6d2d7e5b5733fbb20799))
+* **ui:** dark mode adaption for option page ([296cb05](https://github.com/SuniRein/read-it-later/commit/296cb05a7e36c048ac949ca24cb0074f989e6b85))
+* **ui:** dark mode adaption for popup page ([c9d735c](https://github.com/SuniRein/read-it-later/commit/c9d735c0a1d7e3bede0c55206274b974732bf43f))
+
+
+### Bug Fixes
+
+* **popup:** multiple popup connections lead to connected status error ([1d02790](https://github.com/SuniRein/read-it-later/commit/1d02790cf2809456741d094c2187109b9459e698))
+
 ## [0.17.1](https://github.com/SuniRein/read-it-later/compare/v0.17.0...v0.17.1) (2026-03-11)
 
 ### Bug Fixes
