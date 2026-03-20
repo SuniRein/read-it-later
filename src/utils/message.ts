@@ -5,6 +5,7 @@ import { defineExtensionMessaging } from '@webext-core/messaging';
 import notify from '@/utils/notify';
 
 interface ProtocolMap {
+  getCurrentTab: () => Promise<Tab | null>;
   currentTabChanged: (data: { tab: Tab }) => void;
 
   openRandomPage: () => void;

@@ -1,13 +1,12 @@
 import type { Tab } from '@/utils/types';
 
-import { onMessage } from '@/utils/message';
+import { onMessage, sendMessage } from '@/utils/message';
 
 export function useCurrentTab() {
   const currentTab = ref<Tab | null>(null);
 
   onMounted(async () => {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    currentTab.value = tabs[0] ?? null;
+    currentTab.value = await sendMessage('getCurrentTab');
   });
   onMessage('currentTabChanged', ({ data: { tab } }) => {
     currentTab.value = tab;
