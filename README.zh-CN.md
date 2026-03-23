@@ -21,6 +21,7 @@
 ## 插件安装
 
 - [Firefox Addons](https://addons.mozilla.org/firefox/addon/read-it-later-simply)
+- [Chrome Addons](https://chromewebstore.google.com/detail/read-it-later-simply/hohalapbhmgokgdhagfomdbgbpejjkcj)
 
 ## 开发指南
 

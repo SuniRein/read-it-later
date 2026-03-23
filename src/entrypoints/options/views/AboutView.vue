@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ChromeLogo from '~~/assets/chrome.svg?component';
 import FirefoxLogo from '~~/assets/firefox.svg?component';
 import GithubLogo from '~~/assets/github.svg?component';
 import * as meta from '@/utils/meta';
@@ -52,6 +53,12 @@ const { t } = useI18n();
         <Button variant="outline" as-child>
           <a :href="meta.firefoxAddons">
             <FirefoxLogo class="size-4" /> Firefox
+          </a>
+        </Button>
+
+        <Button variant="outline" as-child>
+          <a :href="meta.chromeAddons">
+            <ChromeLogo class="size-4 bg-none" /> Chrome
           </a>
         </Button>
       </div>
