@@ -227,6 +227,10 @@
         "IMP": {
           "q": "How to import from IMP's CSV export?",
           "a": "You can directly load the CSV file exported from IMP in the `Data > Local Storage` section. The browser extension will automatically identify the data format based on the file extension (JSON or CSV)."
+        },
+        "addressBar": {
+          "q": "Can you add an address bar icon like IMP for quickly saving the current page?",
+          "a": "The address bar icon button is actually a feature of Firefox's built-in Pocket service. Browser extensions do not have permission to add buttons to the address bar. You can try using shortcuts or the right-click context menu to quickly save the current page."
         }
       },
       "feedback": "Not finding the answer you want? You can go to {0} to give your feedback."
