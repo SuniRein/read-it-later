@@ -1,14 +1,19 @@
+import type { Setting } from '@/utils/types';
 import store from '@/utils/store';
+
+async function updateSettings(newSettings: Partial<Setting>) {
+  const oldSetting = await store.setting.getValue();
+  await store.setting.setValue({
+    ...oldSetting,
+    ...newSettings,
+  });
+}
 
 const migrations = [
   {
     version: '0.15.0',
     run: async () => {
-      const oldSetting = await store.setting.getValue();
-      await store.setting.setValue({
-        ...oldSetting,
-        googleDriveConfig: null,
-      });
+      await updateSettings({ googleDriveConfig: null });
 
       const oldPageList = await store.pageList.getValue();
       await store.pageList.setValue(oldPageList.map(page => ({
@@ -20,9 +25,7 @@ const migrations = [
   {
     version: '0.17.0',
     run: async () => {
-      const oldSetting = await store.setting.getValue();
-      await store.setting.setValue({
-        ...oldSetting,
+      await updateSettings({
         randomPageIgnoreOpened: false,
         openAndRemove: false,
         addAndClose: false,
@@ -32,11 +35,7 @@ const migrations = [
   {
     version: '0.18.0',
     run: async () => {
-      const oldSetting = await store.setting.getValue();
-      await store.setting.setValue({
-        ...oldSetting,
-        colorMode: 'auto',
-      });
+      await updateSettings({ colorMode: 'auto' });
     },
   },
 ];
