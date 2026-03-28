@@ -1,6 +1,5 @@
-import { setupTheme } from '@/composables/theme';
+import { setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import i18n from '@/utils/i18n';
-import store from '@/utils/store';
 import { IsDarkKey } from '@/utils/symbols';
 import App from './App.vue';
 
@@ -17,19 +16,16 @@ export default defineContentScript({
       return;
     }
 
-    const { locale } = await store.setting.getValue();
-    i18n.global.locale.value = locale;
+    const { colorMode, locale } = await useSetting();
 
-    store.setting.watch(({ locale }) => {
-      i18n.global.locale.value = locale;
-    });
+    setupLocale(locale);
 
     const ui = await createShadowRootUi(ctx, {
       name: 'read-it-later-simply-ui',
       position: 'inline',
       anchor: 'body',
       onMount: async (container) => {
-        const { isDark } = await setupTheme(container);
+        const { isDark } = setupTheme(colorMode, container);
 
         const app = createApp(App);
         app

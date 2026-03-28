@@ -1,6 +1,5 @@
-import { setupTheme } from '@/composables/theme';
+import { setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import i18n from '@/utils/i18n';
-import store from '@/utils/store';
 import { IsDarkKey } from '@/utils/symbols';
 
 import App from './App.vue';
@@ -8,14 +7,11 @@ import '@/style.css';
 import 'vue-sonner/style.css';
 
 async function bootstrap() {
-  const { locale } = await store.setting.getValue();
-  i18n.global.locale.value = locale;
+  const { colorMode, locale } = await useSetting();
 
-  store.setting.watch(({ locale }) => {
-    i18n.global.locale.value = locale;
-  });
+  setupLocale(locale);
 
-  const { isDark } = await setupTheme();
+  const { isDark } = setupTheme(colorMode);
 
   createApp(App)
     .use(i18n)
