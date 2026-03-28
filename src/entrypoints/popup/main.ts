@@ -1,4 +1,4 @@
-import { setupLocale, setupTheme, useSetting } from '@/composables/setting';
+import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import i18n from '@/utils/i18n';
 import { IsDarkKey } from '@/utils/symbols';
 
@@ -7,9 +7,10 @@ import '@/style.css';
 import 'vue-sonner/style.css';
 
 async function bootstrap() {
-  const { colorMode, locale } = await useSetting();
+  const { colorMode, locale, fontSize } = await useSetting();
 
   setupLocale(locale);
+  setupFontSize(fontSize);
 
   const { isDark } = setupTheme(colorMode);
 

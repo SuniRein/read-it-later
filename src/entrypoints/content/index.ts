@@ -1,4 +1,4 @@
-import { setupLocale, setupTheme, useSetting } from '@/composables/setting';
+import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import i18n from '@/utils/i18n';
 import { IsDarkKey } from '@/utils/symbols';
 import App from './App.vue';
@@ -16,7 +16,7 @@ export default defineContentScript({
       return;
     }
 
-    const { colorMode, locale } = await useSetting();
+    const { colorMode, fontSize, locale } = await useSetting();
 
     setupLocale(locale);
 
@@ -25,6 +25,7 @@ export default defineContentScript({
       position: 'inline',
       anchor: 'body',
       onMount: async (container) => {
+        setupFontSize(fontSize, container);
         const { isDark } = setupTheme(colorMode, container);
 
         const app = createApp(App);

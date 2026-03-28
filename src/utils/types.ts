@@ -32,6 +32,7 @@ export interface PageItemIMP {
 }
 
 export type ColorMode = 'light' | 'dark' | 'auto';
+export type FontSize = 'small' | 'normal';
 
 export type FavoritedFilterOption = 'all' | 'favorited' | 'unfavorited';
 
@@ -41,6 +42,7 @@ export interface Setting {
   pagination: number;
   showBadge: boolean;
   colorMode: ColorMode;
+  fontSize: FontSize;
 
   faviconSource: FaviconSource;
   faviconCaching: boolean;

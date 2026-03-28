@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { I18nLocales } from '@/utils/i18n';
-import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource } from '@/utils/types';
+import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/utils/types';
 
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { sendMessage } from '@/utils/message';
@@ -87,6 +87,20 @@ void checkFaviconCachingPermission();
               {{ t(`option.setting.colorMode.option.${value}`) }}
             </SelectItem>
           </SelectContent>
+        </Select>
+      </SettingOption>
+
+      <SettingOption
+        :label="t('option.setting.fontSize.label')"
+        :description="t('option.setting.fontSize.desc')"
+      >
+        <Select v-model="setting.fontSize">
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="value in ['small', 'normal'] satisfies FontSize[]" :key="value" :value>
+              {{ t(`option.setting.fontSize.option.${value}`) }}
+            </SelectItem>
+          </selectcontent>
         </Select>
       </SettingOption>
     </SettingSection>

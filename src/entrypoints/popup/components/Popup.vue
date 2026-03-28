@@ -71,7 +71,7 @@ function updateUrl(id: string, url: string) {
 
 async function popOut() {
   const url = browser.runtime.getURL('/popup.html?mode=popout');
-  await browser.windows.create({ url, type: 'popup', width: 480, height: 500 });
+  await browser.windows.create({ url, type: 'popup' });
   window.close();
 }
 
@@ -79,12 +79,15 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
 </script>
 
 <template>
+  <!-- eslint-disable better-tailwindcss/enforce-canonical-classes -->
+  <!-- Use Fixed height and width so that the popup size won't change when text size changes. -->
   <div
     :class="cn(
       'm-0 flex flex-col overflow-hidden bg-background text-foreground shadow-xl',
-      isPopout ? 'h-screen w-screen' : 'h-125 w-120',
+      isPopout ? 'h-screen w-screen' : 'h-[500px] w-[480px]',
     )"
   >
+    <!-- eslint-enable better-tailwindcss/enforce-canonical-classes -->
     <header class="h-12 w-full">
       <TopOperation
         v-model:search-text="searchText"

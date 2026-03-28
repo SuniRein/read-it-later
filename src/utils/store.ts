@@ -13,6 +13,7 @@ const defaultSetting: Setting = {
   pagination: 20,
   showBadge: false,
   colorMode: 'auto',
+  fontSize: 'normal',
 
   faviconSource: 'favicon.im',
   faviconCaching: false,

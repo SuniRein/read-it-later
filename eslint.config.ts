@@ -33,6 +33,7 @@ export default antfu(
     },
     rules: {
       ...betterTailwindcss.configs.recommended.rules,
+      'better-tailwindcss/enforce-canonical-classes': ['warn', { rootFontSize: 16 }],
       'better-tailwindcss/enforce-consistent-line-wrapping': ['warn', { printWidth: 120 }],
     },
     settings: {

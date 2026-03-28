@@ -38,6 +38,12 @@ const migrations = [
       await updateSettings({ colorMode: 'auto' });
     },
   },
+  {
+    version: '0.19.0',
+    run: async () => {
+      await updateSettings({ fontSize: 'normal' });
+    },
+  },
 ];
 
 export function handleUpdate() {

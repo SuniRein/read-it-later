@@ -88,6 +88,14 @@
           "auto": "Auto"
         }
       },
+      "fontSize": {
+        "label": "Font size",
+        "desc": "Adjust the font size in the extension interface",
+        "option": {
+          "small": "Small",
+          "normal": "Normal"
+        }
+      },
       "duplicatedUrl": {
         "label": "When opening duplicated tabs",
         "desc": "Control the behavior when attempting to open an already opened tab",

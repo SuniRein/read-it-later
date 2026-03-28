@@ -88,6 +88,14 @@
           "auto": "自动"
         }
       },
+      "fontSize": {
+        "label": "字体大小",
+        "desc": "调整扩展界面的字体大小",
+        "option": {
+          "small": "紧凑",
+          "normal": "正常"
+        }
+      },
       "duplicatedUrl": {
         "label": "打开重复标签页时",
         "desc": "当尝试打开已打开的标签页时的行为",
