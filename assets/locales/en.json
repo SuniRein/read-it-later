@@ -77,7 +77,7 @@
       },
       "showBadge": {
         "label": "Show badge",
-        "desc": "Display item count on the extension icon"
+        "desc": "Display item count and current tab status on the extension icon"
       },
       "colorMode": {
         "label": "Color mode",
