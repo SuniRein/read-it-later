@@ -35,23 +35,23 @@ export function deserializePageListFromIMP(serializedList: string): PageItemIMP[
   const TAG_SEPARATOR = '|';
   const HEADER = ['url', 'title', 'tags', 'created_at'].join(SEPARATOR);
 
-  const [header, ...lines] = serializedList.split('\n');
+  const [header, ...lines] = serializedList.split(/\r?\n/).map(l => l.trim()).filter(l => l !== '');
   if (header !== HEADER)
     throw new Error('invalid header');
 
   return lines
-    .map((line, index) => [line, index + 2] as [string, number])
-    .filter(([line]) => line.trim() !== '')
     .map(([line, index]) => {
       const ele = line.split(SEPARATOR);
       if (ele.length !== 4)
-        throw new Error(`invalid line format at line ${index}`);
+        throw new Error(`invalid line format at line ${index + 2}: found ${ele.length} elements, expected 4`);
 
-      const [url, title, tags] = ele;
+      const [url, title, tags, createdAt] = ele;
       return {
         url,
         title,
         tags: tags.split(TAG_SEPARATOR).filter(tag => tag.trim() !== ''),
+        createdAt: new Date(createdAt),
       };
-    });
+    })
+    .reverse(); // IMP exports by oldest first, we want newest first
 }
