@@ -1,3 +1,5 @@
+import { validateScopes } from './google-drive-auth';
+
 export interface GoogleDriveFile {
   id: string;
   name: string;
@@ -78,4 +80,7 @@ export async function validateToken(accessToken: string) {
   if (result.error !== undefined) {
     throw new Error(result.error);
   }
+
+  const grantedScopes = (result.scope as string)?.split(' ') ?? [];
+  validateScopes(grantedScopes);
 }
