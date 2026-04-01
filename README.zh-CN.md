@@ -45,3 +45,7 @@
 ## 许可协议
 
 项目采用 [GPL-3.0 协议](https://www.gnu.org/licenses/gpl-3.0.en.html)开源，详见 [LICENSE](./LICENSE)。
+
+## 隐私策略
+
+详见 [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) 文件。
