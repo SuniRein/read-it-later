@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.19.0](https://github.com/SuniRein/read-it-later/compare/v0.18.0...v0.19.0) (2026-04-01)
+
+
+### Features
+
+* **guide:** add faq for address bar button, closed [#78](https://github.com/SuniRein/read-it-later/issues/78) ([fb13200](https://github.com/SuniRein/read-it-later/commit/fb1320097613191f5fa624872981053e515b4e69))
+* **menu:** add context menu action of adding current page, closed [#76](https://github.com/SuniRein/read-it-later/issues/76) ([b4a5815](https://github.com/SuniRein/read-it-later/commit/b4a581592872b1540838f0ee32fecfc7bf73227a))
+* **ui:** add option to scale font size to small, closed [#75](https://github.com/SuniRein/read-it-later/issues/75) ([5daf118](https://github.com/SuniRein/read-it-later/commit/5daf11854765295cd802766f60d0f8853ed37715))
+* **update:** open change log page after update ([9ed9660](https://github.com/SuniRein/read-it-later/commit/9ed9660652950ac5b5e60c8a3d3572f47886d1fb))
+
+
+### Bug Fixes
+
+* **cloud/google:** check granted scopes when authenticating and validating, fixed [#77](https://github.com/SuniRein/read-it-later/issues/77) ([525888d](https://github.com/SuniRein/read-it-later/commit/525888d461947a7ada19d1012be58bb4de63833d))
+* **data:** parse IMP export format correctly ([819c38b](https://github.com/SuniRein/read-it-later/commit/819c38bf417cef9324416afa214c093f4e556b07))
+* **docs:** more detailed description for showBadge option ([8878d7e](https://github.com/SuniRein/read-it-later/commit/8878d7ee1283f0715dba2db3910a05948408593b))
+* only using tab in normal window as current tab, fixed [#72](https://github.com/SuniRein/read-it-later/issues/72) ([5bcfa37](https://github.com/SuniRein/read-it-later/commit/5bcfa37805d4e934c1b87c095b88e9b34d40d144))
+
 ## [0.18.0](https://github.com/SuniRein/read-it-later/compare/v0.17.1...v0.18.0) (2026-03-13)
 
 
