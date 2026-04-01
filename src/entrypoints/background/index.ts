@@ -5,6 +5,7 @@ import { handleBadge } from './badge';
 import { handleCache } from './cache';
 import { handleCommand } from './command';
 import { handleConnection } from './connect';
+import { setupContextMenu } from './context-menu';
 import { handleCurrentTab } from './current-tab';
 import { handleSendNotify } from './notify';
 import { handleOpenPage } from './open-page';
@@ -16,8 +17,11 @@ import { handleUpdate } from './update';
 const action = browser.action ?? browser.browserAction;
 
 export default defineBackground(() => {
-  // post update tasks
-  handleUpdate();
+  browser.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason === 'update') {
+      await handleUpdate(details.previousVersion!);
+    }
+  });
 
   // check if popup is connected
   const isConnected = handleConnection();
@@ -96,4 +100,9 @@ export default defineBackground(() => {
 
   // handle cache for fetched images
   void handleCache();
+
+  // setup context menu
+  browser.runtime.onInstalled.addListener(async () => {
+    await setupContextMenu({ addCurrentTab });
+  });
 });

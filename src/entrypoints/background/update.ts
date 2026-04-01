@@ -47,30 +47,23 @@ const migrations = [
   },
 ];
 
-export function handleUpdate() {
-  browser.runtime.onInstalled.addListener(async (details) => {
-    if (details.reason !== 'update')
-      return;
+export async function handleUpdate(previousVersion: string) {
+  const currentVersion = browser.runtime.getManifest().version;
 
-    const previousVersion = details.previousVersion!;
-    const currentVersion = browser.runtime.getManifest().version;
-
-    for (const mig of migrations) {
-      if (!isVersionGreater(mig.version, currentVersion)
-        && isVersionGreater(mig.version, previousVersion)) {
-        try {
-          await mig.run();
-        }
-        catch (e) {
-          console.error(`Migration to version ${mig.version} failed:`, e);
-        }
+  for (const mig of migrations) {
+    if (!isVersionGreater(mig.version, currentVersion)
+      && isVersionGreater(mig.version, previousVersion)) {
+      try {
+        await mig.run();
+      }
+      catch (e) {
+        console.error(`Migration to version ${mig.version} failed:`, e);
       }
     }
+  }
 
-    // open change log page after update
-    await browser.tabs.create({ url: changeLog });
-  },
-  );
+  // open change log page after update
+  await browser.tabs.create({ url: changeLog });
 }
 
 function isVersionGreater(v1: string, v2: string): boolean {
