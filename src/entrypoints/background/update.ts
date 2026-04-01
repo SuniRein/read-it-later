@@ -1,4 +1,5 @@
 import type { Setting } from '@/utils/types';
+import { changeLog } from '@/utils/meta';
 import store from '@/utils/store';
 
 async function updateSettings(newSettings: Partial<Setting>) {
@@ -65,6 +66,9 @@ export function handleUpdate() {
         }
       }
     }
+
+    // open change log page after update
+    await browser.tabs.create({ url: changeLog });
   },
   );
 }
