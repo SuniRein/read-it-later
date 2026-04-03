@@ -39,6 +39,7 @@ export default defineConfig({
           dts: 'src/components.d.ts',
         }),
         useDevtools && devtools({
+          // eslint-disable-next-line e18e/prefer-static-regex
           appendTo: /src\/entrypoints\/[\w-]*\/main\.ts/,
         }),
       ],

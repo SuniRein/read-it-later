@@ -2,8 +2,10 @@ import type { FavoritedFilterOption, PageItem } from '@/utils/types';
 
 type Filter = (item: PageItem) => boolean;
 
+const whitespaceRegex = /\s+/;
+
 function searchFilter(searchText: string): Filter {
-  const tokens = searchText.split(/\s+/);
+  const tokens = searchText.split(whitespaceRegex);
 
   function parseToken(token: string): Filter | null {
     if (token.startsWith('!')) {

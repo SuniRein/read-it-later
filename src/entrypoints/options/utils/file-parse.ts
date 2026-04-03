@@ -1,7 +1,10 @@
+const filenameRegex = /^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/;
+const filenameReplaceRegex = /^(\d{4}-\d{2}-\d{2}T)(\d{2})-(\d{2})-(\d{2})-(\d{3})Z$/;
+
 export function parseDate(filename: string) {
-  const m = filename.match(/\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z/);
+  const m = filename.match(filenameRegex);
   if (m) {
-    const iso = m[0].replace(/^(\d{4}-\d{2}-\d{2}T)(\d{2})-(\d{2})-(\d{2})-(\d{3})Z$/, '$1$2:$3:$4.$5Z');
+    const iso = m[0].replace(filenameReplaceRegex, '$1$2:$3:$4.$5Z');
     const date = new Date(iso);
     return date.toLocaleString();
   }

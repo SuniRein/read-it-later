@@ -51,9 +51,11 @@ function parseTags(raw: string) {
   );
 }
 
+const tagValidationRegex = /^[\w\-\p{Script=Han}]+$/u;
+
 function handleSave() {
   const tags = parseTags(tagsInput.value);
-  if (tags.some(tag => !/^[\w\-\p{Script=Han}]+$/u.test(tag))) {
+  if (tags.some(tag => !tagValidationRegex.test(tag))) {
     notify.error(t('popup.msg.invalidTags'));
     return;
   }

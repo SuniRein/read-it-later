@@ -30,12 +30,14 @@ export function deserializePageList(serializedList: string): PageItem[] {
   return parsedList;
 }
 
+const lineSeparator = /\r?\n/;
+
 export function deserializePageListFromIMP(serializedList: string): PageItemIMP[] {
   const SEPARATOR = ';';
   const TAG_SEPARATOR = '|';
   const HEADER = ['url', 'title', 'tags', 'created_at'].join(SEPARATOR);
 
-  const [header, ...lines] = serializedList.split(/\r?\n/).map(l => l.trim()).filter(l => l !== '');
+  const [header, ...lines] = serializedList.split(lineSeparator).map(l => l.trim()).filter(l => l !== '');
   if (header !== HEADER)
     throw new Error('invalid header');
 

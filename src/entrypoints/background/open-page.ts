@@ -1,7 +1,7 @@
 import type { DuplicatedUrlOpenedOption } from '@/utils/types';
 
 export function handleOpenPage(
-  { duplicatedUrlOpened, openAndRemove}: {
+  { duplicatedUrlOpened, openAndRemove }: {
     duplicatedUrlOpened: Ref<DuplicatedUrlOpenedOption>;
     openAndRemove: Ref<boolean>;
   },
