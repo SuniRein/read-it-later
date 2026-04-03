@@ -49,7 +49,7 @@
     "@wxt-dev/module-vue": "^1.0.3",
     "commit-and-tag-version": "^12.6.1",
     "eslint": "^10.1.0",
-    "eslint-plugin-better-tailwindcss": "^4.0.1",
+    "eslint-plugin-better-tailwindcss": "^4.3.2",
     "eslint-plugin-format": "^2.0.1",
     "flush-promises": "^1.0.2",
     "husky": "^9.1.7",
