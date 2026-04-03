@@ -75,7 +75,7 @@ function handleSave() {
           <SheetTitle class="text-lg">
             {{ t('popup.editModal.title') }}
           </SheetTitle>
-          <SheetDescription class>
+          <SheetDescription>
             {{ t('popup.editModal.desc') }}
           </SheetDescription>
         </SheetHeader>

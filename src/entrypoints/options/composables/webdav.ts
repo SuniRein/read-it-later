@@ -1,4 +1,3 @@
-import type { FileStat } from 'webdav';
 import type { WebDavConfig } from '@/utils/types';
 
 import { createClient } from 'webdav';
@@ -33,7 +32,7 @@ export function useWabDavService(config: MaybeRef<WebDavConfig>) {
 
   async function list() {
     const client = connect();
-    return (await client.getDirectoryContents(BACKUP_FOLDER, { glob: 'read-it-later-*.json' }) as FileStat[])
+    return (await client.getDirectoryContents(BACKUP_FOLDER, { glob: 'read-it-later-*.json' }))
       .map(file => ({
         id: file.filename,
         name: file.basename,
