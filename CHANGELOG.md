@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.19.1](https://github.com/SuniRein/read-it-later/compare/v0.19.0...v0.19.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* **menu:** register context menu when browser restart ([94becda](https://github.com/SuniRein/read-it-later/commit/94becdaa83cbf50eb665b1ba41ef501e6af94f76))
+
 ## [0.19.0](https://github.com/SuniRein/read-it-later/compare/v0.18.0...v0.19.0) (2026-04-01)
 
 
