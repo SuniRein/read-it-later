@@ -5,7 +5,7 @@ import { handleBadge } from './badge';
 import { handleCache } from './cache';
 import { handleCommand } from './command';
 import { handleConnection } from './connect';
-import { setupContextMenu } from './context-menu';
+import { handleContextMenuClick, setupContextMenu } from './context-menu';
 import { handleCurrentTab } from './current-tab';
 import { handleSendNotify } from './notify';
 import { handleOpenPage } from './open-page';
@@ -102,7 +102,8 @@ export default defineBackground(() => {
   void handleCache();
 
   // setup context menu
-  browser.runtime.onInstalled.addListener(async () => {
-    await setupContextMenu({ addCurrentTab });
-  });
+  browser.runtime.onInstalled.addListener(setupContextMenu);
+  browser.runtime.onStartup.addListener(setupContextMenu); // firefox will lose context menu on restart
+
+  handleContextMenuClick({ addCurrentTab });
 });
