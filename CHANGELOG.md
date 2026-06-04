@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.19.2](https://github.com/SuniRein/read-it-later/compare/v0.19.1...v0.19.2) (2026-06-04)
+
+
+### Bug Fixes
+
+* cloud file data parse error ([1ce3bad](https://github.com/SuniRein/read-it-later/commit/1ce3badc8c43ae6d57f6714d087feed3051601df))
+
 ## [0.19.1](https://github.com/SuniRein/read-it-later/compare/v0.19.0...v0.19.1) (2026-04-04)
 
 
