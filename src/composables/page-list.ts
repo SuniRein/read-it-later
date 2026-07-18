@@ -2,18 +2,12 @@ import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { nanoid } from 'nanoid';
 import { useStoredValue } from '@/composables/stored-value';
+import { mapIMPToPageItems } from '@/services/serialization';
 
 export interface PageUpdateInfo {
   title?: string;
   tags?: string[];
   desc?: string;
-}
-
-export interface PageLoadResult {
-  added: PageItem[];
-  updated: PageItem[];
-  ignored: PageItem[];
-  conflicted: PageItem[];
 }
 
 export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageList'>) {
@@ -104,63 +98,11 @@ export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageL
 
   // assume no duplicate IDs or URLs in the dataset
   function tryLoad(data: PageItem[]) {
-    const result: PageLoadResult = { added: [], updated: [], ignored: [], conflicted: [] };
-
-    const idMap = new Map(pageList.value.map(item => [item.id, item]));
-    const urlMap = new Map(pageList.value.map(item => [item.info.url, item]));
-
-    // First find updated and ignored
-    const remainingData = data.filter((item) => {
-      const old = idMap.get(item.id);
-      if (!old)
-        return true;
-
-      if (item.updatedAt > old.updatedAt) {
-        // update url map if item updated
-        if (item.info.url !== old.info.url) {
-          urlMap.delete(old.info.url);
-          urlMap.set(item.info.url, item);
-        }
-        result.updated.push(item);
-      }
-      else {
-        result.ignored.push(item);
-      }
-      return false;
-    });
-
-    // Then find added and conflicted
-    remainingData.forEach((item) => {
-      if (urlMap.has(item.info.url)) {
-        result.conflicted.push(item);
-      }
-      else {
-        result.added.push(item);
-      }
-    });
-
-    return result;
+    return computeMergeResult(pageList.value, data);
   }
 
-  function tryLoadFromIMP(data: PageItemIMP[]): PageLoadResult {
-    const now = new Date().toISOString();
-    const items = data.map(item => ({
-      id: nanoid(),
-      info: { title: item.title, url: item.url },
-      tags: item.tags,
-      desc: '',
-      favorited: false,
-      createdAt: now,
-      updatedAt: now,
-    }));
-
-    const added: PageItem[] = [];
-    const conflicted: PageItem[] = [];
-
-    const urlSet = new Set(pageList.value.map(item => item.info.url));
-    items.forEach(item => urlSet.has(item.info.url) ? conflicted.push(item) : added.push(item));
-
-    return { added, conflicted, updated: [], ignored: [] };
+  function tryLoadFromIMP(data: PageItemIMP[]) {
+    return computeMergeResult(pageList.value, mapIMPToPageItems(data));
   }
 
   // must be used immediately after `tryLoad` for data integrity
@@ -203,4 +145,42 @@ export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageL
     restorableItemCount,
     restoreRemoved,
   };
+}
+
+export interface PageLoadResult {
+  added: PageItem[];
+  updated: PageItem[];
+  ignored: PageItem[];
+  conflicted: PageItem[];
+}
+
+function computeMergeResult(existing: PageItem[], incoming: PageItem[]): PageLoadResult {
+  const result: PageLoadResult = { added: [], updated: [], ignored: [], conflicted: [] };
+
+  const idMap = new Map(existing.map(item => [item.id, item]));
+  const urlMap = new Map(existing.map(item => [item.info.url, item]));
+
+  const remaining = incoming.filter((item) => {
+    const old = idMap.get(item.id);
+    if (!old)
+      return true;
+
+    if (item.updatedAt > old.updatedAt) {
+      if (item.info.url !== old.info.url) {
+        urlMap.delete(old.info.url);
+        urlMap.set(item.info.url, item);
+      }
+      result.updated.push(item);
+    }
+    else {
+      result.ignored.push(item);
+    }
+    return false;
+  });
+
+  for (const item of remaining) {
+    (urlMap.has(item.info.url) ? result.conflicted : result.added).push(item);
+  }
+
+  return result;
 }

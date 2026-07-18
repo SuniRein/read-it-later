@@ -1,6 +1,6 @@
 import type { PageItem, PageItemIMP } from '@/common/types';
-
 import { type } from 'arktype';
+import { nanoid } from 'nanoid';
 
 const SerializedPageItem = type({
   id: 'string',
@@ -56,4 +56,17 @@ export function deserializePageListFromIMP(serializedList: string): PageItemIMP[
       };
     })
     .reverse(); // IMP exports by oldest first, we want newest first
+}
+
+export function mapIMPToPageItems(data: PageItemIMP[]): PageItem[] {
+  const now = new Date().toISOString();
+  return data.map(item => ({
+    id: nanoid(),
+    info: { title: item.title, url: item.url },
+    tags: item.tags,
+    desc: '',
+    favorited: false,
+    createdAt: now,
+    updatedAt: now,
+  }));
 }
