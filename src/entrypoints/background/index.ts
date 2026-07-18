@@ -1,18 +1,18 @@
 import { onMessage } from '@/common/message';
 import { createStorageItems } from '@/storage';
-import { handleAddCurrentTab } from './add-current-tab';
-import { handleBadge } from './badge';
-import { handleCache } from './cache';
-import { handleCommand } from './command';
-import { handleConnection } from './connect';
-import { handleContextMenuClick, setupContextMenu } from './context-menu';
-import { handleCurrentTab } from './current-tab';
-import { handleSendNotify } from './notify';
-import { handleOpenPage } from './open-page';
-import { handlePageList } from './page-list';
-import { handleOpenRandomPage } from './random-page';
-import { handleSetting } from './setting';
-import { handleUpdate } from './update';
+import { handleAddCurrentTab } from './handlers/add-current-tab';
+import { handleBadge } from './handlers/badge';
+import { handleCache } from './handlers/cache';
+import { handleCommand } from './handlers/command';
+import { handleConnection } from './handlers/connect';
+import { handleContextMenuClick, setupContextMenu } from './handlers/context-menu';
+import { handleCurrentTab } from './handlers/current-tab';
+import { handleSendNotify } from './handlers/notify';
+import { handleOpenPage } from './handlers/open-page';
+import { handlePageList } from './handlers/page-list';
+import { handleOpenRandomPage } from './handlers/random-page';
+import { handleSetting } from './handlers/setting';
+import { handleUpdate } from './handlers/update';
 
 const action = browser.action ?? browser.browserAction;
 
