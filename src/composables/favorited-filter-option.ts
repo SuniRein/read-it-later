@@ -1,8 +1,8 @@
+import type { StorageItems } from '@/storage';
 import { useStoredValue } from '@/composables/store';
-import store from '@/utils/store';
 
-export function useFavoritedFilterOption() {
-  const favoritedFilterOption = useStoredValue(store.forvoritedFilterOption);
+export function useFavoritedFilterOption(items: Pick<StorageItems, 'favoritedFilterOption'>) {
+  const favoritedFilterOption = useStoredValue(items.favoritedFilterOption);
 
   function change() {
     switch (favoritedFilterOption.value) {

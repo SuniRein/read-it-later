@@ -1,11 +1,11 @@
+import type { StorageItems } from '@/storage';
 import type { I18nLocales } from '@/utils/i18n';
 import type { ColorMode, FontSize } from '@/utils/types';
 import i18n from '@/utils/i18n';
-import store from '@/utils/store';
 
-export async function useSetting() {
-  const setting = shallowRef(await store.setting.getValue());
-  store.setting.watch((newValue) => {
+export async function useSetting(items: Pick<StorageItems, 'setting'>) {
+  const setting = shallowRef(await items.setting.getValue());
+  items.setting.watch((newValue) => {
     setting.value = newValue;
   });
 

@@ -30,12 +30,16 @@ const defaultSetting: Setting = {
   addAndClose: false,
 } as const;
 
-export default {
-  pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
-  removedPageList: storage.defineItem<PageItem[]>('session:removedPageList', { fallback: [] }),
-  forvoritedFilterOption: storage.defineItem<FavoritedFilterOption>('session:favoritedFilterOption', {
-    fallback: 'all',
-  }),
-  searchText: storage.defineItem<string>('session:searchText', { fallback: '' }),
-  setting: storage.defineItem<Setting>('local:setting', { fallback: defaultSetting }),
-};
+export function createStorageItems() {
+  return {
+    pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
+    removedPageList: storage.defineItem<PageItem[]>('session:removedPageList', { fallback: [] }),
+    favoritedFilterOption: storage.defineItem<FavoritedFilterOption>('session:favoritedFilterOption', {
+      fallback: 'all',
+    }),
+    searchText: storage.defineItem<string>('session:searchText', { fallback: '' }),
+    setting: storage.defineItem<Setting>('local:setting', { fallback: defaultSetting }),
+  };
+}
+
+export type StorageItems = ReturnType<typeof createStorageItems>;

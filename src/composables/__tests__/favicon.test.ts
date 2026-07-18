@@ -2,8 +2,10 @@ import { mount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import store from '@/utils/store';
+import { createStorageItems } from '@/storage';
 import { useFavicon } from '../favicon';
+
+const items = createStorageItems();
 
 describe('useFavicon', () => {
   beforeEach(() => {
@@ -14,7 +16,7 @@ describe('useFavicon', () => {
     const testComponent = defineComponent({
       props: { url: String },
       setup(props) {
-        const { getFaviconUrl } = useFavicon();
+        const { getFaviconUrl } = useFavicon(items);
         return {
           api: {
             faviconUrl: () => getFaviconUrl(props.url!),
@@ -40,7 +42,7 @@ describe('useFavicon', () => {
 
   it.each(cases)('get favicon url for %s', async (_, source, expectedUrl) => {
     if (source) {
-      await store.setting.setValue({ ...store.setting.fallback, faviconSource: source });
+      await items.setting.setValue({ ...items.setting.fallback, faviconSource: source });
     }
 
     const faviconUrl = getFaviconUrl(testUrl);

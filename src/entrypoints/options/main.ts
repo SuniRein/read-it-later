@@ -1,6 +1,7 @@
 import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
+import { createStorageItems } from '@/storage';
 import i18n from '@/utils/i18n';
-import { IsDarkKey } from '@/utils/symbols';
+import { IsDarkKey, StorageItemsKey } from '@/utils/symbols';
 
 import App from './App.vue';
 
@@ -9,7 +10,8 @@ import '@/style.css';
 import 'vue-sonner/style.css';
 
 async function bootstrap() {
-  const { colorMode, fontSize, locale } = await useSetting();
+  const items = createStorageItems();
+  const { colorMode, fontSize, locale } = await useSetting(items);
 
   setupLocale(locale);
   setupFontSize(fontSize);
@@ -20,6 +22,7 @@ async function bootstrap() {
     .use(i18n)
     .use(router)
     .provide(IsDarkKey, isDark)
+    .provide(StorageItemsKey, items)
     .mount('#app');
 }
 

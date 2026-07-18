@@ -1,3 +1,4 @@
+import type { StorageItems } from '@/storage';
 import type { PageItem } from '@/utils/types';
 
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
@@ -7,11 +8,11 @@ import { useSearchText } from '@/composables/search-text';
 
 import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
-export function handlePageList() {
-  const { pageList, ...pageActions } = usePageList();
+export function handlePageList(items: StorageItems) {
+  const { pageList, ...pageActions } = usePageList(items);
 
-  const { searchTextDebounced } = useSearchText();
-  const { favoritedFilterOption } = useFavoritedFilterOption();
+  const { searchTextDebounced } = useSearchText(items);
+  const { favoritedFilterOption } = useFavoritedFilterOption(items);
 
   const clikablePageList = IS_FIREFOX
     ? computed(() => pageList.value.filter(item => !urlRestricted(item.info.url)))

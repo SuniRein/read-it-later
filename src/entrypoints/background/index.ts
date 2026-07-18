@@ -1,5 +1,5 @@
+import { createStorageItems } from '@/storage';
 import { onMessage } from '@/utils/message';
-
 import { handleAddCurrentTab } from './add-current-tab';
 import { handleBadge } from './badge';
 import { handleCache } from './cache';
@@ -17,9 +17,11 @@ import { handleUpdate } from './update';
 const action = browser.action ?? browser.browserAction;
 
 export default defineBackground(() => {
+  const items = createStorageItems();
+
   browser.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === 'update') {
-      await handleUpdate(details.previousVersion!);
+      await handleUpdate(items, details.previousVersion!);
     }
   });
 
@@ -41,10 +43,10 @@ export default defineBackground(() => {
     randomPageIgnoreOpened,
     openAndRemove,
     addAndClose,
-  } = handleSetting();
+  } = handleSetting(items);
 
   // get the page list from storage
-  const { pageMap, pageActions, pageListFiltered } = handlePageList();
+  const { pageMap, pageActions, pageListFiltered } = handlePageList(items);
 
   // show and update the badge
   handleBadge(showBadge, pageMap, currentTabUrl);

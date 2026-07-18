@@ -1,6 +1,6 @@
+import type { StorageItems } from '@/storage';
 import type { FaviconSource } from '@/utils/types';
 import { deepToRaw } from '@/utils/object';
-import store from '@/utils/store';
 
 const faviconSourcePermissions: Record<FaviconSource, string[]> = {
   'favicon.im': ['https://favicon.im/*'],
@@ -20,10 +20,10 @@ export async function checkFaviconCachingPermission(source: FaviconSource): Prom
   return browser.permissions.contains({ origins: getFaviconPermissions(source) });
 }
 
-export async function useSetting() {
-  const setting = ref(await store.setting.getValue());
+export async function useSetting(items: Pick<StorageItems, 'setting'>) {
+  const setting = ref(await items.setting.getValue());
 
-  watchDeep(setting, async newValue => store.setting.setValue(deepToRaw(newValue)));
+  watchDeep(setting, async newValue => items.setting.setValue(deepToRaw(newValue)));
 
   return { setting };
 }

@@ -5,6 +5,7 @@ import type { PageItem, Tab } from '@/utils/types';
 import { ArrowUpToLine, Check, Copy, Edit2, Quote, RefreshCw, Star } from 'lucide-vue-next';
 import { useFavicon } from '@/composables/favicon';
 import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
+import { StorageItemsKey } from '@/utils/symbols';
 
 import ColorTag from './ColorTag.vue';
 import Favicon from './Favicon.vue';
@@ -30,7 +31,8 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const { getFaviconUrl } = useFavicon();
+const items = inject(StorageItemsKey)!;
+const { getFaviconUrl } = useFavicon(items);
 
 const editedItem = ref<PageItem | null>(null);
 

@@ -9,23 +9,25 @@ import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
 import { handleNotify } from '@/utils/message';
 import notify from '@/utils/notify';
-import store from '@/utils/store';
+import { StorageItemsKey } from '@/utils/symbols';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
+const items = inject(StorageItemsKey)!;
+
 const { t } = useI18n();
 
-const setting = useStoredValue(store.setting);
+const setting = useStoredValue(items.setting);
 const faviconCaching = computed(() => setting.value.faviconCaching);
 
 const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
 
-const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption();
+const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption(items);
 
-const { searchText, searchTextDebounced } = useSearchText();
+const { searchText, searchTextDebounced } = useSearchText(items);
 
-const { pageList, restorableItemCount, ...pageActions } = usePageList();
+const { pageList, restorableItemCount, ...pageActions } = usePageList(items);
 const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchTextDebounced);
 
 const { currentTab } = useCurrentTab();
@@ -131,11 +133,11 @@ const isPopout = isPopoutMode();
         :sibling-count="0"
         show-edges
       >
-        <PaginationContent v-slot="{ items }" class="flex items-center gap-1">
+        <PaginationContent v-slot="{ items: pageItems }" class="flex items-center gap-1">
           <PaginationFirst><ChevronFirst /></PaginationFirst>
           <PaginationPrevious><ChevronLeft /></PaginationPrevious>
 
-          <template v-for="(item, index) in items">
+          <template v-for="(item, index) in pageItems">
             <PaginationItem
               v-if="item.type === 'page'"
               :key="index"

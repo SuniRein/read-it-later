@@ -1,9 +1,9 @@
-import store from '@/utils/store';
+import type { StorageItems } from '@/storage';
 
-export function handleSetting() {
-  const setting = shallowRef(store.setting.fallback);
-  void store.setting.getValue().then(value => setting.value = value);
-  store.setting.watch(value => setting.value = value);
+export function handleSetting(items: Pick<StorageItems, 'setting'>) {
+  const setting = shallowRef(items.setting.fallback);
+  void items.setting.getValue().then(value => setting.value = value);
+  items.setting.watch(value => setting.value = value);
 
   return {
     showBadge: computed(() => setting.value.showBadge),

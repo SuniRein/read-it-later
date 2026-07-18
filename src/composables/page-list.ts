@@ -1,8 +1,7 @@
+import type { StorageItems } from '@/storage';
 import type { PageInfo, PageItem, PageItemIMP } from '@/utils/types';
-
 import { nanoid } from 'nanoid';
 import { useStoredValue } from '@/composables/store';
-import store from '@/utils/store';
 
 export interface PageUpdateInfo {
   title?: string;
@@ -17,9 +16,9 @@ export interface PageLoadResult {
   conflicted: PageItem[];
 }
 
-export function usePageList() {
-  const pageList = useStoredValue(store.pageList);
-  const removedPageList = useStoredValue(store.removedPageList);
+export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageList'>) {
+  const pageList = useStoredValue(items.pageList);
+  const removedPageList = useStoredValue(items.removedPageList);
 
   function add(info: PageInfo): boolean {
     if (pageList.value.some(item => item.info.url === info.url)) {

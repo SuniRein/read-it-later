@@ -1,6 +1,7 @@
 import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
+import { createStorageItems } from '@/storage';
 import i18n from '@/utils/i18n';
-import { IsDarkKey } from '@/utils/symbols';
+import { IsDarkKey, StorageItemsKey } from '@/utils/symbols';
 import App from './App.vue';
 
 import '@/style.css';
@@ -16,7 +17,8 @@ export default defineContentScript({
       return;
     }
 
-    const { colorMode, fontSize, locale } = await useSetting();
+    const items = createStorageItems();
+    const { colorMode, fontSize, locale } = await useSetting(items);
 
     setupLocale(locale);
 
@@ -32,6 +34,7 @@ export default defineContentScript({
         app
           .use(i18n)
           .provide(IsDarkKey, isDark)
+          .provide(StorageItemsKey, items)
           .mount(container);
         return app;
       },

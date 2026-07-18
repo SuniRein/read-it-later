@@ -4,7 +4,7 @@ import { flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { usePageList } from '@/composables/page-list';
-import store from '@/utils/store';
+import { createStorageItems } from '@/storage';
 
 function createTestPageItem(id: string): PageItem {
   return {
@@ -31,9 +31,11 @@ const defaultPageList = [
   createTestPageItem('3'),
 ];
 
+const items = createStorageItems();
+
 async function setup() {
-  await store.pageList.setValue(defaultPageList);
-  const obj = usePageList();
+  await items.pageList.setValue(defaultPageList);
+  const obj = usePageList(items);
   await flushPromises();
   return obj;
 }
@@ -59,7 +61,7 @@ describe('add a page', () => {
     expect(pageList.value).toHaveLength(4);
     expect(pageList.value[0].info).toEqual(newPage);
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 
@@ -72,7 +74,7 @@ describe('add a page', () => {
 
     expect(pageList.value).toHaveLength(3);
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 });
@@ -88,10 +90,10 @@ it('successfully remove a page', async () => {
   expect(pageList.value.some(item => item.id === '1')).toBe(false);
   expect(restorableItemCount.value).toBe(1);
 
-  const storedPageList = await store.pageList.getValue();
+  const storedPageList = await items.pageList.getValue();
   expect(storedPageList).toEqual(pageList.value);
 
-  const storedRemovedList = await store.removedPageList.getValue();
+  const storedRemovedList = await items.removedPageList.getValue();
   expect(storedRemovedList).toHaveLength(1);
   expect(storedRemovedList[0].id).toBe('1');
 });
@@ -114,7 +116,7 @@ it('successfully update a page', async () => {
   expect(updatedItem!.desc).toBe(newInfo.desc);
   expect(updatedItem!.updatedAt).not.toBe('2023-01-01T00:00:00Z');
 
-  const storedPageList = await store.pageList.getValue();
+  const storedPageList = await items.pageList.getValue();
   expect(storedPageList).toEqual(pageList.value);
 });
 
@@ -129,7 +131,7 @@ it('successfully toggle favorite status', async () => {
   expect(updatedItem!.favorited).toBe(true);
   expect(updatedItem!.updatedAt).not.toBe('2023-01-01T00:00:00Z');
 
-  const storedPageList = await store.pageList.getValue();
+  const storedPageList = await items.pageList.getValue();
   expect(storedPageList).toEqual(pageList.value);
 });
 
@@ -154,7 +156,7 @@ describe('loading pages', () => {
     expect(pageList.value).toHaveLength(6);
     expect(pageList.value.map(item => item.id).slice(0, 3)).toEqual(['4', '5', '6']);
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 
@@ -179,7 +181,7 @@ describe('loading pages', () => {
     expect(pageList.value).toHaveLength(4);
     expect(pageList.value[0].id).toBe('4');
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 });
@@ -199,7 +201,7 @@ describe('restoring pages', () => {
     expect(pageList.value.some(item => item.id === '1')).toBe(true);
     expect(restorableItemCount.value).toBe(0);
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 
@@ -227,10 +229,10 @@ describe('restoring pages', () => {
     expect(pageList.value[0].id).toBe('1');
     expect(restorableItemCount.value).toBe(0);
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
 
-    const storedRemovedList = await store.removedPageList.getValue();
+    const storedRemovedList = await items.removedPageList.getValue();
     expect(storedRemovedList).toHaveLength(0);
   });
 
@@ -254,7 +256,7 @@ describe('restoring pages', () => {
     expect(pageList.value).toHaveLength(3);
     expect(pageList.value[0].id).toBe('2');
 
-    const storedPageList = await store.pageList.getValue();
+    const storedPageList = await items.pageList.getValue();
     expect(storedPageList).toEqual(pageList.value);
   });
 });

@@ -4,13 +4,16 @@ import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } fr
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { clearImageCache } from '@/common/message-actions';
 import notify from '@/utils/notify';
+import { StorageItemsKey } from '@/utils/symbols';
 import SettingOption from '../components/SettingOption.vue';
 import SettingSection from '../components/SettingSection.vue';
 import { checkFaviconCachingPermission, requestFaviconCachingPermission, useSetting } from '../composables/setting';
 
 const { t } = useI18n();
 
-const { setting } = await useSetting();
+const items = inject(StorageItemsKey)!;
+
+const { setting } = await useSetting(items);
 
 async function clearFaviconCache() {
   await clearImageCache();

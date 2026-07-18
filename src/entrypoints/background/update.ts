@@ -1,10 +1,10 @@
+import type { StorageItems } from '@/storage';
 import type { Setting } from '@/utils/types';
 import { changeLog } from '@/utils/meta';
-import store from '@/utils/store';
 
-async function updateSettings(newSettings: Partial<Setting>) {
-  const oldSetting = await store.setting.getValue();
-  await store.setting.setValue({
+async function updateSettings(items: Pick<StorageItems, 'setting'>, newSettings: Partial<Setting>) {
+  const oldSetting = await items.setting.getValue();
+  await items.setting.setValue({
     ...oldSetting,
     ...newSettings,
   });
@@ -13,11 +13,11 @@ async function updateSettings(newSettings: Partial<Setting>) {
 const migrations = [
   {
     version: '0.15.0',
-    run: async () => {
-      await updateSettings({ googleDriveConfig: null });
+    run: async (items: Pick<StorageItems, 'pageList' | 'setting'>) => {
+      await updateSettings(items, { googleDriveConfig: null });
 
-      const oldPageList = await store.pageList.getValue();
-      await store.pageList.setValue(oldPageList.map(page => ({
+      const oldPageList = await items.pageList.getValue();
+      await items.pageList.setValue(oldPageList.map(page => ({
         ...page,
         desc: '',
       })));
@@ -25,8 +25,8 @@ const migrations = [
   },
   {
     version: '0.17.0',
-    run: async () => {
-      await updateSettings({
+    run: async (items: Pick<StorageItems, 'setting'>) => {
+      await updateSettings(items, {
         randomPageIgnoreOpened: false,
         openAndRemove: false,
         addAndClose: false,
@@ -35,26 +35,26 @@ const migrations = [
   },
   {
     version: '0.18.0',
-    run: async () => {
-      await updateSettings({ colorMode: 'auto' });
+    run: async (items: Pick<StorageItems, 'setting'>) => {
+      await updateSettings(items, { colorMode: 'auto' });
     },
   },
   {
     version: '0.19.0',
-    run: async () => {
-      await updateSettings({ fontSize: 'normal' });
+    run: async (items: Pick<StorageItems, 'setting'>) => {
+      await updateSettings(items, { fontSize: 'normal' });
     },
   },
 ];
 
-export async function handleUpdate(previousVersion: string) {
+export async function handleUpdate(items: Pick<StorageItems, 'pageList' | 'setting'>, previousVersion: string) {
   const currentVersion = browser.runtime.getManifest().version;
 
   for (const mig of migrations) {
     if (!isVersionGreater(mig.version, currentVersion)
       && isVersionGreater(mig.version, previousVersion)) {
       try {
-        await mig.run();
+        await mig.run(items);
       }
       catch (e) {
         console.error(`Migration to version ${mig.version} failed:`, e);

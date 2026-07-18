@@ -1,8 +1,8 @@
+import type { StorageItems } from '@/storage';
 import { useStoredValue } from '@/composables/store';
-import store from '@/utils/store';
 
-export function useSearchText() {
-  const searchText = useStoredValue(store.searchText);
+export function useSearchText(items: Pick<StorageItems, 'searchText'>) {
+  const searchText = useStoredValue(items.searchText);
   const searchTextDebounced = refDebounced(searchText, 300);
 
   return {

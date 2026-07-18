@@ -1,12 +1,11 @@
+import type { StorageItems } from '@/storage';
 import type { FaviconSource } from '@/utils/types';
 
-import store from '@/utils/store';
-
-export function useFavicon() {
+export function useFavicon(items: Pick<StorageItems, 'setting'>) {
   const faviconSource = ref<FaviconSource | undefined>(undefined);
 
   onMounted(async () => {
-    faviconSource.value = (await store.setting.getValue()).faviconSource;
+    faviconSource.value = (await items.setting.getValue()).faviconSource;
   });
 
   function getFaviconUrl(url: string): string | undefined {
