@@ -1,51 +1,16 @@
-import { deepToRaw } from '@/common/object';
+import type { WxtStorageItem } from '@/storage/reactive';
+import { bindStorageItem } from '@/storage/reactive';
 
-interface StorageMeta {
-  lastModified?: number;
-}
-
-async function getMeta(store: ReturnType<typeof storage.defineItem<any>>) {
-  return (await store.getMeta()) as StorageMeta;
-}
-
-export function useStoredValue<T>(store: ReturnType<typeof storage.defineItem<T>>) {
-  if (store.fallback === null) {
-    throw new Error('useStoredValue requires a fallback value in the storage item definition.');
-  }
-
-  const state = shallowRef<T>(store.fallback);
-
-  let lastModified: number | undefined;
-
-  let unwatchStore: null | (() => void) = null;
-  let unwatchRef: null | (() => void) = null;
-
-  tryOnMounted(async () => {
-    state.value = structuredClone(await store.getValue());
-    lastModified = (await getMeta(store)).lastModified;
-
-    unwatchStore = store.watch(async (newValue) => {
-      const remoteLastModified = (await getMeta(store)).lastModified;
-      if (lastModified === undefined || (remoteLastModified !== undefined && remoteLastModified > lastModified)) {
-        lastModified = remoteLastModified;
-        state.value = structuredClone(newValue);
-      }
-    });
-
-    unwatchRef = watch(
-      state,
-      async (newValue: T) => {
-        lastModified = Date.now();
-        await store.setMeta({ lastModified });
-        await store.setValue(deepToRaw(newValue));
-      },
-    );
-  });
-
-  tryOnUnmounted(() => {
-    unwatchStore?.();
-    unwatchRef?.();
-  });
-
-  return state;
+/**
+ * Bind a wxt storage item to a ShallowRef, wired to component lifecycle.
+ *
+ * Initialisation and teardown are handled via `tryOnMounted` / `tryOnUnmounted`.
+ * For environment-agnostic use (e.g. background scripts), call
+ * {@link bindStorageItem} directly and manage `dispose` yourself.
+ */
+export function useStoredValue<T>(store: WxtStorageItem<T>) {
+  const bound = bindStorageItem(store);
+  tryOnMounted(() => void bound.ready);
+  tryOnUnmounted(() => bound.dispose());
+  return bound.value;
 }
