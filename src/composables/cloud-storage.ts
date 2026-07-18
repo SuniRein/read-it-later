@@ -15,12 +15,12 @@ export interface CloudService {
   preflight: () => Promise<boolean>;
 }
 
-export interface CloudManagerEmit {
+export interface CloudStorageEmit {
   (e: 'loadData', data: string): void;
   (e: 'saveLocally', data: string, name: string): void;
 }
 
-export function useCloudStorageManager(service: CloudService, emit: CloudManagerEmit) {
+export function useCloudStorageManager(service: CloudService, emit: CloudStorageEmit) {
   const { t } = useI18n();
   const loadDataModal = ref(false);
   const remoteFiles = ref<CloudFile[] | null>(null);

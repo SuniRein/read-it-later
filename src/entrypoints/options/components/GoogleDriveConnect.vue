@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { GoogleDriveConfig } from '@/common/types';
-import type { CloudManagerEmit } from '@/composables/cloud-storage';
+import type { CloudStorageEmit } from '@/composables/cloud-storage';
 import { Cloud, CloudOff, Loader2, RefreshCw } from 'lucide-vue-next';
 import notify from '@/common/notify';
 import { useCloudStorageManager } from '@/composables/cloud-storage';
 import { useGoogleDriveService } from '@/composables/google-drive';
 import CloudFileSelector from './CloudFileSelector.vue';
 
-const emit = defineEmits<CloudManagerEmit>();
+const emit = defineEmits<CloudStorageEmit>();
 
 const { t } = useI18n();
 

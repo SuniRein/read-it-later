@@ -15,7 +15,7 @@ export interface UploadOption {
   data: string;
 }
 
-export function useWabDavService(config: MaybeRef<WebDavConfig>) {
+export function useWebDavService(config: MaybeRef<WebDavConfig>) {
   const mappedConfig = computed(() => ({
     ...unref(config),
     url: unref(config).url?.concat(AFTER_URL),
