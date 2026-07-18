@@ -20,7 +20,7 @@ export async function checkFaviconCachingPermission(source: FaviconSource): Prom
   return browser.permissions.contains({ origins: getFaviconPermissions(source) });
 }
 
-export async function useSetting(items: Pick<StorageItems, 'setting'>) {
+export async function useEditableSetting(items: Pick<StorageItems, 'setting'>) {
   const setting = ref(await items.setting.getValue());
 
   watchDeep(setting, async newValue => items.setting.setValue(deepToRaw(newValue)));
