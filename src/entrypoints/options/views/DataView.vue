@@ -7,6 +7,7 @@ import { usePageList } from '@/composables/page-list';
 import { useEditableSetting } from '@/composables/setting-form';
 import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/services/serialization';
 import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
+import WebDavConnect from '../components/WebDavConnect.vue';
 
 const { t } = useI18n();
 const items = inject(StorageItemsKey)!;
