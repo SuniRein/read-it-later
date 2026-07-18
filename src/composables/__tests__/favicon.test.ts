@@ -49,4 +49,17 @@ describe('useFavicon', () => {
     await flushPromises();
     expect(faviconUrl()).toBe(expectedUrl);
   });
+
+  it('reflects setting change without remount', async () => {
+    await items.setting.setValue({ ...items.setting.fallback, faviconSource: 'google' });
+
+    const faviconUrl = getFaviconUrl(testUrl);
+    await flushPromises();
+    expect(faviconUrl()).toContain('google.com');
+
+    // Switch source without mounting a new component
+    await items.setting.setValue({ ...items.setting.fallback, faviconSource: 'duckduckgo' });
+    await flushPromises();
+    expect(faviconUrl()).toContain('duckduckgo.com');
+  });
 });

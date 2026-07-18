@@ -1,14 +1,10 @@
-import type { FaviconSource } from '@/common/types';
 import type { StorageItems } from '@/storage';
+import { useSettings } from '@/app/settings';
 
 export function useFavicon(items: Pick<StorageItems, 'setting'>) {
-  const faviconSource = ref<FaviconSource | undefined>(undefined);
+  const { faviconSource } = useSettings(items);
 
-  onMounted(async () => {
-    faviconSource.value = (await items.setting.getValue()).faviconSource;
-  });
-
-  function getFaviconUrl(url: string): string | undefined {
+  function getFaviconUrl(url: string): string {
     const parsedUrl = new URL(url);
 
     switch (faviconSource.value) {
@@ -18,12 +14,8 @@ export function useFavicon(items: Pick<StorageItems, 'setting'>) {
         return `https://www.google.com/s2/favicons?domain=${parsedUrl.hostname}&sz=128`;
       case 'duckduckgo':
         return `https://icons.duckduckgo.com/ip3/${parsedUrl.hostname}.ico`;
-      case undefined:
-        return undefined;
     }
   }
 
-  return {
-    getFaviconUrl,
-  };
+  return { getFaviconUrl };
 }
