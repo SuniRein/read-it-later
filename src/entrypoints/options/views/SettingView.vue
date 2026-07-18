@@ -2,18 +2,19 @@
 import type { I18nLocales } from '@/common/i18n';
 import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/common/types';
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
+import { useSettings } from '@/app/settings';
 import { clearImageCache } from '@/common/message-actions';
 import notify from '@/common/notify';
 import { StorageItemsKey } from '@/common/symbols';
-import { checkFaviconCachingPermission, requestFaviconCachingPermission, useEditableSetting } from '@/composables/setting-form';
+import { checkFaviconCachingPermission, requestFaviconCachingPermission } from '@/services/favicon-permissions';
 import SettingOption from '../components/SettingOption.vue';
 import SettingSection from '../components/SettingSection.vue';
 
 const { t } = useI18n();
 
 const items = inject(StorageItemsKey)!;
-
-const { setting } = await useEditableSetting(items);
+const { setting, ready } = useSettings(items);
+await ready;
 
 async function clearFaviconCache() {
   await clearImageCache();

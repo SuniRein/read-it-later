@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { CloudStorageType } from '@/common/types';
 import { CheckCircle2, Cloud, Download, Globe, Loader2, Trash2, Upload } from 'lucide-vue-next';
+import { useSettings } from '@/app/settings';
 import notify from '@/common/notify';
 import { StorageItemsKey } from '@/common/symbols';
 import { usePageList } from '@/composables/page-list';
-import { useEditableSetting } from '@/composables/setting-form';
 import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/services/serialization';
 import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
 import WebDavConnect from '../components/WebDavConnect.vue';
@@ -12,7 +12,8 @@ import WebDavConnect from '../components/WebDavConnect.vue';
 const { t } = useI18n();
 const items = inject(StorageItemsKey)!;
 
-const { setting } = await useEditableSetting(items);
+const { setting, ready } = useSettings(items);
+await ready;
 
 const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(items);
 

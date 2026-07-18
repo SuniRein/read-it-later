@@ -1,3 +1,4 @@
+import { useSettings } from '@/app/settings';
 import { onMessage } from '@/common/message';
 import { createStorageItems } from '@/storage';
 import { handleAddCurrentTab } from './handlers/add-current-tab';
@@ -11,7 +12,6 @@ import { handleSendNotify } from './handlers/notify';
 import { handleOpenPage } from './handlers/open-page';
 import { handlePageList } from './handlers/page-list';
 import { handleOpenRandomPage } from './handlers/random-page';
-import { handleSetting } from './handlers/setting';
 import { handleUpdate } from './handlers/update';
 
 const action = browser.action ?? browser.browserAction;
@@ -43,7 +43,7 @@ export default defineBackground(() => {
     randomPageIgnoreOpened,
     openAndRemove,
     addAndClose,
-  } = handleSetting(items);
+  } = useSettings(items);
 
   // get the page list from storage
   const { pageMap, pageActions, pageListFiltered } = handlePageList(items);

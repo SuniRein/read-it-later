@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { useSettings } from '@/app/settings';
 import { handleNotify } from '@/common/message';
 import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
 import notify from '@/common/notify';
@@ -7,16 +8,13 @@ import { StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list-context';
 import { usePagination } from '@/composables/pagination';
-import { useStoredValue } from '@/composables/stored-value';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
 const items = inject(StorageItemsKey)!;
 const { t } = useI18n();
 
-const setting = useStoredValue(items.setting);
-const faviconCaching = computed(() => setting.value.faviconCaching);
-const pageSize = computed(() => setting.value.pagination);
+const { faviconCaching, pagination: pageSize } = useSettings(items);
 
 const ctx = usePageListContext(items);
 const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageListFiltered } = ctx;

@@ -1,6 +1,7 @@
+import { useSettings } from '@/app/settings';
+import { setupFontSize, setupLocale, setupTheme } from '@/app/theme';
 import i18n from '@/common/i18n';
 import { IsDarkKey, StorageItemsKey } from '@/common/symbols';
-import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import { createStorageItems } from '@/storage';
 
 import App from './App.vue';
@@ -9,7 +10,8 @@ import 'vue-sonner/style.css';
 
 async function bootstrap() {
   const items = createStorageItems();
-  const { colorMode, locale, fontSize } = await useSetting(items);
+  const { colorMode, fontSize, locale, ready } = useSettings(items);
+  await ready;
 
   setupLocale(locale);
   setupFontSize(fontSize);
