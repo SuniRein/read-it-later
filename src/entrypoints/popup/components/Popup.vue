@@ -2,10 +2,7 @@
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
 import { useCurrentTab } from '@/composables/current-tab';
-import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
-import { usePageList } from '@/composables/page-list';
-import { usePageListFiltered } from '@/composables/page-list-filtered';
-import { useSearchText } from '@/composables/search-text';
+import { usePageListContext } from '@/composables/page-list-context';
 import { useStoredValue } from '@/composables/store';
 import { handleNotify } from '@/utils/message';
 import notify from '@/utils/notify';
@@ -23,12 +20,16 @@ const faviconCaching = computed(() => setting.value.faviconCaching);
 const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
 
-const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption(items);
-
-const { searchText, searchTextDebounced } = useSearchText(items);
-
-const { pageList, restorableItemCount, ...pageActions } = usePageList(items);
-const pageListFiltered = usePageListFiltered(pageList, favoritedFilterOption, searchTextDebounced);
+const ctx = usePageListContext(items);
+const {
+  pageList,
+  restorableItemCount,
+  pageListFiltered,
+  searchText,
+  favoritedFilterOption,
+  changeFavoritedView,
+  pageActions,
+} = ctx;
 
 const { currentTab } = useCurrentTab();
 const currentUrl = computed(() => currentTab.value?.url ?? null);
