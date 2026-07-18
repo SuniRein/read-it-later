@@ -17,7 +17,7 @@ export default antfu(
     },
   },
   {
-    files: ['**/*.{ts,tsx,vue}'],
+    files: ['src/**/*.{ts,tsx,vue}'],
     rules: {
       'ts/strict-boolean-expressions': ['error', { allowNullableString: true }],
       'ts/no-misused-promises': 'off',
