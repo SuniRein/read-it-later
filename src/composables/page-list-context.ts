@@ -1,10 +1,10 @@
+import type { PageItem } from '@/common/types';
 import type { StorageItems } from '@/storage';
-import type { PageItem } from '@/utils/types';
+import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
-import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
 
 export interface PageListContextOptions {
   /**

@@ -2,7 +2,7 @@
 import ChromeLogo from '~~/assets/chrome.svg?component';
 import FirefoxLogo from '~~/assets/firefox.svg?component';
 import GithubLogo from '~~/assets/github.svg?component';
-import * as meta from '@/utils/meta';
+import * as meta from '@/common/meta';
 
 const { t } = useI18n();
 </script>

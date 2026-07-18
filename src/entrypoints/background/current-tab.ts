@@ -1,5 +1,5 @@
-import type { Tab } from '@/utils/types';
-import { onMessage, sendMessage } from '@/utils/message';
+import type { Tab } from '@/common/types';
+import { onMessage, sendMessage } from '@/common/message';
 
 export function handleCurrentTab(isConnected: Ref<boolean>) {
   const tab = shallowRef<Tab | null>(null);

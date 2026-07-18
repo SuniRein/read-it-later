@@ -1,4 +1,4 @@
-import type { WebDavConfig } from '@/utils/types';
+import type { WebDavConfig } from '@/common/types';
 
 import { createClient } from 'webdav';
 

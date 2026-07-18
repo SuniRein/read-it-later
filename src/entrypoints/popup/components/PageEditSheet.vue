@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { PageItem } from '@/common/types';
 import type { PageUpdateInfo } from '@/composables/page-list';
-import type { PageItem } from '@/utils/types';
+import notify from '@/common/notify';
 import AutoComplete from '@/components/AutoComplete.vue';
-import notify from '@/utils/notify';
 
 const props = defineProps<{
   tags: string[];

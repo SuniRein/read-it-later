@@ -1,5 +1,5 @@
-import type { I18nLocales } from '@/utils/i18n';
-import type { FavoritedFilterOption, PageItem, Setting } from '@/utils/types';
+import type { I18nLocales } from '@/common/i18n';
+import type { FavoritedFilterOption, PageItem, Setting } from '@/common/types';
 
 function defaultLocale(): I18nLocales {
   const language = navigator.languages?.[0] ?? navigator.language ?? 'en';

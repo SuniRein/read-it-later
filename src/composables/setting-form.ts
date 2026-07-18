@@ -1,6 +1,6 @@
+import type { FaviconSource } from '@/common/types';
 import type { StorageItems } from '@/storage';
-import type { FaviconSource } from '@/utils/types';
-import { deepToRaw } from '@/utils/object';
+import { deepToRaw } from '@/common/object';
 
 const faviconSourcePermissions: Record<FaviconSource, string[]> = {
   'favicon.im': ['https://favicon.im/*'],

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { handleNotify } from '@/common/message';
+import { IsDarkKey } from '@/common/symbols';
 import useI18n from '@/composables/i18n';
-import { handleNotify } from '@/utils/message';
-import { IsDarkKey } from '@/utils/symbols';
 
 const isDark = inject(IsDarkKey);
 

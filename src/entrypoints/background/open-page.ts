@@ -1,4 +1,4 @@
-import type { DuplicatedUrlOpenedOption } from '@/utils/types';
+import type { DuplicatedUrlOpenedOption } from '@/common/types';
 
 export function handleOpenPage(
   { duplicatedUrlOpened, openAndRemove }: {

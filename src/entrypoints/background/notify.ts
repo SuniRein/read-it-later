@@ -1,6 +1,6 @@
-import type { I18nKey } from '@/utils/i18n';
-import type { NotifyLevel } from '@/utils/notify';
-import { sendMessage } from '@/utils/message';
+import type { I18nKey } from '@/common/i18n';
+import type { NotifyLevel } from '@/common/notify';
+import { sendMessage } from '@/common/message';
 
 export function handleSendNotify(
   isConnected: Ref<boolean>,

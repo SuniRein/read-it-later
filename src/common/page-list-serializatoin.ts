@@ -1,4 +1,4 @@
-import type { PageItem, PageItemIMP } from '@/utils/types';
+import type { PageItem, PageItemIMP } from '@/common/types';
 
 import { type } from 'arktype';
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FavoritedFilterOption } from '@/utils/types';
+import type { FavoritedFilterOption } from '@/common/types';
 
 import { CheckCircle2, ExternalLink, PlusCircle, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
 import IconButton from './IconButton.vue';

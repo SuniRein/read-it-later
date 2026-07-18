@@ -1,6 +1,6 @@
+import type { Setting } from '@/common/types';
 import type { StorageItems } from '@/storage';
-import type { Setting } from '@/utils/types';
-import { changeLog } from '@/utils/meta';
+import { changeLog } from '@/common/meta';
 
 async function updateSettings(items: Pick<StorageItems, 'setting'>, newSettings: Partial<Setting>) {
   const oldSetting = await items.setting.getValue();

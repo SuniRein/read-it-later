@@ -1,5 +1,5 @@
+import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
 import type { StorageItems } from '@/storage';
-import type { PageInfo, PageItem, PageItemIMP } from '@/utils/types';
 import { nanoid } from 'nanoid';
 import { useStoredValue } from '@/composables/store';
 

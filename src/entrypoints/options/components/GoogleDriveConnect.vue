@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { CloudManagerEmit } from '../composables/cloud-storage-manager';
-import type { GoogleDriveConfig } from '@/utils/types';
+import type { GoogleDriveConfig } from '@/common/types';
 import { Cloud, CloudOff, Loader2, RefreshCw } from 'lucide-vue-next';
-import notify from '@/utils/notify';
+import notify from '@/common/notify';
 import { useCloudStorageManager } from '../composables/cloud-storage-manager';
 import { useGoogleDriveService } from '../composables/google-drive';
 import CloudFileSelector from './CloudFileSelector.vue';

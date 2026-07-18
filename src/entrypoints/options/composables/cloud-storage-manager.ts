@@ -1,4 +1,4 @@
-import notify from '@/utils/notify';
+import notify from '@/common/notify';
 
 export interface CloudFile {
   id: string;

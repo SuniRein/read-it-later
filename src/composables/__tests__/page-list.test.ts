@@ -1,4 +1,4 @@
-import type { PageInfo, PageItem } from '@/utils/types';
+import type { PageInfo, PageItem } from '@/common/types';
 
 import { flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it } from 'vitest';

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { CloudManagerEmit } from '../composables/cloud-storage-manager';
-import type { WebDavConfig } from '@/utils/types';
+import type { WebDavConfig } from '@/common/types';
 import { Globe, Lock, User } from 'lucide-vue-next';
-import notify from '@/utils/notify';
+import notify from '@/common/notify';
 import { useCloudStorageManager } from '../composables/cloud-storage-manager';
 import { AFTER_URL, checkWebDavPermission, useWabDavService } from '../composables/webdav';
 import CloudFileSelector from './CloudFileSelector.vue';

@@ -1,5 +1,5 @@
+import type { FaviconSource } from '@/common/types';
 import type { StorageItems } from '@/storage';
-import type { FaviconSource } from '@/utils/types';
 
 export function useFavicon(items: Pick<StorageItems, 'setting'>) {
   const faviconSource = ref<FaviconSource | undefined>(undefined);

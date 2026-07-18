@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { HelpCircle, Home, Save, Settings } from 'lucide-vue-next';
-import { IsDarkKey } from '@/utils/symbols';
+import { IsDarkKey } from '@/common/symbols';
 
 const isDark = inject(IsDarkKey);
 

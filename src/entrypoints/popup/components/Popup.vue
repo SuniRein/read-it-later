@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { handleNotify } from '@/common/message';
 import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
+import notify from '@/common/notify';
+import { StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list-context';
 import { usePagination } from '@/composables/pagination';
 import { useStoredValue } from '@/composables/store';
-import { handleNotify } from '@/utils/message';
-import notify from '@/utils/notify';
-import { StorageItemsKey } from '@/utils/symbols';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 

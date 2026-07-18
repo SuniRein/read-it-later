@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { IsDarkKey } from '@/utils/symbols';
+import { IsDarkKey } from '@/common/symbols';
 import Popup from './components/Popup.vue';
 
 const isDark = inject(IsDarkKey);

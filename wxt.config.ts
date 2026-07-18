@@ -12,7 +12,7 @@ export default defineConfig({
     presets: [
       '@vueuse/core',
       { from: '@/composables/i18n', imports: [['default', 'useI18n']] },
-      { from: '@/lib/utils', imports: ['cn'] },
+      { from: '@/common/cn', imports: ['cn'] },
     ],
     warn: (msg: string) => {
       if (!msg.includes('toRef')) {

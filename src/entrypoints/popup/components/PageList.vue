@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { PageItem, Tab } from '@/common/types';
 import type { PageUpdateInfo } from '@/composables/page-list';
-import type { PageItem, Tab } from '@/utils/types';
 
 import { ArrowUpToLine, Check, Copy, Edit2, Quote, RefreshCw, Star } from 'lucide-vue-next';
+import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
+import { StorageItemsKey } from '@/common/symbols';
 import { useFavicon } from '@/composables/favicon';
-import { IS_FIREFOX, urlRestricted } from '@/utils/firefox';
-import { StorageItemsKey } from '@/utils/symbols';
 
 import ColorTag from './ColorTag.vue';
 import Favicon from './Favicon.vue';

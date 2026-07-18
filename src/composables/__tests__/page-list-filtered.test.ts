@@ -1,4 +1,4 @@
-import type { FavoritedFilterOption } from '@/utils/types';
+import type { FavoritedFilterOption } from '@/common/types';
 
 import { describe, expect, it } from 'vitest';
 

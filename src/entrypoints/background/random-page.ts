@@ -1,5 +1,5 @@
 import type { NotifyFunction } from './notify';
-import type { PageItem } from '@/utils/types';
+import type { PageItem } from '@/common/types';
 
 export function handleOpenRandomPage(
   pageList: Ref<PageItem[]>,

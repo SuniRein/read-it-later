@@ -1,4 +1,4 @@
-import type { PageItem } from '@/utils/types';
+import type { PageItem } from '@/common/types';
 
 const commonBadgeColor = '#444';
 const activeBadgeColor = '#16a34a';

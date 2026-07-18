@@ -1,7 +1,7 @@
+import i18n from '@/common/i18n';
+import { IsDarkKey, StorageItemsKey } from '@/common/symbols';
 import { setupFontSize, setupLocale, setupTheme, useSetting } from '@/composables/setting';
 import { createStorageItems } from '@/storage';
-import i18n from '@/utils/i18n';
-import { IsDarkKey, StorageItemsKey } from '@/utils/symbols';
 
 import App from './App.vue';
 

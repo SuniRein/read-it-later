@@ -1,5 +1,5 @@
+import { onMessage } from '@/common/message';
 import { createStorageItems } from '@/storage';
-import { onMessage } from '@/utils/message';
 import { handleAddCurrentTab } from './add-current-tab';
 import { handleBadge } from './badge';
 import { handleCache } from './cache';

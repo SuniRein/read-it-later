@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Info } from 'lucide-vue-next';
-import * as meta from '@/utils/meta';
+import * as meta from '@/common/meta';
 
 const { t } = useI18n();
 

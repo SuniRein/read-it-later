@@ -1,6 +1,6 @@
-import type { Tab } from '@/utils/types';
+import type { Tab } from '@/common/types';
 
-import { onMessage, sendMessage } from '@/utils/message';
+import { onMessage, sendMessage } from '@/common/message';
 
 export function useCurrentTab() {
   const currentTab = ref<Tab | null>(null);

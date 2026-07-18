@@ -1,5 +1,5 @@
 import type { NotifyFunction } from './notify';
-import type { PageInfo, Tab } from '@/utils/types';
+import type { PageInfo, Tab } from '@/common/types';
 
 export function handleAddCurrentTab(
   { currentTab, addPage, addAndClose, sendNotify }:

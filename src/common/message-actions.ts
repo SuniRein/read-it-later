@@ -1,4 +1,4 @@
-import { sendMessage } from '@/utils/message';
+import { sendMessage } from '@/common/message';
 
 /**
  * Message and browser API facade.

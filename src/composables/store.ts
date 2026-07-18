@@ -1,4 +1,4 @@
-import { deepToRaw } from '@/utils/object';
+import { deepToRaw } from '@/common/object';
 
 interface StorageMeta {
   lastModified?: number;

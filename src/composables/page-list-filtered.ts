@@ -1,4 +1,4 @@
-import type { FavoritedFilterOption, PageItem } from '@/utils/types';
+import type { FavoritedFilterOption, PageItem } from '@/common/types';
 
 type Filter = (item: PageItem) => boolean;
 

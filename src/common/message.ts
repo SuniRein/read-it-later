@@ -1,8 +1,8 @@
-import type { I18nKey } from '@/utils/i18n';
-import type { NotifyLevel } from '@/utils/notify';
-import type { Tab } from '@/utils/types';
+import type { I18nKey } from '@/common/i18n';
+import type { NotifyLevel } from '@/common/notify';
+import type { Tab } from '@/common/types';
 import { defineExtensionMessaging } from '@webext-core/messaging';
-import notify from '@/utils/notify';
+import notify from '@/common/notify';
 
 interface ProtocolMap {
   getCurrentTab: () => Promise<Tab | null>;

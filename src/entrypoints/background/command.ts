@@ -1,4 +1,4 @@
-import type { Command } from '@/utils/types';
+import type { Command } from '@/common/types';
 
 type CommandHandlers = Record<Command, () => void>;
 

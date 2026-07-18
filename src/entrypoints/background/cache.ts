@@ -1,4 +1,4 @@
-import { onMessage } from '@/utils/message';
+import { onMessage } from '@/common/message';
 
 function createImageCache() {
   let imageCache: Cache | null = null;

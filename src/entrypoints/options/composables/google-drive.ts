@@ -1,4 +1,4 @@
-import type { GoogleDriveConfig } from '@/utils/types';
+import type { GoogleDriveConfig } from '@/common/types';
 import { deleteFile, downloadFile, listFiles, uploadFile, validateToken } from '../utils/google-drive-api';
 import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '../utils/google-drive-auth';
 

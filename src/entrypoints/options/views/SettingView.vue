@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { I18nLocales } from '@/utils/i18n';
-import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/utils/types';
+import type { I18nLocales } from '@/common/i18n';
+import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/common/types';
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { clearImageCache } from '@/common/message-actions';
+import notify from '@/common/notify';
+import { StorageItemsKey } from '@/common/symbols';
 import { checkFaviconCachingPermission, requestFaviconCachingPermission, useEditableSetting } from '@/composables/setting-form';
-import notify from '@/utils/notify';
-import { StorageItemsKey } from '@/utils/symbols';
 import SettingOption from '../components/SettingOption.vue';
 import SettingSection from '../components/SettingSection.vue';
 
