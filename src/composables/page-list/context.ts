@@ -1,28 +1,34 @@
 import type { PageItem } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
-import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
-import { usePageList } from '@/composables/page-list';
-import { usePageListFiltered } from '@/composables/page-list-filtered';
-import { useSearchText } from '@/composables/search-text';
-
-export interface PageListContextOptions {
-  /**
-   * Whether to exclude restricted URLs from pageListFiltered.
-   */
-  filterRestricted?: boolean;
-}
+import { useStoredValue } from '@/composables/stored-value';
+import { usePageListFiltered } from './filters';
+import { usePageList } from './index';
 
 export function usePageListContext(
   items: StorageItems,
-  options: PageListContextOptions = {},
+  options: { filterRestricted?: boolean } = {},
 ) {
-  const { favoritedFilterOption, change: changeFavoritedView } = useFavoritedFilterOption(items);
-  const { searchText, searchTextDebounced } = useSearchText(items);
-  const { pageList, restorableItemCount, ...pageActions } = usePageList(items);
+  // --- filter controls ---
+  const favoritedFilterOption = useStoredValue(items.favoritedFilterOption);
 
-  // Whether to filter out restricted URLs from the page list.
-  // By default, this is true for Firefox and false for other browsers.
+  function changeFavoritedView() {
+    const current = favoritedFilterOption.value;
+    favoritedFilterOption.value = (
+      current === 'all'
+        ? 'favorited'
+        : current === 'favorited'
+          ? 'unfavorited'
+          : 'all'
+    );
+  }
+
+  const searchText = useStoredValue(items.searchText);
+  const searchTextDebounced = refDebounced(searchText, 300);
+
+  const { pageList, removedPageList, ...actions } = usePageList(items);
+
+  // --- derived ---
   const filterRestricted = options.filterRestricted ?? IS_FIREFOX;
 
   const baseList = computed<PageItem[]>(() =>
@@ -43,7 +49,7 @@ export function usePageListContext(
     // raw (unfiltered) data
     pageList,
     pageMap,
-    restorableItemCount,
+    restorableItemCount: actions.restorableItemCount,
     // filtered data
     pageListFiltered,
     // filter controls
@@ -52,6 +58,6 @@ export function usePageListContext(
     favoritedFilterOption,
     changeFavoritedView,
     // page actions
-    pageActions,
+    pageActions: actions,
   };
 }

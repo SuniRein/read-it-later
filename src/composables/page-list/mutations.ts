@@ -1,29 +1,42 @@
+import type { ShallowRef } from 'vue';
+import type { PageLoadResult, PageUpdateInfo } from './types';
 import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
-import type { StorageItems } from '@/storage';
 import { nanoid } from 'nanoid';
-import { useStoredValue } from '@/composables/stored-value';
-import { mapIMPToPageItems } from '@/services/serialization';
+import { triggerRef } from 'vue';
+import { mapIMPToPageItems } from './imp';
+import { computeMergeResult } from './merge';
 
-export interface PageUpdateInfo {
-  title?: string;
-  tags?: string[];
-  desc?: string;
+/**
+ * In-place mutate a page item, then trigger the ShallowRef.
+ * Returns false if the item was not found.
+ */
+function mutate(
+  pageList: ShallowRef<PageItem[]>,
+  id: string,
+  fn: (item: PageItem) => void,
+): boolean {
+  const item = pageList.value.find(it => it.id === id);
+  if (!item)
+    return false;
+  fn(item);
+  item.updatedAt = new Date().toISOString();
+  triggerRef(pageList);
+  return true;
 }
 
-export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageList'>) {
-  const pageList = useStoredValue(items.pageList);
-  const removedPageList = useStoredValue(items.removedPageList);
-
+export function createPageActions(
+  pageList: ShallowRef<PageItem[]>,
+  removedPageList: ShallowRef<PageItem[]>,
+) {
   function add(info: PageInfo): boolean {
-    if (pageList.value.some(item => item.info.url === info.url)) {
-      return false; // Prevent adding duplicate pages
-    }
+    if (pageList.value.some(item => item.info.url === info.url))
+      return false; // Duplicate URL, do not add
 
     // Remove from removedPageList if it exists
     removedPageList.value = removedPageList.value.filter(item => item.info.url !== info.url);
 
     const now = new Date().toISOString();
-    const pageItem = {
+    const pageItem: PageItem = {
       id: nanoid(),
       info,
       tags: [],
@@ -46,46 +59,25 @@ export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageL
   }
 
   function update(id: string, info: PageUpdateInfo) {
-    const item = pageList.value.find(item => item.id === id);
-    if (item) {
+    mutate(pageList, id, (item) => {
       item.info.title = info.title ?? item.info.title;
       item.tags = info.tags ?? item.tags;
       item.desc = info.desc ?? item.desc;
-      item.updatedAt = new Date().toISOString();
-      triggerRef(pageList);
-    }
+    });
   }
 
   function updateTitle(id: string, newTitle: string) {
-    const item = pageList.value.find(item => item.id === id);
-    if (item) {
-      item.info.title = newTitle;
-      item.updatedAt = new Date().toISOString();
-      triggerRef(pageList);
-    }
+    mutate(pageList, id, item => item.info.title = newTitle);
   }
 
   function updateUrl(id: string, newUrl: string): boolean {
-    if (pageList.value.some(item => item.info.url === newUrl)) {
+    if (pageList.value.some(item => item.info.url === newUrl))
       return false;
-    }
-
-    const item = pageList.value.find(item => item.id === id);
-    if (item) {
-      item.info.url = newUrl;
-      item.updatedAt = new Date().toISOString();
-      triggerRef(pageList);
-    }
-    return true;
+    return mutate(pageList, id, item => item.info.url = newUrl);
   }
 
   function toggleFavorite(id: string) {
-    const item = pageList.value.find(item => item.id === id);
-    if (item) {
-      item.favorited = !item.favorited;
-      item.updatedAt = new Date().toISOString();
-    }
-    triggerRef(pageList);
+    mutate(pageList, id, item => item.favorited = !item.favorited);
   }
 
   function moveToTop(id: string) {
@@ -128,7 +120,6 @@ export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageL
   }
 
   return {
-    pageList,
     add,
     remove,
     update,
@@ -137,50 +128,10 @@ export function usePageList(items: Pick<StorageItems, 'pageList' | 'removedPageL
     toggleFavorite,
     moveToTop,
     clear,
-
     tryLoad,
     tryLoadFromIMP,
     load,
-
     restorableItemCount,
     restoreRemoved,
   };
-}
-
-export interface PageLoadResult {
-  added: PageItem[];
-  updated: PageItem[];
-  ignored: PageItem[];
-  conflicted: PageItem[];
-}
-
-function computeMergeResult(existing: PageItem[], incoming: PageItem[]): PageLoadResult {
-  const result: PageLoadResult = { added: [], updated: [], ignored: [], conflicted: [] };
-
-  const idMap = new Map(existing.map(item => [item.id, item]));
-  const urlMap = new Map(existing.map(item => [item.info.url, item]));
-
-  const remaining = incoming.filter((item) => {
-    const old = idMap.get(item.id);
-    if (!old)
-      return true;
-
-    if (item.updatedAt > old.updatedAt) {
-      if (item.info.url !== old.info.url) {
-        urlMap.delete(old.info.url);
-        urlMap.set(item.info.url, item);
-      }
-      result.updated.push(item);
-    }
-    else {
-      result.ignored.push(item);
-    }
-    return false;
-  });
-
-  for (const item of remaining) {
-    (urlMap.has(item.info.url) ? result.conflicted : result.added).push(item);
-  }
-
-  return result;
 }

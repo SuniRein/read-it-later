@@ -6,7 +6,7 @@ import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage
 import notify from '@/common/notify';
 import { StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
-import { usePageListContext } from '@/composables/page-list-context';
+import { usePageListContext } from '@/composables/page-list';
 import { usePagination } from '@/composables/pagination';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
@@ -28,7 +28,7 @@ const { current } = pager;
 const pageListDisplayed = computed(() => {
   const paginated = pager.pageSlice.value;
   const currentPage = ctx.pageList.value.find(item => item.info.url === currentUrl.value);
-  return currentPage
+  return currentPage !== undefined
     ? [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)]
     : paginated;
 });

@@ -2,7 +2,7 @@ import type { FavoritedFilterOption } from '@/common/types';
 
 import { describe, expect, it } from 'vitest';
 
-import { usePageListFiltered } from '@/composables/page-list-filtered';
+import { usePageListFiltered } from '@/composables/page-list/filters';
 
 const mockPages = [
   {

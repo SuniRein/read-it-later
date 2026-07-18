@@ -1,5 +1,5 @@
 import type { StorageItems } from '@/storage';
-import { usePageListContext } from '@/composables/page-list-context';
+import { usePageListContext } from '@/composables/page-list';
 
 export function handlePageList(items: StorageItems) {
   const ctx = usePageListContext(items);
