@@ -5,7 +5,7 @@ import type { PageUpdateInfo } from '@/composables/page-list';
 import { ArrowUpToLine, Check, Copy, Edit2, Quote, RefreshCw, Star } from 'lucide-vue-next';
 import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
 import { StorageItemsKey } from '@/common/symbols';
-import { useFavicon } from '@/composables/favicon';
+import { useFaviconUrl } from '@/composables/favicon-url';
 
 import ColorTag from './ColorTag.vue';
 import Favicon from './Favicon.vue';
@@ -32,7 +32,7 @@ const emit = defineEmits<{
 const { t } = useI18n();
 
 const items = inject(StorageItemsKey)!;
-const { getFaviconUrl } = useFavicon(items);
+const { getFaviconUrl } = useFaviconUrl(items);
 
 const editedItem = ref<PageItem | null>(null);
 

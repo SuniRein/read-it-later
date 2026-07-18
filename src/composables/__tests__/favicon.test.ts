@@ -2,21 +2,23 @@ import { mount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
 
+import { resetSettingsInstance } from '@/app/settings';
 import { createStorageItems } from '@/storage';
-import { useFavicon } from '../favicon';
+import { useFaviconUrl } from '../favicon-url';
 
 const items = createStorageItems();
 
 describe('useFavicon', () => {
   beforeEach(() => {
     fakeBrowser.reset();
+    resetSettingsInstance();
   });
 
   function getFaviconUrl(url: string) {
     const testComponent = defineComponent({
       props: { url: String },
       setup(props) {
-        const { getFaviconUrl } = useFavicon(items);
+        const { getFaviconUrl } = useFaviconUrl(items);
         return {
           api: {
             faviconUrl: () => getFaviconUrl(props.url!),

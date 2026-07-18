@@ -1,16 +1,29 @@
 import type { StorageItems } from '@/storage';
 import { deepToRaw } from '@/common/object';
 
+let _instance: ReturnType<typeof createSettingsInstance> | null = null;
+
+/** Exposed only for test teardown. */
+export function resetSettingsInstance(): void {
+  _instance = null;
+}
+
 /**
- * Reactive binding for the user `setting` store item.
- *
- * `setting` is a deep `Ref<Setting>` — assignments to nested properties
- * propagate to persistence directly, no form bridge required.
- *
- * `ready` resolves after the initial persisted value is loaded; `await` it
- * before mounting UI that must never show the fallback value.
+ * Lazy singleton. Provide `items` on the first call; subsequent calls
+ * ignore the argument and return the cached instance.
  */
-export function useSettings(items: Pick<StorageItems, 'setting'>) {
+export function useSettings(items?: Pick<StorageItems, 'setting'>) {
+  if (_instance)
+    return _instance;
+
+  if (!items)
+    throw new Error('useSettings: must provide items on first call');
+
+  _instance = createSettingsInstance(items);
+  return _instance;
+}
+
+function createSettingsInstance(items: Pick<StorageItems, 'setting'>) {
   const store = items.setting;
   const setting = ref(structuredClone(store.fallback));
 
@@ -35,9 +48,7 @@ export function useSettings(items: Pick<StorageItems, 'setting'>) {
   });
 
   return {
-    /** Deep Ref — mutate nested properties directly for persistence. */
     setting,
-    /** Promise that resolves after the persisted value is loaded. */
     ready,
 
     colorMode: computed(() => setting.value.colorMode),

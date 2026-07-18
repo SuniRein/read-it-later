@@ -1,7 +1,7 @@
 import type { StorageItems } from '@/storage';
 import { useSettings } from '@/app/settings';
 
-export function useFavicon(items: Pick<StorageItems, 'setting'>) {
+export function useFaviconUrl(items: Pick<StorageItems, 'setting'>) {
   const { faviconSource } = useSettings(items);
 
   function getFaviconUrl(url: string): string {
