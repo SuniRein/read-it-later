@@ -1,5 +1,5 @@
 import type { StorageItems } from '@/storage';
-import { useStoredValue } from '@/composables/store';
+import { useStoredValue } from '@/composables/stored-value';
 
 export function useFavoritedFilterOption(items: Pick<StorageItems, 'favoritedFilterOption'>) {
   const favoritedFilterOption = useStoredValue(items.favoritedFilterOption);

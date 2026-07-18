@@ -1,7 +1,7 @@
 import flushPromises from 'flush-promises';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { useStoredValue } from '../store';
+import { useStoredValue } from '../stored-value';
 
 beforeEach(() => {
   fakeBrowser.reset();

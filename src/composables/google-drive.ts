@@ -1,6 +1,6 @@
 import type { GoogleDriveConfig } from '@/common/types';
-import { deleteFile, downloadFile, listFiles, uploadFile, validateToken } from '../utils/google-drive-api';
-import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '../utils/google-drive-auth';
+import { deleteFile, downloadFile, listFiles, uploadFile, validateToken } from '@/services/google-drive-api';
+import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '@/services/google-drive-auth';
 
 export function useGoogleDriveService(config: Ref<GoogleDriveConfig | null>) {
   async function signIn() {

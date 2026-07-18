@@ -1,5 +1,5 @@
 import type { StorageItems } from '@/storage';
-import { useStoredValue } from '@/composables/store';
+import { useStoredValue } from '@/composables/stored-value';
 
 export function useSearchText(items: Pick<StorageItems, 'searchText'>) {
   const searchText = useStoredValue(items.searchText);

@@ -1,7 +1,7 @@
 import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { nanoid } from 'nanoid';
-import { useStoredValue } from '@/composables/store';
+import { useStoredValue } from '@/composables/stored-value';
 
 export interface PageUpdateInfo {
   title?: string;

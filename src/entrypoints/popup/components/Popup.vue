@@ -7,7 +7,7 @@ import { StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list-context';
 import { usePagination } from '@/composables/pagination';
-import { useStoredValue } from '@/composables/store';
+import { useStoredValue } from '@/composables/stored-value';
 import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 

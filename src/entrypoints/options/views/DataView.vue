@@ -2,10 +2,10 @@
 import type { CloudStorageType } from '@/common/types';
 import { CheckCircle2, Cloud, Download, Globe, Loader2, Trash2, Upload } from 'lucide-vue-next';
 import notify from '@/common/notify';
-import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/common/page-list-serializatoin';
 import { StorageItemsKey } from '@/common/symbols';
 import { usePageList } from '@/composables/page-list';
 import { useEditableSetting } from '@/composables/setting-form';
+import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/services/serialization';
 import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
 
 const { t } = useI18n();
