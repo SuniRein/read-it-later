@@ -1,32 +1,25 @@
 <script setup lang="ts">
 import type { I18nLocales } from '@/utils/i18n';
 import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/utils/types';
-
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
-import { sendMessage } from '@/utils/message';
+import { clearImageCache } from '@/common/message-actions';
 import notify from '@/utils/notify';
-
 import SettingOption from '../components/SettingOption.vue';
 import SettingSection from '../components/SettingSection.vue';
-import { useSetting } from '../composables/setting';
+import { checkFaviconCachingPermission, requestFaviconCachingPermission, useSetting } from '../composables/setting';
 
 const { t } = useI18n();
 
 const { setting } = await useSetting();
 
-function getRequestedFaviconCachingPermission() {
-  const permissions = {
-    'favicon.im': ['https://favicon.im/*'],
-    google: ['https://www.google.com/s2/favicons/*', 'https://*.gstatic.com/faviconV2/*'],
-    duckduckgo: ['https://icons.duckduckgo.com/ip3/'],
-  };
-  return permissions[setting.value.faviconSource];
+async function clearFaviconCache() {
+  await clearImageCache();
+  notify.success(t('option.setting.faviconCache.clear.msg.success'));
 }
 
 async function updateFaviconCaching(checked: boolean) {
   if (checked) {
-    const requiredPermissions = getRequestedFaviconCachingPermission();
-    if (await browser.permissions.request({ origins: requiredPermissions })) {
+    if (await requestFaviconCachingPermission(setting.value.faviconSource)) {
       setting.value.faviconCaching = true;
       return;
     }
@@ -34,22 +27,14 @@ async function updateFaviconCaching(checked: boolean) {
   setting.value.faviconCaching = false;
 }
 
-async function checkFaviconCachingPermission() {
+onMounted(async () => {
   if (setting.value.faviconCaching) {
-    const requiredPermissions = getRequestedFaviconCachingPermission();
-    if (!await browser.permissions.contains({ origins: requiredPermissions })) {
+    if (!await checkFaviconCachingPermission(setting.value.faviconSource)) {
       notify.error(t('option.setting.faviconCache.clear.msg.permissionMissing'));
       setting.value.faviconCaching = false;
     }
   }
-}
-
-async function clearFaviconCache() {
-  await sendMessage('clearImageCache');
-  notify.success(t('option.setting.faviconCache.clear.msg.success'));
-}
-
-void checkFaviconCachingPermission();
+});
 </script>
 
 <template>

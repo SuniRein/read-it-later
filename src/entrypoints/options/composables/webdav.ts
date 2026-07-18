@@ -2,6 +2,10 @@ import type { WebDavConfig } from '@/utils/types';
 
 import { createClient } from 'webdav';
 
+export async function checkWebDavPermission(url: string): Promise<boolean> {
+  return browser.permissions.request({ origins: [url] });
+}
+
 export const AFTER_URL = '/read-it-later-simply';
 export const BACKUP_FOLDER = '/backups';
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Globe } from 'lucide-vue-next';
-import { sendMessage } from '@/utils/message';
+import { fetchImageFromCache } from '@/common/message-actions';
 
 const { url, useCache } = defineProps<{
   url?: string;
@@ -21,7 +21,7 @@ async function fetchIcon() {
 
   try {
     if (useCache) {
-      const dataUrl = await sendMessage('fetchImageFromCache', { url });
+      const dataUrl = await fetchImageFromCache(url);
       imgSrc.value = dataUrl;
     }
     else {

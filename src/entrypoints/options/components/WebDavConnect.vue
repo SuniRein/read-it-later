@@ -4,7 +4,7 @@ import type { WebDavConfig } from '@/utils/types';
 import { Globe, Lock, User } from 'lucide-vue-next';
 import notify from '@/utils/notify';
 import { useCloudStorageManager } from '../composables/cloud-storage-manager';
-import { AFTER_URL, useWabDavService } from '../composables/webdav';
+import { AFTER_URL, checkWebDavPermission, useWabDavService } from '../composables/webdav';
 import CloudFileSelector from './CloudFileSelector.vue';
 
 const emit = defineEmits<CloudManagerEmit>();
@@ -24,7 +24,7 @@ async function checkPermission() {
     return false;
   }
 
-  if (await browser.permissions.request({ origins: [config.value.url] }))
+  if (await checkWebDavPermission(config.value.url))
     return true;
   notify.error(t('option.data.cloud.webdav.msg.permissionDenied'));
   return false;

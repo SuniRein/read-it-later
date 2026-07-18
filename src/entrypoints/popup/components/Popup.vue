@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
 import { useCurrentTab } from '@/composables/current-tab';
 import { useFavoritedFilterOption } from '@/composables/favorited-filter-option';
 import { usePageList } from '@/composables/page-list';
 import { usePageListFiltered } from '@/composables/page-list-filtered';
 import { useSearchText } from '@/composables/search-text';
 import { useStoredValue } from '@/composables/store';
-import { handleNotify, sendMessage } from '@/utils/message';
+import { handleNotify } from '@/utils/message';
 import notify from '@/utils/notify';
 import store from '@/utils/store';
 import PageList from './PageList.vue';
@@ -51,18 +52,6 @@ const pageTags = computed(() => {
 
 handleNotify(t);
 
-async function addPage() {
-  await sendMessage('addCurrentTab');
-}
-
-async function openUrl(url: string) {
-  await sendMessage('openPage', { url });
-}
-
-async function copyUrl(url: string) {
-  await navigator.clipboard.writeText(url);
-}
-
 function updateUrl(id: string, url: string) {
   if (!pageActions.updateUrl(id, url)) {
     notify.error(t('common.msg.addTab.pageAlreadyExists'));
@@ -70,12 +59,11 @@ function updateUrl(id: string, url: string) {
 }
 
 async function popOut() {
-  const url = browser.runtime.getURL('/popup.html?mode=popout');
-  await browser.windows.create({ url, type: 'popup' });
+  await openPopoutWindow();
   window.close();
 }
 
-const isPopout = new URLSearchParams(window.location.search).get('mode') === 'popout';
+const isPopout = isPopoutMode();
 </script>
 
 <template>
@@ -84,7 +72,7 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
   <div
     :class="cn(
       'm-0 flex flex-col overflow-hidden bg-background text-foreground shadow-xl',
-      isPopout ? 'h-screen w-screen' : 'h-[500px] w-[480px]',
+      isPopout ? 'h-screen w-screen' : 'h-125 w-120',
     )"
   >
     <!-- eslint-enable better-tailwindcss/enforce-canonical-classes -->
@@ -96,10 +84,10 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
         :favorited-filter-option
         :restorable-item-count
         :is-popout
-        @add-page="addPage"
+        @add-page="addCurrentTab"
         @change-favorited-view="changeFavoritedView"
-        @open-random-page="sendMessage('openRandomPage')"
-        @open-setting="browser.runtime.openOptionsPage"
+        @open-random-page="openRandomPage"
+        @open-setting="openOptionsPage"
         @open-popout="popOut"
         @restore-removed-page="pageActions.restoreRemoved"
       />
@@ -115,8 +103,8 @@ const isPopout = new URLSearchParams(window.location.search).get('mode') === 'po
           @mark-read="pageActions.remove"
           @edit="pageActions.update"
           @toggle-star="pageActions.toggleFavorite"
-          @open-url="openUrl"
-          @copy-url="copyUrl"
+          @open-url="openPage"
+          @copy-url="copyToClipboard"
           @update-title="pageActions.updateTitle"
           @update-url="updateUrl"
           @move-to-top="pageActions.moveToTop"
