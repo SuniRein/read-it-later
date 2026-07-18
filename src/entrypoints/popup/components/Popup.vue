@@ -3,6 +3,7 @@ import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue
 import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list-context';
+import { usePagination } from '@/composables/pagination';
 import { useStoredValue } from '@/composables/store';
 import { handleNotify } from '@/utils/message';
 import notify from '@/utils/notify';
@@ -11,47 +12,32 @@ import PageList from './PageList.vue';
 import TopOperation from './TopOperation.vue';
 
 const items = inject(StorageItemsKey)!;
-
 const { t } = useI18n();
 
 const setting = useStoredValue(items.setting);
 const faviconCaching = computed(() => setting.value.faviconCaching);
-
-const current = ref(1);
 const pageSize = computed(() => setting.value.pagination);
 
 const ctx = usePageListContext(items);
-const {
-  pageList,
-  restorableItemCount,
-  pageListFiltered,
-  searchText,
-  favoritedFilterOption,
-  changeFavoritedView,
-  pageActions,
-} = ctx;
+const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageListFiltered } = ctx;
 
 const { currentTab } = useCurrentTab();
 const currentUrl = computed(() => currentTab.value?.url ?? null);
 
+const pager = usePagination(pageListFiltered, pageSize);
+const { current } = pager;
+
 const pageListDisplayed = computed(() => {
-  const start = (current.value - 1) * pageSize.value;
-  const end = start + pageSize.value;
-  const paginated = pageListFiltered.value.slice(start, end);
-
-  // make current page at the top if it exists
-  const currentPage = pageList.value.find(item => item.info.url === currentUrl.value);
-  if (currentPage) {
-    return [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)];
-  }
-  return paginated;
+  const paginated = pager.pageSlice.value;
+  const currentPage = ctx.pageList.value.find(item => item.info.url === currentUrl.value);
+  return currentPage
+    ? [currentPage, ...paginated.filter(item => item.info.url !== currentUrl.value)]
+    : paginated;
 });
 
-const pageTags = computed(() => {
-  return Array.from(
-    new Set(pageList.value.flatMap(item => item.tags)),
-  );
-});
+const pageTags = computed(() =>
+  Array.from(new Set(ctx.pageList.value.flatMap(item => item.tags))),
+);
 
 handleNotify(t);
 
@@ -82,7 +68,6 @@ const isPopout = isPopoutMode();
     <header class="h-12 w-full">
       <TopOperation
         v-model:search-text="searchText"
-        :current-tab
         :page-tags
         :favorited-filter-option
         :restorable-item-count
