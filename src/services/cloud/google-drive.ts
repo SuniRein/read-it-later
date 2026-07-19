@@ -2,6 +2,8 @@ import type { GoogleDriveConfig } from '@/common/types';
 import { deleteFile, downloadFile, listFiles, uploadFile, validateToken } from '@/services/google-drive-api';
 import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '@/services/google-drive-auth';
 
+export const GOOGLE_DRIVE_TOKEN_REFRESH_THRESHOLD_MS = 60_000; // 1 minute
+
 export function useGoogleDriveService(config: Ref<GoogleDriveConfig | null>) {
   async function signIn() {
     const authCode = await getAuthCode();
@@ -30,8 +32,7 @@ export function useGoogleDriveService(config: Ref<GoogleDriveConfig | null>) {
 
     const currentAccessToken = config.value.accessToken;
     const expirationTime = config.value.expiresIn;
-    const THRESHOLD_MS = 60000; // 1 minute
-    if (Date.now() < expirationTime - THRESHOLD_MS) {
+    if (Date.now() < expirationTime - GOOGLE_DRIVE_TOKEN_REFRESH_THRESHOLD_MS) {
       return currentAccessToken;
     }
 

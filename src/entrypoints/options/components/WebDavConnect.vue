@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { WebDavConfig } from '@/common/types';
-import type { CloudStorageEmit } from '@/composables/cloud-storage';
+import type { CloudStorageEmit } from '@/services/cloud/cloud-storage';
 import { Globe, Lock, User } from 'lucide-vue-next';
 import notify from '@/common/notify';
-import { useCloudStorageManager } from '@/composables/cloud-storage';
-import { AFTER_URL, checkWebDavPermission, useWebDavService } from '@/composables/webdav';
-import CloudFileSelector from './CloudFileSelector.vue';
+import { useCloudStorageManager } from '@/services/cloud/cloud-storage';
+import { checkWebDavPermission, useWebDavService, WEBDAV_AFTER_URL } from '@/services/cloud/webdav';
 
 const emit = defineEmits<CloudStorageEmit>();
 
@@ -47,7 +46,7 @@ defineExpose({
         </Label>
         <ButtonGroup class="w-full gap-0!">
           <Input id="url" v-model="config.url" placeholder="https://example.com/dav" />
-          <ButtonGroupText>{{ AFTER_URL }}</ButtonGroupText>
+          <ButtonGroupText>{{ WEBDAV_AFTER_URL }}</ButtonGroupText>
         </ButtonGroup>
       </div>
 

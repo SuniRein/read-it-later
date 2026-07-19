@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CloudFile } from '@/composables/cloud-storage';
+import type { CloudFile } from '@/services/cloud/cloud-storage';
 import { CloudDownload, Download, FileJson, Loader2, Trash2 } from 'lucide-vue-next';
 import { parseDate, parseSize } from '@/services/file-parse';
 
