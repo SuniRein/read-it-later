@@ -41,7 +41,7 @@ export function deserializePageListFromIMP(serializedList: string): PageItemIMP[
     throw new Error('invalid header');
 
   return lines
-    .map(([line, index]) => {
+    .map((line, index) => {
       const ele = line.split(SEPARATOR);
       if (ele.length !== 4)
         throw new Error(`invalid line format at line ${index + 2}: found ${ele.length} elements, expected 4`);
