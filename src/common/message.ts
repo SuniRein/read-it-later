@@ -1,4 +1,3 @@
-import type { I18nKey } from '@/common/i18n';
 import type { NotifyLevel } from '@/common/notify';
 import type { Tab } from '@/common/types';
 import { defineExtensionMessaging } from '@webext-core/messaging';

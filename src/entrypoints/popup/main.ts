@@ -1,6 +1,5 @@
 import { useSettings } from '@/app/settings';
 import { setupFontSize, setupLocale, setupTheme } from '@/app/theme';
-import i18n from '@/common/i18n';
 import { IsDarkKey, StorageItemsKey } from '@/common/symbols';
 import { createStorageItems } from '@/storage';
 

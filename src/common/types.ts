@@ -1,5 +1,3 @@
-import type { I18nLocales } from '@/common/i18n';
-
 export type Tab = Browser.tabs.Tab;
 /* eslint-disable style/operator-linebreak */
 export type Command =

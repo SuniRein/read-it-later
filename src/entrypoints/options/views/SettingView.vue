@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { I18nLocales } from '@/common/i18n';
 import type { ColorMode, DuplicatedUrlOpenedOption, FaviconSource, FontSize } from '@/common/types';
 import { Globe, Layers, PanelTop, ShieldCheck, Trash2 } from 'lucide-vue-next';
 import { useSettings } from '@/app/settings';

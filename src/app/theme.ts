@@ -1,6 +1,4 @@
-import type { I18nLocales } from '@/common/i18n';
 import type { ColorMode, FontSize } from '@/common/types';
-import i18n from '@/common/i18n';
 
 export function setupTheme(colorMode: Ref<ColorMode>, element = document.documentElement) {
   const preferDark = usePreferredDark();

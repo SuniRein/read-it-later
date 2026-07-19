@@ -11,7 +11,13 @@ export default defineConfig({
   imports: {
     presets: [
       '@vueuse/core',
-      { from: '@/composables/i18n', imports: [['default', 'useI18n']] },
+      { from: '@/app/i18n', imports: [
+        'useI18n',
+        ['default', 'i18n'],
+        { name: 'I18nKey', type: true },
+        { name: 'I18nLocales', type: true },
+        { name: 'I18nSchema', type: true },
+      ] },
       { from: '@/common/cn', imports: ['cn'] },
     ],
     warn: (msg: string) => {

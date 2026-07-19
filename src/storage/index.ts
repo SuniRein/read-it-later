@@ -1,4 +1,3 @@
-import type { I18nLocales } from '@/common/i18n';
 import type { FavoritedFilterOption, PageItem, Setting } from '@/common/types';
 
 function defaultLocale(): I18nLocales {
