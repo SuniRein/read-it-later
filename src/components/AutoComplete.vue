@@ -1,25 +1,50 @@
-<script setup lang="ts" generic="T extends { value: string }">
+<script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
 import { X } from 'lucide-vue-next';
 import { ComboboxAnchor, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui';
+import { useTokenComplete } from '@/composables/token-complete';
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps<{
-  items: T[];
-  placeholder?: string;
-  autofocus?: boolean;
-  class?: HTMLAttributes['class'];
-  rootClass?: HTMLAttributes['class'];
-}>();
+const props = withDefaults(
+  defineProps<{
+    /** Candidate strings offered by this autocompleter. */
+    candidates: string[];
+    /** Characters that terminate a token. Default: `[' ']`. */
+    delimiters?: string[];
+    /** Optional prefixes a token must start with to be completable. Default: none. */
+    prefixes?: string[];
+    /** Strip leading whitespace from the token before matching. Default: `false`. */
+    trimToken?: boolean;
+    placeholder?: string;
+    autofocus?: boolean;
+    class?: HTMLAttributes['class'];
+    rootClass?: HTMLAttributes['class'];
+  }>(),
+  {
+    delimiters: () => [' '],
+    prefixes: () => [],
+    trimToken: false,
+  },
+);
 
 const emit = defineEmits<{
-  select: [item: T];
+  select: [item: string];
 }>();
 
 const input = defineModel<string>({ required: true });
-const cursor = defineModel<number>('cursor', { default: -1 });
-const open = defineModel<boolean>('open', { default: false });
+const cursor = ref(-1);
+const open = ref(false);
+
+const { candidates, delimiters, prefixes, trimToken } = toRefs(props);
+const { items, select } = useTokenComplete({
+  input,
+  cursor,
+  candidates,
+  delimiters,
+  prefixes,
+  trimToken,
+});
 
 function syncCursor(e: Event) {
   const target = e.target as HTMLInputElement;
@@ -30,25 +55,38 @@ const inputRef = useTemplateRef('inputRef');
 
 function focus(newPos: number) {
   const inputEl = inputRef.value?.$el as HTMLInputElement | null;
-  if (inputEl) {
-    inputEl.focus();
-    void nextTick(() => {
-      inputEl.setSelectionRange(newPos, newPos);
-      cursor.value = newPos;
-    });
-  }
+  if (!inputEl)
+    return;
+  inputEl.focus();
+  void nextTick(() => {
+    inputEl.setSelectionRange(newPos, newPos);
+    cursor.value = newPos;
+  });
+}
+
+function handleSelect(item: string) {
+  const { value, cursor: nextPos } = select(item);
+  input.value = value;
+  open.value = false;
+  emit('select', item);
+  focus(nextPos);
 }
 
 defineExpose({ focus });
 </script>
 
 <template>
-  <ComboboxRoot v-model:open="open" :model-value="input" :class="cn('relative', props.rootClass)" ignore-filter>
+  <ComboboxRoot
+    v-model:open="open"
+    :model-value="input"
+    :class="cn('relative', props.rootClass)"
+    ignore-filter
+  >
     <ComboboxAnchor as-child>
       <ComboboxInput
         ref="inputRef"
-        v-bind="$attrs"
         v-model="input"
+        v-bind="$attrs"
         :class="cn(
           `
             h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs
@@ -65,12 +103,11 @@ defineExpose({ focus });
           `,
           props.class,
         )"
-        :placeholder
         :auto-focus="autofocus"
+        @focus="open = true"
         @input="syncCursor"
         @click="syncCursor"
         @keyup="syncCursor"
-        @focus="open = true"
       />
       <X
         v-if="input.length > 0"
@@ -78,7 +115,7 @@ defineExpose({ focus });
           absolute top-1/2 right-1 size-5 -translate-y-1/2 cursor-pointer text-muted-foreground
           hover:text-foreground
         "
-        @click="input = ''; cursor = 0;"
+        @click="input = ''"
       />
     </ComboboxAnchor>
 
@@ -95,17 +132,17 @@ defineExpose({ focus });
         <ComboboxViewport>
           <ComboboxItem
             v-for="item in items"
-            :key="item.value"
-            :value="item.value"
+            :key="item"
+            :value="item"
             class="
               relative flex cursor-default items-center rounded-sm p-1 text-sm outline-none select-none
               data-disabled:pointer-events-none data-disabled:opacity-50
               data-highlighted:bg-accent data-highlighted:text-accent-foreground
             "
-            @select.prevent="emit('select', item)"
+            @select.prevent="handleSelect(item)"
           >
             <slot name="item" :item="item">
-              {{ item.value }}
+              {{ item }}
             </slot>
           </ComboboxItem>
         </ComboboxViewport>

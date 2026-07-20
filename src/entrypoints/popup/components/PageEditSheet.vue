@@ -36,10 +36,6 @@ watch(item, (newItem) => {
   }
 }, { immediate: true });
 
-const lastToken = computed(() => tagsInput.value.slice(tagsInput.value.lastIndexOf(',') + 1).trimStart());
-const textBeforeLastToken = computed(() => tagsInput.value.slice(0, tagsInput.value.length - lastToken.value.length));
-const options = computed(() => props.tags?.filter(t => t.startsWith(lastToken.value)).map(t => ({ value: t })));
-
 function parseTags(raw: string) {
   return Array.from(
     new Set(
@@ -96,9 +92,10 @@ function handleSave() {
             <AutoComplete
               id="tags"
               v-model="tagsInput"
+              :candidates="props.tags"
+              :delimiters="[',']"
+              :trim-token="true"
               :placeholder="t('popup.editModal.field.tags.placeholder')"
-              :items="options"
-              @select="({ value }) => tagsInput = `${textBeforeLastToken}${value}`"
             />
           </div>
 

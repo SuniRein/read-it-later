@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { FavoritedFilterOption } from '@/common/types';
-
 import { CheckCircle2, ExternalLink, PlusCircle, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
+import AutoComplete from '@/components/AutoComplete.vue';
 import IconButton from './IconButton.vue';
-import SearchBox from './SearchBox.vue';
 
 defineProps<{
   pageTags: string[];
@@ -39,7 +38,16 @@ const { t } = useI18n();
       <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="emit('openPopout')" />
     </div>
 
-    <SearchBox v-model="searchText" autofocus :tags="pageTags" root-class="w-full" class="bg-input text-primary" />
+    <AutoComplete
+      v-model="searchText"
+      root-class="w-full"
+      class="bg-input text-primary"
+      :candidates="pageTags"
+      :delimiters="[' ']"
+      :prefixes="['#', '!#']"
+      :placeholder="t('popup.searchPlaceholder')"
+      autofocus
+    />
 
     <div class="flex items-center gap-1">
       <div class="relative flex items-center justify-center">
