@@ -1,17 +1,21 @@
-import type { PageItem } from '@/common/types';
+import type { BackgroundContext } from '../context';
+import { browserAction } from '../constants';
 
 const commonBadgeColor = '#444';
 const activeBadgeColor = '#16a34a';
 const favoritedBadgeColor = '#eab308';
 
-const action = browser.action ?? browser.browserAction;
+export function installBadge(ctx: BackgroundContext): void {
+  const { showBadge } = ctx.settings;
+  const { pageMap } = ctx.pages;
+  const { currentTabUrl } = ctx;
 
-export function handleBadge(showBadge: Ref<boolean>, pageMap: Ref<Map<string, PageItem>>, currentTabUrl: Ref<string>) {
   const pageCount = computed(() => pageMap.value.size);
   const currentTabActive = computed(() => pageMap.value.has(currentTabUrl.value));
   const currentTabFavorited = computed(() => pageMap.value.get(currentTabUrl.value)?.favorited ?? false);
 
   async function updateBadge() {
+    const action = browserAction();
     if (!showBadge.value) {
       await action.setBadgeText({ text: '' });
       return;

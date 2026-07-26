@@ -1,9 +1,12 @@
-export function handleConnection() {
+import type { BackgroundContext } from '../context';
+import { POPUP_PORT_NAME } from '../constants';
+
+export function installConnection(ctx: BackgroundContext): void {
   const connectionCounter = ref(0);
-  const isConnected = computed(() => connectionCounter.value > 0);
+  ctx.isConnected = computed(() => connectionCounter.value > 0);
 
   browser.runtime.onConnect.addListener((port) => {
-    if (port.name === 'popup-communication') {
+    if (port.name === POPUP_PORT_NAME) {
       connectionCounter.value += 1;
       port.onDisconnect.addListener(() => {
         if (connectionCounter.value > 0)
@@ -11,6 +14,4 @@ export function handleConnection() {
       });
     }
   });
-
-  return isConnected;
 }

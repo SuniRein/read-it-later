@@ -1,8 +1,12 @@
+import type { BackgroundContext } from '../context';
 import type { Tab } from '@/common/types';
 import { onMessage, sendMessage } from '@/common/message';
 
-export function handleCurrentTab(isConnected: Ref<boolean>) {
+export function installCurrentTab(ctx: BackgroundContext): void {
   const tab = shallowRef<Tab | null>(null);
+  ctx.currentTab = tab;
+  ctx.currentTabUrl = computed(() => tab.value?.url ?? '');
+  ctx.currentTabId = computed(() => tab.value?.id ?? null);
 
   onMessage('getCurrentTab', async () => tab.value);
 
@@ -16,7 +20,7 @@ export function handleCurrentTab(isConnected: Ref<boolean>) {
       return;
 
     tab.value = newTab;
-    if (isConnected.value)
+    if (ctx.isConnected.value)
       await sendMessage('currentTabChanged', { tab: newTab });
   }
 
@@ -29,6 +33,4 @@ export function handleCurrentTab(isConnected: Ref<boolean>) {
     if (tab.active)
       await updateCurrentTab(tab);
   });
-
-  return tab;
 }

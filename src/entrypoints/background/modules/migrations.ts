@@ -1,3 +1,4 @@
+import type { BackgroundContext } from '../context';
 import type { Setting } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { changeLog } from '@/common/meta';
@@ -68,4 +69,11 @@ export async function handleUpdate(items: Pick<StorageItems, 'pageList' | 'setti
 
 function isVersionGreater(v1: string, v2: string): boolean {
   return v1.localeCompare(v2, undefined, { numeric: true, sensitivity: 'base' }) > 0;
+}
+
+export function installMigrations(ctx: BackgroundContext): void {
+  browser.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason === 'update')
+      await handleUpdate(ctx.items, details.previousVersion!);
+  });
 }

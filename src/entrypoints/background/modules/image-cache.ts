@@ -1,23 +1,24 @@
+import type { BackgroundContext } from '../context';
 import { onMessage } from '@/common/message';
+import { IMAGE_CACHE_NAME } from '../constants';
 
 function createImageCache() {
   let imageCache: Cache | null = null;
 
   return {
     async get() {
-      if (!imageCache) {
-        imageCache = await caches.open('image-cache');
-      }
+      if (!imageCache)
+        imageCache = await caches.open(IMAGE_CACHE_NAME);
       return imageCache;
     },
     async clear() {
-      await caches.delete('image-cache');
+      await caches.delete(IMAGE_CACHE_NAME);
       imageCache = null;
     },
   };
 }
 
-export async function handleCache() {
+export function installImageCache(_ctx: BackgroundContext): void {
   const imageCache = createImageCache();
 
   onMessage('fetchImageFromCache', async ({ data: { url } }) => {
