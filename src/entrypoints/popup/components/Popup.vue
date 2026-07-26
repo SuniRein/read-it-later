@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { useSettings } from '@/app/settings';
 import { handleNotify } from '@/common/message';
-import { addCurrentTab, copyToClipboard, isPopoutMode, openOptionsPage, openPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
-import notify from '@/common/notify';
-import { StorageItemsKey } from '@/common/symbols';
+import { isPopoutMode } from '@/common/message-actions';
+import { PopupContextKey, StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list';
 import { usePagination } from '@/composables/pagination';
 import PageList from './PageList.vue';
+import PopupFooter from './PopupFooter.vue';
 import TopOperation from './TopOperation.vue';
 
 const items = inject(StorageItemsKey)!;
 const { t } = useI18n();
 
-const { faviconCaching, pagination: pageSize } = useSettings(items);
+const { pagination: pageSize } = useSettings(items);
 
 const ctx = usePageListContext(items);
-const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageListFiltered } = ctx;
+const { pageListFiltered } = ctx;
 
 const { currentTab } = useCurrentTab();
 const currentUrl = computed(() => currentTab.value?.url ?? null);
@@ -25,7 +24,7 @@ const currentUrl = computed(() => currentTab.value?.url ?? null);
 const pager = usePagination(pageListFiltered, pageSize);
 const { current } = pager;
 
-const pageListDisplayed = computed(() => {
+const displayedList = computed(() => {
   const paginated = pager.pageSlice.value;
   const currentPage = ctx.pageList.value.find(item => item.info.url === currentUrl.value);
   return currentPage !== undefined
@@ -39,22 +38,12 @@ const pageTags = computed(() =>
 
 handleNotify(t);
 
-function updateUrl(id: string, url: string) {
-  if (!pageActions.updateUrl(id, url)) {
-    notify.error(t('common.msg.addTab.pageAlreadyExists'));
-  }
-}
-
-async function popOut() {
-  await openPopoutWindow();
-  window.close();
-}
-
 const isPopout = isPopoutMode();
+
+provide(PopupContextKey, { ...ctx, currentTab, displayedList, pageTags, isPopout });
 </script>
 
 <template>
-  <!-- eslint-disable better-tailwindcss/enforce-canonical-classes -->
   <!-- Use Fixed height and width so that the popup size won't change when text size changes. -->
   <div
     :class="cn(
@@ -62,81 +51,16 @@ const isPopout = isPopoutMode();
       isPopout ? 'h-screen w-screen' : 'h-125 w-120',
     )"
   >
-    <!-- eslint-enable better-tailwindcss/enforce-canonical-classes -->
     <header class="h-12 w-full">
-      <TopOperation
-        v-model:search-text="searchText"
-        :page-tags
-        :favorited-filter-option
-        :restorable-item-count
-        :is-popout
-        @add-page="addCurrentTab"
-        @change-favorited-view="changeFavoritedView"
-        @open-random-page="openRandomPage"
-        @open-setting="openOptionsPage"
-        @open-popout="popOut"
-        @restore-removed-page="pageActions.restoreRemoved"
-      />
+      <TopOperation />
     </header>
 
     <main class="flex-1 overflow-hidden">
       <ScrollArea class="h-full pr-2">
-        <PageList
-          :current-tab
-          :page-list="pageListDisplayed"
-          :page-tags
-          :favicon-caching
-          @mark-read="pageActions.remove"
-          @edit="pageActions.update"
-          @toggle-star="pageActions.toggleFavorite"
-          @open-url="openPage"
-          @copy-url="copyToClipboard"
-          @update-title="pageActions.updateTitle"
-          @update-url="updateUrl"
-          @move-to-top="pageActions.moveToTop"
-        />
+        <PageList />
       </ScrollArea>
     </main>
 
-    <footer
-      class="flex items-center justify-between border-t border-sidebar-border bg-card px-2 py-1.5 text-card-foreground"
-    >
-      <Badge
-        variant="outline" class="
-          rounded-full bg-green-600/10 font-mono font-bold text-green-600
-          dark:bg-green-400/10 dark:text-green-400
-        "
-      >
-        {{ pageListFiltered.length }}
-      </Badge>
-
-      <Pagination
-        v-model:page="current"
-        :total="pageListFiltered.length"
-        :items-per-page="pageSize"
-        :sibling-count="0"
-        show-edges
-      >
-        <PaginationContent v-slot="{ items: pageItems }" class="flex items-center gap-1">
-          <PaginationFirst><ChevronFirst /></PaginationFirst>
-          <PaginationPrevious><ChevronLeft /></PaginationPrevious>
-
-          <template v-for="(item, index) in pageItems">
-            <PaginationItem
-              v-if="item.type === 'page'"
-              :key="index"
-              :value="item.value"
-              :is-active="item.value === current"
-            >
-              {{ item.value }}
-            </PaginationItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext><ChevronRight /></PaginationNext>
-          <PaginationLast><ChevronLast /></PaginationLast>
-        </PaginationContent>
-      </Pagination>
-    </footer>
+    <PopupFooter v-model:page="current" :total="pageListFiltered.length" :items-per-page="pageSize" />
   </div>
 </template>

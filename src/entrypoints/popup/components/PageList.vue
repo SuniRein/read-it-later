@@ -1,171 +1,26 @@
 <script setup lang="ts">
-import type { PageItem, Tab } from '@/common/types';
+import type { PageItem } from '@/common/types';
 import type { PageUpdateInfo } from '@/composables/page-list';
-
-import { ArrowUpToLine, Check, Copy, Edit2, Quote, RefreshCw, Star } from 'lucide-vue-next';
-import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
-import { StorageItemsKey } from '@/common/symbols';
-import { useFaviconUrl } from '@/composables/favicon-url';
-
-import ColorTag from './ColorTag.vue';
-import Favicon from './Favicon.vue';
+import { PopupContextKey } from '@/common/symbols';
 import PageEditSheet from './PageEditSheet.vue';
+import PageListItem from './PageListItem.vue';
 
-const { currentTab, pageList, pageTags, faviconCaching } = defineProps<{
-  currentTab: Tab | null;
-  pageList: PageItem[];
-  pageTags: string[];
-  faviconCaching: boolean;
-}>();
-
-const emit = defineEmits<{
-  (e: 'markRead', id: string): void;
-  (e: 'edit', id: string, info: PageUpdateInfo): void;
-  (e: 'toggleStar', id: string): void;
-  (e: 'openUrl', url: string): void;
-  (e: 'copyUrl', url: string): void;
-  (e: 'updateTitle', id: string, title: string): void;
-  (e: 'updateUrl', id: string, url: string): void;
-  (e: 'moveToTop', id: string): void;
-}>();
-
-const { t } = useI18n();
-
-const items = inject(StorageItemsKey)!;
-const { getFaviconUrl } = useFaviconUrl(items);
-
+const ctx = inject(PopupContextKey)!;
+const { displayedList, pageTags } = ctx;
 const editedItem = ref<PageItem | null>(null);
 
 function savePageEdit(info: PageUpdateInfo) {
   if (editedItem.value === null)
     return;
-  emit('edit', editedItem.value.id, info);
+  ctx.pageActions.update(editedItem.value.id, info);
   editedItem.value = null;
-}
-
-function urlClickable(url: string): boolean {
-  if (IS_FIREFOX && urlRestricted(url)) {
-    return false;
-  }
-  return true;
 }
 </script>
 
 <template>
   <div class="flex w-full flex-col">
-    <div v-for="item in pageList" :key="item.id" class="group relative">
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <div
-            v-if="item.info.url === currentTab?.url"
-            class="
-              absolute inset-y-1 w-1 rounded-full bg-linear-to-b from-blue-400 via-blue-600 to-blue-400 opacity-90
-              dark:from-blue-300 dark:via-blue-400 dark:to-blue-300 dark:opacity-100
-              dark:shadow-[0_0_8px_rgba(96,165,250,0.5)]
-            "
-          />
-          <div
-            :class="cn(
-              `
-                flex flex-col border-b border-border px-1 py-1.5 transition-colors
-                group-last:border-0
-                hover:bg-accent/70
-              `,
-              item.favorited && `
-                bg-yellow-200/50
-                hover:bg-yellow-200/70
-                dark:bg-yellow-400/15
-                dark:hover:bg-yellow-400/30
-              `,
-            )"
-          >
-            <div
-              class="flex flex-col gap-1"
-              :class="urlClickable(item.info.url) ? 'cursor-pointer' : 'cursor-not-allowed'"
-              @click="urlClickable(item.info.url) && emit('openUrl', item.info.url)"
-            >
-              <div class="flex items-center gap-2">
-                <Favicon :url="getFaviconUrl(item.info.url)" :use-cache="faviconCaching" />
-                <span class="truncate pr-4 text-lg/tight font-semibold">{{ item.info.title }}</span>
-              </div>
-
-              <div class="flex items-center justify-between gap-4">
-                <div class="flex flex-1 items-center gap-1 truncate">
-                  <HoverCard v-if="item.desc" :open-delay="300" :close-delay="200">
-                    <HoverCardTrigger>
-                      <Quote
-                        class="
-                          size-4 text-muted-foreground
-                          hover:text-foreground
-                        "
-                        @click.stop
-                      />
-                    </HoverCardTrigger>
-                    <HoverCardContent class="p-1 text-sm whitespace-pre-wrap">
-                      {{ item.desc }}
-                    </HoverCardContent>
-                  </HoverCard>
-
-                  <span class="truncate font-mono text-sm text-muted-foreground">{{ item.info.url }}</span>
-                </div>
-
-                <div class="flex gap-1">
-                  <ColorTag v-for="tag in item.tags" :key="tag" :tag="tag" />
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="
-                absolute top-1/2 right-1 flex -translate-y-1/2 items-center gap-1 opacity-0 transition-opacity
-                group-hover:opacity-100
-              "
-            >
-              <Button variant="ghost" class="size-10 border border-border shadow-sm" @click.stop="emit('copyUrl', item.info.url)">
-                <Copy />
-              </Button>
-
-              <Button variant="ghost" class="size-10 border border-border shadow-sm" @click.stop="editedItem = item">
-                <Edit2 />
-              </Button>
-
-              <Button
-                variant="ghost" class="size-10 border border-border shadow-sm"
-                :class="item.favorited ? `
-                  border-yellow-200 bg-yellow-50 text-yellow-400
-                  hover:bg-yellow-400 hover:text-white
-                  dark:border-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-400
-                  dark:hover:bg-yellow-400/30 dark:hover:text-white
-                ` : `hover:text-yellow-500`"
-                @click.stop="emit('toggleStar', item.id)"
-              >
-                <Star />
-              </Button>
-
-              <Button
-                variant="ghost" class="
-                  size-10 border border-border text-green-600 shadow-sm
-                  hover:text-green-600
-                " @click.stop="emit('markRead', item.id)"
-              >
-                <Check />
-              </Button>
-            </div>
-          </div>
-        </ContextMenuTrigger>
-
-        <ContextMenuContent>
-          <ContextMenuItem @select="currentTab?.title != null && emit('updateTitle', item.id, currentTab.title)">
-            <RefreshCw /> {{ t('popup.contextMenu.updateTitle') }}
-          </ContextMenuItem>
-          <ContextMenuItem @select="currentTab?.url != null && emit('updateUrl', item.id, currentTab?.url)">
-            <RefreshCw /> {{ t('popup.contextMenu.updateUrl') }}
-          </ContextMenuItem>
-          <ContextMenuItem @select="emit('moveToTop', item.id)">
-            <ArrowUpToLine /> {{ t('popup.contextMenu.moveToTop') }}
-          </ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenu>
+    <div v-for="item in displayedList" :key="item.id" class="group relative">
+      <PageListItem :item="item" @request-edit="editedItem = $event" />
     </div>
 
     <PageEditSheet v-model:item="editedItem" :tags="pageTags" @save="savePageEdit" />

@@ -2,12 +2,14 @@ import type { ShallowRef } from 'vue';
 import type { PageLoadResult, PageUpdateInfo } from './types';
 import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
 import { nanoid } from 'nanoid';
-import { triggerRef } from 'vue';
 import { mapIMPToPageItems } from './imp';
 import { computeMergeResult } from './merge';
 
 /**
- * In-place mutate a page item, then trigger the ShallowRef.
+ * Replace a page item by id with a mutated copy, then reassign the ShallowRef.
+ * ShallowRef only fires effects on `.value` reassignment, not on in-place
+ * mutation, so consumers downstream of `pageList` (computed filters,
+ * pagination slices, etc.) actually re-evaluate.
  * Returns false if the item was not found.
  */
 function mutate(
@@ -15,12 +17,18 @@ function mutate(
   id: string,
   fn: (item: PageItem) => void,
 ): boolean {
-  const item = pageList.value.find(it => it.id === id);
-  if (!item)
+  const idx = pageList.value.findIndex(it => it.id === id);
+  if (idx === -1)
     return false;
-  fn(item);
-  item.updatedAt = new Date().toISOString();
-  triggerRef(pageList);
+  const item = pageList.value[idx];
+  const next: PageItem = { ...item, info: { ...item.info }, tags: [...item.tags] };
+  fn(next);
+  next.updatedAt = new Date().toISOString();
+  pageList.value = [
+    ...pageList.value.slice(0, idx),
+    next,
+    ...pageList.value.slice(idx + 1),
+  ];
   return true;
 }
 
@@ -52,9 +60,12 @@ export function createPageActions(
   function remove(id: string) {
     const idx = pageList.value.findIndex(item => item.id === id);
     if (idx !== -1) {
-      const [removedItem] = pageList.value.splice(idx, 1);
+      const [removedItem] = pageList.value.slice(idx, idx + 1);
       removedPageList.value = [...removedPageList.value, removedItem];
-      triggerRef(pageList);
+      pageList.value = [
+        ...pageList.value.slice(0, idx),
+        ...pageList.value.slice(idx + 1),
+      ];
     }
   }
 
@@ -112,10 +123,10 @@ export function createPageActions(
   const restorableItemCount = computed(() => removedPageList.value.length);
 
   function restoreRemoved() {
-    const restoredItem = removedPageList.value.pop();
-    if (restoredItem) {
-      pageList.value = [restoredItem, ...pageList.value];
-      triggerRef(removedPageList);
+    const last = removedPageList.value.at(-1);
+    if (last) {
+      removedPageList.value = removedPageList.value.slice(0, -1);
+      pageList.value = [last, ...pageList.value];
     }
   }
 

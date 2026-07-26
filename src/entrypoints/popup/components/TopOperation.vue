@@ -1,28 +1,18 @@
 <script setup lang="ts">
-import type { FavoritedFilterOption } from '@/common/types';
 import { CheckCircle2, ExternalLink, PlusCircle, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
+import { addCurrentTab, openOptionsPage, openPopoutWindow, openRandomPage } from '@/common/message-actions';
+import { PopupContextKey } from '@/common/symbols';
 import AutoComplete from '@/components/AutoComplete.vue';
 import IconButton from './IconButton.vue';
 
-defineProps<{
-  pageTags: string[];
-  favoritedFilterOption: FavoritedFilterOption;
-  restorableItemCount: number;
-  isPopout: boolean;
-}>();
-
-const emit = defineEmits<{
-  (e: 'openSetting'): void;
-  (e: 'openPopout'): void;
-  (e: 'addPage'): void;
-  (e: 'changeFavoritedView'): void;
-  (e: 'openRandomPage'): void;
-  (e: 'restoreRemovedPage'): void;
-}>();
-
-const searchText = defineModel<string>('searchText', { default: '' });
-
+const ctx = inject(PopupContextKey)!;
 const { t } = useI18n();
+const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageTags, isPopout } = ctx;
+
+async function popOut() {
+  await openPopoutWindow();
+  window.close();
+}
 </script>
 
 <template>
@@ -34,8 +24,8 @@ const { t } = useI18n();
     "
   >
     <div class="flex items-center gap-1">
-      <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="emit('openSetting')" />
-      <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="emit('openPopout')" />
+      <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="openOptionsPage()" />
+      <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="popOut()" />
     </div>
 
     <AutoComplete
@@ -51,7 +41,7 @@ const { t } = useI18n();
 
     <div class="flex items-center gap-1">
       <div class="relative flex items-center justify-center">
-        <IconButton :icon="Star" :tip="t('popup.tooltip.toggleFavorite')" @click="emit('changeFavoritedView')" />
+        <IconButton :icon="Star" :tip="t('popup.tooltip.toggleFavorite')" @click="changeFavoritedView()" />
         <div v-if="favoritedFilterOption !== 'all'" class="pointer-events-none absolute -top-1 -right-1">
           <CheckCircle2
             v-if="favoritedFilterOption === 'favorited'" class="
@@ -68,10 +58,10 @@ const { t } = useI18n();
         </div>
       </div>
 
-      <IconButton :icon="Zap" :tip="t('popup.tooltip.random')" @click="emit('openRandomPage')" />
+      <IconButton :icon="Zap" :tip="t('popup.tooltip.random')" @click="openRandomPage()" />
 
       <div class="relative flex items-center justify-center">
-        <IconButton :icon="Undo2" :tip="t('popup.tooltip.restore')" :disabled="restorableItemCount === 0" @click="emit('restoreRemovedPage')" />
+        <IconButton :icon="Undo2" :tip="t('popup.tooltip.restore')" :disabled="restorableItemCount === 0" @click="pageActions.restoreRemoved()" />
         <Badge
           v-if="restorableItemCount > 0"
           class="
@@ -94,7 +84,7 @@ const { t } = useI18n();
         active:scale-95
       "
       :tip="t('popup.tooltip.add')"
-      @click="emit('addPage')"
+      @click="addCurrentTab()"
     />
   </div>
 </template>
