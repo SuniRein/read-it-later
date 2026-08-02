@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.19.3](https://github.com/SuniRein/read-it-later/compare/v0.19.2...v0.19.3) (2026-08-02)
+
+> [!note]
+> This update mainly focuses on refactoring most of the codebase to lay the groundwork for future feature development. As a result, there are relatively few user-facing feature changes in this release.
+
+### Bug Fixes
+
+* **favicon:** subscribe to faviconSource so runtime setting change applies ([6646ebf](https://github.com/SuniRein/read-it-later/commit/6646ebf99241bc2f85593954040e95aeb5b48b00))
+* **serialization:** fail to parse IMP file due to error deconstruction ([43ff7cc](https://github.com/SuniRein/read-it-later/commit/43ff7cc26287b4c65381f7197b8747dbf7a75677))
+
 ## [0.19.2](https://github.com/SuniRein/read-it-later/compare/v0.19.1...v0.19.2) (2026-06-04)
 
 
