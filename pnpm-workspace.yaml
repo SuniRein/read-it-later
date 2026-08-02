@@ -1,5 +1,4 @@
 shellEmulator: true
-trustPolicy: no-downgrade
 
 ignoredBuiltDependencies:
   - core-js
@@ -7,3 +6,8 @@ ignoredBuiltDependencies:
 onlyBuiltDependencies:
   - esbuild
   - spawn-sync
+
+allowBuilds:
+  esbuild: true
+  spawn-sync: true
+  vue-demi: true

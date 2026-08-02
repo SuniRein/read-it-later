@@ -15,6 +15,9 @@ export default antfu(
     rules: {
       'style/quote-props': ['error', 'as-needed'],
     },
+    ignores: [
+      'pnpm-workspace.yaml',
+    ],
   },
   {
     files: ['src/**/*.{ts,tsx,vue}'],
