@@ -5,6 +5,7 @@ import { Globe, Lock, User } from 'lucide-vue-next';
 import notify from '@/common/notify';
 import { useCloudStorageManager } from '@/services/cloud/cloud-storage';
 import { checkWebDavPermission, useWebDavService, WEBDAV_AFTER_URL } from '@/services/cloud/webdav';
+import CloudFileSelector from './CloudFileSelector.vue';
 
 const emit = defineEmits<CloudStorageEmit>();
 
