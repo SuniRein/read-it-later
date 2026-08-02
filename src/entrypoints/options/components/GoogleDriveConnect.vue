@@ -5,6 +5,7 @@ import { Cloud, CloudOff, Loader2, RefreshCw } from 'lucide-vue-next';
 import notify from '@/common/notify';
 import { useCloudStorageManager } from '@/services/cloud/cloud-storage';
 import { useGoogleDriveService } from '@/services/cloud/google-drive';
+import CloudFileSelector from './CloudFileSelector.vue';
 
 const emit = defineEmits<CloudStorageEmit>();
 
