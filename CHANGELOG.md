@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.19.5](https://github.com/SuniRein/read-it-later/compare/v0.19.4...v0.19.5) (2026-08-16)
+
+
+### Bug Fixes
+
+* **cloud:** file log panel fail to load in google connect ([3f57df5](https://github.com/SuniRein/read-it-later/commit/3f57df50fadf9714b8d3ba750cd1cc74c2c75de4))
+
 ## [0.19.4](https://github.com/SuniRein/read-it-later/compare/v0.19.3...v0.19.4) (2026-08-02)
 
 
