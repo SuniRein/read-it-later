@@ -1,7 +1,7 @@
 {
   "name": "read-it-later",
   "type": "module",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "private": true,
   "description": "Save articles to read later",
   "scripts": {
