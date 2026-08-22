@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.20.1](https://github.com/SuniRein/read-it-later/compare/v0.20.0...v0.20.1) (2026-08-22)
+
+
+### Features
+
+* **cloud:** add alert text when enabling cluod sync ([0c53a27](https://github.com/SuniRein/read-it-later/commit/0c53a274cd607e12c0ec701ce8ce7591b948323b))
+
+
+### Bug Fixes
+
+* **cloud:** popup context no update when cloud sync ([62e1a05](https://github.com/SuniRein/read-it-later/commit/62e1a05eaa59c5649e3487a459ccf47b82bc7444))
+
 ## [0.20.0](https://github.com/SuniRein/read-it-later/compare/v0.19.5...v0.20.0) (2026-08-22)
 
 
