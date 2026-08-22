@@ -28,7 +28,11 @@
       "toggleFavorite": "按收藏状态筛选",
       "random": "打开随机页面",
       "restore": "恢复被删除的页面",
-      "add": "添加当前页面到列表"
+      "add": "添加当前页面到列表",
+      "sync": "立即同步",
+      "syncDisabled": "云同步未启用",
+      "syncFailed": "上次同步失败，点击重试",
+      "syncPending": "{count} 条待同步"
     },
     "contextMenu": {
       "updateTitle": "更新标题为当前页面标题",
@@ -205,6 +209,15 @@
             "authenticate": "立即授权",
             "disconnect": "断开连接"
           }
+        }
+      },
+      "sync": {
+        "enable": "启用云同步",
+        "experimental": "实验性",
+        "msg": {
+          "synced": "同步成功。",
+          "syncFailed": "同步失败：{error}",
+          "unavailable": "云同步不可用，请检查云端存储设置。"
         }
       },
       "msg": {

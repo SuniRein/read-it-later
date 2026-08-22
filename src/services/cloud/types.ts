@@ -11,6 +11,9 @@ export interface CloudService {
   save: (name: string, data: string) => Promise<void>;
   validate: () => Promise<void>;
   preflight: () => Promise<boolean>;
+
+  findSyncFile: () => Promise<CloudFile | null>;
+  saveSyncFile: (data: string) => Promise<void>;
 }
 
 export interface CloudStorageEmit {

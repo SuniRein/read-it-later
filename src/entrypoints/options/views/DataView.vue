@@ -2,10 +2,12 @@
 import type { CloudStorageType } from '@/common/types';
 import { CheckCircle2, Cloud, Download, Globe, Loader2, Trash2, Upload } from 'lucide-vue-next';
 import { useSettings } from '@/app/settings';
+import { syncNow } from '@/common/message-actions';
 import notify from '@/common/notify';
 import { StorageItemsKey } from '@/common/symbols';
 import { usePageList } from '@/composables/page-list';
 import { deserializePageList, deserializePageListFromIMP, serializePageList } from '@/services/serialization';
+import { createSyncLogApi } from '@/services/sync/log';
 import GoogleDriveConnect from '../components/GoogleDriveConnect.vue';
 import WebDavConnect from '../components/WebDavConnect.vue';
 
@@ -15,7 +17,13 @@ const items = inject(StorageItemsKey)!;
 const { setting, ready } = useSettings(items);
 await ready;
 
-const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(items);
+const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(items, createSyncLogApi(items).append);
+
+// Enabling the sync switch immediately starts the first sync.
+watch(() => setting.value.cloudSyncEnabled, (enabled) => {
+  if (enabled)
+    void syncNow();
+});
 
 function getData() {
   const data = serializePageList(pageList.value);
@@ -126,6 +134,16 @@ function clearBrowserData() {
       </CardHeader>
 
       <CardContent class="space-y-6">
+        <div class="flex items-center justify-between border-b pb-4">
+          <div class="flex items-center gap-2">
+            <Badge variant="outline" class="text-xs text-purple-500">
+              {{ t('option.data.sync.experimental') }}
+            </Badge>
+            <Label>{{ t('option.data.sync.enable') }}</Label>
+          </div>
+          <Switch v-model="setting.cloudSyncEnabled" />
+        </div>
+
         <ToggleGroup
           class="w-full border" type="single"
           :model-value="setting.cloudStorage"

@@ -28,7 +28,11 @@
       "toggleFavorite": "Filter by 'favorited' status",
       "random": "Open a random page",
       "restore": "Restore removed items",
-      "add": "Add current page to list"
+      "add": "Add current page to list",
+      "sync": "Sync now",
+      "syncDisabled": "Cloud sync is disabled",
+      "syncFailed": "Last sync failed, click to retry",
+      "syncPending": "{count} change(s) pending"
     },
     "contextMenu": {
       "updateTitle": "Update title to current page title",
@@ -205,6 +209,15 @@
             "authenticate": "Authenticate",
             "disconnect": "Disconnect"
           }
+        }
+      },
+      "sync": {
+        "enable": "Enable cloud sync",
+        "experimental": "Experimental",
+        "msg": {
+          "synced": "Synced successfully.",
+          "syncFailed": "Sync failed: {error}",
+          "unavailable": "Cloud sync unavailable. Check your cloud storage settings."
         }
       },
       "msg": {

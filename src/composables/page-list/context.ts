@@ -1,4 +1,5 @@
 import type { PageItem } from '@/common/types';
+import type { SyncLogCallback } from '@/services/sync/types';
 import type { StorageItems } from '@/storage';
 import { IS_FIREFOX, urlRestricted } from '@/common/firefox';
 import { useStoredValue } from '@/composables/stored-value';
@@ -7,7 +8,7 @@ import { usePageList } from './index';
 
 export function usePageListContext(
   items: StorageItems,
-  options: { filterRestricted?: boolean } = {},
+  options: { filterRestricted?: boolean; logOp?: SyncLogCallback } = {},
 ) {
   // --- filter controls ---
   const favoritedFilterOption = useStoredValue(items.favoritedFilterOption);
@@ -26,7 +27,7 @@ export function usePageListContext(
   const searchText = useStoredValue(items.searchText);
   const searchTextDebounced = refDebounced(searchText, 300);
 
-  const { pageList, removedPageList, ...actions } = usePageList(items);
+  const { pageList, removedPageList, ...actions } = usePageList(items, options.logOp);
 
   // --- derived ---
   const filterRestricted = options.filterRestricted ?? IS_FIREFOX;

@@ -1,6 +1,7 @@
 import type { WebDavConfig } from '@/common/types';
 
 import { createClient } from 'webdav';
+import { SYNC_FILE_FOLDER, SYNC_FILE_NAME } from './constants';
 
 export async function checkWebDavPermission(url: string): Promise<boolean> {
   return browser.permissions.request({ origins: [url] });
@@ -8,6 +9,7 @@ export async function checkWebDavPermission(url: string): Promise<boolean> {
 
 export const WEBDAV_AFTER_URL = '/read-it-later-simply';
 export const WEBDAV_BACKUP_FOLDER = '/backups';
+export const WEBDAV_SYNC_FOLDER = `/${SYNC_FILE_FOLDER}`;
 
 export interface UploadOption {
   path: string;
@@ -60,5 +62,22 @@ export function useWebDavService(config: MaybeRef<WebDavConfig>) {
     await client.deleteFile(path);
   }
 
-  return { validate, list, save, get, remove };
+  async function findSyncFile() {
+    const client = connect();
+    if (!(await client.exists(WEBDAV_SYNC_FOLDER)))
+      return null;
+    const contents = await client.getDirectoryContents(WEBDAV_SYNC_FOLDER, { glob: SYNC_FILE_NAME });
+    if (contents.length === 0)
+      return null;
+    const file = contents[0];
+    return { id: file.filename, name: file.basename, size: file.size ?? 0 };
+  }
+
+  async function saveSyncFile(data: string) {
+    const client = connect();
+    await client.createDirectory(WEBDAV_SYNC_FOLDER, { recursive: true });
+    await client.putFileContents(`${WEBDAV_SYNC_FOLDER}/${SYNC_FILE_NAME}`, data);
+  }
+
+  return { validate, list, save, get, remove, findSyncFile, saveSyncFile };
 }

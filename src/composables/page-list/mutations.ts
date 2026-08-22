@@ -1,6 +1,7 @@
 import type { ShallowRef } from 'vue';
 import type { PageLoadResult, PageUpdateInfo } from './types';
 import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
+import type { SyncLogCallback } from '@/services/sync/types';
 import { nanoid } from 'nanoid';
 import { mapIMPToPageItems } from './imp';
 import { computeMergeResult } from './merge';
@@ -10,16 +11,16 @@ import { computeMergeResult } from './merge';
  * ShallowRef only fires effects on `.value` reassignment, not on in-place
  * mutation, so consumers downstream of `pageList` (computed filters,
  * pagination slices, etc.) actually re-evaluate.
- * Returns false if the item was not found.
+ * Returns the updated item, or null if the item was not found.
  */
 function mutate(
   pageList: ShallowRef<PageItem[]>,
   id: string,
   fn: (item: PageItem) => void,
-): boolean {
+): PageItem | null {
   const idx = pageList.value.findIndex(it => it.id === id);
   if (idx === -1)
-    return false;
+    return null;
   const item = pageList.value[idx];
   const next: PageItem = { ...item, info: { ...item.info }, tags: [...item.tags] };
   fn(next);
@@ -29,12 +30,13 @@ function mutate(
     next,
     ...pageList.value.slice(idx + 1),
   ];
-  return true;
+  return next;
 }
 
 export function createPageActions(
   pageList: ShallowRef<PageItem[]>,
   removedPageList: ShallowRef<PageItem[]>,
+  logOp?: SyncLogCallback,
 ) {
   function add(info: PageInfo): boolean {
     if (pageList.value.some(item => item.info.url === info.url))
@@ -54,6 +56,7 @@ export function createPageActions(
       updatedAt: now,
     };
     pageList.value = [pageItem, ...pageList.value];
+    logOp?.({ t: 'add', item: pageItem });
     return true;
   }
 
@@ -66,29 +69,39 @@ export function createPageActions(
         ...pageList.value.slice(0, idx),
         ...pageList.value.slice(idx + 1),
       ];
+      logOp?.({ t: 'remove', id });
     }
   }
 
   function update(id: string, info: PageUpdateInfo) {
-    mutate(pageList, id, (item) => {
+    const next = mutate(pageList, id, (item) => {
       item.info.title = info.title ?? item.info.title;
       item.tags = info.tags ?? item.tags;
       item.desc = info.desc ?? item.desc;
     });
+    if (next)
+      logOp?.({ t: 'update', id, patch: { ...info, updatedAt: next.updatedAt } });
   }
 
   function updateTitle(id: string, newTitle: string) {
-    mutate(pageList, id, item => item.info.title = newTitle);
+    const next = mutate(pageList, id, item => item.info.title = newTitle);
+    if (next)
+      logOp?.({ t: 'update', id, patch: { title: newTitle, updatedAt: next.updatedAt } });
   }
 
   function updateUrl(id: string, newUrl: string): boolean {
     if (pageList.value.some(item => item.info.url === newUrl))
       return false;
-    return mutate(pageList, id, item => item.info.url = newUrl);
+    const next = mutate(pageList, id, item => item.info.url = newUrl);
+    if (next)
+      logOp?.({ t: 'update', id, patch: { url: newUrl, updatedAt: next.updatedAt } });
+    return next !== null;
   }
 
   function toggleFavorite(id: string) {
-    mutate(pageList, id, item => item.favorited = !item.favorited);
+    const next = mutate(pageList, id, item => item.favorited = !item.favorited);
+    if (next)
+      logOp?.({ t: 'update', id, patch: { favorited: next.favorited, updatedAt: next.updatedAt } });
   }
 
   function moveToTop(id: string) {
@@ -96,6 +109,7 @@ export function createPageActions(
     if (idx !== -1) {
       const [item] = pageList.value.splice(idx, 1);
       pageList.value = [item, ...pageList.value];
+      logOp?.({ t: 'moveToTop', id });
     }
   }
 
@@ -113,11 +127,25 @@ export function createPageActions(
     const updatedItems = new Map(data.updated.map(item => [item.id, item]));
     pageList.value = pageList.value.map(item => updatedItems.get(item.id) ?? item);
     pageList.value = [...data.added, ...pageList.value];
+    [...data.added].reverse().forEach(item => logOp?.({ t: 'add', item }));
+    data.updated.forEach(item =>
+      logOp?.({
+        t: 'update',
+        id: item.id,
+        // url is omitted: replay rejects url changes that collide with other
+        // items, which would silently revert the import after sync; url
+        // changes must go through updateUrl's collision-aware path.
+        patch: { title: item.info.title, tags: item.tags, desc: item.desc, favorited: item.favorited, updatedAt: item.updatedAt },
+      }),
+    );
   }
 
   function clear() {
+    const items = pageList.value;
     pageList.value = [];
     removedPageList.value = [];
+    if (items.length > 0)
+      logOp?.(items.map(item => ({ t: 'remove', id: item.id })));
   }
 
   const restorableItemCount = computed(() => removedPageList.value.length);
@@ -127,6 +155,7 @@ export function createPageActions(
     if (last) {
       removedPageList.value = removedPageList.value.slice(0, -1);
       pageList.value = [last, ...pageList.value];
+      logOp?.({ t: 'add', item: last });
     }
   }
 

@@ -52,6 +52,7 @@ function createSettingsInstance(items: Pick<StorageItems, 'setting'>) {
     ready,
 
     colorMode: computed(() => setting.value.colorMode),
+    cloudSyncEnabled: computed(() => setting.value.cloudSyncEnabled),
     locale: computed(() => setting.value.locale),
     fontSize: computed(() => setting.value.fontSize),
     showBadge: computed(() => setting.value.showBadge),

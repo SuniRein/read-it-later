@@ -55,7 +55,7 @@ export default defineConfig({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
     default_locale: 'en',
-    permissions: ['tabs', 'storage', 'downloads', 'identity', 'contextMenus'],
+    permissions: ['tabs', 'storage', 'downloads', 'identity', 'contextMenus', 'alarms'],
     optional_permissions: manifestVersion === 2 ? ['<all_urls>'] : undefined,
     commands: {
       'add-current-page': {

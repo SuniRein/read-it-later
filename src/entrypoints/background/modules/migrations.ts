@@ -46,6 +46,12 @@ const migrations = [
       await updateSettings(items, { fontSize: 'normal' });
     },
   },
+  {
+    version: '0.20.0',
+    run: async (items: Pick<StorageItems, 'setting'>) => {
+      await updateSettings(items, { cloudSyncEnabled: false });
+    },
+  },
 ];
 
 export async function handleUpdate(items: Pick<StorageItems, 'pageList' | 'setting'>, previousVersion: string) {

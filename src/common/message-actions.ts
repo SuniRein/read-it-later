@@ -20,6 +20,10 @@ export async function clearImageCache() {
   return sendMessage('clearImageCache');
 }
 
+export async function syncNow() {
+  return sendMessage('syncNow');
+}
+
 export async function fetchImageFromCache(url: string) {
   return sendMessage('fetchImageFromCache', { url });
 }

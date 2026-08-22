@@ -6,6 +6,7 @@ import { PopupContextKey, StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list';
 import { usePagination } from '@/composables/pagination';
+import { createSyncLogApi } from '@/services/sync/log';
 import PageList from './PageList.vue';
 import PopupFooter from './PopupFooter.vue';
 import TopOperation from './TopOperation.vue';
@@ -15,7 +16,7 @@ const { t } = useI18n();
 
 const { pagination: pageSize } = useSettings(items);
 
-const ctx = usePageListContext(items);
+const ctx = usePageListContext(items, { logOp: createSyncLogApi(items).append });
 const { pageListFiltered } = ctx;
 
 const { currentTab } = useCurrentTab();

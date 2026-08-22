@@ -1,4 +1,5 @@
 import type { FavoritedFilterOption, PageItem, Setting } from '@/common/types';
+import type { SyncOp } from '@/services/sync/types';
 
 function defaultLocale(): I18nLocales {
   const language = navigator.languages?.[0] ?? navigator.language ?? 'en';
@@ -20,6 +21,7 @@ const defaultSetting: Setting = {
   locale: defaultLocale(),
 
   cloudStorage: 'none',
+  cloudSyncEnabled: false,
   webDavConfig: {},
   googleDriveConfig: null,
 
@@ -33,6 +35,8 @@ export function createStorageItems() {
   return {
     pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
     removedPageList: storage.defineItem<PageItem[]>('session:removedPageList', { fallback: [] }),
+    syncLog: storage.defineItem<SyncOp[]>('local:syncLog', { fallback: [] }),
+    lastSyncFailed: storage.defineItem<boolean>('local:lastSyncFailed', { fallback: false }),
     favoritedFilterOption: storage.defineItem<FavoritedFilterOption>('session:favoritedFilterOption', {
       fallback: 'all',
     }),

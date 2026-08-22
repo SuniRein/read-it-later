@@ -1,5 +1,6 @@
 import type { NotifyLevel } from '@/common/notify';
 import type { Tab } from '@/common/types';
+import type { SyncRunResult } from '@/services/sync/runner';
 import { defineExtensionMessaging } from '@webext-core/messaging';
 import notify from '@/common/notify';
 
@@ -16,6 +17,8 @@ interface ProtocolMap {
 
   fetchImageFromCache: (data: { url: string }) => string;
   clearImageCache: () => void;
+
+  syncNow: () => Promise<SyncRunResult>;
 }
 
 // eslint-disable-next-line ts/unbound-method

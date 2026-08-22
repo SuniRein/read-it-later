@@ -48,6 +48,7 @@ export interface Setting {
   locale: I18nLocales;
 
   cloudStorage: CloudStorageType;
+  cloudSyncEnabled: boolean;
   webDavConfig: WebDavConfig;
   googleDriveConfig: GoogleDriveConfig | null;
 

@@ -10,6 +10,7 @@ import { installImageCache } from './modules/image-cache';
 import { installMigrations } from './modules/migrations';
 import { installNotify } from './modules/notify';
 import { installPageOpener } from './modules/page-opener';
+import { installSync } from './modules/sync';
 
 export default defineBackground(() => {
   const items = createStorageItems();
@@ -25,4 +26,5 @@ export default defineBackground(() => {
   installContextMenu(ctx);
   installImageCache(ctx);
   installMigrations(ctx);
+  installSync(ctx);
 });

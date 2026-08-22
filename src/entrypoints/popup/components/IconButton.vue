@@ -5,6 +5,7 @@ const props = defineProps<{
   icon: Component;
   tip: string;
   disabled?: boolean;
+  spin?: boolean;
   class?: HTMLAttributes['class'];
 }>();
 
@@ -29,7 +30,7 @@ const emit = defineEmits<{
           `, props.class)"
           @click="emit('click', $event)"
         >
-          <component :is="icon" class="size-6" />
+          <component :is="icon" :class="cn('size-6', props.spin && 'animate-spin')" />
         </Button>
       </TooltipTrigger>
       <TooltipContent v-if="tip" side="bottom" align="end" class="text-lg">

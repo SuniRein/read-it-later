@@ -6,7 +6,12 @@ export interface GoogleDriveFile {
   size: number;
 }
 
-export async function listFiles(accessToken: string, nextPageToken?: string): Promise<GoogleDriveFile[]> {
+export interface listFileOptions {
+  nextPageToken?: string;
+  q?: string;
+}
+
+export async function listFiles(accessToken: string, options?: listFileOptions): Promise<GoogleDriveFile[]> {
   const params = {
     spaces: 'appDataFolder',
     fields: [
@@ -14,7 +19,8 @@ export async function listFiles(accessToken: string, nextPageToken?: string): Pr
       'nextPageToken',
     ].join(','),
     pageSize: '1000',
-    pageToken: nextPageToken ?? '',
+    pageToken: options?.nextPageToken ?? '',
+    q: options?.q ?? '',
   };
   const url = `https://www.googleapis.com/drive/v3/files?${new URLSearchParams(params)}`;
   const headers = { Authorization: `Bearer ${accessToken}` };
@@ -24,7 +30,7 @@ export async function listFiles(accessToken: string, nextPageToken?: string): Pr
 
   let files = result.files as any[];
   if (result.nextPageToken !== undefined)
-    files = files.concat(await listFiles(accessToken, result.nextPageToken));
+    files = files.concat(await listFiles(accessToken, { nextPageToken: result.nextPageToken, q: options?.q }));
 
   return files.map(file => ({
     id: file.id,
@@ -54,7 +60,19 @@ export async function uploadFile(accessToken: string, { filename, data }: { file
   const result = await fetch(url, request);
   const resultJson = await result.json();
   if (resultJson.error !== undefined)
-    console.error('Upload file error:', resultJson.error);
+    throw new Error(`Upload file error: ${resultJson.error.message ?? JSON.stringify(resultJson.error)}`);
+}
+
+export async function updateFile(accessToken: string, fileId: string, data: string) {
+  const file = new Blob([data], { type: 'application/json' });
+  const form = new FormData();
+  form.append('file', file);
+  const url = `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`;
+  const request = { method: 'PATCH', headers: new Headers({ Authorization: `Bearer ${accessToken}` }), body: form };
+  const result = await fetch(url, request);
+  const resultJson = await result.json();
+  if (resultJson.error !== undefined)
+    throw new Error(`Update file error: ${resultJson.error.message ?? JSON.stringify(resultJson.error)}`);
 }
 
 export async function downloadFile(accessToken: string, fileId: string) {
