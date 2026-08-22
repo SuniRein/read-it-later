@@ -52,6 +52,9 @@ describe('runSync', () => {
     expect(await items.pageList.getValue()).toEqual(local);
     expect(await items.syncLog.getValue()).toEqual([]);
     expect(await items.lastSyncFailed.getValue()).toBe(false);
+    // Cross-context writes must bump lastModified so bound stores refresh.
+    const pageListMeta = await items.pageList.getMeta() as { lastModified?: number };
+    expect(pageListMeta.lastModified).toBeTypeOf('number');
   });
 
   it('replays local ops onto the cloud base and tombstones deleted items', async () => {

@@ -46,9 +46,11 @@ export async function runSync(
     // Local items missing from the merge were deleted by this sync.
     const mergedIds = new Set(merged.map(m => m.id));
     const deleted = pageList.filter(p => !mergedIds.has(p.id));
+    await items.pageList.setMeta({ lastModified: Date.now() });
     await items.pageList.setValue(merged);
 
     const removed = await items.removedPageList.getValue();
+    await items.removedPageList.setMeta({ lastModified: Date.now() });
     await items.removedPageList.setValue([...removed, ...deleted]);
 
     await syncLog.clearPrefix(ops.length);
