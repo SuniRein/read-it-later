@@ -214,6 +214,10 @@
       "sync": {
         "enable": "Enable cloud sync",
         "experimental": "Experimental",
+        "enableWarning": {
+          "title": "Enable experimental cloud sync?",
+          "desc": "Cloud sync is an experimental feature. Back up your data before enabling it. On the first sync or when switching the cloud sync backend, make sure data on all your devices is consistent — otherwise some data may be lost."
+        },
         "msg": {
           "synced": "Synced successfully.",
           "syncFailed": "Sync failed: {error}",

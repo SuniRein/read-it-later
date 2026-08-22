@@ -214,6 +214,10 @@
       "sync": {
         "enable": "启用云同步",
         "experimental": "实验性",
+        "enableWarning": {
+          "title": "启用实验性云同步？",
+          "desc": "云同步为实验性功能，开启前请先备份数据。首次云同步或切换云同步后端时，请确保各端数据一致，否则可能会丢失部分数据。"
+        },
         "msg": {
           "synced": "同步成功。",
           "syncFailed": "同步失败：{error}",

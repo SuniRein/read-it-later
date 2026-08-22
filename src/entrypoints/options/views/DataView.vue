@@ -19,11 +19,19 @@ await ready;
 
 const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(items, createSyncLogApi(items).append);
 
-// Enabling the sync switch immediately starts the first sync.
-watch(() => setting.value.cloudSyncEnabled, (enabled) => {
+const syncEnableDialog = ref(false);
+
+function handleSyncToggle(enabled: boolean) {
   if (enabled)
-    void syncNow();
-});
+    syncEnableDialog.value = true; // confirmation before enabling
+  else
+    setting.value.cloudSyncEnabled = false;
+}
+
+function confirmEnableSync() {
+  setting.value.cloudSyncEnabled = true;
+  void syncNow();
+}
 
 function getData() {
   const data = serializePageList(pageList.value);
@@ -141,8 +149,23 @@ function clearBrowserData() {
             </Badge>
             <Label>{{ t('option.data.sync.enable') }}</Label>
           </div>
-          <Switch v-model="setting.cloudSyncEnabled" />
+          <Switch :model-value="setting.cloudSyncEnabled" @update:model-value="handleSyncToggle" />
         </div>
+
+        <AlertDialog v-model:open="syncEnableDialog">
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{{ t('option.data.sync.enableWarning.title') }}</AlertDialogTitle>
+              <AlertDialogDescription>{{ t('option.data.sync.enableWarning.desc') }}</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{{ t('common.action.cancel') }}</AlertDialogCancel>
+              <AlertDialogAction @click="confirmEnableSync">
+                {{ t('common.action.confirm') }}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         <ToggleGroup
           class="w-full border" type="single"
