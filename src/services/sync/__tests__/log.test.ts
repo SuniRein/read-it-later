@@ -11,7 +11,7 @@ beforeEach(() => {
 
 describe('createSyncLogApi', () => {
   it('serializes consecutive appends without dropping ops', async () => {
-    const { append } = createSyncLogApi(items);
+    const { append } = createSyncLogApi(items, () => true);
     append({ t: 'remove', id: '1' });
     append({ t: 'remove', id: '2' });
     await flushPromises();
@@ -22,8 +22,20 @@ describe('createSyncLogApi', () => {
     ]);
   });
 
+  it('does not record ops while sync is disabled', async () => {
+    const { append } = createSyncLogApi(items, () => false);
+    append({ t: 'remove', id: '1' });
+    append([
+      { t: 'remove', id: '2' },
+      { t: 'remove', id: '3' },
+    ]);
+    await flushPromises();
+
+    expect(await items.syncLog.getValue()).toEqual([]);
+  });
+
   it('appends a batch array in a single write', async () => {
-    const { append } = createSyncLogApi(items);
+    const { append } = createSyncLogApi(items, () => true);
     append([
       { t: 'remove', id: '1' },
       { t: 'remove', id: '2' },
@@ -38,7 +50,7 @@ describe('createSyncLogApi', () => {
 
   it('keeps pre-existing log entries', async () => {
     await items.syncLog.setValue([{ t: 'remove', id: 'old' }]);
-    const { append } = createSyncLogApi(items);
+    const { append } = createSyncLogApi(items, () => true);
     append({ t: 'remove', id: 'new' });
     await flushPromises();
 
@@ -54,7 +66,7 @@ describe('createSyncLogApi', () => {
     items.syncLog.setValue = setValueSpy;
     setValueSpy.mockImplementation(originalSetValue);
 
-    const { append } = createSyncLogApi(items);
+    const { append } = createSyncLogApi(items, () => true);
     append([
       { t: 'remove', id: '1' },
       { t: 'remove', id: '2' },
@@ -71,7 +83,7 @@ describe('createSyncLogApi', () => {
   });
 
   it('clearPrefix removes exactly the applied prefix', async () => {
-    const { append, clearPrefix } = createSyncLogApi(items);
+    const { append, clearPrefix } = createSyncLogApi(items, () => true);
     append([
       { t: 'remove', id: '1' },
       { t: 'remove', id: '2' },
@@ -84,7 +96,7 @@ describe('createSyncLogApi', () => {
   });
 
   it('serializes clearPrefix against a concurrent append', async () => {
-    const { append, clearPrefix } = createSyncLogApi(items);
+    const { append, clearPrefix } = createSyncLogApi(items, () => true);
     append({ t: 'remove', id: '1' });
     await flushPromises();
 

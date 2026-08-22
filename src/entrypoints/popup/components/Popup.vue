@@ -14,9 +14,11 @@ import TopOperation from './TopOperation.vue';
 const items = inject(StorageItemsKey)!;
 const { t } = useI18n();
 
-const { pagination: pageSize } = useSettings(items);
+const { pagination: pageSize, cloudSyncEnabled } = useSettings(items);
 
-const ctx = usePageListContext(items, { logOp: createSyncLogApi(items).append });
+const ctx = usePageListContext(items, {
+  logOp: createSyncLogApi(items, () => cloudSyncEnabled.value).append,
+});
 const { pageListFiltered } = ctx;
 
 const { currentTab } = useCurrentTab();

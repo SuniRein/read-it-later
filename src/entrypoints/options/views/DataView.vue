@@ -17,7 +17,10 @@ const items = inject(StorageItemsKey)!;
 const { setting, ready } = useSettings(items);
 await ready;
 
-const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(items, createSyncLogApi(items).append);
+const { pageList, tryLoad, tryLoadFromIMP, load, clear } = usePageList(
+  items,
+  createSyncLogApi(items, () => setting.value.cloudSyncEnabled).append,
+);
 
 const syncEnableDialog = ref(false);
 

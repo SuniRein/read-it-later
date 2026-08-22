@@ -9,7 +9,7 @@ import { runSync } from '@/services/sync/runner';
 import { createStorageItems } from '@/storage';
 
 const items = createStorageItems();
-const syncLog = createSyncLogApi(items);
+const syncLog = createSyncLogApi(items, () => true);
 
 function createItem(id: string): PageItem {
   return {

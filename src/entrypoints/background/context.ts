@@ -35,7 +35,7 @@ export interface BackgroundContext {
 
 export function createBackgroundContext(items: StorageItems): BackgroundContext {
   const settings = useSettings(items);
-  const syncLog = createSyncLogApi(items);
+  const syncLog = createSyncLogApi(items, () => settings.setting.value.cloudSyncEnabled);
   const { pageActions, pageMap, pageListFiltered } = usePageListContext(items, { logOp: syncLog.append });
   // Other fields will be filled in by installXxx in the installation order;
   // cast to express "the interface is complete after construction".

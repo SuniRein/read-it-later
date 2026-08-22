@@ -6,7 +6,10 @@ export interface SyncLogApi {
   clearPrefix: (count: number) => Promise<void>;
 }
 
-export function createSyncLogApi(items: Pick<StorageItems, 'syncLog'>): SyncLogApi {
+export function createSyncLogApi(
+  items: Pick<StorageItems, 'syncLog'>,
+  isEnabled: () => boolean,
+): SyncLogApi {
   // Serialize reads-modify-writes within this context so consecutive appends
   // and the sync-run clear never drop ops.
   let chain: Promise<void> = Promise.resolve();
@@ -18,6 +21,8 @@ export function createSyncLogApi(items: Pick<StorageItems, 'syncLog'>): SyncLogA
   }
 
   function append(op: SyncOp | SyncOp[]): void {
+    if (!isEnabled())
+      return;
     const ops = Array.isArray(op) ? op : [op];
     void enqueue(async () => {
       const log = await items.syncLog.getValue();
