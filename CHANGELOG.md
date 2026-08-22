@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.20.0](https://github.com/SuniRein/read-it-later/compare/v0.19.5...v0.20.0) (2026-08-22)
+
+
+### Features
+
+* **cloud:** add experimental cloud sync ([cb52e5e](https://github.com/SuniRein/read-it-later/commit/cb52e5e541e9c0555b92f5d9eb17a4a4fccc6a2f))
+
 ## [0.19.5](https://github.com/SuniRein/read-it-later/compare/v0.19.4...v0.19.5) (2026-08-16)
 
 
