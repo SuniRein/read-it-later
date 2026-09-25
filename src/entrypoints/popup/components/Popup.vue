@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useSettings } from '@/app/settings';
 import { handleNotify } from '@/common/message';
-import { isPopoutMode } from '@/common/message-actions';
-import { PopupContextKey, StorageItemsKey } from '@/common/symbols';
+import { LayoutModeKey, PopupContextKey, StorageItemsKey } from '@/common/symbols';
 import { useCurrentTab } from '@/composables/current-tab';
 import { usePageListContext } from '@/composables/page-list';
 import { usePagination } from '@/composables/pagination';
@@ -41,9 +40,9 @@ const pageTags = computed(() =>
 
 handleNotify(t);
 
-const isPopout = isPopoutMode();
+const layout = inject(LayoutModeKey)!;
 
-provide(PopupContextKey, { ...ctx, currentTab, displayedList, pageTags, isPopout });
+provide(PopupContextKey, { ...ctx, currentTab, displayedList, pageTags, layout });
 </script>
 
 <template>
@@ -51,10 +50,10 @@ provide(PopupContextKey, { ...ctx, currentTab, displayedList, pageTags, isPopout
   <div
     :class="cn(
       'm-0 flex flex-col overflow-hidden bg-background text-foreground shadow-xl',
-      isPopout ? 'h-screen w-screen' : 'h-125 w-120',
+      layout === 'popup' ? 'h-125 w-120' : 'h-screen w-screen',
     )"
   >
-    <header class="h-12 w-full">
+    <header class="@container h-12 w-full">
       <TopOperation />
     </header>
 

@@ -9,7 +9,7 @@ import IconButton from './IconButton.vue';
 
 const ctx = inject(PopupContextKey)!;
 const { t } = useI18n();
-const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageTags, isPopout } = ctx;
+const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageTags, layout } = ctx;
 
 async function popOut() {
   await openPopoutWindow();
@@ -78,17 +78,20 @@ async function handleSyncNow() {
     class="
       flex items-center gap-2 border-b border-sidebar-border bg-sidebar-primary px-1.5 py-1
       text-sidebar-primary-foreground shadow-sm
+      @max-sm:gap-0.5
       dark:bg-sidebar dark:text-sidebar-foreground
+      @max-sm:[&_button]:size-6
+      @max-sm:[&_svg]:size-5
     "
   >
     <div class="flex items-center gap-1">
       <IconButton :icon="Settings" :tip="t('popup.tooltip.setting')" @click="openOptionsPage()" />
-      <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="isPopout" @click="popOut()" />
+      <IconButton :icon="ExternalLink" :tip="t('popup.tooltip.popout')" :disabled="layout === 'popout'" @click="popOut()" />
     </div>
 
     <AutoComplete
       v-model="searchText"
-      root-class="w-full"
+      root-class="w-full min-w-0"
       class="bg-input text-primary"
       :candidates="pageTags"
       :delimiters="[' ']"
@@ -152,7 +155,12 @@ async function handleSyncNow() {
       </div>
     </div>
 
-    <div class="mx-1 h-4 w-px bg-zinc-600" />
+    <div
+      class="
+        mx-1 h-4 w-px bg-zinc-600
+        @max-sm:hidden
+      "
+    />
 
     <IconButton
       :icon="PlusCircle"

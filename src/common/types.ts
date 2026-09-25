@@ -8,6 +8,8 @@ export type Command =
   | 'toggle-favorite-current-page';
 /* eslint-enable style/operator-linebreak */
 
+export type LayoutMode = 'popup' | 'popout' | 'sidebar';
+
 export interface PageInfo {
   title: string;
   url: string;
