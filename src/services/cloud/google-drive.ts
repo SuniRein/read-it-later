@@ -1,4 +1,5 @@
 import type { GoogleDriveConfig } from '@/common/types';
+import type { GetFileOptions } from '@/services/cloud/types';
 import { SYNC_FILE_FOLDER, SYNC_FILE_NAME } from '@/services/cloud/constants';
 import { deleteFile, downloadFile, listFiles, updateFile, uploadFile, validateToken } from '@/services/google-drive-api';
 import { getAuthCode, getEmail, getTokenExpiration, getTokens, refreshAccessToken, revokeToken } from '@/services/google-drive-auth';
@@ -64,9 +65,9 @@ export function useGoogleDriveService(config: Ref<GoogleDriveConfig | null>) {
     return uploadFile(accessToken, { filename, data });
   }
 
-  async function get(id: string) {
+  async function get(id: string, options: GetFileOptions = {}) {
     const accessToken = await getOrRefreshAccessToken();
-    return downloadFile(accessToken, id);
+    return downloadFile(accessToken, id, options);
   }
 
   async function remove(id: string) {

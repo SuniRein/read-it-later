@@ -33,7 +33,8 @@ export async function runSync(
     const syncFile = await service.findSyncFile();
     let merged: PageItem[] = [];
     if (syncFile) {
-      const base = deserializePageList(await service.get(syncFile.id));
+      // Get cloud file with no cache to ensure we have the latest version.
+      const base = deserializePageList(await service.get(syncFile.id, { noCache: true }));
       merged = replaySyncOps(base, ops);
     }
     else {

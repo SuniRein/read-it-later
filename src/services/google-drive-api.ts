@@ -75,12 +75,22 @@ export async function updateFile(accessToken: string, fileId: string, data: stri
     throw new Error(`Update file error: ${resultJson.error.message ?? JSON.stringify(resultJson.error)}`);
 }
 
-export async function downloadFile(accessToken: string, fileId: string) {
+export async function downloadFile(
+  accessToken: string,
+  fileId: string,
+  options: { noCache?: boolean } = {},
+) {
   const params = { alt: 'media' };
   const url = `https://www.googleapis.com/drive/v3/files/${fileId}?${new URLSearchParams(params)}`;
   const headers = { Authorization: `Bearer ${accessToken}` };
 
-  const response = await fetch(url, { headers });
+  const response = await fetch(
+    url,
+    {
+      headers,
+      ...(options.noCache === true && { cache: 'no-store' }),
+    },
+  );
   return response.text();
 }
 

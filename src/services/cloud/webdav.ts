@@ -1,3 +1,4 @@
+import type { GetFileOptions } from './types';
 import type { WebDavConfig } from '@/common/types';
 
 import { createClient } from 'webdav';
@@ -52,9 +53,12 @@ export function useWebDavService(config: MaybeRef<WebDavConfig>) {
     await client.putFileContents(`${WEBDAV_BACKUP_FOLDER}/${filename}`, data);
   }
 
-  async function get(path: string) {
+  async function get(path: string, options: GetFileOptions = {}) {
     const client = connect();
-    return (await client.getFileContents(path, { format: 'text' })) as string;
+    return (await client.getFileContents(path, {
+      format: 'text',
+      ...(options.noCache === true && { headers: { 'Cache-Control': 'no-cache, no-store' } }),
+    })) as string;
   }
 
   async function remove(path: string) {
