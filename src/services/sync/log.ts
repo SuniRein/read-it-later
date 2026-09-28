@@ -3,7 +3,7 @@ import type { StorageItems } from '@/storage';
 
 export interface SyncLogApi {
   append: (op: SyncOp | SyncOp[]) => void;
-  clearPrefix: (count: number) => Promise<void>;
+  clearPrefix: (count: number) => Promise<SyncOp[]>;
 }
 
 export const SYNC_LOG_LOCK_NAME = 'read-it-later:syncLog';
@@ -26,10 +26,13 @@ export function createSyncLogApi(
     }).catch(err => console.error('[sync] append log failed:', err));
   }
 
-  async function clearPrefix(count: number): Promise<void> {
-    await enqueue(async () => {
+  /** Drop the first `count` ops and return the remaining tail. */
+  async function clearPrefix(count: number): Promise<SyncOp[]> {
+    return enqueue(async () => {
       const log = await items.syncLog.getValue();
-      await items.syncLog.setValue(log.slice(count));
+      const tail = log.slice(count);
+      await items.syncLog.setValue(tail);
+      return tail;
     });
   }
 

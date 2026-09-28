@@ -50,9 +50,11 @@ export async function runSync(
     await service.saveSyncFile(serializePageList(merged));
 
     await pages.ready;
-    pages.overwrite(merged);
-
-    await syncLog.clearPrefix(ops.length);
+    // Ops logged while this run was on the network are not in `merged`; replay
+    // them on top so overwrite does not revert them. They stay in the log for
+    // the next run to push.
+    const tail = await syncLog.clearPrefix(ops.length);
+    pages.overwrite(replaySyncOps(merged, tail));
 
     await items.lastSyncFailed.setValue(false);
     return { status: 'synced' };
