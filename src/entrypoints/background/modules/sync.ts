@@ -13,12 +13,12 @@ const SYNC_ALARM_PERIOD_MINUTES = 5;
 export function installSync(ctx: BackgroundContext): void {
   const { items, settings } = ctx;
   const pages = { ready: ctx.pages.ready, overwrite: ctx.pages.pageActions.overwrite };
-  let timer: number | undefined;
+  let timer: ReturnType<typeof setTimeout> | undefined;
   let running = false;
 
   function scheduleAutoSync() {
     clearTimeout(timer);
-    timer = window.setTimeout(() => {
+    timer = setTimeout(() => {
       void runAutoSync();
     }, SYNC_DEBOUNCE_MS);
   }
