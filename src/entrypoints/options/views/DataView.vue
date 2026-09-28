@@ -43,12 +43,48 @@ function getData() {
   return { data, name };
 }
 
+// `downloads.download()` resolves once the download item is created, not when it finishes,
+// so the object URL must stay alive until the download reaches a terminal state.
+function revokeWhenDownloadEnds(downloadId: number, url: string) {
+  let revoked = false;
+  const isTerminal = (state?: string) => state === 'complete' || state === 'interrupted';
+
+  const listener = (delta: Browser.downloads.DownloadDelta) => {
+    if (delta.id === downloadId && isTerminal(delta.state?.current))
+      revoke();
+  };
+
+  function revoke() {
+    if (revoked)
+      return;
+    revoked = true;
+    browser.downloads.onChanged.removeListener(listener);
+    URL.revokeObjectURL(url);
+  }
+
+  browser.downloads.onChanged.addListener(listener);
+
+  // The download may have already finished before the listener was registered.
+  browser.downloads.search({ id: downloadId })
+    .then((items) => {
+      if (items.length === 0 || isTerminal(items[0].state))
+        revoke();
+    })
+    .catch(() => {});
+}
+
 async function saveLocally(data: string, name: string) {
   const blob = new Blob([data], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
 
-  await browser.downloads.download({ url, filename: name, saveAs: true });
-  URL.revokeObjectURL(url);
+  try {
+    const downloadId = await browser.downloads.download({ url, filename: name, saveAs: true });
+    revokeWhenDownloadEnds(downloadId, url);
+  }
+  catch (error) {
+    URL.revokeObjectURL(url);
+    throw error;
+  }
 }
 
 async function saveToLocalStorage() {
