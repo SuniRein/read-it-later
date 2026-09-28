@@ -260,3 +260,18 @@ describe('restoring pages', () => {
     expect(storedPageList).toEqual(pageList.value);
   });
 });
+
+describe('overwriting pages', () => {
+  it('replaces the list, tombstones dropped items and persists both', async () => {
+    const { pageList, removedPageList, overwrite } = await setup();
+
+    const next = [createTestPageItem('4'), createTestPageItem('2')];
+    overwrite(next);
+    await flushPromises();
+
+    expect(pageList.value).toEqual(next);
+    expect(removedPageList.value.map(item => item.id)).toEqual(['1', '3']);
+    expect(await items.pageList.getValue()).toEqual(next);
+    expect((await items.removedPageList.getValue()).map(item => item.id)).toEqual(['1', '3']);
+  });
+});

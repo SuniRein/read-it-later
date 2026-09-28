@@ -27,7 +27,7 @@ export function usePageListContext(
   const searchText = useStoredValue(items.searchText);
   const searchTextDebounced = refDebounced(searchText, 300);
 
-  const { pageList, removedPageList, ...actions } = usePageList(items, options.logOp);
+  const { pageList, removedPageList, ready, ...actions } = usePageList(items, options.logOp);
 
   // --- derived ---
   const filterRestricted = options.filterRestricted ?? IS_FIREFOX;
@@ -50,6 +50,7 @@ export function usePageListContext(
     // raw (unfiltered) data
     pageList,
     pageMap,
+    ready,
     restorableItemCount: actions.restorableItemCount,
     // filtered data
     pageListFiltered,

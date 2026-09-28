@@ -10,15 +10,20 @@ export type SyncRunResult
     | { status: 'skipped' }
     | { status: 'failed'; error: string };
 
+export interface SyncPageTarget {
+  ready: Promise<void>;
+  overwrite: (next: PageItem[]) => void;
+}
+
 /**
  * Pull the cloud sync file, replay local ops onto it, push the merge first,
  * then overwrite local state.
  */
 export async function runSync(
-  deps: { items: StorageItems; service: CloudService; syncLog: SyncLogApi },
+  deps: { items: StorageItems; service: CloudService; syncLog: SyncLogApi; pages: SyncPageTarget },
   opts: { force?: boolean } = {},
 ): Promise<SyncRunResult> {
-  const { items, service, syncLog } = deps;
+  const { items, service, syncLog, pages } = deps;
 
   if (!(await service.preflight()))
     return { status: 'skipped' };
@@ -44,15 +49,8 @@ export async function runSync(
 
     await service.saveSyncFile(serializePageList(merged));
 
-    // Local items missing from the merge were deleted by this sync.
-    const mergedIds = new Set(merged.map(m => m.id));
-    const deleted = pageList.filter(p => !mergedIds.has(p.id));
-    await items.pageList.setMeta({ lastModified: Date.now() });
-    await items.pageList.setValue(merged);
-
-    const removed = await items.removedPageList.getValue();
-    await items.removedPageList.setMeta({ lastModified: Date.now() });
-    await items.removedPageList.setValue([...removed, ...deleted]);
+    await pages.ready;
+    pages.overwrite(merged);
 
     await syncLog.clearPrefix(ops.length);
 

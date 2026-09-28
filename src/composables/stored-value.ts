@@ -9,8 +9,13 @@ import { bindStorageItem } from '@/storage/reactive';
  * {@link bindStorageItem} directly and manage `dispose` yourself.
  */
 export function useStoredValue<T>(store: WxtStorageItem<T>) {
+  return useBoundStore(store).value;
+}
+
+/** Same as {@link useStoredValue}, but also exposes `ready`. */
+export function useBoundStore<T>(store: WxtStorageItem<T>) {
   const bound = bindStorageItem(store);
   tryOnMounted(() => void bound.ready);
   tryOnUnmounted(() => bound.dispose());
-  return bound.value;
+  return { value: bound.value, ready: bound.ready };
 }

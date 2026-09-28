@@ -3,6 +3,7 @@ import type { CloudService } from '@/services/cloud/types';
 import type { SyncOp } from '@/services/sync/types';
 import { flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { usePageList } from '@/composables/page-list';
 import { serializePageList } from '@/services/serialization';
 import { createSyncLogApi } from '@/services/sync/log';
 import { runSync } from '@/services/sync/runner';
@@ -33,6 +34,14 @@ function createStubService(overrides: Partial<CloudService> = {}): CloudService 
   } as CloudService;
 }
 
+/** Run a sync against a page list bound to the current storage, as the background does. */
+async function sync(service: CloudService, opts?: { force?: boolean }) {
+  const { pageList, ready, overwrite } = usePageList(items);
+  const result = await runSync({ items, service, syncLog, pages: { ready, overwrite } }, opts);
+  await flushPromises();
+  return { result, pageList };
+}
+
 beforeEach(() => {
   fakeBrowser.reset();
 });
@@ -45,7 +54,7 @@ describe('runSync', () => {
 
     const saveSyncFile = vi.fn(async () => {});
     const service = createStubService({ saveSyncFile });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result).toEqual({ status: 'synced' });
     expect(saveSyncFile).toHaveBeenCalledWith(serializePageList(local));
@@ -69,7 +78,7 @@ describe('runSync', () => {
       get: vi.fn(async () => serializePageList(base)),
       saveSyncFile: vi.fn(async () => {}),
     });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result).toEqual({ status: 'synced' });
     expect(await items.pageList.getValue()).toEqual([createItem('b')]);
@@ -89,7 +98,7 @@ describe('runSync', () => {
       get: vi.fn(async () => serializePageList(local)),
       saveSyncFile: vi.fn(async () => { throw new Error('network down'); }),
     });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result.status).toBe('failed');
     expect(await items.pageList.getValue()).toEqual(local);
@@ -107,7 +116,7 @@ describe('runSync', () => {
       findSyncFile: vi.fn(async () => ({ id: 'sync-id', name: 'read-it-later-sync.json', size: 0 })),
       get: vi.fn(async () => 'not-json'),
     });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result.status).toBe('failed');
     expect(await items.pageList.getValue()).toEqual(local);
@@ -121,7 +130,7 @@ describe('runSync', () => {
 
     const saveSyncFile = vi.fn(async () => {});
     const service = createStubService({ preflight: vi.fn(async () => false), saveSyncFile });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result).toEqual({ status: 'skipped' });
     expect(await items.pageList.getValue()).toEqual([createItem('a')]);
@@ -136,7 +145,7 @@ describe('runSync', () => {
 
     const saveSyncFile = vi.fn(async () => {});
     const service = createStubService({ saveSyncFile });
-    const result = await runSync({ items, service, syncLog });
+    const { result } = await sync(service);
 
     expect(result).toEqual({ status: 'skipped' });
     expect(saveSyncFile).not.toHaveBeenCalled();
@@ -153,10 +162,11 @@ describe('runSync', () => {
       get: vi.fn(async () => serializePageList(base)),
       saveSyncFile,
     });
-    const result = await runSync({ items, service, syncLog }, { force: true });
+    const { result, pageList } = await sync(service, { force: true });
 
     expect(result).toEqual({ status: 'synced' });
     expect(await items.pageList.getValue()).toEqual([createItem('a'), createItem('b')]);
+    expect(pageList.value).toEqual([createItem('a'), createItem('b')]);
     expect(saveSyncFile).toHaveBeenCalledWith(serializePageList([createItem('a'), createItem('b')]));
   });
 });

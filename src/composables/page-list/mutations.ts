@@ -148,6 +148,18 @@ export function createPageActions(
       logOp?.(items.map(item => ({ t: 'remove', id: item.id })));
   }
 
+  /**
+   * Overwrite the whole list (e.g. with a cloud sync result). Items missing
+   * from `next` are moved to removedPageList. Not logged.
+   */
+  function overwrite(next: PageItem[]) {
+    const nextIds = new Set(next.map(item => item.id));
+    const dropped = pageList.value.filter(item => !nextIds.has(item.id));
+    pageList.value = next;
+    if (dropped.length > 0)
+      removedPageList.value = [...removedPageList.value, ...dropped];
+  }
+
   const restorableItemCount = computed(() => removedPageList.value.length);
 
   function restoreRemoved() {
@@ -168,6 +180,7 @@ export function createPageActions(
     toggleFavorite,
     moveToTop,
     clear,
+    overwrite,
     tryLoad,
     tryLoadFromIMP,
     load,

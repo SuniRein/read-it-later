@@ -1,16 +1,19 @@
 import type { SyncLogCallback } from '@/services/sync/types';
 import type { StorageItems } from '@/storage';
-import { useStoredValue } from '@/composables/stored-value';
+import { useBoundStore } from '@/composables/stored-value';
 import { createPageActions } from './mutations';
 
 export function usePageList(
   items: Pick<StorageItems, 'pageList' | 'removedPageList'>,
   logOp?: SyncLogCallback,
 ) {
-  const pageList = useStoredValue(items.pageList);
-  const removedPageList = useStoredValue(items.removedPageList);
+  const pageListStore = useBoundStore(items.pageList);
+  const removedPageListStore = useBoundStore(items.removedPageList);
+  const pageList = pageListStore.value;
+  const removedPageList = removedPageListStore.value;
+  const ready = Promise.all([pageListStore.ready, removedPageListStore.ready]).then(() => {});
   const actions = createPageActions(pageList, removedPageList, logOp);
-  return { pageList, removedPageList, ...actions };
+  return { pageList, removedPageList, ready, ...actions };
 }
 
 export { usePageListContext } from './context';
