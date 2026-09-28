@@ -51,7 +51,7 @@ export default defineConfig({
       ],
     };
   },
-  manifest: ({ manifestVersion }) => ({
+  manifest: ({ browser, manifestVersion }) => ({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
     default_locale: 'en',
@@ -82,6 +82,11 @@ export default defineConfig({
       'toggle-favorite-current-page': {
         description: '__MSG_commandToggleFavoriteCurrentPage__',
       },
+      ...(browser === 'firefox' && {
+        _execute_sidebar_action: {
+          description: '__MSG_commandToggleSidebar__',
+        },
+      }),
     },
   }),
 });

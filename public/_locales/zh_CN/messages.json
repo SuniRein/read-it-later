@@ -19,5 +19,8 @@
   },
   "commandToggleFavoriteCurrentPage": {
     "message": "切换当前页面收藏状态"
+  },
+  "commandToggleSidebar": {
+    "message": "开关侧边栏"
   }
 }

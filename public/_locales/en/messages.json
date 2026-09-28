@@ -19,5 +19,8 @@
   },
   "commandToggleFavoriteCurrentPage": {
     "message": "Toggle favorite for current page"
+  },
+  "commandToggleSidebar": {
+    "message": "Toggle sidebar"
   }
 }
