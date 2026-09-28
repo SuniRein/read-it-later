@@ -15,6 +15,7 @@ export function installSync(ctx: BackgroundContext): void {
   const pages = { ready: ctx.pages.ready, overwrite: ctx.pages.pageActions.overwrite };
   let timer: ReturnType<typeof setTimeout> | undefined;
   let running = false;
+  let chain: Promise<void> = Promise.resolve();
 
   function scheduleAutoSync() {
     clearTimeout(timer);
@@ -55,13 +56,27 @@ export function installSync(ctx: BackgroundContext): void {
     return null;
   }
 
+  // Only one run at a time.
+  async function exclusive<T>(task: () => Promise<T>): Promise<T> {
+    const result = chain.then(async () => {
+      running = true;
+      try {
+        return await task();
+      }
+      finally {
+        running = false;
+      }
+    });
+    chain = result.then(() => {}, () => {});
+    return result;
+  }
+
   async function runAutoSync() {
     if (running)
       return;
     if (!enabled())
       return;
-    running = true;
-    try {
+    await exclusive(async () => {
       const service = await buildService();
       if (!service)
         return;
@@ -74,10 +89,7 @@ export function installSync(ctx: BackgroundContext): void {
         if (log.length > 0)
           scheduleAutoSync();
       }
-    }
-    finally {
-      running = false;
-    }
+    });
   }
 
   // Periodic fallback: only fires when enabled() and there is something to do.
@@ -87,14 +99,14 @@ export function installSync(ctx: BackgroundContext): void {
       void runAutoSync();
   });
 
-  onMessage('syncNow', async (): Promise<SyncRunResult> => {
+  onMessage('syncNow', async (): Promise<SyncRunResult> => exclusive(async () => {
     if (!enabled())
       return { status: 'skipped' };
     const service = await buildService();
     if (!service)
       return { status: 'skipped' };
     return runSync({ items, service, syncLog: ctx.syncLog, pages }, { force: true });
-  });
+  }));
 
   items.syncLog.watch((log) => {
     if (log.length > 0 && enabled())
