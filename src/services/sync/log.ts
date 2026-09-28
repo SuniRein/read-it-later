@@ -6,18 +6,14 @@ export interface SyncLogApi {
   clearPrefix: (count: number) => Promise<void>;
 }
 
+export const SYNC_LOG_LOCK_NAME = 'read-it-later:syncLog';
+
 export function createSyncLogApi(
   items: Pick<StorageItems, 'syncLog'>,
   isEnabled: () => boolean,
 ): SyncLogApi {
-  // Serialize reads-modify-writes within this context so consecutive appends
-  // and the sync-run clear never drop ops.
-  let chain: Promise<void> = Promise.resolve();
-
   async function enqueue<T>(task: () => Promise<T>): Promise<T> {
-    const result = chain.then(task);
-    chain = result.then(() => undefined, () => undefined);
-    return result;
+    return navigator.locks.request(SYNC_LOG_LOCK_NAME, task);
   }
 
   function append(op: SyncOp | SyncOp[]): void {
