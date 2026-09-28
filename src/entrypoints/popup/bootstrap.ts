@@ -9,6 +9,8 @@ import '@/style.css';
 import 'vue-sonner/style.css';
 
 export async function bootstrap(layout: LayoutMode): Promise<void> {
+  document.title = browser.i18n.getMessage('extName');
+
   const items = createStorageItems();
   const { colorMode, fontSize, locale, ready } = useSettings(items);
   await ready;
