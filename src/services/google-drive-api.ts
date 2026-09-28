@@ -64,11 +64,12 @@ export async function uploadFile(accessToken: string, { filename, data }: { file
 }
 
 export async function updateFile(accessToken: string, fileId: string, data: string) {
-  const file = new Blob([data], { type: 'application/json' });
-  const form = new FormData();
-  form.append('file', file);
-  const url = `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`;
-  const request = { method: 'PATCH', headers: new Headers({ Authorization: `Bearer ${accessToken}` }), body: form };
+  const url = `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`;
+  const request = {
+    method: 'PATCH',
+    headers: new Headers({ Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }),
+    body: data,
+  };
   const result = await fetch(url, request);
   const resultJson = await result.json();
   if (resultJson.error !== undefined)
