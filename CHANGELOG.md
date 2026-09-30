@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.21.0](https://github.com/SuniRein/read-it-later/compare/v0.20.2...v0.21.0) (2026-09-30)
+
+
+### English
+
+#### Features
+
+* **sidebar:** support the browser side panel (Chrome) and sidebar (Firefox), reusing the same page list UI as the popup, with a compact toolbar layout for narrow widths.
+* **command:** on Firefox, add a "Toggle sidebar" command to open or close the sidebar, which can be assigned a shortcut in the browser.
+
+#### Bug Fixes
+
+* **cloud:** several fixes for sync reliability:
+    * Auto sync is now actually triggered in Chrome.
+    * The badge count is refreshed after a sync.
+    * Stale cached responses no longer make a sync fail.
+    * Edits made while a sync is running are no longer reverted or lost.
+    * Google Drive updates no longer fail with "Required parameter: field".
+* **options:** local export no longer fails on Firefox, fixed [#82](https://github.com/SuniRein/read-it-later/issues/82).
+* **popup:** window title now shows the localized extension name instead of the `__MSG_extName__` placeholder.
+
+### 中文
+
+#### 新功能
+
+* **侧边栏：** 支持浏览器的侧边栏，与弹窗共用同一套页面列表界面，宽度较窄时工具栏会自动切换为紧凑布局。
+* **快捷键：** Firefox 下新增「开关侧边栏」命令，用于打开或关闭侧边栏，可在浏览器的快捷键设置中为其绑定快捷键。
+
+#### 问题修复
+
+* **云同步：** 修复多个同步可靠性问题：
+    * Chrome 下的自动同步现在可以正常触发。
+    * 同步结束后角标数量会刷新。
+    * 响应缓存不再导致同步失败。
+    * 同步进行中产生的修改不再被回滚或丢失。
+    * Google Drive 更新不再报 “Required parameter: field”。
+* **选项页：** 修复 Firefox 下本地导出可能失败的问题，见 [#82](https://github.com/SuniRein/read-it-later/issues/82)。
+* **弹窗：** 窗口标题现在显示本地化后的扩展名称，而不是 `__MSG_extName__` 占位符。
+
 ## [0.20.2](https://github.com/SuniRein/read-it-later/compare/v0.20.1...v0.20.2) (2026-08-22)
 
 
