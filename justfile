@@ -6,21 +6,27 @@ package: build
     #!/usr/bin/env nu
     let version = (open package.json | get version)
 
-    let packageDir = $".output/packages/($version)"
+    let packageDir = $".output/packages/($version)" | path expand
     mkdir $packageDir
 
-    ouch compress .output/chrome-mv3/* ($packageDir | path join $"read-it-later_($version)_unlisted.chromium.zip")
-    ouch compress .output/firefox-mv2/* ($packageDir | path join $"read-it-later_($version)_unlisted.firefox.zip")
+    cd .output/chrome-mv3
+    ^zip -r -X ($packageDir | path join $"read-it-later_($version)_unlisted.chromium.zip") .
+
+    cd ../firefox-mv2
+    ^zip -r -X ($packageDir | path join $"read-it-later_($version)_unlisted.firefox.zip") .
 
     git archive --format tar.gz --output ($packageDir | path join $"read-it-later_($version).tar.gz") $"v($version)"
 
 package-beta version: build
     #!/usr/bin/env nu
-    let packageDir = $".output/packages/beta/{{version}}"
+    let packageDir = $".output/packages/beta/{{version}}" | path expand
     mkdir $packageDir
 
-    ouch compress .output/chrome-mv3/* ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.chromium.zip")
-    ouch compress .output/firefox-mv2/* ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.firefox.zip")
+    cd .output/chrome-mv3
+    ^zip -r -X ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.chromium.zip") .
+
+    cd ../firefox-mv2
+    ^zip -r -X ($packageDir | path join $"read-it-later_{{version}}_beta_unlisted.firefox.zip") .
 
 release version:
     pnpm run release --release-as {{version}}
