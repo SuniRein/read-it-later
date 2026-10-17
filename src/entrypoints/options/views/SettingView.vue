@@ -95,7 +95,7 @@ onMounted(async () => {
             <SelectItem v-for="value in ['small', 'normal'] satisfies FontSize[]" :key="value" :value>
               {{ t(`option.setting.fontSize.option.${value}`) }}
             </SelectItem>
-          </selectcontent>
+          </SelectContent>
         </Select>
       </SettingOption>
     </SettingSection>
