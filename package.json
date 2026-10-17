@@ -13,6 +13,7 @@
     "zip:firefox": "wxt zip -b firefox",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "lint:vue-tags": "node scripts/check-vue-tags.mjs",
     "compile": "vue-tsc --noEmit",
     "postinstall": "wxt prepare",
     "test": "vitest",
