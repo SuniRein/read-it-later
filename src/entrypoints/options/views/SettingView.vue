@@ -65,6 +65,13 @@ onMounted(async () => {
       </SettingOption>
 
       <SettingOption
+        :label="t('option.setting.showContextMenu.label')"
+        :description="t('option.setting.showContextMenu.desc')"
+      >
+        <Switch v-model="setting.showContextMenu" />
+      </SettingOption>
+
+      <SettingOption
         :label="t('option.setting.colorMode.label')"
         :description="t('option.setting.colorMode.desc')"
       >

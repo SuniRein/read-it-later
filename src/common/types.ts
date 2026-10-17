@@ -41,6 +41,7 @@ export type CloudStorageType = 'webdav' | 'google-drive' | 'none';
 export interface Setting {
   pagination: number;
   showBadge: boolean;
+  showContextMenu: boolean;
   colorMode: ColorMode;
   fontSize: FontSize;
 

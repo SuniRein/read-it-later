@@ -3,7 +3,9 @@ import type { Setting } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { changeLog } from '@/common/meta';
 
-async function updateSettings(items: Pick<StorageItems, 'setting'>, newSettings: Partial<Setting>) {
+type SettingStorageItems = Pick<StorageItems, 'setting'>;
+
+async function updateSettings(items: SettingStorageItems, newSettings: Partial<Setting>) {
   const oldSetting = await items.setting.getValue();
   await items.setting.setValue({
     ...oldSetting,
@@ -26,7 +28,7 @@ const migrations = [
   },
   {
     version: '0.17.0',
-    run: async (items: Pick<StorageItems, 'setting'>) => {
+    run: async (items: SettingStorageItems) => {
       await updateSettings(items, {
         randomPageIgnoreOpened: false,
         openAndRemove: false,
@@ -36,20 +38,26 @@ const migrations = [
   },
   {
     version: '0.18.0',
-    run: async (items: Pick<StorageItems, 'setting'>) => {
+    run: async (items: SettingStorageItems) => {
       await updateSettings(items, { colorMode: 'auto' });
     },
   },
   {
     version: '0.19.0',
-    run: async (items: Pick<StorageItems, 'setting'>) => {
+    run: async (items: SettingStorageItems) => {
       await updateSettings(items, { fontSize: 'normal' });
     },
   },
   {
     version: '0.20.0',
-    run: async (items: Pick<StorageItems, 'setting'>) => {
+    run: async (items: SettingStorageItems) => {
       await updateSettings(items, { cloudSyncEnabled: false });
+    },
+  },
+  {
+    version: '0.22.0',
+    run: async (items: SettingStorageItems) => {
+      await updateSettings(items, { showContextMenu: true });
     },
   },
 ];

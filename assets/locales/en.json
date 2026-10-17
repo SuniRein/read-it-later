@@ -83,6 +83,10 @@
         "label": "Show badge",
         "desc": "Display item count and current tab status on the extension icon"
       },
+      "showContextMenu": {
+        "label": "Show context menu item",
+        "desc": "Show \"Add current page\" in the page context menu"
+      },
       "colorMode": {
         "label": "Color mode",
         "desc": "Choose the color mode for the extension interface",

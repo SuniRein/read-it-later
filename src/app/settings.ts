@@ -56,6 +56,7 @@ function createSettingsInstance(items: Pick<StorageItems, 'setting'>) {
     locale: computed(() => setting.value.locale),
     fontSize: computed(() => setting.value.fontSize),
     showBadge: computed(() => setting.value.showBadge),
+    showContextMenu: computed(() => setting.value.showContextMenu),
     faviconCaching: computed(() => setting.value.faviconCaching),
     faviconSource: computed(() => setting.value.faviconSource),
     pagination: computed(() => setting.value.pagination),
