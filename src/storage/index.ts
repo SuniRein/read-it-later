@@ -32,10 +32,12 @@ const defaultSetting: Setting = {
   addAndClose: false,
 } as const;
 
+export const MAX_ARCHIVED_PAGES = 5000;
+
 export function createStorageItems() {
   return {
     pageList: storage.defineItem<PageItem[]>('local:pageList', { fallback: [] }),
-    removedPageList: storage.defineItem<PageItem[]>('session:removedPageList', { fallback: [] }),
+    archivedPageList: storage.defineItem<PageItem[]>('local:archivedPageList', { fallback: [] }),
     syncLog: storage.defineItem<SyncOp[]>('local:syncLog', { fallback: [] }),
     lastSyncFailed: storage.defineItem<boolean>('local:lastSyncFailed', { fallback: false }),
     favoritedFilterOption: storage.defineItem<FavoritedFilterOption>('session:favoritedFilterOption', {

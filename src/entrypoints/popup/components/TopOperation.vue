@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CheckCircle2, ExternalLink, Loader2, PlusCircle, RefreshCw, Settings, Star, Undo2, XCircle, Zap } from 'lucide-vue-next';
+import { CheckCircle2, ExternalLink, Loader2, PlusCircle, RefreshCw, Settings, Star, XCircle, Zap } from 'lucide-vue-next';
 import { useSettings } from '@/app/settings';
 import { addCurrentTab, openOptionsPage, openPopoutWindow, openRandomPage, syncNow } from '@/common/message-actions';
 import notify from '@/common/notify';
@@ -9,7 +9,7 @@ import IconButton from './IconButton.vue';
 
 const ctx = inject(PopupContextKey)!;
 const { t } = useI18n();
-const { searchText, favoritedFilterOption, restorableItemCount, changeFavoritedView, pageActions, pageTags, layout } = ctx;
+const { searchText, favoritedFilterOption, changeFavoritedView, pageTags, layout } = ctx;
 
 async function popOut() {
   await openPopoutWindow();
@@ -140,19 +140,6 @@ async function handleSyncNow() {
       </div>
 
       <IconButton :icon="Zap" :tip="t('popup.tooltip.random')" @click="openRandomPage()" />
-
-      <div class="relative flex items-center justify-center">
-        <IconButton :icon="Undo2" :tip="t('popup.tooltip.restore')" :disabled="restorableItemCount === 0" @click="pageActions.restoreRemoved()" />
-        <Badge
-          v-if="restorableItemCount > 0"
-          class="
-            pointer-events-none absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center bg-orange-400/20
-            px-1 text-[10px] text-orange-400
-          "
-        >
-          {{ restorableItemCount }}
-        </Badge>
-      </div>
     </div>
 
     <div

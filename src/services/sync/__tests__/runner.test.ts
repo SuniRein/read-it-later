@@ -83,8 +83,8 @@ describe('runSync', () => {
     expect(result).toEqual({ status: 'synced' });
     expect(await items.pageList.getValue()).toEqual([createItem('b')]);
     expect(await items.syncLog.getValue()).toEqual([]);
-    const removed = await items.removedPageList.getValue();
-    expect(removed.map(item => item.id)).toEqual(['a']);
+    const archived = await items.archivedPageList.getValue();
+    expect(archived.map(item => item.id)).toEqual(['a']);
     expect(await items.lastSyncFailed.getValue()).toBe(false);
   });
 
@@ -103,7 +103,7 @@ describe('runSync', () => {
     expect(result.status).toBe('failed');
     expect(await items.pageList.getValue()).toEqual(local);
     expect(await items.syncLog.getValue()).toEqual([{ t: 'remove', id: 'a' }]);
-    expect(await items.removedPageList.getValue()).toEqual([]);
+    expect(await items.archivedPageList.getValue()).toEqual([]);
     expect(await items.lastSyncFailed.getValue()).toBe(true);
   });
 

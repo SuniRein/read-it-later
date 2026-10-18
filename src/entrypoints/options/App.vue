@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { HelpCircle, Home, Save, Settings } from 'lucide-vue-next';
+import { Archive, HelpCircle, Home, Save, Settings } from 'lucide-vue-next';
 import { IsDarkKey } from '@/common/symbols';
 
 const isDark = inject(IsDarkKey);
@@ -9,6 +9,7 @@ const { t } = useI18n();
 const navItems = computed(() => [
   { key: 'setting', label: t('option.nav.setting'), icon: Settings },
   { key: 'data', label: t('option.nav.data'), icon: Save },
+  { key: 'archive', label: t('option.nav.archive'), icon: Archive },
   { key: 'guide', label: t('option.nav.guide'), icon: HelpCircle },
   { key: 'about', label: t('option.nav.about'), icon: Home },
 ]);

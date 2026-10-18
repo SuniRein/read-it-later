@@ -4,7 +4,7 @@ import { flushPromises } from '@vue/test-utils';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { usePageList } from '@/composables/page-list';
-import { createStorageItems } from '@/storage';
+import { createStorageItems, MAX_ARCHIVED_PAGES } from '@/storage';
 
 function createTestPageItem(id: string): PageItem {
   return {
@@ -45,9 +45,9 @@ beforeEach(() => {
 });
 
 it('initialization', async () => {
-  const { pageList, restorableItemCount } = await setup();
+  const { pageList, archivedPageList } = await setup();
   expect(pageList.value).toEqual(defaultPageList);
-  expect(restorableItemCount.value).toBe(0);
+  expect(archivedPageList.value).toEqual([]);
 });
 
 describe('add a page', () => {
@@ -80,7 +80,7 @@ describe('add a page', () => {
 });
 
 it('successfully remove a page', async () => {
-  const { pageList, restorableItemCount, remove } = await setup();
+  const { pageList, archivedPageList, remove } = await setup();
 
   const initialLength = pageList.value.length;
   remove('1');
@@ -88,14 +88,14 @@ it('successfully remove a page', async () => {
 
   expect(pageList.value).toHaveLength(initialLength - 1);
   expect(pageList.value.some(item => item.id === '1')).toBe(false);
-  expect(restorableItemCount.value).toBe(1);
+  expect(archivedPageList.value.map(item => item.id)).toEqual(['1']);
 
   const storedPageList = await items.pageList.getValue();
   expect(storedPageList).toEqual(pageList.value);
 
-  const storedRemovedList = await items.removedPageList.getValue();
-  expect(storedRemovedList).toHaveLength(1);
-  expect(storedRemovedList[0].id).toBe('1');
+  const storedArchivedList = await items.archivedPageList.getValue();
+  expect(storedArchivedList).toHaveLength(1);
+  expect(storedArchivedList[0].id).toBe('1');
 });
 
 it('successfully update a page', async () => {
@@ -186,92 +186,202 @@ describe('loading pages', () => {
   });
 });
 
-describe('restoring pages', () => {
-  it('restore a removed page', async () => {
-    const { pageList, restorableItemCount, remove, restoreRemoved } = await setup();
+describe('restoring archived pages', () => {
+  it('restore an archived page', async () => {
+    const { pageList, archivedPageList, remove, restoreArchivedPage } = await setup();
 
-    // remove a page to set up the test
+    // archive a page to set up the test
     remove('1');
     await flushPromises();
 
-    restoreRemoved();
-    await flushPromises();
-
-    expect(pageList.value).toHaveLength(3);
-    expect(pageList.value.some(item => item.id === '1')).toBe(true);
-    expect(restorableItemCount.value).toBe(0);
-
-    const storedPageList = await items.pageList.getValue();
-    expect(storedPageList).toEqual(pageList.value);
-  });
-
-  it('pages are restored in reverse order', async () => {
-    const { pageList, restorableItemCount, remove, restoreRemoved } = await setup();
-
-    // Remove multiple pages
-    remove('1');
-    remove('2');
-    await flushPromises();
-
-    // Restore the first removed page
-    restoreRemoved();
-    await flushPromises();
-
-    expect(pageList.value).toHaveLength(2);
-    expect(pageList.value[0].id).toBe('2');
-    expect(restorableItemCount.value).toBe(1);
-
-    // Retrieve the second removed page
-    restoreRemoved();
+    expect(restoreArchivedPage('1')).toBe(true);
     await flushPromises();
 
     expect(pageList.value).toHaveLength(3);
     expect(pageList.value[0].id).toBe('1');
-    expect(restorableItemCount.value).toBe(0);
-
-    const storedPageList = await items.pageList.getValue();
-    expect(storedPageList).toEqual(pageList.value);
-
-    const storedRemovedList = await items.removedPageList.getValue();
-    expect(storedRemovedList).toHaveLength(0);
+    expect(archivedPageList.value).toHaveLength(0);
+    expect(await items.pageList.getValue()).toEqual(pageList.value);
+    expect(await items.archivedPageList.getValue()).toEqual([]);
   });
 
-  it('duplicate pages in removed list are cleared when adding a new page', async () => {
-    const { pageList, restorableItemCount, add, remove, restoreRemoved } = await setup();
+  it('restores the requested page regardless of archive order', async () => {
+    const { pageList, archivedPageList, remove, restoreArchivedPage } = await setup();
 
     remove('1');
     remove('2');
     await flushPromises();
 
-    const newPage = createTestPageInfo('1');
-    add(newPage);
+    // restore the older archive entry first: no LIFO constraint
+    expect(restoreArchivedPage('1')).toBe(true);
     await flushPromises();
 
     expect(pageList.value).toHaveLength(2);
-    expect(restorableItemCount.value).toBe(1);
+    expect(pageList.value[0].id).toBe('1');
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['2']);
 
-    restoreRemoved();
+    expect(restoreArchivedPage('2')).toBe(true);
     await flushPromises();
 
     expect(pageList.value).toHaveLength(3);
     expect(pageList.value[0].id).toBe('2');
+    expect(archivedPageList.value).toHaveLength(0);
 
-    const storedPageList = await items.pageList.getValue();
-    expect(storedPageList).toEqual(pageList.value);
+    expect(await items.pageList.getValue()).toEqual(pageList.value);
+    expect((await items.archivedPageList.getValue())).toEqual([]);
+  });
+
+  it('restoring an unknown id returns false and keeps state', async () => {
+    const { pageList, archivedPageList, remove, restoreArchivedPage } = await setup();
+
+    remove('1');
+    await flushPromises();
+
+    const pagesBefore = structuredClone(pageList.value);
+    expect(restoreArchivedPage('does-not-exist')).toBe(false);
+    await flushPromises();
+
+    expect(pageList.value).toEqual(pagesBefore);
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['1']);
+    expect((await items.archivedPageList.getValue()).map(item => item.id)).toEqual(['1']);
+  });
+
+  it('adding a page keeps its archived copies (append-only archive)', async () => {
+    const { pageList, archivedPageList, add, remove, restoreArchivedPage } = await setup();
+
+    remove('1');
+    remove('2');
+    await flushPromises();
+
+    add(createTestPageInfo('1')); // re-added from the browser: new id, same url
+    await flushPromises();
+
+    expect(pageList.value).toHaveLength(2);
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['1', '2']);
+
+    expect(restoreArchivedPage('2')).toBe(true);
+    await flushPromises();
+
+    expect(pageList.value).toHaveLength(3);
+    expect(pageList.value[0].id).toBe('2');
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['1']);
+    expect(await items.pageList.getValue()).toEqual(pageList.value);
+  });
+
+  it('keeping the existing page leaves the archive record intact', async () => {
+    const { pageList, archivedPageList, add, remove, findArchivedConflict, restoreArchivedPage } = await setup();
+
+    remove('1');
+    await flushPromises();
+    add({ title: 'Re-added', url: createTestPageInfo('1').url });
+    await flushPromises();
+
+    expect(findArchivedConflict('1')).toEqual(pageList.value[0]);
+    const reAdded = structuredClone(pageList.value[0]);
+
+    expect(restoreArchivedPage('1')).toBe(false);
+    await flushPromises();
+
+    expect(pageList.value).toHaveLength(3);
+    expect(pageList.value).toContainEqual(reAdded);
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['1']);
+    expect((await items.archivedPageList.getValue()).map(item => item.id)).toEqual(['1']);
+
+    // The record survives, so it can still be restored once the conflict is gone.
+    remove(reAdded.id);
+    await flushPromises();
+    expect(restoreArchivedPage('1')).toBe(true);
+    await flushPromises();
+
+    expect(pageList.value[0].id).toBe('1');
+    expect(archivedPageList.value.map(item => item.id)).toEqual([reAdded.id]);
+  });
+
+  it('overwrite replaces the conflicting entry with the archived version', async () => {
+    const { pageList, archivedPageList, add, remove, restoreArchivedPage } = await setup();
+
+    remove('1');
+    await flushPromises();
+    add({ title: 'Re-added', url: createTestPageInfo('1').url });
+    await flushPromises();
+
+    expect(restoreArchivedPage('1', 'overwrite')).toBe(true);
+    await flushPromises();
+
+    const sameUrl = pageList.value.filter(item => item.info.url === createTestPageInfo('1').url);
+    expect(sameUrl).toHaveLength(1);
+    expect(sameUrl[0].id).toBe('1');
+    expect(sameUrl[0].info.title).toBe('Test Page 1');
+    expect(pageList.value).toHaveLength(3);
+    expect(archivedPageList.value).toEqual([]);
+    expect(await items.pageList.getValue()).toEqual(pageList.value);
+  });
+});
+
+describe('archive capacity', () => {
+  it('drops the oldest entries once MAX_ARCHIVED_PAGES is exceeded', async () => {
+    await items.archivedPageList.setValue(
+      Array.from({ length: MAX_ARCHIVED_PAGES }, (_, i) => createTestPageItem(`archived-${i}`)),
+    );
+    await items.pageList.setValue(defaultPageList);
+
+    const { archivedPageList, remove } = usePageList(items);
+    await flushPromises();
+
+    remove('1');
+    await flushPromises();
+
+    expect(archivedPageList.value).toHaveLength(MAX_ARCHIVED_PAGES);
+    expect(archivedPageList.value[0].id).toBe('archived-1');
+    expect(archivedPageList.value.at(-1)?.id).toBe('1');
+    expect(await items.archivedPageList.getValue()).toHaveLength(MAX_ARCHIVED_PAGES);
+  });
+});
+
+describe('deleting archived pages', () => {
+  it('deleteArchivedPage drops one entry and leaves the list untouched', async () => {
+    const { pageList, archivedPageList, remove, deleteArchivedPage } = await setup();
+
+    remove('1');
+    remove('2');
+    await flushPromises();
+
+    const pagesBefore = structuredClone(pageList.value);
+    deleteArchivedPage('1');
+    await flushPromises();
+
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['2']);
+    expect(pageList.value).toEqual(pagesBefore);
+    expect((await items.archivedPageList.getValue()).map(item => item.id)).toEqual(['2']);
+  });
+
+  it('clearArchivedPages empties the archive and persists', async () => {
+    const { pageList, archivedPageList, remove, clearArchivedPages } = await setup();
+
+    remove('1');
+    remove('2');
+    await flushPromises();
+
+    const pagesBefore = structuredClone(pageList.value);
+    clearArchivedPages();
+    await flushPromises();
+
+    expect(archivedPageList.value).toEqual([]);
+    expect(pageList.value).toEqual(pagesBefore);
+    expect(await items.archivedPageList.getValue()).toEqual([]);
   });
 });
 
 describe('overwriting pages', () => {
-  it('replaces the list, tombstones dropped items and persists both', async () => {
-    const { pageList, removedPageList, overwrite } = await setup();
+  it('replaces the list, archives dropped items and persists both', async () => {
+    const { pageList, archivedPageList, overwrite } = await setup();
 
     const next = [createTestPageItem('4'), createTestPageItem('2')];
     overwrite(next);
     await flushPromises();
 
     expect(pageList.value).toEqual(next);
-    expect(removedPageList.value.map(item => item.id)).toEqual(['1', '3']);
+    expect(archivedPageList.value.map(item => item.id)).toEqual(['3', '1']);
     expect(await items.pageList.getValue()).toEqual(next);
-    expect((await items.removedPageList.getValue()).map(item => item.id)).toEqual(['1', '3']);
+    expect((await items.archivedPageList.getValue()).map(item => item.id)).toEqual(['3', '1']);
   });
 });

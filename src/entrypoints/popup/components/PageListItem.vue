@@ -7,7 +7,6 @@ import { copyToClipboard, openPage } from '@/common/message-actions';
 import notify from '@/common/notify';
 import { PopupContextKey, StorageItemsKey } from '@/common/symbols';
 import { useFaviconUrl } from '@/composables/favicon-url';
-import ColorTag from './ColorTag.vue';
 import Favicon from './Favicon.vue';
 
 const props = defineProps<{ item: PageItem }>();

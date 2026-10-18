@@ -27,7 +27,6 @@
       "popout": "Pop out to new window",
       "toggleFavorite": "Filter by 'favorited' status",
       "random": "Open a random page",
-      "restore": "Restore removed items",
       "add": "Add current page to list",
       "sync": "Sync now",
       "syncDisabled": "Cloud sync is disabled",
@@ -64,6 +63,7 @@
     "nav": {
       "setting": "Setting",
       "data": "Data",
+      "archive": "Archive",
       "guide": "Guide",
       "about": "About"
     },
@@ -238,6 +238,27 @@
           "title": "Confirm clear data?",
           "desc": "This action cannot be undone, please proceed with caution. Note: This does not include data exported to local storage and cloud storage."
         }
+      }
+    },
+    "archive": {
+      "title": "Archived Pages",
+      "desc": "Pages you archive are kept here in the archive, up to {max} entries. Restore them to your list, or delete them permanently.",
+      "detail": "Details",
+      "empty": "The archive is empty.",
+      "action": {
+        "restore": "Restore",
+        "delete": "Delete permanently",
+        "clear": "Clear archive"
+      },
+      "conflict": {
+        "title": "This page is already in your list",
+        "desc": "An existing entry has the same URL. Overwrite it with the archived version, or skip and leave both untouched.",
+        "overwrite": "Overwrite",
+        "skip": "Skip"
+      },
+      "confirmClear": {
+        "title": "Clear the archive?",
+        "desc": "This permanently deletes every archived page. This action cannot be undone."
       }
     },
     "guide": {

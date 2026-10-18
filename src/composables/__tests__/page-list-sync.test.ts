@@ -142,15 +142,40 @@ describe('mutation -> sync op mapping', () => {
     ]);
   });
 
-  it('restoreRemoved logs an add op with the restored item', async () => {
-    const { remove, restoreRemoved } = await setup();
+  it('restoreArchivedPage logs an add op with the restored item', async () => {
+    const { remove, restoreArchivedPage } = await setup();
     remove('2');
     spy.mockClear();
-    restoreRemoved();
+    expect(restoreArchivedPage('2')).toBe(true);
     expect(spy).toHaveBeenCalledTimes(1);
     const op = opOf(spy.mock.calls[0], 'add');
     expect(op.t).toBe('add');
     expect(op.item.id).toBe('2');
+  });
+
+  it('restore with a conflict and no overwrite changes nothing', async () => {
+    const { add, remove, restoreArchivedPage } = await setup();
+    remove('2');
+    add({ title: 'Re-added', url: createTestPageInfo('2').url });
+    spy.mockClear();
+    expect(restoreArchivedPage('2')).toBe(false);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('restore with overwrite logs a remove for the conflicting entry plus the add', async () => {
+    const { pageList, add, remove, restoreArchivedPage } = await setup();
+    remove('2');
+    add({ title: 'Re-added', url: createTestPageInfo('2').url });
+    const reAddedId = pageList.value[0].id;
+    spy.mockClear();
+
+    expect(restoreArchivedPage('2', 'overwrite')).toBe(true);
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    const ops = spy.mock.calls[0][0] as SyncOp[];
+    expect(ops).toHaveLength(2);
+    expect(ops[0]).toEqual({ t: 'remove', id: reAddedId });
+    expect(ops[1]).toMatchObject({ t: 'add', item: { id: '2' } });
   });
 
   it('load logs added items in reverse so replay restores the import order', async () => {

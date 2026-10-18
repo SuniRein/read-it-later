@@ -4,16 +4,16 @@ import { useBoundStore } from '@/composables/stored-value';
 import { createPageActions } from './mutations';
 
 export function usePageList(
-  items: Pick<StorageItems, 'pageList' | 'removedPageList'>,
+  items: Pick<StorageItems, 'pageList' | 'archivedPageList'>,
   logOp?: SyncLogCallback,
 ) {
   const pageListStore = useBoundStore(items.pageList);
-  const removedPageListStore = useBoundStore(items.removedPageList);
+  const archivedPageListStore = useBoundStore(items.archivedPageList);
   const pageList = pageListStore.value;
-  const removedPageList = removedPageListStore.value;
-  const ready = Promise.all([pageListStore.ready, removedPageListStore.ready]).then(() => {});
-  const actions = createPageActions(pageList, removedPageList, logOp);
-  return { pageList, removedPageList, ready, ...actions };
+  const archivedPageList = archivedPageListStore.value;
+  const ready = Promise.all([pageListStore.ready, archivedPageListStore.ready]).then(() => {});
+  const actions = createPageActions(pageList, archivedPageList, logOp);
+  return { pageList, archivedPageList, ready, ...actions };
 }
 
 export { usePageListContext } from './context';

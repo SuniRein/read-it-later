@@ -1,8 +1,9 @@
 import type { ShallowRef } from 'vue';
 import type { PageLoadResult, PageUpdateInfo } from './types';
 import type { PageInfo, PageItem, PageItemIMP } from '@/common/types';
-import type { SyncLogCallback } from '@/services/sync/types';
+import type { SyncLogCallback, SyncOp } from '@/services/sync/types';
 import { nanoid } from 'nanoid';
+import { MAX_ARCHIVED_PAGES } from '@/storage';
 import { mapIMPToPageItems } from './imp';
 import { computeMergeResult } from './merge';
 
@@ -35,15 +36,24 @@ function mutate(
 
 export function createPageActions(
   pageList: ShallowRef<PageItem[]>,
-  removedPageList: ShallowRef<PageItem[]>,
+  archivedPageList: ShallowRef<PageItem[]>,
   logOp?: SyncLogCallback,
 ) {
+  /** Append to the archive and drop the oldest entries past MAX_ARCHIVED_PAGES. */
+  function archivePages(items: PageItem[]) {
+    if (items.length === 0)
+      return;
+    // Callers pass page-list order (newest first); the archive stores oldest
+    // first, so trimming the head and the reversed archive view agree on age.
+    const next = [...archivedPageList.value, ...[...items].reverse()];
+    archivedPageList.value = next.length > MAX_ARCHIVED_PAGES
+      ? next.slice(next.length - MAX_ARCHIVED_PAGES)
+      : next;
+  }
+
   function add(info: PageInfo): boolean {
     if (pageList.value.some(item => item.info.url === info.url))
       return false; // Duplicate URL, do not add
-
-    // Remove from removedPageList if it exists
-    removedPageList.value = removedPageList.value.filter(item => item.info.url !== info.url);
 
     const now = new Date().toISOString();
     const pageItem: PageItem = {
@@ -64,7 +74,7 @@ export function createPageActions(
     const idx = pageList.value.findIndex(item => item.id === id);
     if (idx !== -1) {
       const [removedItem] = pageList.value.slice(idx, idx + 1);
-      removedPageList.value = [...removedPageList.value, removedItem];
+      archivePages([removedItem]);
       pageList.value = [
         ...pageList.value.slice(0, idx),
         ...pageList.value.slice(idx + 1),
@@ -143,32 +153,72 @@ export function createPageActions(
   function clear() {
     const items = pageList.value;
     pageList.value = [];
-    removedPageList.value = [];
+    archivedPageList.value = [];
     if (items.length > 0)
       logOp?.(items.map(item => ({ t: 'remove', id: item.id })));
   }
 
   /**
    * Overwrite the whole list (e.g. with a cloud sync result). Items missing
-   * from `next` are moved to removedPageList. Not logged.
+   * from `next` are moved to archivedPageList. Not logged.
    */
   function overwrite(next: PageItem[]) {
     const nextIds = new Set(next.map(item => item.id));
     const dropped = pageList.value.filter(item => !nextIds.has(item.id));
     pageList.value = next;
-    if (dropped.length > 0)
-      removedPageList.value = [...removedPageList.value, ...dropped];
+    archivePages(dropped);
   }
 
-  const restorableItemCount = computed(() => removedPageList.value.length);
+  /** The list entry that collides with an archived page, if any. */
+  function findArchivedConflict(id: string): PageItem | undefined {
+    const item = archivedPageList.value.find(it => it.id === id);
+    if (item === undefined)
+      return undefined;
+    return pageList.value.find(it => it.id === item.id || it.info.url === item.info.url);
+  }
 
-  function restoreRemoved() {
-    const last = removedPageList.value.at(-1);
-    if (last) {
-      removedPageList.value = removedPageList.value.slice(0, -1);
-      pageList.value = [last, ...pageList.value];
-      logOp?.({ t: 'add', item: last });
+  /**
+   * Restore one archived page to the top of the list. Returns false when the id
+   * is not archived, or when the list already holds the page and `mode` is
+   * 'keep'.
+   *
+   * 'keep' changes nothing — the archive record stays so the conflict remains
+   * visible. 'overwrite' replaces the existing entry with the archived version,
+   * which is the only place duplicate URLs get resolved.
+   */
+  function restoreArchivedPage(id: string, mode: 'overwrite' | 'keep' = 'keep'): boolean {
+    const item = archivedPageList.value.find(it => it.id === id);
+    if (item === undefined)
+      return false;
+
+    const conflicts = pageList.value.filter(it => it.id === item.id || it.info.url === item.info.url);
+    if (conflicts.length > 0 && mode === 'keep')
+      return false;
+
+    archivedPageList.value = archivedPageList.value.filter(it => it.id !== id);
+    if (conflicts.length === 0) {
+      pageList.value = [item, ...pageList.value];
+      logOp?.({ t: 'add', item });
+      return true;
     }
+
+    const conflictIds = new Set(conflicts.map(it => it.id));
+    pageList.value = [item, ...pageList.value.filter(it => !conflictIds.has(it.id))];
+    logOp?.([
+      ...conflicts.map((it): SyncOp => ({ t: 'remove', id: it.id })),
+      { t: 'add', item },
+    ]);
+    return true;
+  }
+
+  /** Permanently drop one archived page. Local only: not logged. */
+  function deleteArchivedPage(id: string) {
+    archivedPageList.value = archivedPageList.value.filter(it => it.id !== id);
+  }
+
+  /** Permanently drop every archived page. Local only: not logged. */
+  function clearArchivedPages() {
+    archivedPageList.value = [];
   }
 
   return {
@@ -184,7 +234,9 @@ export function createPageActions(
     tryLoad,
     tryLoadFromIMP,
     load,
-    restorableItemCount,
-    restoreRemoved,
+    restoreArchivedPage,
+    findArchivedConflict,
+    deleteArchivedPage,
+    clearArchivedPages,
   };
 }

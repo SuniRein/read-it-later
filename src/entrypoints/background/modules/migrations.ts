@@ -1,9 +1,15 @@
 import type { BackgroundContext } from '../context';
-import type { Setting } from '@/common/types';
+import type { PageItem, Setting } from '@/common/types';
 import type { StorageItems } from '@/storage';
 import { changeLog } from '@/common/meta';
 
+type MigrationStorageItems = Pick<StorageItems, 'pageList' | 'archivedPageList' | 'setting'>;
 type SettingStorageItems = Pick<StorageItems, 'setting'>;
+
+interface Migration {
+  version: string;
+  run: (items: MigrationStorageItems) => Promise<void>;
+}
 
 async function updateSettings(items: SettingStorageItems, newSettings: Partial<Setting>) {
   const oldSetting = await items.setting.getValue();
@@ -13,7 +19,35 @@ async function updateSettings(items: SettingStorageItems, newSettings: Partial<S
   });
 }
 
-const migrations = [
+/**
+ * Move the legacy session-scoped removed list into the persistent archive.
+ * Entries already present locally (by id or url) win, so re-running is a no-op.
+ */
+export async function migrateArchivedPageList(
+  items: Pick<StorageItems, 'archivedPageList'>,
+): Promise<void> {
+  const sessionRemoved = await storage.getItem<PageItem[]>('session:removedPageList');
+  if (!Array.isArray(sessionRemoved))
+    return; // no legacy data (or an unexpected shape): leave storage untouched
+
+  const localArchived = await items.archivedPageList.getValue();
+  const seenIds = new Set(localArchived.map(item => item.id));
+  const seenUrls = new Set(localArchived.map(item => item.info.url));
+  const merged = [...localArchived];
+
+  for (const item of sessionRemoved) {
+    if (seenIds.has(item.id) || seenUrls.has(item.info.url))
+      continue;
+    seenIds.add(item.id);
+    seenUrls.add(item.info.url);
+    merged.push(item);
+  }
+
+  await items.archivedPageList.setValue(merged);
+  await storage.removeItem('session:removedPageList');
+}
+
+const migrations: Migration[] = [
   {
     version: '0.15.0',
     run: async (items: Pick<StorageItems, 'pageList' | 'setting'>) => {
@@ -56,13 +90,14 @@ const migrations = [
   },
   {
     version: '0.22.0',
-    run: async (items: SettingStorageItems) => {
+    run: async (items: MigrationStorageItems) => {
       await updateSettings(items, { showContextMenu: true });
+      await migrateArchivedPageList(items);
     },
   },
 ];
 
-export async function handleUpdate(items: Pick<StorageItems, 'pageList' | 'setting'>, previousVersion: string) {
+export async function handleUpdate(items: MigrationStorageItems, previousVersion: string) {
   const currentVersion = browser.runtime.getManifest().version;
 
   for (const mig of migrations) {
