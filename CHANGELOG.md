@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.22.0](https://github.com/SuniRein/read-it-later/compare/v0.21.0...v0.22.0) (2026-10-19)
+
+
+### English
+
+#### Features
+
+* **archive:** archived pages are now persisted in local storage instead of session storage, so they survive browser restarts. A new Archive page in the options lets you restore entries individually — permanently delete them, or clear the whole archive. The archive keeps up to 5000 entries, legacy session archives are migrated automatically on upgrade, and the popup's undo button is replaced by this management page.
+* **setting:** add a "Show context menu item" option that hides "Add current page" from the page context menu.
+
+### 中文
+
+#### 新功能
+
+* **归档：** 归档页面现在持久化保存在本地存储中，不再随浏览器会话结束而丢失。选项页新增「归档」页面，可逐条恢复到列表、永久删除，或清空整个归档。归档最多保留 5000 条，升级时会自动迁移旧的会话归档；弹窗原有的「撤销」按钮由该管理页面取代。
+* **设置：** 新增「显示右键菜单项」开关，可隐藏网页右键菜单中的「添加当前页面」。
+
 ## [0.21.0](https://github.com/SuniRein/read-it-later/compare/v0.20.2...v0.21.0) (2026-09-30)
 
 
